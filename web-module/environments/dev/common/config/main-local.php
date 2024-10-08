@@ -4,16 +4,19 @@ return [
     'components' => [
         'db' => [
             'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=localhost;dbname=yii2advanced', // TODO: change to port 3306 and hostname mysql
-            'username' => 'root',
-            'password' => '',
+            'dsn' => 'pgsql:host=pgsql;dbname=yii2advanced',
+            'username' => 'yii2advanced',
+            'password' => 'secret',
             'charset' => 'utf8',
         ],
         'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,
             'viewPath' => '@common/mail',
             // send all mails to a file by default.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'dsn' => 'smtp://info@drjgouveia.dev:QGTECmB3HGUH@smtp.zoho.eu:587'
+            ],
             // You have to set
             //
             // 'useFileTransport' => false,
