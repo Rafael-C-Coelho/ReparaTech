@@ -12,4 +12,10 @@ return [
             'class' => \yii\caching\FileCache::class,
         ],
     ],
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            'allowedIPs' => ['*'] // TODO: restrict this
+        ],
+    ],
 ];

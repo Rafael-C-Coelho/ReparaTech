@@ -43,4 +43,18 @@ return [
             // https://symfony.com/doc/current/mailer.html#using-a-3rd-party-transport
         ],
     ],
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            // permits any and all IPs
+            // you should probably restrict this
+            'allowedIPs' => ['*']
+        ],
+        'debug' => [
+            'class' => 'yii\debug\Module',
+            // permits any and all IPs
+            // you should probably restrict this
+            'allowedIPs' => ['*']
+        ]
+    ]
 ];
