@@ -5,9 +5,9 @@ services:
       - 20080:80
     volumes:
       # Re-use local composer cache via host-volume
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ~/.composer-docker/cache:/root/.composer/cache:rw
       # Mount source-code for development
-      - ./:/app
+      - ./:/app:rw
     depends_on:
       - mysql
 
@@ -17,9 +17,9 @@ services:
       - 21080:80
     volumes:
       # Re-use local composer cache via host-volume
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ~/.composer-docker/cache:/root/.composer/cache:rw
       # Mount source-code for development
-      - ./:/app
+      - ./:/app:rw
     depends_on:
       - mysql
 
