@@ -8,6 +8,9 @@ return [
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use PhpManager for file-based storage
+        ],
         'cache' => [
             'class' => \yii\caching\FileCache::class,
         ],

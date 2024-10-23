@@ -67,9 +67,10 @@ AppAsset::register($this);
                 <div class="btn-group">
                     <?php
                         if (Yii::$app->user->isGuest) {
-                            echo '<div class="d-flex flex-row justify-content-between"><button class="dropdown-item" type="button">Sign in</button><button class="dropdown-item" type="button">Sign up</button></div>';
+                            echo '<div class="d-flex flex-row justify-content-between"><a class="dropdown-item button" href="' . \yii\helpers\Url::to(['site/login']) . '">Sign in</a><a class="dropdown-item button" href="' . \yii\helpers\Url::to(['site/signup']) . '">Sign up</a></div>';
                         } else {
-                            echo '<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">' . Yii::$app->user->identity->username . '</button>';
+                            $url = \yii\helpers\Url::to(['site/logout']);
+                            echo '<div class="d-flex flex-row justify-content-between"><a class="dropdown-item button" href="">'. Yii::$app->user->identity->username . '</a><a class="dropdown-item button" data-method="post" href="' . \yii\helpers\Url::to(['site/logout']) . '">Logout</a></div>';
                         }
                     ?>
                 </div>
