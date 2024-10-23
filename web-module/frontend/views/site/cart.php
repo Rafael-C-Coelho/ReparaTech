@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../../web/img/favicon.ico" rel="icon">
+    <link href="/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -22,12 +22,12 @@ use yii\helpers\Html;
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../web/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../../web/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../web/css/style.css" rel="stylesheet">
-    <link href="../../web/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>

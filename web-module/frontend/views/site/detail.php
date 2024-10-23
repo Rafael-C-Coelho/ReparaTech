@@ -13,7 +13,7 @@
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../../web/img/favicon.ico" rel="icon">
+    <link href="/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -23,11 +23,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../web/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../../web/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../web/css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -201,16 +201,16 @@
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
                     <div class="carousel-item active">
-                        <img class="w-100 h-100" src="../../web/img/product-1.jpg" alt="Image">
+                        <img class="w-100 h-100" src="/img/product-1.jpg" alt="Image">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 h-100" src="../../web/img/product-2.jpg" alt="Image">
+                        <img class="w-100 h-100" src="/img/product-2.jpg" alt="Image">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 h-100" src="../../web/img/product-3.jpg" alt="Image">
+                        <img class="w-100 h-100" src="/img/product-3.jpg" alt="Image">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 h-100" src="../../web/img/product-4.jpg" alt="Image">
+                        <img class="w-100 h-100" src="/img/product-4.jpg" alt="Image">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
@@ -383,7 +383,7 @@
                             <div class="col-md-6">
                                 <h4 class="mb-4">1 review for "Product Name"</h4>
                                 <div class="media mb-4">
-                                    <img src="../../web/img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                    <img src="/img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                     <div class="media-body">
                                         <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
                                         <div class="text-primary mb-2">
