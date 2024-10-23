@@ -40,7 +40,7 @@ AppAsset::register($this);
                 <div class="btn-group">
                     <?php
                         if (Yii::$app->user->isGuest) {
-                            echo '<div class="d-flex flex-row justify-content-around"><button class="dropdown-item" type="button">Sign in</button><button class="dropdown-item" type="button">Sign up</button></div>';
+                            echo '<div class="d-flex flex-row justify-content-between"><button class="dropdown-item" type="button">Sign in</button><button class="dropdown-item" type="button">Sign up</button></div>';
                         } else {
                             echo '<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">' . Yii::$app->user->identity->username . '</button>';
                         }
