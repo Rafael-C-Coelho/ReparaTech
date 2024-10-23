@@ -4,71 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae85b4579f791a64d2b4c65c3965c7f9",
+    "content-hash": "e663d9a638e842dc1cd009258576b599",
     "packages": [
-        {
-            "name": "2amigos/yii2-arrayquery-component",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/2amigos/yii2-arrayquery-component.git",
-                "reference": "7f621370e1e954237741aa6d23eb5a5f21c985f3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/2amigos/yii2-arrayquery-component/zipball/7f621370e1e954237741aa6d23eb5a5f21c985f3",
-                "reference": "7f621370e1e954237741aa6d23eb5a5f21c985f3",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "~2.0.11"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.0",
-                "phpunit/phpunit": "~5.6",
-                "scrutinizer/ocular": "~1.1"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "dosamigos\\arrayquery\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "2amigOS! Consulting Group",
-                    "email": "hola@2amigos.us",
-                    "homepage": "http://2amigos.us",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Yii2 component that allows for searching/filtering the elements of an array.",
-            "homepage": "http://yiiwheels.com/extension/arrayquery-component",
-            "keywords": [
-                "2amigos",
-                "arrayquery",
-                "component",
-                "extension",
-                "yii",
-                "yii 2",
-                "yii2"
-            ],
-            "support": {
-                "issues": "https://github.com/dosamigos/yii2-arrayquery-component/issues",
-                "source": "https://github.com/dosamigos/yii2-arrayquery-component"
-            },
-            "abandoned": true,
-            "time": "2017-07-05T10:05:39+00:00"
-        },
         {
             "name": "almasaeed2010/adminlte",
             "version": "v3.2.0",
@@ -111,68 +48,6 @@
                 "source": "https://github.com/ColorlibHQ/AdminLTE/tree/v3.2.0"
             },
             "time": "2022-02-07T20:33:09+00:00"
-        },
-        {
-            "name": "bahirul/yii2-rbac-adminlte",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bahirul/yii2-rbac-adminlte.git",
-                "reference": "fdc8d131636b8d550827605cf9f20a598a7b5547"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bahirul/yii2-rbac-adminlte/zipball/fdc8d131636b8d550827605cf9f20a598a7b5547",
-                "reference": "fdc8d131636b8d550827605cf9f20a598a7b5547",
-                "shasum": ""
-            },
-            "require": {
-                "2amigos/yii2-arrayquery-component": "*",
-                "php": ">=5.6",
-                "yiisoft/yii2": "^2.0.8",
-                "yiisoft/yii2-jui": "*"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "~2.0"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "bahirul\\yii2rbac\\adminlte\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dmitry Semenov",
-                    "email": "disemx@gmail.com"
-                },
-                {
-                    "name": "Igor Chepurnoy",
-                    "email": "igorzfort@gmail.com"
-                },
-                {
-                    "name": "Bahirul Rizki A",
-                    "email": "rizki.device@gmail.com"
-                }
-            ],
-            "description": "RBAC management module for Yii2 AdminLTE",
-            "keywords": [
-                "rbac gui",
-                "rbac management",
-                "rbac module",
-                "yii2",
-                "yii2 rbac",
-                "yii2-rbac"
-            ],
-            "support": {
-                "source": "https://github.com/bahirul/yii2-rbac-adminlte/tree/master"
-            },
-            "abandoned": true,
-            "time": "2017-07-28T14:19:39+00:00"
         },
         {
             "name": "bower-asset/bootstrap",
@@ -222,27 +97,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/fde1f76e2799dd877c176abde0ec836553246991",
                 "reference": "fde1f76e2799dd877c176abde0ec836553246991"
-            },
-            "type": "bower-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "bower-asset/jquery-ui",
-            "version": "1.12.1",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:components/jqueryui.git",
-                "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/components/jqueryui/zipball/44ecf3794cc56b65954cc19737234a3119d036cc",
-                "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
-            },
-            "require": {
-                "bower-asset/jquery": ">=1.6"
             },
             "type": "bower-asset",
             "license": [
@@ -1955,59 +1809,6 @@
                 }
             ],
             "time": "2020-06-24T00:04:01+00:00"
-        },
-        {
-            "name": "yiisoft/yii2-jui",
-            "version": "2.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/yii2-jui.git",
-                "reference": "ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-jui/zipball/ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed",
-                "reference": "ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/jquery-ui": "~1.12.1",
-                "yiisoft/yii2": "~2.0.4"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "yii\\jui\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Qiang Xue",
-                    "email": "qiang.xue@gmail.com"
-                }
-            ],
-            "description": "The Jquery UI extension for the Yii framework",
-            "keywords": [
-                "jQuery UI",
-                "yii2"
-            ],
-            "support": {
-                "forum": "http://www.yiiframework.com/forum/",
-                "irc": "irc://irc.freenode.net/yii",
-                "issues": "https://github.com/yiisoft/yii2-jui/issues",
-                "source": "https://github.com/yiisoft/yii2-jui",
-                "wiki": "http://www.yiiframework.com/wiki/"
-            },
-            "time": "2017-11-25T15:32:29+00:00"
         },
         {
             "name": "yiisoft/yii2-symfonymailer",
@@ -5965,14 +5766,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "bahirul/yii2-rbac-adminlte": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.4.0"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
