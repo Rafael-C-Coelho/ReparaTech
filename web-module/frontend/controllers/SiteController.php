@@ -143,6 +143,10 @@ class SiteController extends Controller
         return $this->render('cart');
     }
 
+    public function actionCheckout() {
+        return $this->render('checkout');
+    }
+
     /**
      * Displays about page.
      *
