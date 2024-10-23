@@ -1,7 +1,8 @@
 <?php
+use yii\helpers\Html;
+
+
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -26,6 +27,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../../web/css/style.css" rel="stylesheet">
+    <link href="../../web/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
