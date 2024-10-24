@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="/img/favicon.ico" rel="icon">
+    <link href="./img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -22,12 +22,12 @@ use yii\helpers\Html;
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="./lib/animate/animate.min.css" rel="stylesheet">
+    <link href="./lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="/css/style.css" rel="stylesheet">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -133,7 +133,7 @@ use yii\helpers\Html;
                     </thead>
                     <tbody class="align-middle">
                         <tr>
-                            <td class="align-middle"><img src="../../web/img/product-1.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="./web/img/product-1.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -154,7 +154,7 @@ use yii\helpers\Html;
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle"><img src="../../web/img/product-2.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="./web/img/product-2.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -175,7 +175,7 @@ use yii\helpers\Html;
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle"><img src="../../web/img/product-3.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="./web/img/product-3.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -196,7 +196,7 @@ use yii\helpers\Html;
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle"><img src="../../web/img/product-4.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="./web/img/product-4.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -217,7 +217,7 @@ use yii\helpers\Html;
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle"><img src="../../web/img/product-5.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="./web/img/product-5.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -340,7 +340,7 @@ use yii\helpers\Html;
                 </p>
             </div>
             <div class="col-md-6 px-xl-0 text-center text-md-right">
-                <img class="img-fluid" src="../../web/img/payments.png" alt="">
+                <img class="img-fluid" src="./web/img/payments.png" alt="">
             </div>
         </div>
     </div>
@@ -354,15 +354,15 @@ use yii\helpers\Html;
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../../web/lib/easing/easing.min.js"></script>
-    <script src="../../web/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="./web/lib/easing/easing.min.js"></script>
+    <script src="./web/lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Contact Javascript File -->
-    <script src="../../web/mail/jqBootstrapValidation.min.js"></script>
-    <script src="../../web/mail/contact.js"></script>
+    <script src="./web/mail/jqBootstrapValidation.min.js"></script>
+    <script src="./web/mail/contact.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../../web/js/main.js"></script>
+    <script src="./web/js/main.js"></script>
 </body>
 
 </html>
