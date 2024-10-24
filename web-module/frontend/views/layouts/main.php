@@ -50,7 +50,7 @@ AppAsset::register($this);
     <link href="./css/style.css" rel="stylesheet"></head>
 <body class="d-flex flex-column h-100">
 
-<?php if(Yii::$app->controller->route !== "site/signup") { ?>
+<?php if(Yii::$app->controller->route !== "site/signup" || Yii::$app->controller->route !== "site/login") { ?>
 <!-- Topbar Start -->
 <div class="container-fluid">
     <div class="row bg-light py-1 px-xl-5">
