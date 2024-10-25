@@ -13,7 +13,7 @@
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href=".../img/favicon.ico" rel="icon">
+    <link href="./img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -23,11 +23,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="./lib/animate/animate.min.css" rel="stylesheet">
+    <link href="./lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -124,16 +124,16 @@
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
                     <div class="carousel-item active">
-                        <img class="w-100 h-100" src="../img/product-1.jpg" alt="Image">
+                        <img class="w-100 h-100" src="./img/product-1.jpg" alt="Image">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 h-100" src="../img/product-2.jpg" alt="Image">
+                        <img class="w-100 h-100" src="./img/product-2.jpg" alt="Image">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 h-100" src="../img/product-3.jpg" alt="Image">
+                        <img class="w-100 h-100" src="./img/product-3.jpg" alt="Image">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 h-100" src="../img/product-4.jpg" alt="Image">
+                        <img class="w-100 h-100" src="./img/product-4.jpg" alt="Image">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
@@ -369,7 +369,7 @@
             <div class="owl-carousel related-carousel">
                 <div class="product-item bg-light">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="../web/img/product-1.jpg" alt="">
+                        <img class="img-fluid w-100" src="./web/img/product-1.jpg" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -394,7 +394,7 @@
                 </div>
                 <div class="product-item bg-light">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="../web/img/product-2.jpg" alt="">
+                        <img class="img-fluid w-100" src="./web/img/product-2.jpg" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -419,7 +419,7 @@
                 </div>
                 <div class="product-item bg-light">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="../web/img/product-3.jpg" alt="">
+                        <img class="img-fluid w-100" src="./web/img/product-3.jpg" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -444,7 +444,7 @@
                 </div>
                 <div class="product-item bg-light">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="../web/img/product-4.jpg" alt="">
+                        <img class="img-fluid w-100" src="./web/img/product-4.jpg" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -469,7 +469,7 @@
                 </div>
                 <div class="product-item bg-light">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="../web/img/product-5.jpg" alt="">
+                        <img class="img-fluid w-100" src="./web/img/product-5.jpg" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -564,7 +564,7 @@
             </p>
         </div>
         <div class="col-md-6 px-xl-0 text-center text-md-right">
-            <img class="img-fluid" src="../web/img/payments.png" alt="">
+            <img class="img-fluid" src="./web/img/payments.png" alt="">
         </div>
     </div>
 </div>
@@ -578,15 +578,15 @@
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-<script src="../web/lib/easing/easing.min.js"></script>
-<script src="../web/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="./web/lib/easing/easing.min.js"></script>
+<script src="./web/lib/owlcarousel/owl.carousel.min.js"></script>
 
 <!-- Contact Javascript File -->
-<script src="../web/mail/jqBootstrapValidation.min.js"></script>
-<script src="../web/mail/contact.js"></script>
+<script src="./web/mail/jqBootstrapValidation.min.js"></script>
+<script src="./web/mail/contact.js"></script>
 
 <!-- Template Javascript -->
-<script src="../web/js/main.js"></script>
+<script src="./web/js/main.js"></script>
 </body>
 
 </html>
