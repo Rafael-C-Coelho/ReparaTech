@@ -133,7 +133,7 @@ use yii\helpers\Html;
                     </thead>
                     <tbody class="align-middle">
                         <tr>
-                            <td class="align-middle"><img src="../web/img/product-1.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="<?= Yii::getAlias('@web') ?>/web/img/product-1.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -154,7 +154,7 @@ use yii\helpers\Html;
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle"><img src="../web/img/product-2.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="<?= Yii::getAlias('@web') ?>/web/img/product-2.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -175,7 +175,7 @@ use yii\helpers\Html;
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle"><img src="../web/img/product-3.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="<?= Yii::getAlias('@web') ?>/web/img/product-3.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -196,7 +196,7 @@ use yii\helpers\Html;
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle"><img src="../web/img/product-4.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="<?= Yii::getAlias('@web') ?>/web/img/product-4.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -217,7 +217,7 @@ use yii\helpers\Html;
                             <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle"><img src="../web/img/product-5.jpg" alt="" style="width: 50px;"> Product Name</td>
+                            <td class="align-middle"><img src="<?= Yii::getAlias('@web') ?>/web/img/product-5.jpg" alt="" style="width: 50px;"> Product Name</td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
