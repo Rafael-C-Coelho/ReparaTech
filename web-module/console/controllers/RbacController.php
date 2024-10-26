@@ -204,9 +204,11 @@ class RbacController extends Controller
 
     protected function addPermission($auth, $name, $description)
     {
-        $permission = $auth->createPermission($name);
-        $permission->description = $description;
-        $auth->add($permission);
+        if (!$auth->getPermission($name)) { // Se a permissão não existir
+            $permission = $auth->createPermission($name);
+            $permission->description = $description;
+            $auth->add($permission);
+        }
     }
 
 }
