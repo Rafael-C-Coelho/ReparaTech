@@ -32,18 +32,6 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
-    const ROLE_ADMIN = 'admin';
-    const ROLE_MANAGER = 'manager';
-    const ROLE_REPAIRMAN = 'repairman';
-    const ROLE_CLIENT = 'client';
-
-    public $roles = [
-        self::ROLE_ADMIN => 'Admin',
-        self::ROLE_MANAGER => 'Manager',
-        self::ROLE_REPAIRMAN => 'Repairman',
-        self::ROLE_CLIENT => 'Client',
-    ];
-
     /**
      * {@inheritdoc}
      */
