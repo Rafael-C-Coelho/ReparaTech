@@ -1,4 +1,5 @@
 <?php
+
 use yii\web\View;
 
 $params = array_merge(
@@ -15,13 +16,6 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
-        'view' => [
-            'theme' => [
-                'pathMap' => [
-                    '@app/views' => '@vendor/hail812/yii2-adminlte3/src/views'
-                ],
-            ],
-        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
@@ -53,14 +47,20 @@ return [
             'rules' => [
             ],
         ],
-            'view' => [
-                'class' => View::class,
-                'theme' => [
-                    'pathMap' => [
-                        '@app/views' => '@vendor/hail812/yii2-adminlte3/src/views'
-                    ],
+        'view' => [
+            'class' => View::class,
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@backend/views'
                 ],
             ],
         ],
+        'assetManager' => [
+            'bundles' => [
+                'hail812\adminlte3\AdminLteAsset',
+            ],
+        ],
+    ],
+    'layout' => '@backend/views/layouts/main.php',
     'params' => $params,
 ];

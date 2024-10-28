@@ -14,7 +14,6 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-    public $role;
     public $name;
 
 
@@ -62,11 +61,10 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        $user->role = User::ROLE_CLIENT;
-        $user->status = User::STATUS_AWAITING_ACTIVATION;
-        $user->generateEmailVerificationToken();
+        $user->status = User::STATUS_ACTIVE;
+        # $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
+        return $user->save(); # && $this->sendEmail($user);
     }
 
     /**
