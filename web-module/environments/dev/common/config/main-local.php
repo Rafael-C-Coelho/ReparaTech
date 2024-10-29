@@ -10,12 +10,16 @@ return [
             'charset' => 'utf8',
         ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
+            'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => false,
+            'useFileTransport' => false, // Set to false to send real emails
             'transport' => [
-                'dsn' => 'smtp://info@drjgouveia.dev:QGTECmB3HGUH@smtp.zoho.eu:587'
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.zoho.eu', // Use 'smtp.zoho.eu' for EU-based accounts
+                'username' => 'info@drjgouveia.dev',
+                'password' => 'QGTECmB3HGUH',
+                'port' => '587', // or 587
+                'encryption' => 'tls', // or 'tls' if using port 587
             ],
             // You have to set
             //

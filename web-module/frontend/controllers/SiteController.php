@@ -158,6 +158,10 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
+        if ($model->hasErrors()) {
+            Yii::$app->session->setFlash('error', 'Signup failed: ' . json_encode($model->errors));
+        }
+
         return $this->render('signup', [
             'model' => $model,
         ]);

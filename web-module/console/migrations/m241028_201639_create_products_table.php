@@ -15,12 +15,18 @@ class m241028_201639_create_products_table extends Migration
      */
     public function safeUp()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            // https://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
+
         $this->createTable('{{%products}}', [
             'id' => $this->primaryKey(),
             'price' => $this->decimal(),
             'stock' => $this->integer()->unsigned()->notNull(),
             'supplier_id' => $this->integer()->notNull(),
-        ]);
+        ], $tableOptions);
 
         // creates index for column `supplier_id`
         $this->createIndex(
