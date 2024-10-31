@@ -2,7 +2,7 @@
 
 namespace console\controllers;
 
-use yii; 
+use yii;
 use yii\console\Controller;
 
 class RbacController extends Controller
@@ -11,204 +11,169 @@ class RbacController extends Controller
     {
         $auth = Yii::$app->authManager;
 
-        // Limpa todas as permissões, papéis e atribuições anteriores
+        // Clear all existing permissions, roles and assignments
         $auth->removeAll();
 
+        // Initialize all entity permissions
+        $this->initEntityPermissions($auth);
+
+        // Initialize roles
         $this->initRepairTechnician($auth);
         $this->initClient($auth);
         $this->initManager($auth);
         $this->initStoreOwner($auth);
 
-        echo "RBAC configured for Repair Technician, Client, Manager and Store Owner roles.\n";
+        echo "RBAC configuration completed.\n";
+    }
+
+    private function initEntityPermissions($auth)
+    {
+        // Define all entities that need permissions
+        $entities = [
+            'Parts',
+            'Clients',
+            'Managers',
+            'Invoices',
+            'Repairs',
+            'Budgets',
+            'Repairman',
+            'Sales',
+            'Suppliers',
+            'Products',
+            'ProductsFavorites'
+        ];
+
+        // Define standard operations
+        $operations = [
+            'create' => 'Create new',
+            'update' => 'Update existing',
+            'delete' => 'Delete existing',
+            'view' => 'View details of',
+            'list' => 'List all'
+        ];
+
+        // Create permissions for each entity
+        foreach ($entities as $entity) {
+            foreach ($operations as $operation => $description) {
+                $permissionName = lcfirst($operation . $entity);
+                echo "Creating permission: $permissionName\n";
+                $this->addPermission(
+                    $auth,
+                    $permissionName,
+                    "$description $entity"
+                );
+            }
+        }
+
+        echo "Base permissions created for all entities.\n";
     }
 
     private function initRepairTechnician($auth)
     {
-        // Criar permissões específicas para o Repair Technician
-        $viewRepairs = $auth->createPermission('viewRepairs');
-        $viewRepairs->description = 'View the list of their repairs';
-        $auth->add($viewRepairs);
-
-        $editRepair = $auth->createPermission('editRepair');
-        $editRepair->description = 'Edit their own repairs';
-        $auth->add($editRepair);
-
-        $manageQuotation = $auth->createPermission('manageQuotation');
-        $manageQuotation->description = 'Create and edit repair quotation';
-        $auth->add($manageQuotation);
-
-        $defineParts = $auth->createPermission('defineParts');
-        $defineParts->description = 'Define parts needed for the repair';
-        $auth->add($defineParts);
-
-
-        $addComment = $auth->createPermission('addComment');
-        $addComment->description = 'Add comments with or without photos on repair';
-        $auth->add($addComment);
-
-        $confirmSchedule = $auth->createPermission('confirmSchedule');
-        $confirmSchedule->description = 'Confirm repair schedule';
-        $auth->add($confirmSchedule);
-
-        // Criar o papel Repair Technician
         $repairTechnician = $auth->createRole('repairTechnician');
         $auth->add($repairTechnician);
 
-        // Atribuir permissões ao papel Repair Technician
-        $auth->addChild($repairTechnician, $viewRepairs);
-        $auth->addChild($repairTechnician, $editRepair);
-        $auth->addChild($repairTechnician, $manageQuotation);
-        $auth->addChild($repairTechnician, $defineParts);
-        $auth->addChild($repairTechnician, $addComment);
-        $auth->addChild($repairTechnician, $confirmSchedule);
+        // Repair permissions
+        $auth->addChild($repairTechnician, $auth->getPermission('listRepairs'));
+        $auth->addChild($repairTechnician, $auth->getPermission('viewRepairs'));
+        $auth->addChild($repairTechnician, $auth->getPermission('updateRepairs'));
 
+        // Parts permissions
+        $auth->addChild($repairTechnician, $auth->getPermission('listParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('createParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('updateParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('deleteParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('viewParts'));
+
+        // Budget permissions
+        $auth->addChild($repairTechnician, $auth->getPermission('createBudgets'));
+        $auth->addChild($repairTechnician, $auth->getPermission('updateBudgets'));
+        $auth->addChild($repairTechnician, $auth->getPermission('viewBudgets'));
 
         echo "RBAC configured for Repair Technician.\n";
-        $auth->assign($repairTechnician, 3);
-
     }
 
     private function initClient($auth)
     {
-
-        $viewAccessories = $auth->createPermission('viewAccessories');
-        $viewAccessories->description = 'View list of accessories';
-        $auth->add($viewAccessories);
-
-        $registerClientAccount = $auth->createPermission('registerClientAccount');
-        $registerClientAccount->description = 'Register a client account';
-        $auth->add($registerClientAccount);
-
-        $loginClientAccount = $auth->createPermission('loginClientAccount');
-        $loginClientAccount->description = 'Login to client account';
-        $auth->add($loginClientAccount);
-
-        $addAccessoriesToCart = $auth->createPermission('addAccessoriesToCart');
-        $addAccessoriesToCart->description = 'Add accessories to shopping cart';
-        $auth->add($addAccessoriesToCart);
-
-        $addAccessoriesToFavorites = $auth->createPermission('addAccessoriesToFavorites');
-        $addAccessoriesToFavorites->description = 'Add accessories to favorites list';
-        $auth->add($addAccessoriesToFavorites);
-
-        $requestRepairQuotation = $auth->createPermission('requestRepairQuotation');
-        $requestRepairQuotation->description = 'Request repair quotation';
-        $auth->add($requestRepairQuotation);
-
-        $viewOrderProgress = $auth->createPermission('viewOrderProgress');
-        $viewOrderProgress->description = 'View order progress';
-        $auth->add($viewOrderProgress);
-
-        $viewRepairProgress = $auth->createPermission('viewRepairProgress');
-        $viewRepairProgress->description = 'View repair progress';
-        $auth->add($viewRepairProgress);
-
-        $approveRejectQuotation = $auth->createPermission('approveRejectQuotation');
-        $approveRejectQuotation->description = 'Approve or reject quotation';
-        $auth->add($approveRejectQuotation);
-
-        $makePayment = $auth->createPermission('makePayment');
-        $makePayment->description = 'Make payment';
-        $auth->add($makePayment);
-
-        $updateOrderProgress = $auth->createPermission('updateOrderProgress');
-        $updateOrderProgress->description = 'Update order progress';
-        $auth->add($updateOrderProgress);
-
-        $viewInvoice = $auth->createPermission('viewInvoice');
-        $viewInvoice->description = 'View invoice';
-        $auth->add($viewInvoice);
-
-
         $clientRole = $auth->createRole('client');
         $auth->add($clientRole);
 
+        // Products permissions
+        $auth->addChild($clientRole, $auth->getPermission('listProducts'));
+        $auth->addChild($clientRole, $auth->getPermission('viewProducts'));
 
-        $auth->addChild($clientRole, $viewAccessories);
-        $auth->addChild($clientRole, $registerClientAccount);
-        $auth->addChild($clientRole, $loginClientAccount);
-        $auth->addChild($clientRole, $addAccessoriesToCart);
-        $auth->addChild($clientRole, $addAccessoriesToFavorites);
-        $auth->addChild($clientRole, $requestRepairQuotation);
-        $auth->addChild($clientRole, $viewOrderProgress);
-        $auth->addChild($clientRole, $viewRepairProgress);
-        $auth->addChild($clientRole, $approveRejectQuotation);
-        $auth->addChild($clientRole, $makePayment);
-        $auth->addChild($clientRole, $updateOrderProgress);
-        $auth->addChild($clientRole, $viewInvoice);
+        // Products favorites permissions
+        $auth->addChild($clientRole, $auth->getPermission('listProductsFavorites'));
+        $auth->addChild($clientRole, $auth->getPermission('viewProductsFavorites'));
+        $auth->addChild($clientRole, $auth->getPermission('createProductsFavorites'));
+        $auth->addChild($clientRole, $auth->getPermission('deleteProductsFavorites'));
 
-        $auth->assign($clientRole, 4);
+        // Products permissions
+        $auth->addChild($clientRole, $auth->getPermission('listSales'));
+        $auth->addChild($clientRole, $auth->getPermission('viewSales'));
+
+        // Repairs permissions
+        $auth->addChild($clientRole, $auth->getPermission('createRepairs'));
+        $auth->addChild($clientRole, $auth->getPermission('viewRepairs'));
+        $auth->addChild($clientRole, $auth->getPermission('listRepairs'));
+
+        // Budgets permissions
+        $auth->addChild($clientRole, $auth->getPermission('listBudgets'));
+        $auth->addChild($clientRole, $auth->getPermission('viewBudgets'));
+        $auth->addChild($clientRole, $auth->getPermission('updateBudgets'));
+
+        // Invoices permissions
+        $auth->addChild($clientRole, $auth->getPermission('viewInvoices'));
+        $auth->addChild($clientRole, $auth->getPermission('listInvoices'));
 
         echo "RBAC configured for Client role.\n";
     }
 
-    private function initManager($auth) {
-
-        $this->addPermission($auth, 'issueInvoice', 'Issue invoice');
-        $this->addPermission($auth, 'manageAccessoryStock', 'Manage accessory stock');
-        $this->addPermission($auth, 'managePartStock', 'Manage part stock');
-        $this->addPermission($auth, 'manageOrders', 'Manage orders');
-        $this->addPermission($auth, 'manageClients', 'Manage clients');
-        $this->addPermission($auth, 'manageRepairTechnicians', 'Manage repair technicians');
-        $this->addPermission($auth, 'manageSuppliers', 'Manage suppliers');
-        $this->addPermission($auth, 'manageManagers', 'Manage managers');
-        $this->addPermission($auth, 'updateOrderProgress', 'Update order progress');
-
+    private function initManager($auth)
+    {
         $managerRole = $auth->createRole('manager');
         $auth->add($managerRole);
 
-        $auth->addChild($managerRole, $auth->getPermission('issueInvoice'));
-        $auth->addChild($managerRole, $auth->getPermission('manageAccessoryStock'));
-        $auth->addChild($managerRole, $auth->getPermission('managePartStock'));
-        $auth->addChild($managerRole, $auth->getPermission('manageOrders'));
-        $auth->addChild($managerRole, $auth->getPermission('manageClients'));
-        $auth->addChild($managerRole, $auth->getPermission('manageRepairTechnicians'));
-        $auth->addChild($managerRole, $auth->getPermission('manageSuppliers'));
-        $auth->addChild($managerRole, $auth->getPermission('manageManagers'));
-        $auth->addChild($managerRole, $auth->getPermission('updateOrderProgress'));
+        $entities = ['Parts', 'Clients', 'Invoices', 'Repairs', 'Budgets',
+            'Repairman', 'Sales', 'Suppliers', 'Products'];
 
-
-        $auth->assign($managerRole, 2);
+        foreach ($entities as $entity) {
+            $operations = ['create', 'update', 'delete', 'view', 'list'];
+            foreach ($operations as $operation) {
+                $permissionName = lcfirst($operation . $entity);
+                $auth->addChild($managerRole, $auth->getPermission($permissionName));
+            }
+        }
 
         echo "RBAC configured for Manager role.\n";
     }
 
-    private function initStoreOwner($auth) {
-        $this->addPermission($auth, 'manageStore', 'Manage store');
-        $this->addPermission($auth, 'manageStoreEmployees', 'Manage store employees');
-        $this->addPermission($auth, 'manageStoreSuppliers', 'Manage store suppliers');
-        $this->addPermission($auth, 'manageStoreOrders', 'Manage store orders');
-        $this->addPermission($auth, 'manageStoreCustomers', 'Manage store customers');
-        $this->addPermission($auth, 'manageStoreInventory', 'Manage store inventory');
-        $this->addPermission($auth, 'manageStoreSales', 'Manage store sales');
-        $this->addPermission($auth, 'manageStoreReports', 'Manage store reports');
-
+    private function initStoreOwner($auth)
+    {
         $storeOwnerRole = $auth->createRole('storeOwner');
         $auth->add($storeOwnerRole);
 
-        $auth->addChild($storeOwnerRole, $auth->getPermission('manageStore'));
-        $auth->addChild($storeOwnerRole, $auth->getPermission('manageStoreEmployees'));
-        $auth->addChild($storeOwnerRole, $auth->getPermission('manageStoreSuppliers'));
-        $auth->addChild($storeOwnerRole, $auth->getPermission('manageStoreOrders'));
-        $auth->addChild($storeOwnerRole, $auth->getPermission('manageStoreCustomers'));
-        $auth->addChild($storeOwnerRole, $auth->getPermission('manageStoreInventory'));
-        $auth->addChild($storeOwnerRole, $auth->getPermission('manageStoreSales'));
-        $auth->addChild($storeOwnerRole, $auth->getPermission('manageStoreReports'));
+        // Store owner has all permissions
+        $entities = ['Parts', 'Clients', 'Managers', 'Invoices', 'Repairs',
+            'Budgets', 'Repairman', 'Sales', 'Suppliers', 'Products'];
 
-        $auth->assign($storeOwnerRole, 1);
+        foreach ($entities as $entity) {
+            $operations = ['create', 'update', 'delete', 'view', 'list'];
+            foreach ($operations as $operation) {
+                $permissionName = lcfirst($operation . $entity);
+                $auth->addChild($storeOwnerRole, $auth->getPermission($permissionName));
+            }
+        }
 
         echo "RBAC configured for Store Owner role.\n";
     }
 
-
-
     protected function addPermission($auth, $name, $description)
     {
-        if (!$auth->getPermission($name)) { // Se a permissão não existir
+        if (!$auth->getPermission($name)) {
             $permission = $auth->createPermission($name);
             $permission->description = $description;
             $auth->add($permission);
         }
     }
-
 }

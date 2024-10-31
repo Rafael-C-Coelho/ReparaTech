@@ -24,6 +24,9 @@ AppAsset::register($this);
 <main role="main">
     <div class="container">
         <?= $content ?>
+        <?php if (!Yii::$app->user->isGuest && Yii::$app->controller->route === "site/error") { ?>
+            <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" data-action="post">Log Out</a>
+        <?php } ?>
     </div>
 </main>
 

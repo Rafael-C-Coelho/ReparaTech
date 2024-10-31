@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use app\models\Part;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,10 +22,18 @@ class PartController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['index', 'view', 'create', 'update', 'delete'], // specify actions here
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['repairTechnician', 'storeOwner'],
+                        ],
+                        [
+                            'allow' => false,
+                            'roles' => ['?'],
+                        ],
                     ],
                 ],
             ]

@@ -55,7 +55,7 @@ AppAsset::register($this);
     <div class="container-fluid bg-dark">
         <div class="row px-xl-5">
             <div class="col-lg-3 d-none d-lg-block m-auto text-center">
-                <a href="" class="text-decoration-none">
+                <a href="<?= \yii\helpers\Url::to(["site/index"]) ?>" class="text-decoration-none">
                     <span class="h1 text-uppercase text-primary bg-dark px-2">Repara</span>
                     <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Tech</span>
                 </a>
@@ -114,16 +114,15 @@ AppAsset::register($this);
                                         <a href="<?= \yii\helpers\Url::to(['site/login']) ?>" class="dropdown-item">Sign in</a>
                                         <a href="<?= \yii\helpers\Url::to(['site/signup']) ?>" class="dropdown-item">Sign up</a>
                                     <?php } else { ?>
-                                        <a href="cart.php" class="dropdown-item">My Account</a>
-                                        <a href="checkout.php" class="dropdown-item">Log Out</a>
+                                        <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="dropdown-item">Log Out</a>
                                     <?php } ?>
                                 </div>
                             </div>
-                            <a href="" class="nav-item nav-link">
+                            <a href="<?= \yii\helpers\Url::to(["site/index"]) /* TODO: CHANGE THE URL */ ?>" class="nav-item nav-link">
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
-                            <a href="" class="nav-item nav-link">
+                            <a href="<?= \yii\helpers\Url::to(["site/index"]) /* TODO: CHANGE THE URL */ ?>" class="nav-item nav-link">
                                 <i class="fas fa-shopping-cart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
@@ -131,10 +130,6 @@ AppAsset::register($this);
                     </div>
                 </nav>
             </div>
-        </div>
-    </div>
-    <div class="row align-items-center bg-light py-3 px-3 px-xl-5 d-none d-lg-flex">
-        <div class="col-lg-4">
         </div>
     </div>
 </div>
