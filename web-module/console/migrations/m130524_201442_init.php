@@ -21,6 +21,18 @@ class m130524_201442_init extends Migration
             'email' => $this->string()->notNull()->unique(),
 
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
+
+            // Client, Manager and Repairman
+            'name' => $this->string(),
+
+            // Client
+            'nif' => $this->integer(),
+            'address' => $this->string(),
+            'contact' => $this->string(),
+
+            // Repairman
+            'value' => $this->decimal(10, 2),
+
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);

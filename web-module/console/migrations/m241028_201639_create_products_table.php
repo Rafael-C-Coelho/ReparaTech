@@ -26,6 +26,7 @@ class m241028_201639_create_products_table extends Migration
             'price' => $this->decimal(),
             'stock' => $this->integer()->unsigned()->notNull(),
             'supplier_id' => $this->integer()->notNull(),
+            'image' => $this->text(),
         ], $tableOptions);
 
         // creates index for column `supplier_id`
