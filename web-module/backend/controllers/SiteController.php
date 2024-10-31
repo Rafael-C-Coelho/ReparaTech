@@ -30,7 +30,12 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return $this->isAuthorizedUser();
+                        }
+                    ],
+                    [
+                        'allow' => false, // Bloqueia o acesso a qualquer ação não listada para outros usuários
                     ],
                 ],
             ],
@@ -80,7 +85,13 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            if($this->isAuthorizedUser()) {
+                return $this->goBack();
+            } else {
+                Yii::$app->user->logout();
+                Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar o sistema.');
+                return $this->redirect(['site/login']);
+            }
         }
 
         $model->password = '';
@@ -100,5 +111,12 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    private function isAuthorizedUser()
+    {
+        return Yii::$app->user->can('repairTechnician') ||
+            Yii::$app->user->can('manager') ||
+            Yii::$app->user->can('storeOwner');
     }
 }
