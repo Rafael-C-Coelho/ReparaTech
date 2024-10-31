@@ -135,6 +135,10 @@ class SiteController extends Controller
         return $this->render('detail');
     }
 
+    public function actionPainelClient(){
+        return $this->render('painelClient');
+    }
+
     /**
      * Displays about page.
      *
