@@ -11,6 +11,7 @@ use common\models\User;
  */
 class SignupForm extends Model
 {
+    public $name;
     public $username;
     public $email;
     public $password;
@@ -22,6 +23,9 @@ class SignupForm extends Model
     public function rules()
     {
         return [
+            ['name', 'string', 'max' => 255],
+            ['name', 'required'],
+
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
@@ -50,17 +54,19 @@ class SignupForm extends Model
             return null;
         }
 
-        $auth = Yii::$app->authManager;
-
-        $clientRole = $auth->getRole('client');
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->name = $this->name;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->status = User::STATUS_AWAITING_ACTIVATION;
         $user->save();
+
+        $auth = Yii::$app->authManager;
+        $clientRole = $auth->getRole('client');
         $auth->assign($clientRole, $user->id);
+
         $user->generateEmailVerificationToken();
         return $user->save() && $this->sendEmail($user);
 
@@ -79,7 +85,7 @@ class SignupForm extends Model
                 ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
                 ['user' => $user]
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
             ->setTo($this->email)
             ->setSubject('Account registration at ' . Yii::$app->name)
             ->send();

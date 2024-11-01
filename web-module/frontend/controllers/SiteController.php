@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Product;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -63,7 +64,7 @@ class SiteController extends Controller
             ],
             'captcha' => [
                 'class' => \yii\captcha\CaptchaAction::class,
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'fixedVerifyCode' => YII_ENV_TEST ? 'awnjmkoinçFE091U328HJRFN2MP0JFINp98NFWP982NE' : null,
             ],
         ];
     }
@@ -75,7 +76,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $recent_added_products = Product::find()->orderBy('created_at DESC')->limit(4)->all();
+        $most_bought_products = Product::find()->limit(4)->all();
+        return $this->render('index', [
+            'recent_added_products' => $recent_added_products,
+            'most_bought_products' => $most_bought_products,
+        ]);
     }
 
     /**
@@ -113,12 +119,6 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionContact(){
-        return $this->render('contact', [
-            'model' => new ContactForm(),
-        ]);
-    }
-
     public function actionCart() {
         return $this->render('cart');
     }
@@ -139,14 +139,10 @@ class SiteController extends Controller
         return $this->render('painelClient');
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
+    public function actionContact(){
+        return $this->render('contact', [
+            'model' => new ContactForm(),
+        ]);
     }
 
     /**
@@ -262,5 +258,10 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    public function actionView($file)
+    {
+        return $this->render($file);
     }
 }

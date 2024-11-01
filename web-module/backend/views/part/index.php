@@ -1,11 +1,12 @@
 <?php
 
-use app\models\Part;
-use yii\helpers\Html;
-use yii\helpers\Url;
+use common\models\Part;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
+
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 

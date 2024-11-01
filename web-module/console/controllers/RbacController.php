@@ -36,10 +36,11 @@ class RbacController extends Controller
             'Invoices',
             'Repairs',
             'Budgets',
-            'Repairman',
+            'Repairmem',
             'Sales',
             'Suppliers',
             'Products',
+            'ProductCategories',
             'ProductsFavorites'
         ];
 
@@ -102,7 +103,11 @@ class RbacController extends Controller
         $auth->addChild($clientRole, $auth->getPermission('listProducts'));
         $auth->addChild($clientRole, $auth->getPermission('viewProducts'));
 
-        // Products favorites permissions
+        // Product Categories permissions
+        $auth->addChild($clientRole, $auth->getPermission('listProductCategories'));
+        $auth->addChild($clientRole, $auth->getPermission('viewProductCategories'));
+
+        // Products Favorites permissions
         $auth->addChild($clientRole, $auth->getPermission('listProductsFavorites'));
         $auth->addChild($clientRole, $auth->getPermission('viewProductsFavorites'));
         $auth->addChild($clientRole, $auth->getPermission('createProductsFavorites'));
@@ -135,7 +140,7 @@ class RbacController extends Controller
         $auth->add($managerRole);
 
         $entities = ['Parts', 'Clients', 'Invoices', 'Repairs', 'Budgets',
-            'Repairman', 'Sales', 'Suppliers', 'Products'];
+            'ProductCategories', 'Repairmem', 'Sales', 'Suppliers', 'Products'];
 
         foreach ($entities as $entity) {
             $operations = ['create', 'update', 'delete', 'view', 'list'];
@@ -155,7 +160,7 @@ class RbacController extends Controller
 
         // Store owner has all permissions
         $entities = ['Parts', 'Clients', 'Managers', 'Invoices', 'Repairs',
-            'Budgets', 'Repairman', 'Sales', 'Suppliers', 'Products'];
+            'Budgets', 'Repairmem', 'Sales', 'Suppliers', 'Products', 'ProductCategories'];
 
         foreach ($entities as $entity) {
             $operations = ['create', 'update', 'delete', 'view', 'list'];

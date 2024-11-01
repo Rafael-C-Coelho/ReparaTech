@@ -1,9 +1,7 @@
 <?php
 
-use yii\helpers\Html;
-
 /** @var yii\web\View $this */
-/** @var app\models\Part $model */
+/** @var \common\models\Part $model */
 
 $this->title = Yii::t('app', 'Update Part: {name}', [
     'name' => $model->name,

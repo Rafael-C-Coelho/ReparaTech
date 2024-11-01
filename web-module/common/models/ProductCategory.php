@@ -1,25 +1,23 @@
 <?php
 
-namespace app\models;
-
-use Yii;
+namespace common\models;
 
 /**
- * This is the model class for table "{{%parts}}".
+ * This is the model class for table "product_categorys".
  *
  * @property int $id
  * @property string $name
- * @property int $stock
- * @property float $price
+ *
+ * @property Product[] $products
  */
-class Part extends \yii\db\ActiveRecord
+class ProductCategory extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%parts}}';
+        return 'product_categorys';
     }
 
     /**
@@ -28,9 +26,7 @@ class Part extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'stock', 'price'], 'required'],
-            [['stock'], 'integer'],
-            [['price'], 'number'],
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -43,8 +39,16 @@ class Part extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'stock' => 'Stock',
-            'price' => 'Price',
         ];
+    }
+
+    /**
+     * Gets query for [[Products]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::class, ['category_id' => 'id']);
     }
 }
