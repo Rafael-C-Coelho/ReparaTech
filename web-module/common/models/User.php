@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\FavoriteProduct;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -273,5 +274,48 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /*
+     * Gets the favorited products
+     */
+    public function getFavoriteProducts()
+    {
+        return FavoriteProduct::find()->where(['user_id' => $this->id]);
+    }
+
+    /*
+     * Gets the count of favorited products
+     */
+    public function getFavoriteProductsCount()
+    {
+        return $this->getFavoriteProducts()->count();
+    }
+
+    /*
+     * Check if product is already in the user's favorites
+     */
+    public function hasFavoriteProduct($product) {
+        return $this->getFavoriteProducts()->where(['product_id' => $product->id])->exists();
+    }
+
+    /*
+     * Add product to user's favorites
+     */
+    public function addFavoriteProduct($product)
+    {
+        $favoriteProduct = new FavoriteProduct();
+        $favoriteProduct->user_id = $this->id;
+        $favoriteProduct->product_id = $product->id;
+        $favoriteProduct->save();
+    }
+
+    /*
+     * Remove product from user's favorites
+     */
+    public function removeFavoriteProduct($product)
+    {
+        $favoriteProduct = $this->getFavoriteProducts()->where(['product_id' => $product->id])->one();
+        $favoriteProduct->delete();
     }
 }

@@ -30,6 +30,7 @@ class m241028_201639_create_products_table extends Migration
             'supplier_id' => $this->integer()->notNull(),
             'category_id' => $this->integer()->notNull(),
             'image' => $this->text(),
+            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
         ], $tableOptions);
 
         // creates index for column `supplier_id`

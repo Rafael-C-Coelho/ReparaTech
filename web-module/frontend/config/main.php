@@ -44,5 +44,6 @@ return [
             ],
         ],
     ],
+    'layout' => '@frontend/views/layouts/main.php',
     'params' => $params,
 ];
