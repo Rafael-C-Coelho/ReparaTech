@@ -1,6 +1,6 @@
 <?php
 
-use common\models\Part;
+use common\models\ProductCategory;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -10,13 +10,14 @@ use yii\widgets\Pjax;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = Yii::t('app', 'Parts');
+$this->title = Yii::t('app', 'Product Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="part-index">
+<div class="product-category-index">
+
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Part'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Yii::$app->user->can('createProductCategories') ? Html::a(Yii::t('app', 'Create Product Category'), ['create'], ['class' => 'btn btn-success']) : '' ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -24,15 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'name',
-            'stock',
-            'price',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Part $model, $key, $index, $column) {
+                'urlCreator' => function ($action, ProductCategory $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

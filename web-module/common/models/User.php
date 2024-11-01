@@ -33,10 +33,11 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 10;
 
     const SCENARIO_MANAGER = 'manager';
-    const SCENARIO_STORE_OWNER = 'store_owner';
+    const SCENARIO_STORE_OWNER = 'storeOwner';
     const SCENARIO_CLIENT = 'client';
-    const SCENARIO_REPAIRMAN = 'repairman';
+    const SCENARIO_REPAIR_TECHNICIAN = 'repairTechnician';
 
+    public $password;
     public $name;
     public $nif;
     public $address;
@@ -66,44 +67,59 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function rules()
     {
-        return [
+        return array_merge(parent::rules(),[
             ['status', 'default', 'value' => self::STATUS_AWAITING_ACTIVATION],
             ['status', 'in', 'range' => [self::STATUS_AWAITING_ACTIVATION, self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             // Manager-specific rules
-            [['name'], 'required', 'on' => self::SCENARIO_MANAGER],
+            ['name', 'required'],
+            ['name', 'string', 'max' => 255],
+            [['password'], 'required', 'on' => self::SCENARIO_MANAGER],
 
             // Store owner-specific rules
-            [['name'], 'required', 'on' => self::SCENARIO_STORE_OWNER],
+            [['password'], 'required', 'on' => self::SCENARIO_STORE_OWNER],
 
             // Client-specific rules
-            [['name', 'nif', 'address', 'contact'], 'required', 'on' => self::SCENARIO_CLIENT],
+            [['password', 'nif', 'address', 'contact'], 'required', 'on' => self::SCENARIO_CLIENT],
 
             // Repairman-specific rules
-            [['name', 'value'], 'required', 'on' => self::SCENARIO_REPAIRMAN],
-        ];
+            [['password', 'value'], 'required', 'on' => self::SCENARIO_REPAIR_TECHNICIAN],
+        ]);
     }
 
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_MANAGER] = ['username', 'email', 'manager_field'];
-        $scenarios[self::SCENARIO_STORE_OWNER] = ['username', 'email', 'store_owner_field'];
-        $scenarios[self::SCENARIO_CLIENT] = ['username', 'email', 'client_field'];
-        $scenarios[self::SCENARIO_REPAIRMAN] = ['username', 'email', 'repairman_field'];
+        $scenarios[self::SCENARIO_MANAGER] = ['username', 'email', 'password', 'name'];
+        $scenarios[self::SCENARIO_STORE_OWNER] = ['username', 'email', 'password', 'name'];
+        $scenarios[self::SCENARIO_CLIENT] = ['username', 'email', 'password', 'name', 'nif', 'address', 'contact'];
+        $scenarios[self::SCENARIO_REPAIR_TECHNICIAN] = ['username', 'email', 'password', 'name', 'value'];
         return $scenarios;
     }
 
-    public function setScenarioBasedOnRole()
+    public function setScenarioBasedOnRole($role="")
     {
+        if ($role) {
+            if ($role === 'manager') {
+                $this->scenario = self::SCENARIO_MANAGER;
+            } elseif ($role === 'storeOwner') {
+                $this->scenario = self::SCENARIO_STORE_OWNER;
+            } elseif ($role === 'client') {
+                $this->scenario = self::SCENARIO_CLIENT;
+            } elseif ($role === 'repairTechnician') {
+                $this->scenario = self::SCENARIO_REPAIR_TECHNICIAN;
+            }
+            return;
+        }
+
         $auth = Yii::$app->authManager;
         if ($auth->checkAccess($this->id, 'manager')) {
             $this->scenario = self::SCENARIO_MANAGER;
-        } elseif ($auth->checkAccess($this->id, 'store_owner')) {
+        } elseif ($auth->checkAccess($this->id, 'storeOwner')) {
             $this->scenario = self::SCENARIO_STORE_OWNER;
         } elseif ($auth->checkAccess($this->id, 'client')) {
             $this->scenario = self::SCENARIO_CLIENT;
-        } elseif ($auth->checkAccess($this->id, 'repairman')) {
-            $this->scenario = self::SCENARIO_REPAIRMAN;
+        } elseif ($auth->checkAccess($this->id, 'repairTechnician')) {
+            $this->scenario = self::SCENARIO_REPAIR_TECHNICIAN;
         }
     }
 

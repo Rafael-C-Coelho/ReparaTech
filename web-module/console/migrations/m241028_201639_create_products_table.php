@@ -7,6 +7,7 @@ use yii\db\Migration;
  * Has foreign keys to the tables:
  *
  * - `{{%suppliers}}`
+ * - `{{%product_categorys}}`
  */
 class m241028_201639_create_products_table extends Migration
 {
@@ -23,9 +24,11 @@ class m241028_201639_create_products_table extends Migration
 
         $this->createTable('{{%products}}', [
             'id' => $this->primaryKey(),
+            'name' => $this->text()->notNull(),
             'price' => $this->decimal(),
             'stock' => $this->integer()->unsigned()->notNull(),
             'supplier_id' => $this->integer()->notNull(),
+            'category_id' => $this->integer()->notNull(),
             'image' => $this->text(),
         ], $tableOptions);
 
@@ -36,6 +39,12 @@ class m241028_201639_create_products_table extends Migration
             'supplier_id'
         );
 
+        $this->createIndex(
+            '{{%idx-products-category_id}}',
+            '{{%products}}',
+            'category_id'
+        );
+
         // add foreign key for table `{{%suppliers}}`
         $this->addForeignKey(
             '{{%fk-products-supplier_id}}',
@@ -43,7 +52,16 @@ class m241028_201639_create_products_table extends Migration
             'supplier_id',
             '{{%suppliers}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
+        );
+
+        $this->addForeignKey(
+            '{{%fk-products-category_id}}',
+            '{{%products}}',
+            'category_id',
+            '{{%product_categorys}}',
+            'id',
+            'RESTRICT'
         );
     }
 
@@ -58,9 +76,20 @@ class m241028_201639_create_products_table extends Migration
             '{{%products}}'
         );
 
+        // drops foreign key for table `{{%product_categorys}}`
+        $this->dropForeignKey(
+            '{{%fk-products-category_id}}',
+            '{{%products}}'
+        );
+
         // drops index for column `supplier_id`
         $this->dropIndex(
             '{{%idx-products-supplier_id}}',
+            '{{%products}}'
+        );
+        // drops index for column `category_id`
+        $this->dropIndex(
+            '{{%idx-products-category_id}}',
             '{{%products}}'
         );
 

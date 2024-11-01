@@ -1,22 +1,22 @@
 <?php
 
-use common\models\Part;
-use yii\grid\ActionColumn;
+use common\models\User;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\widgets\ListView;
 use yii\widgets\Pjax;
-
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = Yii::t('app', 'Parts');
+$this->title = Yii::t('app', 'Managers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="part-index">
+<div class="user-index">
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Part'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Manager'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -26,15 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            'username',
             'name',
-            'stock',
-            'price',
+            'email',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Part $model, $key, $index, $column) {
+                'urlCreator' => function ($action, User $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

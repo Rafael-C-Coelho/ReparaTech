@@ -4,19 +4,21 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var \common\models\Part $model */
+/** @var common\models\User $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="part-form">
+<div class="repair-technician-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'enableClientValidation' => true,
+    ]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'stock')->textInput(['type' => 'number', 'min' => '0']) ?>
+    <?= $form->field($model, 'status')->textInput() ?>
 
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true, 'type' => 'number', 'min' => '0.00', 'step' => '0.01']) ?>
+    <?= $form->field($model, 'value')->textInput(['type' => 'number', 'step' => '0.01']) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

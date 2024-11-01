@@ -1,8 +1,6 @@
 <?php
 
-namespace app\models;
-
-use Yii;
+namespace common\models;
 
 /**
  * This is the model class for table "{{%products}}".
@@ -11,6 +9,7 @@ use Yii;
  * @property float|null $price
  * @property int $stock
  * @property int $supplier_id
+ * @property int category_id
  *
  * @property Supplier $supplier
  */
@@ -30,10 +29,12 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name'], 'required'],
             [['price'], 'number'],
-            [['stock', 'supplier_id'], 'required'],
-            [['stock', 'supplier_id'], 'integer'],
+            [['stock', 'supplier_id', 'category_id'], 'required'],
+            [['stock', 'supplier_id', 'category_id'], 'integer'],
             [['supplier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Supplier::class, 'targetAttribute' => ['supplier_id' => 'id']],
+            [['image'], 'file', 'extensions' => 'png, jpg, jpeg', 'maxSize' => 1024 * 1024 * 2], // Limit to 2MB
         ];
     }
 
@@ -44,9 +45,10 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'name' => 'Name',
             'price' => 'Price',
             'stock' => 'Stock',
-            'supplier_id' => 'Supplier ID',
+            'supplier_id' => 'Supplier',
         ];
     }
 

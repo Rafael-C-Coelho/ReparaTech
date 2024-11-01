@@ -4,19 +4,15 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var \common\models\Part $model */
+/** @var \common\models\ProductCategory $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="part-form">
+<div class="product-category-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'stock')->textInput(['type' => 'number', 'min' => '0']) ?>
-
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true, 'type' => 'number', 'min' => '0.00', 'step' => '0.01']) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

@@ -14,7 +14,7 @@ use yii\helpers\Html;
 
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <?= Html::a('<i class="fas fa-sign-out-alt"></i>', ['/site/logout'], ['data-method' => 'post', 'class' => 'nav-link']) ?>
+            <?= Html::a('<i class="fas fa-sign-out-alt"></i>', ['/site/logout'], ['class' => 'nav-link']) ?>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">

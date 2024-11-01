@@ -50,7 +50,7 @@ AppAsset::register($this);
     <link href="<?= Yii::getAlias('@web') ?>/css/style.css" rel="stylesheet"></head>
 <body class="d-flex flex-column h-100">
 
-<?php if(Yii::$app->controller->route !== "site/signup" || Yii::$app->controller->route !== "site/login") { ?>
+<?php if(Yii::$app->controller->route !== "site/signup" && Yii::$app->controller->route !== "site/login") { ?>
 <div class="container-fluid p-0">
     <div class="container-fluid bg-dark">
         <div class="row px-xl-5">

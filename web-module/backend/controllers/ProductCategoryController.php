@@ -2,16 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\Part;
+use common\models\ProductCategory;
 use yii\data\ActiveDataProvider;
-use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * PartController implements the CRUD actions for Part model.
+ * ProductCategoryController implements the CRUD actions for ProductCategory model.
  */
-class PartController extends Controller
+class ProductCategoryController extends Controller
 {
     /**
      * @inheritDoc
@@ -21,18 +21,10 @@ class PartController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::className(),
-                    'only' => ['index', 'view', 'create', 'update', 'delete'], // specify actions here
-                    'rules' => [
-                        [
-                            'allow' => true,
-                            'roles' => ['listParts'],
-                        ],
-                        [
-                            'allow' => false,
-                            'roles' => ['?'],
-                        ],
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
                     ],
                 ],
             ]
@@ -40,14 +32,14 @@ class PartController extends Controller
     }
 
     /**
-     * Lists all Part models.
+     * Lists all ProductCategory models.
      *
      * @return string
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Part::find(),
+            'query' => ProductCategory::find(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -66,7 +58,7 @@ class PartController extends Controller
     }
 
     /**
-     * Displays a single Part model.
+     * Displays a single ProductCategory model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -79,13 +71,13 @@ class PartController extends Controller
     }
 
     /**
-     * Creates a new Part model.
+     * Creates a new ProductCategory model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Part();
+        $model = new ProductCategory();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -101,7 +93,7 @@ class PartController extends Controller
     }
 
     /**
-     * Updates an existing Part model.
+     * Updates an existing ProductCategory model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -121,7 +113,7 @@ class PartController extends Controller
     }
 
     /**
-     * Deletes an existing Part model.
+     * Deletes an existing ProductCategory model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -135,15 +127,15 @@ class PartController extends Controller
     }
 
     /**
-     * Finds the Part model based on its primary key value.
+     * Finds the ProductCategory model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Part the loaded model
+     * @return ProductCategory the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Part::findOne(['id' => $id])) !== null) {
+        if (($model = ProductCategory::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
