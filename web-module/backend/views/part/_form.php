@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\models\Part $model */
+/** @var \common\models\Part $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'stock')->textInput(['type' => 'number', 'min' => '0', 'value' => '1']) ?>
+    <?= $form->field($model, 'stock')->textInput(['type' => 'number', 'min' => '0']) ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true, 'type' => 'number', 'min' => '0.00', 'step' => '0.01']) ?>
 

@@ -1,8 +1,6 @@
 <?php
 
-namespace app\models;
-
-use Yii;
+namespace common\models;
 
 /**
  * This is the model class for table "{{%suppliers}}".

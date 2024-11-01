@@ -2,12 +2,11 @@
 
 namespace backend\controllers;
 
-use app\models\Part;
+use common\models\Part;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * PartController implements the CRUD actions for Part model.
@@ -28,7 +27,7 @@ class PartController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'roles' => ['repairTechnician', 'storeOwner'],
+                            'roles' => ['listParts'],
                         ],
                         [
                             'allow' => false,

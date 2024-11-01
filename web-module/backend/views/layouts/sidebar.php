@@ -4,7 +4,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
-                <a href="#" class="d-block"><?= Yii::$app->user->identity->username ?></a>
+                <a href="" class="d-block"><?= Yii::$app->user->identity->username ?></a href="" >
             </div>
         </div>
 
@@ -12,13 +12,48 @@
         <nav class="mt-2">
             <?php
             echo \hail812\adminlte\widgets\Menu::widget([
-                'items' => [
-                    Yii::$app->user->can("") ? [
+                'items' => array_filter([
+                    Yii::$app->user->can("listRepairmem") ? [
+                        'label' => 'Repair Technicians',
+                        'icon' => 'hard-hat',
+                        'url' => ['repair-technician/index'],
+                    ] : [],
+                    Yii::$app->authManager->getAssignment("repairTechnician", Yii::$app->user->id) ? [
+                        'label' => 'You',
+                        'icon' => 'hard-hat',
+                        'url' => ['repair-technician/view', "id" => Yii::$app->user->id],
+                    ] : [],
+                    Yii::$app->user->can("listManagers") ? [
+                        'label' => 'Managers',
+                        'icon' => 'user-tie',
+                        'url' => ['manager/index'],
+                    ] : [],
+                    Yii::$app->authManager->getAssignment("manager", Yii::$app->user->id) ? [
+                        'label' => 'You',
+                        'icon' => 'user-tie',
+                        'url' => ['manager/view', 'id' => Yii::$app->user->id],
+                    ] : [],
+                    Yii::$app->user->can("listParts") ? [
                         'label' => 'Parts',
                         'icon' => 'toolbox',
                         'url' => ['part/index'],
                     ] : [],
-                    [
+                    Yii::$app->user->can("listSuppliers") ? [
+                        'label' => 'Suppliers',
+                        'icon' => 'truck',
+                        'url' => ['supplier/index'],
+                    ] : [],
+                    Yii::$app->user->can("listProductCategories") ? [
+                        'label' => 'Product Categories',
+                        'icon' => 'tags',
+                        'url' => ['product-category/index'],
+                    ] : [],
+                    Yii::$app->user->can("listProducts") ? [
+                        'label' => 'Products',
+                        'icon' => 'box',
+                        'url' => ['product/index'],
+                    ] : [],
+                    /* [
                         'label' => 'Settings',
                         'icon' => 'gear',
                         'items' => [
@@ -49,8 +84,8 @@
                     ['label' => 'LABELS', 'header' => true],
                     ['label' => 'Important', 'iconStyle' => 'far', 'iconClassAdded' => 'text-danger'],
                     ['label' => 'Warning', 'iconClass' => 'nav-icon far fa-circle text-warning'],
-                    ['label' => 'Informational', 'iconStyle' => 'far', 'iconClassAdded' => 'text-info'],
-                ],
+                    ['label' => 'Informational', 'iconStyle' => 'far', 'iconClassAdded' => 'text-info'], */
+                ])
             ]);
             ?>
         </nav>
