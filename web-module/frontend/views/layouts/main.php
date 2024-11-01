@@ -90,20 +90,14 @@ $categories = ProductCategory::find()->all();
                             </button>
                             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                                 <div class="navbar-nav ml-auto py-0">
-                                    <div class="nav-item dropdown">
-                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account <i
-                                                    class="fa fa-angle-down mt-1"></i></a>
-                                        <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                            <?php if (Yii::$app->user->isGuest) { ?>
-                                                <a href="<?= \yii\helpers\Url::to(['site/login']) ?>"
-                                                   class="dropdown-item">Sign in</a>
-                                                <a href="<?= \yii\helpers\Url::to(['site/signup']) ?>"
-                                                   class="dropdown-item">Sign up</a>
-                                            <?php } else { ?>
-                                                <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>"
-                                                   class="dropdown-item">Log Out</a>
-                                            <?php } ?>
-                                        </div>
+                                    <div class="nav-item d-flex">
+                                        <?php if (Yii::$app->user->isGuest) { ?>
+                                            <a href="<?= \yii\helpers\Url::to(['site/login']) ?>" class="nav-link">Sign in</a>
+                                            <a href="<?= \yii\helpers\Url::to(['site/signup']) ?>" class="nav-link">Sign up</a>
+                                        <?php } else { ?>
+                                            <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="nav-link">Log Out</a>
+                                        <?php } ?>
+                                    </div>
                                     </div>
                                     <a href="<?= Yii::$app->user->isGuest ? \yii\helpers\Url::to(["site/login"]) : \yii\helpers\Url::to(["site/index"]) /* TODO: CHANGE THE URL */ ?>"
                                        class="nav-item nav-link">
