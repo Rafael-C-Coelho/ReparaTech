@@ -95,7 +95,7 @@ $categories = ProductCategory::find()->all();
                                             <a href="<?= \yii\helpers\Url::to(['site/login']) ?>" class="nav-link">Sign in</a>
                                             <a href="<?= \yii\helpers\Url::to(['site/signup']) ?>" class="nav-link">Sign up</a>
                                         <?php } else { ?>
-                                            <a href="<?= \yii\helpers\Url::to(['site/painelClient']) ?>" class="dropdown-item">My Account</a>
+                                            <a href="<?= \yii\helpers\Url::to(['site/painelClient']) ?>" class="nav-link">My Account</a>
                                             <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="nav-link">Log Out</a>
                                         <?php } ?>
                                     </div>
