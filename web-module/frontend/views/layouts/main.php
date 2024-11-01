@@ -130,6 +130,7 @@ AppAsset::register($this);
                                         <a href="<?= \yii\helpers\Url::to(['site/login']) ?>" class="dropdown-item">Sign in</a>
                                         <a href="<?= \yii\helpers\Url::to(['site/signup']) ?>" class="dropdown-item">Sign up</a>
                                     <?php } else { ?>
+                                        <a href="<?= \yii\helpers\Url::to(['site/painelClient']) ?>" class="dropdown-item">My Account</a>
                                         <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="dropdown-item">Log Out</a>
                                     <?php } ?>
                                 </div>

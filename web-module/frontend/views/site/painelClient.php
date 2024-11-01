@@ -1,16 +1,25 @@
 <div class="mt-3 mb-5">
-    <h1 class="text-center"> Painel do Cliente</h1>
+    <h1 class="text-center"> Client Painel</h1>
 </div>
 
 <div>
     <div class="">
-        <div class="row mt-3">
-            <div class="col-md-5">
-                <a href=""><h1>Dados Pessoais</h1></a>
-            </div>
-            <div class="col-md-5">
-                <a href=""><h1>Reparações</h1></a>
-            </div>
+        <div class="btn-group btn-group-lg m-3" role="group" aria-label="Large button group">
+            <button type="button" class="btn btn-outline-primary">Left</button>
+            <button type="button" class="btn btn-outline-primary">Middle</button>
+            <button type="button" class="btn btn-outline-primary">Right</button>
+        </div>
+        <br>
+        <div class="btn-group btn-group-lg m-3" role="group" aria-label="Default button group">
+            <button type="button" class="btn btn-outline-primary">Left</button>
+            <button type="button" class="btn btn-outline-primary">Middle</button>
+            <button type="button" class="btn btn-outline-primary">Right</button>
+        </div>
+        <br>
+        <div class="btn-group btn-group-lg m-3" role="group" aria-label="Small button group">
+            <button type="button" class="btn btn-outline-primary">Left</button>
+            <button type="button" class="btn btn-outline-primary">Middle</button>
+            <button type="button" class="btn btn-outline-primary">Right</button>
         </div>
     </div>
 </div>
