@@ -32,6 +32,17 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
+    const SCENARIO_MANAGER = 'manager';
+    const SCENARIO_STORE_OWNER = 'store_owner';
+    const SCENARIO_CLIENT = 'client';
+    const SCENARIO_REPAIRMAN = 'repairman';
+
+    public $name;
+    public $nif;
+    public $address;
+    public $contact;
+    public $value;
+
     /**
      * {@inheritdoc}
      */
@@ -58,7 +69,42 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_AWAITING_ACTIVATION],
             ['status', 'in', 'range' => [self::STATUS_AWAITING_ACTIVATION, self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            // Manager-specific rules
+            [['name'], 'required', 'on' => self::SCENARIO_MANAGER],
+
+            // Store owner-specific rules
+            [['name'], 'required', 'on' => self::SCENARIO_STORE_OWNER],
+
+            // Client-specific rules
+            [['name', 'nif', 'address', 'contact'], 'required', 'on' => self::SCENARIO_CLIENT],
+
+            // Repairman-specific rules
+            [['name', 'value'], 'required', 'on' => self::SCENARIO_REPAIRMAN],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_MANAGER] = ['username', 'email', 'manager_field'];
+        $scenarios[self::SCENARIO_STORE_OWNER] = ['username', 'email', 'store_owner_field'];
+        $scenarios[self::SCENARIO_CLIENT] = ['username', 'email', 'client_field'];
+        $scenarios[self::SCENARIO_REPAIRMAN] = ['username', 'email', 'repairman_field'];
+        return $scenarios;
+    }
+
+    public function setScenarioBasedOnRole()
+    {
+        $auth = Yii::$app->authManager;
+        if ($auth->checkAccess($this->id, 'manager')) {
+            $this->scenario = self::SCENARIO_MANAGER;
+        } elseif ($auth->checkAccess($this->id, 'store_owner')) {
+            $this->scenario = self::SCENARIO_STORE_OWNER;
+        } elseif ($auth->checkAccess($this->id, 'client')) {
+            $this->scenario = self::SCENARIO_CLIENT;
+        } elseif ($auth->checkAccess($this->id, 'repairman')) {
+            $this->scenario = self::SCENARIO_REPAIRMAN;
+        }
     }
 
     /**

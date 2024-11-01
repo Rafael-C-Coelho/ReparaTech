@@ -13,16 +13,16 @@
             <?php
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
-                    [
+                    Yii::$app->user->can("") ? [
                         'label' => 'Parts',
                         'icon' => 'toolbox',
                         'url' => ['part/index'],
-                    ],
+                    ] : [],
                     [
                         'label' => 'Settings',
                         'icon' => 'gear',
                         'items' => [
-                            ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],
+                            ['label' => 'Gii', 'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],
                             ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],
                         ]
                     ],

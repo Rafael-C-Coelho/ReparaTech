@@ -24,25 +24,26 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'roles' => ['?'],
+                        'actions' => ['login'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'error'],
                         'allow' => true,
-                        'matchCallback' => function ($rule, $action) {
-                            return $this->isAuthorizedUser();
-                        }
+                        'roles' => ['@'],
                     ],
                     [
-                        'allow' => false, // Bloqueia o acesso a qualquer ação não listada para outros usuários
-                    ],
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['storeOwner', 'manager', 'repairTechnician'],
+                    ]
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get'],
                 ],
             ],
         ];
@@ -56,6 +57,7 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => \yii\web\ErrorAction::class,
+                'layout' => 'blank',
             ],
         ];
     }
@@ -85,13 +87,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            if($this->isAuthorizedUser()) {
-                return $this->goBack();
-            } else {
-                Yii::$app->user->logout();
-                Yii::$app->session->setFlash('error', 'Você não tem permissão para acessar o sistema.');
-                return $this->redirect(['site/login']);
-            }
+            return $this->goHome();
         }
 
         $model->password = '';
@@ -111,12 +107,5 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    private function isAuthorizedUser()
-    {
-        return Yii::$app->user->can('repairTechnician') ||
-            Yii::$app->user->can('manager') ||
-            Yii::$app->user->can('storeOwner');
     }
 }
