@@ -73,13 +73,23 @@ class ProductController extends \yii\web\Controller
         }
 
         $cart = \Yii::$app->session->get('cart', []);
+        $found = false;
         if (sizeof($cart) > 0) {
-            foreach ($cart as $item) {
-                if ($item['product_id'] == $productId) {
-                    $item['quantity'] = (int)$item['quantity'] + (int)$quantity;
-                    \Yii::$app->session->set('cart', $cart);
-                    return $this->redirect(['product/details', 'id' => $productId]);
+            for ($i = 0; $i < sizeof($cart); $i++) {
+                if ($cart[$i]['product_id'] === $product->id) {
+                    $cart[$i]['quantity'] = (int)$cart[$i]['quantity'] + (int)$quantity;
+                    $found = true;
                 }
+            }
+            if (!$found) {
+                \Yii::$app->session->set('cart', array_merge(
+                    $cart, [
+                        'product_id' => $productId,
+                        'quantity' => $quantity,
+                    ]
+                ));
+            } else {
+                \Yii::$app->session->set('cart', $cart);
             }
         } else {
             \Yii::$app->session->set('cart', [
