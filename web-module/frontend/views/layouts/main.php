@@ -95,11 +95,12 @@ $categories = ProductCategory::find()->all();
                                             <a href="<?= \yii\helpers\Url::to(['site/login']) ?>" class="nav-link">Sign in</a>
                                             <a href="<?= \yii\helpers\Url::to(['site/signup']) ?>" class="nav-link">Sign up</a>
                                         <?php } else { ?>
+                                            <a href="<?= \yii\helpers\Url::to(['site/account']) ?>" class="nav-link">Account</a>
                                             <a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" class="nav-link">Log Out</a>
                                         <?php } ?>
                                     </div>
                                     </div>
-                                    <a href="<?= Yii::$app->user->isGuest ? \yii\helpers\Url::to(["site/login"]) : \yii\helpers\Url::to(["site/index"]) /* TODO: CHANGE THE URL */ ?>"
+                                    <a href="<?= Yii::$app->user->isGuest ? \yii\helpers\Url::to(["site/login"]) : \yii\helpers\Url::to(["product/favorites"]) ?>"
                                        class="nav-item nav-link">
                                         <i class="fas fa-heart text-primary"></i>
                                         <?php if (!Yii::$app->user->isGuest) { ?>

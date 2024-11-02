@@ -27,7 +27,7 @@ class ManagerController extends Controller
                     'class' => AccessControl::className(),
                     'rules' => [
                         [
-                            "actions" => ["index", "view", "create", "update", "delete"],
+                            "actions" => ["index", "view", "create", "update", "delete", "toggle-status"],
                             "allow" => true,
                             "roles" => ["storeOwner"],
                         ],
@@ -124,6 +124,18 @@ class ManagerController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionToggleStatus($id)
+    {
+        $model = $this->findModel($id);
+        if ((int)($model->status) !== 10) {
+            $model->status = User::STATUS_ACTIVE;
+        } else {
+            $model->status = User::STATUS_INACTIVE;
+        }
+        $model->save();
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     // Action to delete a user

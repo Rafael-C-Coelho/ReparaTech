@@ -10,13 +10,15 @@ use yii\widgets\ActiveForm;
 
 <div class="repair-technician-form">
 
-    <?php $form = ActiveForm::begin([
-        'enableClientValidation' => true,
-    ]); ?>
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'type' => 'email']) ?>
+
+    <?= $form->field($model, 'password')->passwordInput() ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
 
     <?= $form->field($model, 'value')->textInput(['type' => 'number', 'step' => '0.01']) ?>
 

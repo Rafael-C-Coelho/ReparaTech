@@ -30,7 +30,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'account'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -42,6 +42,11 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['account'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ]
                 ],
             ],
             'verbs' => [
@@ -237,5 +242,10 @@ class SiteController extends Controller
     public function actionView($file)
     {
         return $this->render($file);
+    }
+
+    public function actionAccount()
+    {
+        return $this->render('about');
     }
 }

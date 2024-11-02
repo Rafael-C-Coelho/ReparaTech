@@ -62,17 +62,9 @@ class RepairTechnicianController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => User::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
+            'query' => User::find()
+                ->innerJoin('auth_assignment', 'auth_assignment.user_id = user.id')
+                ->where(['auth_assignment.item_name' => 'repairTechnician']),
         ]);
 
         return $this->render('index', [
@@ -102,8 +94,16 @@ class RepairTechnicianController extends Controller
     {
         $model = new User();
 
+        $model->setScenarioBasedOnRole("repairTechnician");
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $model->setPassword($model->password);
+                $model->generateAuthKey();
+                $model->generateEmailVerificationToken();
+                $model->status = User::STATUS_ACTIVE;
+                $model->save();
+                $auth = \Yii::$app->authManager;
+                $auth->assign($auth->getRole('repairTechnician'), $model->id);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -126,7 +126,13 @@ class RepairTechnicianController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        $model->setScenarioBasedOnRole("repairTechnician");
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $model->setPassword($model->password);
+            $model->generateAuthKey();
+            $model->generateEmailVerificationToken();
+            $model->status = User::STATUS_ACTIVE;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

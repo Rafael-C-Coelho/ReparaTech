@@ -18,7 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
                     <div class="carousel-item active">
-                        <img class="w-100 h-100" src="<?= $model->image ? $model->image : 'https://placehold.co/400' ?>" alt="Image">
+                        <img class="w-100 h-100" src="<?= $model->image ? $model->image : 'https://placehold.co/400' ?>"
+                             alt="Image">
                     </div>
                 </div>
             </div>
@@ -29,30 +30,40 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h3><?= $model->name ?></h3>
                 <h3 class="font-weight-semi-bold mb-4"><?= number_format($model->price, 2) ?> €</h3>
                 <div class="d-flex align-items-center mb-4 pt-2">
-                    <form method="post" class="d-flex" action="<?= \yii\helpers\Url::to(['product/manage-cart']) ?>">
-                        <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
-                        <div class="input-group quantity mr-3" style="width: 130px;">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-primary btn-minus">
-                                    <i class="fa fa-minus"></i>
-                                </button>
+                    <div class="d-flex">
+                        <form method="post" class="d-flex"
+                              action="<?= \yii\helpers\Url::to(['product/manage-cart']) ?>">
+                            <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>"
+                                   value="<?= Yii::$app->request->csrfToken; ?>"/>
+                            <div class="input-group quantity mr-3" style="width: 130px;">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-primary btn-minus">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input name="quantity" type="text"
+                                       class="form-control bg-secondary border-0 text-center" value="1" min="0">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-primary btn-plus">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <input name="quantity" type="text" class="form-control bg-secondary border-0 text-center" value="1" min="0">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-primary btn-plus">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary px-3 mr-3" type="submit"><i class="fa fa-shopping-cart mr-1"></i> Add To
-                            Cart</button>
-                        <input type="hidden" name="productId" value="<?= $model->id ?>">
-                        <form method="post" action="<?= \yii\helpers\Url::to(['product/toggle-favorites']) ?>">
-                            <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
+                            <button class="btn btn-primary px-3 mr-3" type="submit"><i
+                                        class="fa fa-shopping-cart mr-1"></i> Add To
+                                Cart
+                            </button>
                             <input type="hidden" name="productId" value="<?= $model->id ?>">
-                            <button class="btn btn-primary px-3"><i class="fa fa-heart<?= $isFavorite ? '-broken' : '' ?>"></i></button>
                         </form>
-                    </form>
+                        <form method="post" action="<?= \yii\helpers\Url::to(['product/toggle-favorites']) ?>">
+                            <input type="hidden" name="returnUrl" value="<?= Yii::$app->request->url ?>" />
+                            <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>"
+                                   value="<?= Yii::$app->request->csrfToken; ?>"/>
+                            <input type="hidden" name="productId" value="<?= $model->id ?>">
+                            <button class="btn btn-primary px-3"><i
+                                        class="fa fa-heart<?= $isFavorite ? '-broken' : '' ?>"></i></button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,7 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <!-- Products Start -->
 <div class="container-fluid py-5">
-    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span>
+    </h2>
     <div class="row px-xl-5">
         <div class="col">
             <div class="owl-carousel related-carousel">

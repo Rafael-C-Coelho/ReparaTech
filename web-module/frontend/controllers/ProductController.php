@@ -2,12 +2,18 @@
 
 namespace frontend\controllers;
 
+use common\models\FavoriteProduct;
 use common\models\Product;
 use common\models\ProductCategory;
 use yii\data\Pagination;
 
 class ProductController extends \yii\web\Controller
 {
+    public function actionIndex()
+    {
+        return $this->redirect(['product/shop']);
+    }
+
     public function actionDetails($id)
     {
         $product = Product::findOne($id);
@@ -26,11 +32,6 @@ class ProductController extends \yii\web\Controller
         ]);
     }
 
-    public function actionFavorites()
-    {
-        return $this->render('favorites');
-    }
-
     public function actionToggleFavorites()
     {
         if (!\Yii::$app->request->isPost) {
@@ -42,6 +43,7 @@ class ProductController extends \yii\web\Controller
         }
 
         $productId = \Yii::$app->request->post('productId');
+        $returnUrl = \Yii::$app->request->post('returnUrl', ['product/details', 'id' => $productId]);
         $product = Product::findOne($productId);
         if (!$product) {
             \Yii::$app->session->setFlash('error', 'Product not found');
@@ -54,7 +56,7 @@ class ProductController extends \yii\web\Controller
             $user->addFavoriteProduct($product);
         }
 
-        return $this->redirect(['product/details', 'id' => $productId]);
+        return $this->redirect($returnUrl);
     }
 
     public function actionManageCart()
@@ -130,4 +132,30 @@ class ProductController extends \yii\web\Controller
         ]);
     }
 
+    public function actionFavorites()
+    {
+        $favorites = FavoriteProduct::find()->where(['user_id' => \Yii::$app->user->id])->all();
+        $products = [];
+        foreach ($favorites as $favorite) {
+            $products[] = Product::findOne($favorite->product_id);
+        }
+        return $this->render('favorites', [
+            'favorites' => $products,
+        ]);
+    }
+
+    public function actionCart()
+    {
+        $cart = \Yii::$app->session->get('cart', []);
+        $products = [];
+        foreach ($cart as $item) {
+            $products[] = [
+                'product' => Product::findOne($item['product_id']),
+                'quantity' => $item['quantity'],
+            ];
+        }
+        return $this->render('cart', [
+            'list' => $products,
+        ]);
+    }
 }

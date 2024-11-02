@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Yii::$app->authManager->checkAccess(Yii::$app->user->id, "updateManagers") || Yii::$app->authManager->getAssignment("manager", Yii::$app->user->id) ? Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) : '' ?>
+        <?= Yii::$app->authManager->checkAccess(Yii::$app->user->id, "updateManagers") && !Yii::$app->authManager->getAssignment("manager", Yii::$app->user->id) ? Html::a(Yii::t('app', $model->status !== '10' ? 'Enable' : 'Disable'), ['toggle-status', 'id' => $model->id], ['class' => 'btn btn-warning']) : '' ?>
         <?= Yii::$app->authManager->checkAccess(Yii::$app->user->id, "deleteManagers") && !Yii::$app->authManager->getAssignment("manager", Yii::$app->user->id) ? Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -31,11 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'username',
             'name',
             'email:email',
-            'status',
         ],
     ]) ?>
 

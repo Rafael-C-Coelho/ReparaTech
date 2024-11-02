@@ -13,7 +13,7 @@
             <?php
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => array_filter([
-                    Yii::$app->user->can("listRepairmem") ? [
+                    Yii::$app->user->can("listRepairmen") ? [
                         'label' => 'Repair Technicians',
                         'icon' => 'hard-hat',
                         'url' => ['repair-technician/index'],

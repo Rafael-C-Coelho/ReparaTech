@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\LinkPager;
 
-
+$this->title = Yii::t('app', 'Shop');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shop'), 'url' => ['index']];
 ?>
 <style>
@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shop'), 'url' => ['i
                 <?php foreach ($products as $product) { ?>
                     <div class="col-lg-4 col-md-6 col-sm-6 pb-1 d-flex">
                         <a href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>" class="w-100">
-                            <div class="card product-item bg-light mb-4">
+                            <div class="card product-item bg-light mb-4 h-75">
                                 <div class="product-img position-relative overflow-hidden">
                                     <img class="img-fluid" src="<?= $product->image ? $product->image : 'https://placehold.co/400' ?>" alt="">
                                 </div>

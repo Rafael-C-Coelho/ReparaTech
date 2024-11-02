@@ -36,7 +36,7 @@ class RbacController extends Controller
             'Invoices',
             'Repairs',
             'Budgets',
-            'Repairmem',
+            'Repairmen',
             'Sales',
             'Suppliers',
             'Products',
@@ -140,7 +140,7 @@ class RbacController extends Controller
         $auth->add($managerRole);
 
         $entities = ['Parts', 'Clients', 'Invoices', 'Repairs', 'Budgets',
-            'ProductCategories', 'Repairmem', 'Sales', 'Suppliers', 'Products'];
+            'ProductCategories', 'Repairmen', 'Sales', 'Suppliers', 'Products'];
 
         foreach ($entities as $entity) {
             $operations = ['create', 'update', 'delete', 'view', 'list'];
@@ -160,7 +160,7 @@ class RbacController extends Controller
 
         // Store owner has all permissions
         $entities = ['Parts', 'Clients', 'Managers', 'Invoices', 'Repairs',
-            'Budgets', 'Repairmem', 'Sales', 'Suppliers', 'Products', 'ProductCategories'];
+            'Budgets', 'Repairmen', 'Sales', 'Suppliers', 'Products', 'ProductCategories'];
 
         foreach ($entities as $entity) {
             $operations = ['create', 'update', 'delete', 'view', 'list'];

@@ -39,11 +39,7 @@ class User extends ActiveRecord implements IdentityInterface
     const SCENARIO_REPAIR_TECHNICIAN = 'repairTechnician';
 
     public $password;
-    public $name;
-    public $nif;
-    public $address;
-    public $contact;
-    public $value;
+
 
     /**
      * {@inheritdoc}
@@ -63,28 +59,28 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function attributes()
+    {
+        return array_merge(
+            parent::attributes(),
+            [
+                'name' => "Name"
+            ]
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
-        return array_merge(parent::rules(),[
-            ['status', 'default', 'value' => self::STATUS_AWAITING_ACTIVATION],
-            ['status', 'in', 'range' => [self::STATUS_AWAITING_ACTIVATION, self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
-            // Manager-specific rules
-            ['name', 'required'],
-            ['name', 'string', 'max' => 255],
-            [['password'], 'required', 'on' => self::SCENARIO_MANAGER],
-
-            // Store owner-specific rules
-            [['password'], 'required', 'on' => self::SCENARIO_STORE_OWNER],
-
-            // Client-specific rules
-            [['password', 'nif', 'address', 'contact'], 'required', 'on' => self::SCENARIO_CLIENT],
-
-            // Repairman-specific rules
-            [['password', 'value'], 'required', 'on' => self::SCENARIO_REPAIR_TECHNICIAN],
-        ]);
+        return [
+            [['username', 'email', 'password', 'name'], 'required'],
+            [['nif', 'address', 'contact'], 'required', 'on' => self::SCENARIO_CLIENT],
+            [['value'], 'required', 'on' => self::SCENARIO_REPAIR_TECHNICIAN],
+            [['username', 'email', 'name', 'nif', 'address', 'contact'], 'string', 'max' => 255],
+            [['email'], 'email'],
+        ];
     }
 
     public function scenarios()
