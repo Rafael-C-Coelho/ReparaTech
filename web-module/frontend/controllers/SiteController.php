@@ -124,6 +124,32 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    public function actionCart() {
+        return $this->render('cart');
+    }
+
+    public function actionCheckout() {
+        return $this->render('checkout');
+    }
+
+    public function actionShop() {
+        return $this->render('shop');
+    }
+
+    public function actionDetail() {
+        return $this->render('detail');
+    }
+
+    public function actionPainelClient(){
+        return $this->render('painelClient');
+    }
+
+    public function actionContact(){
+        return $this->render('contact', [
+            'model' => new ContactForm(),
+        ]);
+    }
+
     /**
      * Signs user up.
      *
