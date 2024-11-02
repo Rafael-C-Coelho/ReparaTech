@@ -126,18 +126,6 @@ class ManagerController extends Controller
         ]);
     }
 
-    public function actionToggleStatus($id)
-    {
-        $model = $this->findModel($id);
-        if ((int)($model->status) !== 10) {
-            $model->status = User::STATUS_ACTIVE;
-        } else {
-            $model->status = User::STATUS_INACTIVE;
-        }
-        $model->save();
-        return $this->redirect(['view', 'id' => $id]);
-    }
-
     // Action to delete a user
     public function actionDelete($id)
     {
