@@ -274,4 +274,18 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionInformation() {
+        return $this->render('information');
+    }
+
+    public function actionRepair(){
+        return $this->render('repair');
+    }
+
+    public function actionOrder() {
+        return $this->render('order');
+    }
+
+
 }
