@@ -58,16 +58,6 @@ class ClientController extends Controller
             'query' => User::find()
                 ->innerJoin('auth_assignment', 'auth_assignment.user_id = user.id')
                 ->where(['auth_assignment.item_name' => 'client']),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
         ]);
 
         return $this->render('index', [
@@ -97,12 +87,21 @@ class ClientController extends Controller
     {
         $model = new User();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        $model->setScenarioBasedOnRole("client");
+        if ($model->load(Yii::$app->request->post())) {
+            $model->setPassword($model->password);
+            $model->generateAuthKey();
+            $model->generateEmailVerificationToken();
+            $model->status = User::STATUS_ACTIVE;
+            $model->name = Yii::$app->request->post('User')['name'];
+            $model->save();
+
+            $auth = Yii::$app->authManager;
+            $auth->assign($auth->getRole('client'), $model->id);
+
+            Yii::$app->session->setFlash('success', 'Client created successfully.');
+
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -121,7 +120,9 @@ class ClientController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        $model->setScenarioBasedOnRole("client");
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Client updated successfully.');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -140,7 +141,7 @@ class ClientController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('success', 'User deleted successfully.');
         return $this->redirect(['index']);
     }
 

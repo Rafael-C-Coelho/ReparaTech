@@ -5,12 +5,11 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\User $model */
 
-$this->title = 'Update User: ' . $model->name;
+$this->title = 'Create User';
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="client-update">
+<div class="client-create">
 
     <?= $this->render('_form', [
         'model' => $model,
