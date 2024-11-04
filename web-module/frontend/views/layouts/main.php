@@ -51,6 +51,8 @@ $categories = ProductCategory::find()->all();
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<?= Yii::getAlias('@web') ?>/css/style.css" rel="stylesheet">
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body class="d-flex flex-column h-100">
 
@@ -108,7 +110,7 @@ $categories = ProductCategory::find()->all();
                                               style="padding-bottom: 2px;"><?= Yii::$app->user->identity->getFavoriteProductsCount() > 9 ? "9+" : Yii::$app->user->identity->getfavoriteProductsCount() ?></span>
                                         <?php } ?>
                                     </a>
-                                    <a href="<?= \yii\helpers\Url::to(["site/index"]) /* TODO: CHANGE THE URL */ ?>"
+                                <a href="<?= Yii::$app->user->isGuest ? \yii\helpers\Url::to(["site/login"]) : \yii\helpers\Url::to(["product/cart"]) ?>"
                                        class="nav-item nav-link">
                                         <i class="fas fa-shopping-cart text-primary"></i>
                                         <span class="badge text-secondary border border-secondary rounded-circle"
@@ -192,7 +194,6 @@ $categories = ProductCategory::find()->all();
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="<?= Yii::getAlias('@web') ?>/lib/easing/easing.min.js"></script>
     <script src="<?= Yii::getAlias('@web') ?>/lib/owlcarousel/owl.carousel.min.js"></script>
