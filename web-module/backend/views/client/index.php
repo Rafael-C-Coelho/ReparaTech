@@ -14,26 +14,20 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="client-index">
 
+    <p>
+        <?= Html::a(Yii::t('app', 'Create Client'), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'username',
-            //'auth_key',
-            //'password_hash',
-            //'password_reset_token',
             'email:email',
             'status',
             'name',
             'nif',
             'address',
             'contact',
-            //'value',
-            //'created_at',
-            //'updated_at',
-            //'verification_token',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, User $model, $key, $index, $column) {

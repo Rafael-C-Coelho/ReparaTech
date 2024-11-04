@@ -27,7 +27,7 @@ class ClientController extends Controller
                     'class' => AccessControl::className(),
                     'rules' => [
                         [
-                            "actions" => ["index", "view", "update", "delete", "toggle-status"],
+                            "actions" => ["index", "view", "create", "update", "delete", "toggle-status"],
                             "allow" => true,
                             "roles" => ["storeOwner", "manager"],
                         ],
