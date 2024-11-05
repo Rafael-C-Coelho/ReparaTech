@@ -14,6 +14,7 @@ $this->title = 'Cart';
                 <tr>
                     <th>Product name</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Image</th>
                     <th>Remove</th>
                 </tr>
@@ -21,14 +22,32 @@ $this->title = 'Cart';
                 <tbody class="align-middle">
                 <?php foreach ($list as $item) { ?>
                     <?php
-                     var_dump($item);
+                        $product = $item["product"];
+                        $quantity = $item["quantity"];
                     ?>
                     <tr>
                         <td class="align-middle"><?= $product->name ?></td>
                         <td class="align-middle"><?= number_format($product->price, 2)?> €</td>
+                        <td class="align-middle">
+                            <div data-product="<?= $product->id ?>" class="quantity-div input-group quantity mx-auto" style="width: 100px;">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-sm btn-primary btn-minus">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="quantity-input form-control form-control-sm bg-secondary border-0 text-center"
+                                       value="<?= $quantity ?>">
+                                <div class="input-group-btn">
+                                    <button onclick="manageCart('<?= $product->id ?>', 0)" class="btn btn-sm btn-primary btn-plus">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </td>
                         <td class="align-middle"><img src="<?= $product->image ?>" alt="" style="width: 50px;"></td>
                         <td class="align-middle">
-                            <button class="btn btn-sm btn-danger" type="submit"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="manageCart('<?= $product->id ?>', 0)"><i class="fa fa-times"></i></button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -68,3 +87,38 @@ $this->title = 'Cart';
         </div>
     </div>
 </div>
+
+
+<script>
+    function manageCart(productId, quantity) {
+        event.preventDefault();
+        $.ajax({
+            url: '<?= \yii\helpers\Url::to(["product/manage-cart"])?>',
+            type: 'POST',
+            data: {
+                productId: productId,
+                quantity: quantity
+            },
+            success: function(response) {
+                console.log("Cart updated successfully:", response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error updating cart:", error);
+                // Handle error response
+            },
+        });
+        window.location.reload();
+    }
+
+    $(document).ready(function() {
+        $(document).on('click', '.quantity-div', function() {
+            // Get the productId from the data-product attribute
+            let productId = $(this).data('product');
+            // Get the quantity from the inner .quantity-input field
+            let quantity = $(this).find('.quantity-input').val();
+            console.log("Product ID:", productId, "Quantity:", quantity);
+            // Send the AJAX request
+            manageCart(productId, quantity);
+        });
+    });
+</script>

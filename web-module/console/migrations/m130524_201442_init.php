@@ -26,7 +26,7 @@ class m130524_201442_init extends Migration
             'name' => $this->string(),
 
             // Client
-            'nif' => $this->integer(),
+            'nif' => $this->integer()->unsigned(),
             'address' => $this->string(),
             'contact' => $this->string(),
 

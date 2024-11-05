@@ -61,7 +61,7 @@ class ProductController extends \yii\web\Controller
 
     public function actionManageCart()
     {
-        if (!\Yii::$app->request->isPost) {
+        if (!\Yii::$app->request->isPost && !\Yii::$app->request->isAjax) {
             throw new \yii\web\BadRequestHttpException('Only POST requests are allowed');
         }
 
@@ -77,16 +77,20 @@ class ProductController extends \yii\web\Controller
         if (sizeof($cart) > 0) {
             for ($i = 0; $i < sizeof($cart); $i++) {
                 if ($cart[$i]['product_id'] === $product->id) {
-                    $cart[$i]['quantity'] = (int)$cart[$i]['quantity'] + (int)$quantity;
+                    if ($quantity === 0)
+                        unset($cart[$i]);
+                    else
+                        $cart[$i]['quantity'] = (int)$cart[$i]['quantity'] + (int)$quantity;
+
                     $found = true;
                 }
             }
             if (!$found) {
                 \Yii::$app->session->set('cart', array_merge(
-                    $cart, [
+                    $cart, [[
                         'product_id' => $productId,
                         'quantity' => $quantity,
-                    ]
+                    ]]
                 ));
             } else {
                 \Yii::$app->session->set('cart', $cart);
@@ -100,6 +104,9 @@ class ProductController extends \yii\web\Controller
             ]);
         }
 
+        if (\Yii::$app->request->isAjax) {
+            return $this->renderContent("Ok");
+        }
         return $this->redirect(['product/details', 'id' => $productId]);
     }
 

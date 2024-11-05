@@ -33,6 +33,11 @@
                         'icon' => 'user-tie',
                         'url' => ['manager/view', 'id' => Yii::$app->user->id],
                     ] : [],
+                    Yii::$app->user->can("ListClients") ? [
+                        'label' => 'Clients',
+                        'icon' => 'users',
+                        'url' => ['client/index'],
+                    ] : [],
                     Yii::$app->user->can("listParts") ? [
                         'label' => 'Parts',
                         'icon' => 'toolbox',
@@ -53,6 +58,7 @@
                         'icon' => 'box',
                         'url' => ['product/index'],
                     ] : [],
+
                     /* [
                         'label' => 'Settings',
                         'icon' => 'gear',

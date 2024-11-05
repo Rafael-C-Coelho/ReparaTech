@@ -265,11 +265,6 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionView($file)
-    {
-        return $this->render($file);
-    }
-
     public function actionAccount()
     {
         return $this->render('about');

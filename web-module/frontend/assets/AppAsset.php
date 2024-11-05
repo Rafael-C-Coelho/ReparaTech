@@ -14,7 +14,6 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/style.css',
-        'css/bootstrap.min.css',
         'css/bootstrap-grid.min.css',
         'css/bootstrap-reboot.min.css',
     ];
