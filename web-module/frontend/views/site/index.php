@@ -129,11 +129,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-1.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-volume-mute' style='font-size:68px; color:grey;'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Audio Problems</h6>
+                        <h6><strong>Audio Problems</strong></h6>
                     </div>
                 </div>
             </a>
@@ -141,11 +141,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-1.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/" alt="">
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Broken or Cracked Screen</h6>
+                        <h6><strong>Broken or Cracked Screen</strong></h6>
                     </div>
                 </div>
             </a>
@@ -153,11 +153,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-2.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-share-alt-square' style='font-size:60px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Connectivity Issues</h6>
+                        <h6><strong>Connectivity Issues</strong></h6>
                     </div>
                 </div>
             </a>
@@ -165,11 +165,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-3.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-wine-bottle' style='font-size:60px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Liquid Damage</h6>
+                        <h6><strong>Liquid Damage</strong></h6>
                     </div>
                 </div>
             </a>
@@ -177,11 +177,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-4.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-camera' style='font-size:68px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Software Problems</h6>
+                        <h6><strong>Camera Issues</strong></h6>
                     </div>
                 </div>
             </a>
@@ -189,11 +189,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-4.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='far fa-hdd' style='font-size:48px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Storage Problems</h6>
+                        <h6><strong>Storage Problems</strong></h6>
                     </div>
                 </div>
             </a>
@@ -201,11 +201,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-3.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-power-off' style='font-size:60px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Damaged Volume or Power Buttons</h6>
+                        <h6><strong>Damaged Buttons</strong></h6>
                     </div>
                 </div>
             </a>
@@ -213,11 +213,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-2.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-battery-quarter' style='font-size:60px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Dead or Problematic Battery</h6>
+                        <h6><strong>Dead or Problematic Battery</strong></h6>
                     </div>
                 </div>
             </a>
@@ -229,7 +229,7 @@ $this->title = 'Repara Tech';
                         <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>img/cat-1.jpg" alt="">
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Gateway</h6>
+                        <h6><strong>Gateway</strong></h6>
                     </div>
                 </div>
             </a>
@@ -237,11 +237,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-2.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-upload' style='font-size:60px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Data Recovery and Backup</h6>
+                        <h6><strong>Data Recovery | Backup</strong></h6>
                     </div>
                 </div>
             </a>
@@ -249,11 +249,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-1.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-bug' style='font-size:60px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Format the Operating System</h6>
+                        <h6><strong>Software Problems</strong></h6>
                     </div>
                 </div>
             </a>
@@ -261,11 +261,11 @@ $this->title = 'Repara Tech';
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/cat-4.jpg" alt="">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-wrench' style='font-size:60px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6>Internal Hardware Cleaning and Maintenance</h6>
+                        <h6><strong>Internal Hardware Cleaning | Maintenance</strong></h6>
                     </div>
                 </div>
             </a>
