@@ -22,24 +22,24 @@ class m241104_232303_create_repairs_table extends Migration
             'id' => $this->primaryKey(),
             'device' => "ENUM('Computer', 'Phone', 'Tablet', 'Wearable')",
             'progress' => "ENUM('Created','Pending Acceptance','Denied','In Progress','Completed')",
-            'repair_man_id' => $this->integer()->notNull(),
+            'repairman_id' => $this->integer()->notNull(),
             'client_id' => $this->integer()->notNull(),
             'budget_id' => $this->integer()->notNull(),
             'invoice_id'=> $this->integer()->notNull()
         ]);
 
-        // creates index for column `repair_man_id`
+        // creates index for column `repairman_id`
         $this->createIndex(
-            '{{%idx-repairs-repair_man_id}}',
+            '{{%idx-repairs-repairman_id}}',
             '{{%repairs}}',
-            'repair_man_id'
+            'repairman_id'
         );
 
         // add foreign key for table `{{%repairman}}`
         $this->addForeignKey(
-            '{{%fk-repairs-repair_man_id}}',
+            '{{%fk-repairs-repairman_id}}',
             '{{%repairs}}',
-            'repair_man_id',
+            'repairman_id',
             '{{%user}}',
             'id',
             'CASCADE'
@@ -104,13 +104,13 @@ class m241104_232303_create_repairs_table extends Migration
     {
         // drops foreign key for table `{{%repairman}}`
         $this->dropForeignKey(
-            '{{%fk-repairs-repair_man_id}}',
+            '{{%fk-repairs-repairman_id}}',
             '{{%repairs}}'
         );
 
-        // drops index for column `repair_man_id`
+        // drops index for column `repairman_id`
         $this->dropIndex(
-            '{{%idx-repairs-repair_man_id}}',
+            '{{%idx-repairs-repairman_id}}',
             '{{%repairs}}'
         );
 

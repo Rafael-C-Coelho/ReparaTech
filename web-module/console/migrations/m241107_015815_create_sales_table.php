@@ -34,7 +34,7 @@ class m241107_015815_create_sales_table extends Migration
             '{{%fk-sales-client_id}}',
             '{{%sales}}',
             'client_id',
-            '{{%clients}}',
+            '{{%user}}',
             'id',
             'CASCADE'
         );

@@ -9,7 +9,7 @@ use yii\db\Migration;
  * - `{{%budgets}}`
  * - `{{%parts}}`
  */
-class m241106_161858_create_budgets_has_parts_table extends Migration
+class m241107_212615_create_budgets_has_parts_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -20,6 +20,7 @@ class m241106_161858_create_budgets_has_parts_table extends Migration
             'id' => $this->primaryKey(),
             'budget_id' => $this->integer()->notNull(),
             'part_id' => $this->integer()->notNull(),
+            'quantity' => $this->integer(),
         ]);
 
         // creates index for column `budget_id`
