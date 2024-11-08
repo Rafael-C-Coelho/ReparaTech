@@ -20,7 +20,7 @@ class m241107_212615_create_budgets_has_parts_table extends Migration
             'id' => $this->primaryKey(),
             'budget_id' => $this->integer()->notNull(),
             'part_id' => $this->integer()->notNull(),
-            'quantity' => $this->integer(),
+            'quantity' => $this->integer()->notNull(),
         ]);
 
         // creates index for column `budget_id`

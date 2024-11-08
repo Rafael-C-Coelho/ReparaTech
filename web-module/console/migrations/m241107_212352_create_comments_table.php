@@ -20,9 +20,9 @@ class m241107_212352_create_comments_table extends Migration
             'id' => $this->primaryKey(),
             'sender_id' => $this->integer()->notNull(),
             'recipient_id' => $this->integer()->notNull(),
-            'value' => $this->decimal(8,2),
-            'date' => $this->date(),
-            'time' => $this->time(),
+            'value' => $this->decimal(8,2)->notNull(),
+            'date' => $this->date()->notNull(),
+            'time' => $this->time()->notNull(),
         ]);
 
         // creates index for column `sender_id`

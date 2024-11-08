@@ -14,9 +14,9 @@ class m241104_225750_create_budgets_table extends Migration
     {
         $this->createTable('{{%budgets}}', [
             'id' => $this->primaryKey(),
-            'value' => $this->DECIMAL(8,2),
-            'date' => $this->DATE(),
-            'time' => $this->TIME(),
+            'value' => $this->DECIMAL(8,2)->notNull(),
+            'date' => $this->DATE()->notNull(),
+            'time' => $this->TIME()->notNull(),
         ]);
     }
 

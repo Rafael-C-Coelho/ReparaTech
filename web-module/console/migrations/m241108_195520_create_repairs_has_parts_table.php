@@ -9,7 +9,7 @@ use yii\db\Migration;
  * - `{{%repairs}}`
  * - `{{%parts}}`
  */
-class m241106_161719_create_repairs_has_parts_table extends Migration
+class m241108_195520_create_repairs_has_parts_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -20,6 +20,7 @@ class m241106_161719_create_repairs_has_parts_table extends Migration
             'id' => $this->primaryKey(),
             'repair_id' => $this->integer()->notNull(),
             'part_id' => $this->integer()->notNull(),
+            'quantity' => $this->integer()->notNull(),
         ]);
 
         // creates index for column `repair_id`

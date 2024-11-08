@@ -14,9 +14,9 @@ class m241104_230401_create_invoices_table extends Migration
     {
         $this->createTable('{{%invoices}}', [
             'id' => $this->primaryKey(),
-            'date' => $this->DATE(),
-            'time' => $this->TIME(),
-            'total' => $this->DECIMAL(8,2),
+            'date' => $this->DATE()->notNull(),
+            'time' => $this->TIME()->notNull(),
+            'total' => $this->DECIMAL(8,2)->notNull(),
         ]);
     }
 

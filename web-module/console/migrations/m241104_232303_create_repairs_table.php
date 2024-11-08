@@ -20,8 +20,8 @@ class m241104_232303_create_repairs_table extends Migration
     {
         $this->createTable('{{%repairs}}', [
             'id' => $this->primaryKey(),
-            'device' => "ENUM('Computer', 'Phone', 'Tablet', 'Wearable')",
-            'progress' => "ENUM('Created','Pending Acceptance','Denied','In Progress','Completed')",
+            'device' => "ENUM('Computer', 'Phone', 'Tablet', 'Wearable') NOT NULL",
+            'progress' => "ENUM('Created','Pending Acceptance','Denied','In Progress','Completed') NOT NULL",
             'repairman_id' => $this->integer()->notNull(),
             'client_id' => $this->integer()->notNull(),
             'budget_id' => $this->integer()->notNull(),

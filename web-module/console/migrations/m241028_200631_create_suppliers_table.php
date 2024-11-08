@@ -20,7 +20,7 @@ class m241028_200631_create_suppliers_table extends Migration
 
         $this->createTable('{{%suppliers}}', [
             'id' => $this->primaryKey(),
-            'name' => $this->text(),
+            'name' => $this->text()->notNull(),
             'contact' => $this->text(),
         ], $tableOptions);
     }

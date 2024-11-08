@@ -9,7 +9,7 @@ use yii\db\Migration;
  * - `{{%sales}}`
  * - `{{%products}}`
  */
-class m241107_020742_create_sales_has_products_table extends Migration
+class m241108_195102_create_sales_has_products_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -20,7 +20,8 @@ class m241107_020742_create_sales_has_products_table extends Migration
             'id' => $this->primaryKey(),
             'sale_id' => $this->integer()->notNull(),
             'product_id' => $this->integer()->notNull(),
-            'quantity' => $this->integer(100),
+            'quantity' => $this->integer()->notNull(),
+            'total_price' => $this->decimal(8,2)->notNull(),
         ]);
 
         // creates index for column `sale_id`
