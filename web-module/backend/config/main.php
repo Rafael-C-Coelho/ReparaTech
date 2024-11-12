@@ -14,7 +14,6 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -40,11 +39,15 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/product',
+                    'pluralize' => true
+                ],
             ],
         ],
         'view' => [
@@ -59,6 +62,11 @@ return [
             'bundles' => [
                 'hail812\adminlte3\AdminLteAsset',
             ],
+        ],
+    ],
+    'modules' => [
+        'api' => [
+            'class' => 'backend\modules\api\ModuleAPI',
         ],
     ],
     'layout' => '@backend/views/layouts/main.php',

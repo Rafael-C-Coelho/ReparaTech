@@ -2,6 +2,7 @@
 
 namespace console\controllers;
 
+use common\models\User;
 use yii;
 use yii\console\Controller;
 
@@ -23,7 +24,51 @@ class RbacController extends Controller
         $this->initManager($auth);
         $this->initStoreOwner($auth);
 
+        $this->initUsersWithRoles($auth);
+
         echo "RBAC configuration completed.\n";
+    }
+
+    private function initUsersWithRoles()
+    {
+        $auth = Yii::$app->authManager;
+        $user = new User();
+        $user->username = 'admin';
+        $user->email = 'admin@localhost.test';
+        $user->setPassword('admin');
+        $user->generateAuthKey();
+        $user->status = User::STATUS_ACTIVE;
+        $auth->assign($auth->getRole('storeOwner'), $user->id);
+        $user->save();
+
+        $user = new User();
+        $user->username = 'manager';
+        $user->email = 'manager@localhost.test';
+        $user->setPassword('manager');
+        $user->generateAuthKey();
+        $user->status = User::STATUS_ACTIVE;
+        $auth->assign($auth->getRole('manager'), $user->id);
+        $user->save();
+
+        $user = new User();
+        $user->username = 'repairman';
+        $user->email = 'repairman@localhost.test';
+        $user->setPassword('repairman');
+        $user->generateAuthKey();
+        $user->status = User::STATUS_ACTIVE;
+        $auth->assign($auth->getRole('repairTechnician'), $user->id);
+        $user->save();
+
+        $user = new User();
+        $user->username = 'client';
+        $user->email = 'client@localhost.test';
+        $user->setPassword('client');
+        $user->generateAuthKey();
+        $user->status = User::STATUS_ACTIVE;
+        $auth->assign($auth->getRole('client'), $user->id);
+        $user->save();
+
+        echo "Users created with roles.\n";
     }
 
     private function initEntityPermissions($auth)

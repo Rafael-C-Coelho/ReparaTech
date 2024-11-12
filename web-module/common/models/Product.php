@@ -61,4 +61,9 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Supplier::class, ['id' => 'supplier_id']);
     }
+
+    public function getCategory()
+    {
+        return $this->hasOne(ProductCategory::class, ['id' => 'category_id']);
+    }
 }
