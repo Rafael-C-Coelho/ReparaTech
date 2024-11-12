@@ -29,42 +29,69 @@ class RbacController extends Controller
         echo "RBAC configuration completed.\n";
     }
 
-    private function initUsersWithRoles()
+    private function initUsersWithRoles($auth)
     {
-        $auth = Yii::$app->authManager;
         $user = new User();
         $user->username = 'admin';
         $user->email = 'admin@localhost.test';
+        $user->name = 'Admin';
         $user->setPassword('admin');
+        $user->password = 'admin';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
+        $user->save();
+        echo "Admin user created with ID: $user->id\n";
         $auth->assign($auth->getRole('storeOwner'), $user->id);
         $user->save();
 
         $user = new User();
         $user->username = 'manager';
         $user->email = 'manager@localhost.test';
+        $user->name = 'Manager';
         $user->setPassword('manager');
+        $user->password = 'manager';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
+        $user->save();
+        if ($user->errors) {
+            echo json_encode($user->errors);
+            return;
+        }
+        echo "Manager user created with ID: $user->id\n";
         $auth->assign($auth->getRole('manager'), $user->id);
         $user->save();
 
         $user = new User();
         $user->username = 'repairman';
         $user->email = 'repairman@localhost.test';
+        $user->name = 'Repairman';
         $user->setPassword('repairman');
+        $user->password = 'repairman';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
+        $user->save();
+        if ($user->errors) {
+            echo json_encode($user->errors);
+            return;
+        }
+        echo "RepairTechnician user created with ID: $user->id\n";
         $auth->assign($auth->getRole('repairTechnician'), $user->id);
         $user->save();
 
         $user = new User();
         $user->username = 'client';
         $user->email = 'client@localhost.test';
+        $user->name = 'Client';
         $user->setPassword('client');
+        $user->password = 'client';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
+        $user->save();
+        if ($user->errors) {
+            echo json_encode($user->errors);
+            return;
+        }
+        echo "Client user created with ID: $user->id\n";
         $auth->assign($auth->getRole('client'), $user->id);
         $user->save();
 
@@ -75,18 +102,22 @@ class RbacController extends Controller
     {
         // Define all entities that need permissions
         $entities = [
-            'Parts',
-            'Clients',
-            'Managers',
-            'Invoices',
-            'Repairs',
             'Budgets',
-            'Repairmen',
-            'Sales',
-            'Suppliers',
-            'Products',
+            'BudgetsParts',
+            'Clients',
+            'Comments',
+            'FavoriteProducts',
+            'Invoices',
+            'Managers',
+            'Parts',
             'ProductCategories',
-            'ProductsFavorites'
+            'Products',
+            'Repairs',
+            'RepairParts',
+            'RepairTechnician',
+            'Sales',
+            'SaleProducts',
+            'Suppliers',
         ];
 
         // Define standard operations
@@ -153,10 +184,10 @@ class RbacController extends Controller
         $auth->addChild($clientRole, $auth->getPermission('viewProductCategories'));
 
         // Products Favorites permissions
-        $auth->addChild($clientRole, $auth->getPermission('listProductsFavorites'));
-        $auth->addChild($clientRole, $auth->getPermission('viewProductsFavorites'));
-        $auth->addChild($clientRole, $auth->getPermission('createProductsFavorites'));
-        $auth->addChild($clientRole, $auth->getPermission('deleteProductsFavorites'));
+        $auth->addChild($clientRole, $auth->getPermission('listFavoriteProducts'));
+        $auth->addChild($clientRole, $auth->getPermission('viewFavoriteProducts'));
+        $auth->addChild($clientRole, $auth->getPermission('createFavoriteProducts'));
+        $auth->addChild($clientRole, $auth->getPermission('deleteFavoriteProducts'));
 
         // Products permissions
         $auth->addChild($clientRole, $auth->getPermission('listSales'));
@@ -185,7 +216,7 @@ class RbacController extends Controller
         $auth->add($managerRole);
 
         $entities = ['Parts', 'Clients', 'Invoices', 'Repairs', 'Budgets',
-            'ProductCategories', 'Repairmen', 'Sales', 'Suppliers', 'Products'];
+            'ProductCategories', 'RepairTechnician', 'Sales', 'Suppliers', 'Products'];
 
         foreach ($entities as $entity) {
             $operations = ['create', 'update', 'delete', 'view', 'list'];
@@ -205,7 +236,7 @@ class RbacController extends Controller
 
         // Store owner has all permissions
         $entities = ['Parts', 'Clients', 'Managers', 'Invoices', 'Repairs',
-            'Budgets', 'Repairmen', 'Sales', 'Suppliers', 'Products', 'ProductCategories'];
+            'Budgets', 'RepairTechnician', 'Sales', 'Suppliers', 'Products', 'ProductCategories'];
 
         foreach ($entities as $entity) {
             $operations = ['create', 'update', 'delete', 'view', 'list'];
