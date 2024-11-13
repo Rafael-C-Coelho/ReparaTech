@@ -1,14 +1,25 @@
 <?php
 
+use common\models\Budget;
+use yii\grid\ActionColumn;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var common\models\Repair $model */
 
-$this->title = $model->id;
+$this->title = "Repair #" . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Repairs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$dataProviderBudgets = new yii\data\ActiveDataProvider([
+    'query' => $model->getBudgets(),
+]);
+$dataProviderInvoices = new yii\data\ActiveDataProvider([
+    'query' => $model->getInvoices(),
+]);
+
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="repair-view">
@@ -31,9 +42,28 @@ $this->params['breadcrumbs'][] = $this->title;
             'progress',
             'repairman_id',
             'client_id',
-            'budget_id',
-            'invoice_id',
         ],
     ]) ?>
+
+    <div class="d-flex my-2 justify-content-between align-items-center">
+        <h6>Related budgets</h6>
+        <?= Html::a('Create Budget', ['budget/create'], ['class' => 'btn btn-success']) ?>
+    </div>
+    <?= \yii\grid\GridView::widget([
+        'dataProvider' => $dataProviderBudgets,
+        'columns' => [
+            'id',
+            'value',
+            'date:date',
+            'time:time',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Budget $budget, $key, $index, $column) {
+                    return Url::toRoute(["budget/" . $action, 'id' => $budget->id]);
+                }
+            ],
+            // Additional columns as needed
+        ],
+    ]); ?>
 
 </div>

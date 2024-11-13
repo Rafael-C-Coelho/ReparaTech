@@ -2,8 +2,8 @@
 
 namespace common\models;
 
-use app\models\Repairs;
-use app\models\Sales;
+use common\models\Repairs;
+use common\models\Sales;
 
 /**
  * This is the model class for table "{{%invoices}}".

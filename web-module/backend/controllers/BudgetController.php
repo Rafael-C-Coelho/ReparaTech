@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use common\models\Budget;
+use common\models\Repair;
+use common\models\User;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -50,7 +52,7 @@ class BudgetController extends Controller
                             "allow" => true,
                             "actions" => ["index", "view", "create", "update", "delete"],
                             "matchCallback" => function ($rule, $action) {
-                                return $action->controller->findModel(\Yii::$app->request->get('id'))->user_id === \Yii::$app->user->id;
+                                return $action->controller->findModel(\Yii::$app->request->get('id'))->repairman_id === \Yii::$app->user->id;
                             },
                         ],
                         [
@@ -124,15 +126,21 @@ class BudgetController extends Controller
         $model = new Budget();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            $model->load($this->request->post());
+            $model->date = date('Y-m-d');
+            $model->time = date('H:i:s');
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
+            dd($model->errors);
         } else {
             $model->loadDefaultValues();
         }
 
         return $this->render('create', [
             'model' => $model,
+            'repairs' => Repair::find()->all(),
+            'repairTechnicians' => User::getRepairTechnicians(),
         ]);
     }
 
@@ -153,6 +161,8 @@ class BudgetController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'repairs' => Repair::getRepairs(),
+            'repairTechnicians' => User::getRepairTechnicians(),
         ]);
     }
 

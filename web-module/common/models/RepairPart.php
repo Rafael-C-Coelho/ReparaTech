@@ -2,8 +2,8 @@
 
 namespace common\models;
 
-use app\models\Parts;
-use app\models\Repairs;
+use common\models\Parts;
+use common\models\Repairs;
 
 /**
  * This is the model class for table "{{%repairs_has_parts}}".

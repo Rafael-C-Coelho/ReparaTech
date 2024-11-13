@@ -2,8 +2,8 @@
 
 namespace common\models;
 
-use app\models\BudgetsHasParts;
-use app\models\Repairs;
+use common\models\BudgetsHasParts;
+use common\models\Repairs;
 
 /**
  * This is the model class for table "{{%budgets}}".
@@ -12,6 +12,8 @@ use app\models\Repairs;
  * @property float $value
  * @property string $date
  * @property string $time
+ * @property int $repair_id
+ * @property int $repairman_id
  *
  * @property BudgetsHasParts[] $budgetsHasParts
  * @property Repair[] $repairs
@@ -32,8 +34,8 @@ class Budget extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['value', 'date', 'time'], 'required'],
-            [['value'], 'number'],
+            [['value', 'date', 'time', 'repair_id', 'repairman_id'], 'required'],
+            [['value', 'repair_id', 'repairman_id'], 'number'],
             [['date', 'time'], 'safe'],
         ];
     }
@@ -48,6 +50,7 @@ class Budget extends \yii\db\ActiveRecord
             'value' => 'Value',
             'date' => 'Date',
             'time' => 'Time',
+            'repair_id' => 'Repair ID',
         ];
     }
 
@@ -58,7 +61,7 @@ class Budget extends \yii\db\ActiveRecord
      */
     public function getBudgetsHasParts()
     {
-        return $this->hasMany(BudgetsHasParts::class, ['budget_id' => 'id']);
+        return $this->hasMany(BudgetPart::class, ['budget_id' => 'id']);
     }
 
     /**
@@ -68,6 +71,17 @@ class Budget extends \yii\db\ActiveRecord
      */
     public function getRepairs()
     {
-        return $this->hasMany(Repairs::class, ['budget_id' => 'id']);
+        return $this->hasMany(Repair::class, ['budget_id' => 'id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        $repair = Repair::find()->where(['id' => $this->repair_id])->one();
+        $this->client_id = $repair->client_id;
+        if ($repair->progress !== Repair::STATUS_PENDING_ACCEPTANCE) {
+            $repair->progress = Repair::STATUS_PENDING_ACCEPTANCE;
+            $repair->save();
+        }
+        return parent::beforeSave($insert);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace common\models;
 
-use app\models\Budgets;
-use app\models\Parts;
+use common\models\Budgets;
+use common\models\Parts;
 
 /**
  * This is the model class for table "{{%budgets_has_parts}}".

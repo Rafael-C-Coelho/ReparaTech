@@ -21,15 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'device',
             'progress',
             'repairman_id',
             'client_id',
-            //'budget_id',
-            //'invoice_id',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Repair $model, $key, $index, $column) {

@@ -146,6 +146,8 @@ class RepairController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'clients' => User::getClients(),
+            'repairTechnicians' => User::getRepairTechnicians()
         ]);
     }
 

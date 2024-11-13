@@ -2,9 +2,9 @@
 
 namespace common\models;
 
-use app\models\Invoices;
-use app\models\SalesHasProducts;
-use app\models\User;
+use common\models\Invoices;
+use common\models\SalesHasProducts;
+use common\models\User;
 
 /**
  * This is the model class for table "{{%sales}}".

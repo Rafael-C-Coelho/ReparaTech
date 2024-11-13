@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use app\models\Repairs;
+use common\models\Repairs;
 
 /**
  * This is the model class for table "{{%comments}}".

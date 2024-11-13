@@ -2,8 +2,8 @@
 
 namespace common\models;
 
-use app\models\Products;
-use app\models\Sales;
+use common\models\Products;
+use common\models\Sales;
 
 /**
  * This is the model class for table "{{%sales_has_products}}".
