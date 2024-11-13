@@ -12,6 +12,7 @@ use common\models\Repairs;
  * @property float $value
  * @property string $date
  * @property string $time
+ * @property string $status
  * @property int $repair_id
  * @property int $repairman_id
  *
@@ -20,6 +21,12 @@ use common\models\Repairs;
  */
 class Budget extends \yii\db\ActiveRecord
 {
+    const STATUS_PENDING = 'Pending';
+    const STATUS_APPROVED = 'Approved';
+    const STATUS_REJECTED = 'Rejected';
+
+    public $description;
+
     /**
      * {@inheritdoc}
      */
@@ -34,8 +41,9 @@ class Budget extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['value', 'date', 'time', 'repair_id', 'repairman_id'], 'required'],
+            [['value', 'date', 'time', 'repair_id', 'repairman_id', 'status'], 'required'],
             [['value', 'repair_id', 'repairman_id'], 'number'],
+            [['status'], 'string'],
             [['date', 'time'], 'safe'],
         ];
     }
@@ -78,10 +86,25 @@ class Budget extends \yii\db\ActiveRecord
     {
         $repair = Repair::find()->where(['id' => $this->repair_id])->one();
         $this->client_id = $repair->client_id;
-        if ($repair->progress !== Repair::STATUS_PENDING_ACCEPTANCE) {
+        return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        $repair = Repair::find()->where(['id' => $this->repair_id])->one();
+        $this->client_id = $repair->client_id;
+        if ($this->status === self::STATUS_PENDING) {
             $repair->progress = Repair::STATUS_PENDING_ACCEPTANCE;
             $repair->save();
         }
-        return parent::beforeSave($insert);
+        if ($this->status === self::STATUS_APPROVED) {
+            $repair->progress = Repair::STATUS_IN_PROGRESS;
+            $repair->save();
+        }
+        if ($this->status === self::STATUS_REJECTED) {
+            $repair->progress = Repair::STATUS_DENIED;
+            $repair->save();
+        }
+        parent::afterSave($insert, $changedAttributes);
     }
 }

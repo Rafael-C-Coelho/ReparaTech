@@ -182,6 +182,8 @@ class RbacController extends Controller
         $auth->addChild($repairTechnician, $auth->getPermission('createBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('updateBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('viewBudgets'));
+        $auth->addChild($repairTechnician, $auth->getPermission('listBudgets'));
+        $auth->addChild($repairTechnician, $auth->getPermission('deleteBudgets'));
 
         echo "RBAC configured for Repair Technician.\n";
     }

@@ -80,7 +80,7 @@ class BudgetController extends Controller
     {
         if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairTechnician'])) {
             $dataProvider = new ActiveDataProvider([
-                'query' => Budget::find()->where(['user_id' => \Yii::$app->user->id]),
+                'query' => Budget::find()->where(['repairman_id' => \Yii::$app->user->id]),
             ]);
         } else {
             $dataProvider = new ActiveDataProvider([
@@ -111,6 +111,12 @@ class BudgetController extends Controller
      */
     public function actionView($id)
     {
+        if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairTechnician'])) {
+            $model = $this->findModel($id);
+            if ($model->repairman_id !== \Yii::$app->user->id) {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -132,7 +138,6 @@ class BudgetController extends Controller
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-            dd($model->errors);
         } else {
             $model->loadDefaultValues();
         }
@@ -154,6 +159,11 @@ class BudgetController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairTechnician'])) {
+            if ($model->repairman_id !== \Yii::$app->user->id) {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        }
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
