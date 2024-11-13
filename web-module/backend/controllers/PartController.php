@@ -26,12 +26,28 @@ class PartController extends Controller
                     'only' => ['index', 'view', 'create', 'update', 'delete'], // specify actions here
                     'rules' => [
                         [
-                            'allow' => true,
-                            'roles' => ['listParts'],
+                            'allow' => false,
+                            'roles' => ['?', 'client'],
                         ],
                         [
-                            'allow' => false,
-                            'roles' => ['?'],
+                            'allow' => true,
+                            'roles' => ['listParts'],
+                            'actions' => ['index', 'view'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['createParts'],
+                            'actions' => ['create'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['updateParts'],
+                            'actions' => ['update'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['deleteParts'],
+                            'actions' => ['delete'],
                         ],
                     ],
                 ],

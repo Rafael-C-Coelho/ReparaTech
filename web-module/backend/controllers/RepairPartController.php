@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\RepairPart;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,36 @@ class RepairPartController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => false,
+                            'roles' => ['?', 'client'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['listRepairParts'],
+                            'actions' => ['index', 'view'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['createRepairParts'],
+                            'actions' => ['create'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['updateRepairParts'],
+                            'actions' => ['update'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['deleteRepairParts'],
+                            'actions' => ['delete'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

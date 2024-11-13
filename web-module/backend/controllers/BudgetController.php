@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Budget;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,43 @@ class BudgetController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['listBudgets'],
+                            'actions' => ['index', 'view'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['createBudgets'],
+                            'actions' => ['create'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['updateBudgets'],
+                            'actions' => ['update'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['deleteBudgets'],
+                            'actions' => ['delete'],
+                        ],
+                        [
+                            "allow" => true,
+                            "actions" => ["index", "view", "create", "update", "delete"],
+                            "matchCallback" => function ($rule, $action) {
+                                return $action->controller->findModel(\Yii::$app->request->get('id'))->user_id === \Yii::$app->user->id;
+                            },
+                        ],
+                        [
+                            'allow' => false,
+                            'roles' => ['?', 'client'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -38,19 +76,25 @@ class BudgetController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Budget::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairTechnician'])) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Budget::find()->where(['user_id' => \Yii::$app->user->id]),
+            ]);
+        } else {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Budget::find(),
+                /*
+                'pagination' => [
+                    'pageSize' => 50
+                ],
+                'sort' => [
+                    'defaultOrder' => [
+                        'id' => SORT_DESC,
+                    ]
+                ],
+                */
+            ]);
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

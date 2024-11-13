@@ -3,7 +3,9 @@
 namespace backend\controllers;
 
 use common\models\Repair;
+use common\models\User;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +23,43 @@ class RepairController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => false,
+                            'roles' => ['?', 'client'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['listRepairs'],
+                            'actions' => ['index', 'view'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['createRepairs'],
+                            'actions' => ['create'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['updateRepairs'],
+                            'actions' => ['update'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['deleteRepairs'],
+                            'actions' => ['delete'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'matchCallback' => function ($rule, $action) {
+                                return $action->controller->findModel(\Yii::$app->request->get('id'))->repairman_id === \Yii::$app->user->id;
+                            },
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -38,19 +77,15 @@ class RepairController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Repair::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairman'])) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Repair::find()->where(['repairman_id' => \Yii::$app->user->id]),
+            ]);
+        } else {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Repair::find(),
+            ]);
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -89,6 +124,8 @@ class RepairController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'clients' => User::getClients(),
+            'repairTechnicians' => User::getRepairTechnicians()
         ]);
     }
 

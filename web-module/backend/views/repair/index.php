@@ -13,9 +13,6 @@ $this->title = 'Repairs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="repair-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Create Repair', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

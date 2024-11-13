@@ -11,7 +11,7 @@ use yii\db\Migration;
  * - `{{%budget}}`
  * - `{{%invoice}}`
  */
-class m241104_232303_create_repairs_table extends Migration
+class m241104_212303_create_repairs_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -24,8 +24,6 @@ class m241104_232303_create_repairs_table extends Migration
             'progress' => "ENUM('Created','Pending Acceptance','Denied','In Progress','Completed') NOT NULL",
             'repairman_id' => $this->integer()->notNull(),
             'client_id' => $this->integer()->notNull(),
-            'budget_id' => $this->integer()->notNull(),
-            'invoice_id'=> $this->integer()->notNull()
         ]);
 
         // creates index for column `repairman_id`
@@ -42,7 +40,7 @@ class m241104_232303_create_repairs_table extends Migration
             'repairman_id',
             '{{%user}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `client_id`
@@ -59,41 +57,7 @@ class m241104_232303_create_repairs_table extends Migration
             'client_id',
             '{{%user}}',
             'id',
-            'CASCADE'
-        );
-
-        // creates index for column `budget_id`
-        $this->createIndex(
-            '{{%idx-repairs-budget_id}}',
-            '{{%repairs}}',
-            'budget_id'
-        );
-
-        // add foreign key for table `{{%budget}}`
-        $this->addForeignKey(
-            '{{%fk-repairs-budget_id}}',
-            '{{%repairs}}',
-            'budget_id',
-            '{{%budgets}}',
-            'id',
-            'CASCADE'
-        );
-
-        // creates index for column `invoice_id`
-        $this->createIndex(
-            '{{%idx-repairs-invoice_id}}',
-            '{{%repairs}}',
-            'invoice_id'
-        );
-
-        // add foreign key for table `{{%invoice}}`
-        $this->addForeignKey(
-            '{{%fk-repairs-invoice_id}}',
-            '{{%repairs}}',
-            'invoice_id',
-            '{{%invoices}}',
-            'id',
-            'CASCADE'
+            'RESTRICT'
         );
     }
 
@@ -123,30 +87,6 @@ class m241104_232303_create_repairs_table extends Migration
         // drops index for column `client_id`
         $this->dropIndex(
             '{{%idx-repairs-client_id}}',
-            '{{%repairs}}'
-        );
-
-        // drops foreign key for table `{{%budget}}`
-        $this->dropForeignKey(
-            '{{%fk-repairs-budget_id}}',
-            '{{%repairs}}'
-        );
-
-        // drops index for column `budget_id`
-        $this->dropIndex(
-            '{{%idx-repairs-budget_id}}',
-            '{{%repairs}}'
-        );
-
-        // drops foreign key for table `{{%invoice}}`
-        $this->dropForeignKey(
-            '{{%fk-repairs-invoice_id}}',
-            '{{%repairs}}'
-        );
-
-        // drops index for column `invoice_id`
-        $this->dropIndex(
-            '{{%idx-repairs-invoice_id}}',
             '{{%repairs}}'
         );
 

@@ -14,7 +14,7 @@ use app\models\Repairs;
  * @property string $time
  *
  * @property BudgetsHasParts[] $budgetsHasParts
- * @property Repairs[] $repairs
+ * @property Repair[] $repairs
  */
 class Budget extends \yii\db\ActiveRecord
 {

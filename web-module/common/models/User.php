@@ -314,4 +314,36 @@ class User extends ActiveRecord implements IdentityInterface
         $favoriteProduct = $this->getFavoriteProducts()->where(['product_id' => $product->id])->one();
         $favoriteProduct->delete();
     }
+
+    public static function getClients()
+    {
+        $authManager = Yii::$app->authManager;
+        $clients = [];
+
+        // Get all users with the "client" role
+        foreach ($authManager->getUserIdsByRole('client') as $userId) {
+            $user = User::findOne($userId);
+            if ($user) {
+                $clients[$user->id] = $user->name; // assuming 'name' is a user field
+            }
+        }
+
+        return $clients;
+    }
+
+    public static function getRepairTechnicians()
+    {
+        $authManager = Yii::$app->authManager;
+        $clients = [];
+
+        // Get all users with the "client" role
+        foreach ($authManager->getUserIdsByRole('repairTechnician') as $userId) {
+            $user = User::findOne($userId);
+            if ($user) {
+                $clients[$user->id] = $user->name; // assuming 'name' is a user field
+            }
+        }
+
+        return $clients;
+    }
 }

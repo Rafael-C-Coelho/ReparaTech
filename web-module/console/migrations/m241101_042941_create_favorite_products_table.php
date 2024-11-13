@@ -36,7 +36,7 @@ class m241101_042941_create_favorite_products_table extends Migration
             'product_id',
             '{{%products}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `user_id`
@@ -53,7 +53,7 @@ class m241101_042941_create_favorite_products_table extends Migration
             'user_id',
             '{{%user}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
     }
 

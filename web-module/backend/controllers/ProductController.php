@@ -25,17 +25,33 @@ class ProductController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
                     'rules' => [
                         [
-                            "actions" => ["index", "view", "create", "update", "delete"],
-                            "allow" => true,
-                            "roles" => ["storeOwner", "manager"],
+                            'allow' => false,
+                            'roles' => ['?', 'client'],
                         ],
                         [
-                            "allow" => false,
-                            "roles" => ["?", "client", "repairTechnician"],
+                            'allow' => true,
+                            'roles' => ['listProducts'],
+                            'actions' => ['index', 'view'],
                         ],
-                    ]
+                        [
+                            'allow' => true,
+                            'roles' => ['createProducts'],
+                            'actions' => ['create'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['updateProducts'],
+                            'actions' => ['update'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['deleteProducts'],
+                            'actions' => ['delete'],
+                        ],
+                    ],
                 ],
                 'verbs' => [
                     'class' => VerbFilter::className(),

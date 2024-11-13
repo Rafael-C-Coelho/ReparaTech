@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\SaleProduct;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,43 @@ class SaleProductController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => false,
+                            'roles' => ['?', 'client'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['listSaleProducts'],
+                            'actions' => ['index', 'view'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['createSaleProducts'],
+                            'actions' => ['create'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['updateSaleProducts'],
+                            'actions' => ['update'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['deleteSaleProducts'],
+                            'actions' => ['delete'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'matchCallback' => function ($rule, $action) {
+                                return $action->controller->findModel(\Yii::$app->request->get('id'))->client_id === \Yii::$app->user->id;
+                            },
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

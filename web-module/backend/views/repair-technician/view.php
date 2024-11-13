@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-        <?= Yii::$app->user->can('updateRepairmen') || $model->id === Yii::$app->user->id ? Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) : '' ?>
-        <?= Yii::$app->user->can('deleteRepairmen') && !Yii::$app->authManager->getAssignment("repairTechnician", Yii::$app->user->id)  ? Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Yii::$app->user->can('updateRepairTechnician') || $model->id === Yii::$app->user->id ? Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) : '' ?>
+        <?= Yii::$app->user->can('deleteRepairTechnician') && !Yii::$app->authManager->getAssignment("repairTechnician", Yii::$app->user->id)  ? Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),

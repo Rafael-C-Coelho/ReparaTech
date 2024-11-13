@@ -38,7 +38,7 @@ class m241108_195102_create_sales_has_products_table extends Migration
             'sale_id',
             '{{%sales}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `product_id`
@@ -55,7 +55,7 @@ class m241108_195102_create_sales_has_products_table extends Migration
             'product_id',
             '{{%products}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
     }
 

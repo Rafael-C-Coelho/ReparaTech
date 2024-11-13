@@ -37,7 +37,7 @@ class m241107_212615_create_budgets_has_parts_table extends Migration
             'budget_id',
             '{{%budgets}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `part_id`
@@ -54,7 +54,7 @@ class m241107_212615_create_budgets_has_parts_table extends Migration
             'part_id',
             '{{%parts}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
     }
 

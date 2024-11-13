@@ -11,19 +11,25 @@ use yii\web\Controller;
 class ProductController extends ActiveController
 {
     public $modelClass = 'common\models\Product';
+    public $user = null;
 
     public function behaviors()
     {
-        return [
+        return array_merge(parent::behaviors(), [
             'authenticator' => [
-                'class' => \yii\filters\AccessControl::class,
-                'rules' => [
-                    'class' => \yii\filters\AccessRule::class,
-                    'only' => ['create', 'update', 'delete'],
-                    "allow" => true,
-                    "roles" => ["storeOwner", "manager"],
-                ],
+                'class' => \yii\filters\auth\HttpBasicAuth::class,
+                'auth' => [$this, 'auth'],
+                'except' => ['index', 'view']
             ],
-        ];
+        ]);
+    }
+
+    public function checkAccess($action, $model = null, $params = [])
+    {
+        if ($action === 'create' || $action === 'update' || $action === 'delete') {
+            if (\Yii::$app->authManager->getRolesByUser($this->user->id)[]) {
+                throw new \yii\web\ForbiddenHttpException('You can only ' . $action . ' products that you\'ve created.');
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Comment;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,43 @@ class CommentController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => false,
+                            'roles' => ['?'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['listComments'],
+                            'actions' => ['index', 'view'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'matchCallback' => function ($rule, $action) {
+                                return $action->controller->findModel(\Yii::$app->request->get('id'))->recipient_id === \Yii::$app->user->id || $action->controller->findModel(\Yii::$app->request->get('id'))->sender_id === \Yii::$app->user->id;
+                            },
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['createComments'],
+                            'actions' => ['create'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['updateComments'],
+                            'actions' => ['update'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['deleteComments'],
+                            'actions' => ['delete'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -38,19 +76,16 @@ class CommentController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Comment::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $auth = \Yii::$app->authManager;
+        if ($auth->checkAccess(\Yii::$app->user->id, "listComments")) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Comment::find(),
+            ]);
+        } else {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Comment::find()->where(['recipient_id' => \Yii::$app->user->id])->orWhere(['sender_id' => \Yii::$app->user->id]),
+            ]);
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

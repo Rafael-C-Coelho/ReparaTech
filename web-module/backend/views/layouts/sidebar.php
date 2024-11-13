@@ -13,7 +13,7 @@
             <?php
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => array_filter([
-                    Yii::$app->user->can("listRepairmen") ? [
+                    Yii::$app->user->can("listRepairTechnician") ? [
                         'label' => 'Repair Technicians',
                         'icon' => 'hard-hat',
                         'url' => ['repair-technician/index'],
@@ -58,8 +58,39 @@
                         'icon' => 'box',
                         'url' => ['product/index'],
                     ] : [],
+                    Yii::$app->user->can("listBudgets") ? [
+                        'label' => 'Budgets',
+                        'icon' => 'wallet',
+                        'url' => ['budget/index'],
+                    ] : [],
+                    Yii::$app->user->can("listFavoriteProducts") ? [
+                        'label' => 'Favorite Products',
+                        'icon' => 'star',
+                        'url' => ['favorite-product/index'],
+                    ] : [],
+                    Yii::$app->user->can("listComments") ? [
+                        'label' => 'Comments',
+                        'icon' => 'comment',
+                        'url' => ['comment/index'],
+                    ] : [],
+                    Yii::$app->user->can("listInvoices") ? [
+                        'label' => 'Invoices',
+                        'icon' => 'file-invoice',
+                        'url' => ['invoice/index'],
+                    ] : [],
+                    Yii::$app->user->can("listRepairs") ? [
+                        'label' => 'Repairs',
+                        'icon' => 'screwdriver',
+                        'url' => ['repair/index'],
+                    ] : [],
+                    /*
+                    Yii::$app->user->can("listRepairParts") ? [
+                        'label' => 'Repair Parts',
+                        'icon' => 'toolbox',
+                        'url' => ['repair/index'],
+                    ] : [],
 
-                    /* [
+                    [
                         'label' => 'Settings',
                         'icon' => 'gear',
                         'items' => [

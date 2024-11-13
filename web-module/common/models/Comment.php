@@ -48,6 +48,8 @@ class Comment extends \yii\db\ActiveRecord
             'repair_id' => 'Repair ID',
             'photo' => 'Photo',
             'description' => 'Description',
+            'recipient_id' => 'Recipient',
+            'sender_id' => 'Sender',
         ];
     }
 

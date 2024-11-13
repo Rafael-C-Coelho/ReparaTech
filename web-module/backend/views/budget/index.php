@@ -13,9 +13,6 @@ $this->title = 'Budgets';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="budget-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Create Budget', ['create'], ['class' => 'btn btn-success']) ?>
     </p>

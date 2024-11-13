@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var common\models\Repair $model */
 /** @var yii\widgets\ActiveForm $form */
+/** @var common\models\User[] $repairTechnicians */
+/** @var common\models\User[] $clients */
 ?>
 
 <div class="repair-form">
@@ -14,15 +16,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'device')->dropDownList([ 'Computer' => 'Computer', 'Phone' => 'Phone', 'Tablet' => 'Tablet', 'Wearable' => 'Wearable', ], ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'progress')->dropDownList([ 'Created' => 'Created', 'Pending Acceptance' => 'Pending Acceptance', 'Denied' => 'Denied', 'In Progress' => 'In Progress', 'Completed' => 'Completed', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'progress')->dropDownList([ 'Created' => 'Created', 'Pending Acceptance' => 'Pending Acceptance', 'Denied' => 'Denied', 'In Progress' => 'In Progress', 'Completed' => 'Completed', ], ['value' => 'Created']) ?>
 
-    <?= $form->field($model, 'repairman_id')->textInput() ?>
+    <?php if (isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)["repairTechnician"])) { ?>
+        <?= $form->field($model, 'repairman_id')->hiddenInput(["value" => Yii::$app->user->id]) ?>
+    <?php } else { ?>
+        <?= $form->field($model, 'repairman_id')->dropDownList($repairTechnicians) ?>
+    <?php } ?>
 
-    <?= $form->field($model, 'client_id')->textInput() ?>
+    <?= $form->field($model, 'client_id')->dropDownList($clients) ?>
 
-    <?= $form->field($model, 'budget_id')->textInput() ?>
-
-    <?= $form->field($model, 'invoice_id')->textInput() ?>
+    <?php foreach ()
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

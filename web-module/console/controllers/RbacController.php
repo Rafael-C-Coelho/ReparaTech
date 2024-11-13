@@ -103,7 +103,7 @@ class RbacController extends Controller
         // Define all entities that need permissions
         $entities = [
             'Budgets',
-            'BudgetsParts',
+            'BudgetParts',
             'Clients',
             'Comments',
             'FavoriteProducts',
@@ -153,7 +153,9 @@ class RbacController extends Controller
         // Repair permissions
         $auth->addChild($repairTechnician, $auth->getPermission('listRepairs'));
         $auth->addChild($repairTechnician, $auth->getPermission('viewRepairs'));
+        $auth->addChild($repairTechnician, $auth->getPermission('createRepairs'));
         $auth->addChild($repairTechnician, $auth->getPermission('updateRepairs'));
+        $auth->addChild($repairTechnician, $auth->getPermission('deleteRepairs'));
 
         // Parts permissions
         $auth->addChild($repairTechnician, $auth->getPermission('listParts'));
@@ -161,6 +163,20 @@ class RbacController extends Controller
         $auth->addChild($repairTechnician, $auth->getPermission('updateParts'));
         $auth->addChild($repairTechnician, $auth->getPermission('deleteParts'));
         $auth->addChild($repairTechnician, $auth->getPermission('viewParts'));
+
+        // Repair Parts permissions
+        $auth->addChild($repairTechnician, $auth->getPermission('listRepairParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('createRepairParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('updateRepairParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('deleteRepairParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('viewRepairParts'));
+
+        // Budget Parts permissions
+        $auth->addChild($repairTechnician, $auth->getPermission('listBudgetParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('createBudgetParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('updateBudgetParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('deleteBudgetParts'));
+        $auth->addChild($repairTechnician, $auth->getPermission('viewBudgetParts'));
 
         // Budget permissions
         $auth->addChild($repairTechnician, $auth->getPermission('createBudgets'));
@@ -215,6 +231,18 @@ class RbacController extends Controller
         $managerRole = $auth->createRole('manager');
         $auth->add($managerRole);
 
+        $entities = [
+            'Clients',
+            'Invoices',
+            'Parts',
+            'ProductCategories',
+            'Products',
+            'Repairs',
+            'Sales',
+            'SaleProducts',
+            'Suppliers',
+        ];
+
         $entities = ['Parts', 'Clients', 'Invoices', 'Repairs', 'Budgets',
             'ProductCategories', 'RepairTechnician', 'Sales', 'Suppliers', 'Products'];
 
@@ -235,8 +263,24 @@ class RbacController extends Controller
         $auth->add($storeOwnerRole);
 
         // Store owner has all permissions
-        $entities = ['Parts', 'Clients', 'Managers', 'Invoices', 'Repairs',
-            'Budgets', 'RepairTechnician', 'Sales', 'Suppliers', 'Products', 'ProductCategories'];
+        $entities = [
+            'Budgets',
+            'BudgetParts',
+            'Clients',
+            'Comments',
+            'FavoriteProducts',
+            'Invoices',
+            'Managers',
+            'Parts',
+            'ProductCategories',
+            'Products',
+            'Repairs',
+            'RepairParts',
+            'RepairTechnician',
+            'Sales',
+            'SaleProducts',
+            'Suppliers',
+        ];
 
         foreach ($entities as $entity) {
             $operations = ['create', 'update', 'delete', 'view', 'list'];

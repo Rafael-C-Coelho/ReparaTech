@@ -13,8 +13,8 @@ use app\models\Sales;
  * @property string|null $time
  * @property float|null $total
  *
- * @property Repairs[] $repairs
- * @property Sales[] $sales
+ * @property Repair[] $repairs
+ * @property Sale[] $sales
  */
 class Invoice extends \yii\db\ActiveRecord
 {

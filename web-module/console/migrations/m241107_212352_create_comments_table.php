@@ -39,7 +39,7 @@ class m241107_212352_create_comments_table extends Migration
             'sender_id',
             '{{%user}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `recipient_id`
@@ -56,7 +56,7 @@ class m241107_212352_create_comments_table extends Migration
             'recipient_id',
             '{{%user}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
     }
 

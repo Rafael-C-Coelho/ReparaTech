@@ -10,9 +10,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Favorite Products', 'url' => ['ind
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="favorite-product-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

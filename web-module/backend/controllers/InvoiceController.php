@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Invoice;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,43 @@ class InvoiceController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => false,
+                            'roles' => ['?', 'client'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['listInvoices'],
+                            'actions' => ['index', 'view'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['createInvoices'],
+                            'actions' => ['create'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['updateInvoices'],
+                            'actions' => ['update'],
+                        ],
+                        [
+                            'allow' => true,
+                            'roles' => ['deleteInvoices'],
+                            'actions' => ['delete'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'matchCallback' => function ($rule, $action) {
+                                return $action->controller->findModel(\Yii::$app->request->get('id'))->client_id === \Yii::$app->user->id;
+                            },
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -38,19 +76,15 @@ class InvoiceController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Invoice::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        if (\Yii::$app->user->can('listInvoices')) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Invoice::find()
+            ]);
+        } else if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['client'])) {
+            $dataProvider = new ActiveDataProvider([
+                'query' => Invoice::find()->where(['client_id' => \Yii::$app->user->id])
+            ]);
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

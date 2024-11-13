@@ -36,7 +36,7 @@ class m241107_015815_create_sales_table extends Migration
             'client_id',
             '{{%user}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
 
         // creates index for column `invoice_id`
@@ -53,7 +53,7 @@ class m241107_015815_create_sales_table extends Migration
             'invoice_id',
             '{{%invoices}}',
             'id',
-            'CASCADE'
+            'RESTRICT'
         );
     }
 
