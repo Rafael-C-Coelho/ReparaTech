@@ -42,12 +42,13 @@ $dataProviderInvoices = new yii\data\ActiveDataProvider([
             'progress',
             'repairman_id',
             'client_id',
+            'description',
         ],
     ]) ?>
 
     <div class="d-flex my-2 justify-content-between align-items-center">
         <h6>Related budgets</h6>
-        <?= Html::a('Create Budget', ['budget/create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Budget', ['budget/create', 'repair_id' => $model->id], ['class' => 'btn btn-success']) ?>
     </div>
     <?= \yii\grid\GridView::widget([
         'dataProvider' => $dataProviderBudgets,
@@ -62,8 +63,29 @@ $dataProviderInvoices = new yii\data\ActiveDataProvider([
                     return Url::toRoute(["budget/" . $action, 'id' => $budget->id]);
                 }
             ],
-            // Additional columns as needed
         ],
     ]); ?>
+
+    <div class="d-flex my-2 justify-content-between align-items-center">
+        <h6>Related invoices</h6>
+        <?= Html::a('Create Invoice', ['invoice/create', "repair_id" => $model->id], ['class' => 'btn btn-success']) ?>
+    </div>
+    <?= \yii\grid\GridView::widget([
+        'dataProvider' => $dataProviderInvoices,
+        'columns' => [
+            'id',
+            'total',
+            'date:date',
+            'time:time',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Budget $model, $key, $index, $column) {
+                    return Url::toRoute(['invoice/' . $action, 'id' => $model->id]);
+                }
+            ],
+        ],
+    ]); ?>
+
+
 
 </div>

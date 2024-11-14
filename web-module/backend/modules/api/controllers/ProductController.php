@@ -27,7 +27,7 @@ class ProductController extends ActiveController
     public function checkAccess($action, $model = null, $params = [])
     {
         if ($action === 'create' || $action === 'update' || $action === 'delete') {
-            if (\Yii::$app->authManager->getRolesByUser($this->user->id)[]) {
+            if (isset(\Yii::$app->authManager->getRolesByUser($this->user->id)[""])) {
                 throw new \yii\web\ForbiddenHttpException('You can only ' . $action . ' products that you\'ve created.');
             }
         }

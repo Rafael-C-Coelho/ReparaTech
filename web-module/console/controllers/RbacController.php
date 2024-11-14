@@ -113,7 +113,6 @@ class RbacController extends Controller
             'ProductCategories',
             'Products',
             'Repairs',
-            'RepairParts',
             'RepairTechnician',
             'Sales',
             'SaleProducts',
@@ -164,24 +163,12 @@ class RbacController extends Controller
         $auth->addChild($repairTechnician, $auth->getPermission('deleteParts'));
         $auth->addChild($repairTechnician, $auth->getPermission('viewParts'));
 
-        // Repair Parts permissions
-        $auth->addChild($repairTechnician, $auth->getPermission('listRepairParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('createRepairParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('updateRepairParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('deleteRepairParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('viewRepairParts'));
-
-        // Budget Parts permissions
-        $auth->addChild($repairTechnician, $auth->getPermission('listBudgetParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('createBudgetParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('updateBudgetParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('deleteBudgetParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('viewBudgetParts'));
-
         // Budget permissions
         $auth->addChild($repairTechnician, $auth->getPermission('createBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('updateBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('viewBudgets'));
+        $auth->addChild($repairTechnician, $auth->getPermission('listBudgets'));
+        $auth->addChild($repairTechnician, $auth->getPermission('deleteBudgets'));
 
         echo "RBAC configured for Repair Technician.\n";
     }
@@ -275,7 +262,6 @@ class RbacController extends Controller
             'ProductCategories',
             'Products',
             'Repairs',
-            'RepairParts',
             'RepairTechnician',
             'Sales',
             'SaleProducts',

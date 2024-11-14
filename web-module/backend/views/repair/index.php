@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'progress',
             'repairman_id',
             'client_id',
+            'description',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Repair $model, $key, $index, $column) {

@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
+use yii\helpers\Url;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -114,24 +115,32 @@ class ProductController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
                 $image = UploadedFile::getInstance($model, 'image');
-                $imageData = file_get_contents($image->tempName);
-                $base64 = base64_encode($imageData);
-
-                // Determine the MIME type prefix based on file extension
-                $extension = strtolower($image->extension);
-                $mimeType = '';
-
-                // Set the appropriate MIME type
-                if (in_array($extension, ['jpg', 'jpeg'])) {
-                    $mimeType = 'data:image/jpeg;base64,';
-                } elseif ($extension === 'png') {
-                    $mimeType = 'data:image/png;base64,';
-                } elseif ($extension === 'gif') {
-                    $mimeType = 'data:image/gif;base64,';
+                if ($image) {
+                    // Generate unique filename
+                    $fileName = 'product_' . $model->id . '_' . time() . '.' . $image->extension;
+                    
+                    // Create assets/products directory in both frontend and backend if they don't exist
+                    $backendPath = \Yii::getAlias('@backend/web/assets/products');
+                    $frontendPath = \Yii::getAlias('@frontend/web/assets/products');
+                    
+                    if (!file_exists($backendPath)) {
+                        mkdir($backendPath, 0777, true);
+                    }
+                    if (!file_exists($frontendPath)) {
+                        mkdir($frontendPath, 0777, true);
+                    }
+                    
+                    // Save file in both locations
+                    $backendFilePath = $backendPath . '/' . $fileName;
+                    $frontendFilePath = $frontendPath . '/' . $fileName;
+                    
+                    if ($image->saveAs($backendFilePath)) {
+                        copy($backendFilePath, $frontendFilePath);
+                        // Store the URL in the model
+                        $model->image = Url::to('@web/assets/products/' . $fileName);
+                        $model->save();
+                    }
                 }
-                $model->image = $mimeType . $base64;
-                $model->save();
-
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -153,33 +162,56 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $oldImage = $model->image;
 
-        if ($this->request->isPost) {
-            $model->load($this->request->post());
-            if (\Yii::$app->request->post('Product')['image'] === null || \Yii::$app->request->post('Product')['image'] === '') {
-                $model->image = $model->getOldAttribute('image');
-            } else {
-                $image = UploadedFile::getInstance($model, 'image');
-                $imageData = file_get_contents($image->tempName);
-                $base64 = base64_encode($imageData);
-
-                // Determine the MIME type prefix based on file extension
-                $extension = strtolower($image->extension);
-                $mimeType = '';
-
-                // Set the appropriate MIME type
-                if (in_array($extension, ['jpg', 'jpeg'])) {
-                    $mimeType = 'data:image/jpeg;base64,';
-                } elseif ($extension === 'png') {
-                    $mimeType = 'data:image/png;base64,';
-                } elseif ($extension === 'gif') {
-                    $mimeType = 'data:image/gif;base64,';
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $image = UploadedFile::getInstance($model, 'image');
+            
+            if ($image) {
+                // Generate unique filename
+                $fileName = 'product_' . $model->id . '_' . time() . '.' . $image->extension;
+                
+                // Create assets/products directory in both frontend and backend if they don't exist
+                $backendPath = \Yii::getAlias('@backend/web/assets/products');
+                $frontendPath = \Yii::getAlias('@frontend/web/assets/products');
+                
+                if (!file_exists($backendPath)) {
+                    mkdir($backendPath, 0777, true);
                 }
-                $model->image = $mimeType . $base64;
+                if (!file_exists($frontendPath)) {
+                    mkdir($frontendPath, 0777, true);
+                }
+                
+                // Save file in both locations
+                $backendFilePath = $backendPath . '/' . $fileName;
+                $frontendFilePath = $frontendPath . '/' . $fileName;
+                
+                if ($image->saveAs($backendFilePath)) {
+                    copy($backendFilePath, $frontendFilePath);
+                    
+                    // Delete old image if exists from both locations
+                    if ($oldImage) {
+                        $oldBackendPath = \Yii::getAlias('@backend/web') . str_replace('@web', '', $oldImage);
+                        $oldFrontendPath = \Yii::getAlias('@frontend/web') . str_replace('@web', '', $oldImage);
+                        
+                        if (file_exists($oldBackendPath)) {
+                            unlink($oldBackendPath);
+                        }
+                        if (file_exists($oldFrontendPath)) {
+                            unlink($oldFrontendPath);
+                        }
+                    }
+                    
+                    // Store the new URL
+                    $model->image = Url::to('@web/assets/products/' . $fileName);
+                }
+            } else {
+                $model->image = $oldImage;
             }
-            $model->save();
-
-            return $this->redirect(['view', 'id' => $model->id]);
+            
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -196,7 +228,22 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        
+        // Delete associated image file if exists from both locations
+        if ($model->image) {
+            $backendPath = \Yii::getAlias('@backend/web') . str_replace('@web', '', $model->image);
+            $frontendPath = \Yii::getAlias('@frontend/web') . str_replace('@web', '', $model->image);
+            
+            if (file_exists($backendPath)) {
+                unlink($backendPath);
+            }
+            if (file_exists($frontendPath)) {
+                unlink($frontendPath);
+            }
+        }
+        
+        $model->delete();
 
         return $this->redirect(['index']);
     }
