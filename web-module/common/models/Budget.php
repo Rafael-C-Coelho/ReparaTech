@@ -92,7 +92,6 @@ class Budget extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         $repair = Repair::find()->where(['id' => $this->repair_id])->one();
-        $this->client_id = $repair->client_id;
         if ($this->status === self::STATUS_PENDING) {
             $repair->progress = Repair::STATUS_PENDING_ACCEPTANCE;
             $repair->save();

@@ -20,6 +20,7 @@ class m241104_225750_create_budgets_table extends Migration
             'repairman_id' => $this->integer()->notNull(),
             'repair_id' => $this->integer()->notNull(),
             'time' => $this->TIME()->notNull(),
+            'description' => $this->text()->notNull(),
             'status' => 'ENUM("Pending", "Approved", "Rejected") DEFAULT "Pending"',
         ]);
 

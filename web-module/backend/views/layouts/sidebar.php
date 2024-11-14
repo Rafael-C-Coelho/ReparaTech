@@ -38,11 +38,6 @@
                         'icon' => 'users',
                         'url' => ['client/index'],
                     ] : [],
-                    Yii::$app->user->can("listParts") ? [
-                        'label' => 'Parts',
-                        'icon' => 'toolbox',
-                        'url' => ['part/index'],
-                    ] : [],
                     Yii::$app->user->can("listSuppliers") ? [
                         'label' => 'Suppliers',
                         'icon' => 'truck',
