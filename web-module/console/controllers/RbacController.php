@@ -103,13 +103,11 @@ class RbacController extends Controller
         // Define all entities that need permissions
         $entities = [
             'Budgets',
-            'BudgetParts',
             'Clients',
             'Comments',
             'FavoriteProducts',
             'Invoices',
             'Managers',
-            'Parts',
             'ProductCategories',
             'Products',
             'Repairs',
@@ -155,13 +153,6 @@ class RbacController extends Controller
         $auth->addChild($repairTechnician, $auth->getPermission('createRepairs'));
         $auth->addChild($repairTechnician, $auth->getPermission('updateRepairs'));
         $auth->addChild($repairTechnician, $auth->getPermission('deleteRepairs'));
-
-        // Parts permissions
-        $auth->addChild($repairTechnician, $auth->getPermission('listParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('createParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('updateParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('deleteParts'));
-        $auth->addChild($repairTechnician, $auth->getPermission('viewParts'));
 
         // Budget permissions
         $auth->addChild($repairTechnician, $auth->getPermission('createBudgets'));
@@ -221,7 +212,6 @@ class RbacController extends Controller
         $entities = [
             'Clients',
             'Invoices',
-            'Parts',
             'ProductCategories',
             'Products',
             'Repairs',
@@ -230,7 +220,7 @@ class RbacController extends Controller
             'Suppliers',
         ];
 
-        $entities = ['Parts', 'Clients', 'Invoices', 'Repairs', 'Budgets',
+        $entities = ['Clients', 'Invoices', 'Repairs', 'Budgets',
             'ProductCategories', 'RepairTechnician', 'Sales', 'Suppliers', 'Products'];
 
         foreach ($entities as $entity) {
@@ -252,13 +242,11 @@ class RbacController extends Controller
         // Store owner has all permissions
         $entities = [
             'Budgets',
-            'BudgetParts',
             'Clients',
             'Comments',
             'FavoriteProducts',
             'Invoices',
             'Managers',
-            'Parts',
             'ProductCategories',
             'Products',
             'Repairs',

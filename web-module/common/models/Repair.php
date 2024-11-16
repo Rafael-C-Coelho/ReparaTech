@@ -111,16 +111,6 @@ class Repair extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'repairman_id']);
     }
 
-    /**
-     * Gets query for [[RepairsHasParts]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRepairsHasParts()
-    {
-        return $this->hasMany(RepairPart::class, ['repair_id' => 'id']);
-    }
-
     public static function getRepairs()
     {
         if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)["repairTechnician"])) {
