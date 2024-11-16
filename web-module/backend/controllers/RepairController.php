@@ -77,7 +77,7 @@ class RepairController extends Controller
      */
     public function actionIndex()
     {
-        if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairman'])) {
+        if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairTechnician'])) {
             $dataProvider = new ActiveDataProvider([
                 'query' => Repair::find()->where(['repairman_id' => \Yii::$app->user->id]),
             ]);
@@ -100,6 +100,12 @@ class RepairController extends Controller
      */
     public function actionView($id)
     {
+        if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairTechnician'])) {
+            $model = $this->findModel($id);
+            if ($model->repairman_id !== \Yii::$app->user->id) {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -115,7 +121,8 @@ class RepairController extends Controller
         $model = new Repair();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            $model->load($this->request->post());
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -139,7 +146,11 @@ class RepairController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        if (isset(\Yii::$app->authManager->getRolesByUser(\Yii::$app->user->id)['repairTechnician'])) {
+            if ($model->repairman_id !== \Yii::$app->user->id) {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        }
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }

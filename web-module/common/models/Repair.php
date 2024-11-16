@@ -15,11 +15,12 @@ use common\models\User;
  * @property int $repairman_id
  * @property int $client_id
  * @property string $status
+ * @property string $description
  *
  * @property Budget[] $budgets
  * @property User $client
  * @property User $repairman
- * @property RepairsHasPart[] $repairsHasParts
+ * @property RepairPart[] $repairsHasParts
  */
 class Repair extends \yii\db\ActiveRecord
 {
@@ -45,8 +46,8 @@ class Repair extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['device', 'progress', 'repairman_id', 'client_id'], 'required'],
-            [['device', 'progress'], 'string'],
+            [['device', 'progress', 'repairman_id', 'client_id', 'description'], 'required'],
+            [['device', 'progress', 'description'], 'string'],
             [['repairman_id', 'client_id'], 'integer'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['client_id' => 'id']],
             [['repairman_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['repairman_id' => 'id']],
@@ -108,16 +109,6 @@ class Repair extends \yii\db\ActiveRecord
     public function getRepairman()
     {
         return $this->hasOne(User::class, ['id' => 'repairman_id']);
-    }
-
-    /**
-     * Gets query for [[RepairsHasParts]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRepairsHasParts()
-    {
-        return $this->hasMany(RepairsHasPart::class, ['repair_id' => 'id']);
     }
 
     public static function getRepairs()

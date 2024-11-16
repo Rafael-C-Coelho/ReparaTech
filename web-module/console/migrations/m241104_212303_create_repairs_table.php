@@ -24,6 +24,7 @@ class m241104_212303_create_repairs_table extends Migration
             'progress' => "ENUM('Created','Pending Acceptance','Denied','In Progress','Completed') NOT NULL",
             'repairman_id' => $this->integer()->notNull(),
             'client_id' => $this->integer()->notNull(),
+            'description' => $this->text()->notNull(),
         ]);
 
         // creates index for column `repairman_id`

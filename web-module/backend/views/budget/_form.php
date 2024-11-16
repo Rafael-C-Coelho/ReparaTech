@@ -17,7 +17,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'value')->textInput(['maxlength' => true, "type" => "number"]) ?>
 
-    <?= $form->field($model, 'repair_id')->dropDownList(ArrayHelper::map($repairs, 'id', 'id')) ?>
+    <?php if (isset(Yii::$app->request->queryParams['repair_id'])) { ?>
+        <?= $form->field($model, 'repair_id')->hiddenInput(["value" => Yii::$app->request->queryParams['repair_id']])->label(false) ?>
+    <?php } else { ?>
+        <?= $form->field($model, 'repair_id')->dropDownList(ArrayHelper::map($repairs, 'id', 'id')) ?>
+    <?php } ?>
+
+    <?= $form->field($model, 'status')->dropDownList(["Pending" => "Pending", "Approved" => "Approved", "Rejected" => "Rejected"]) ?>
 
     <?php if (isset(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id)["repairTechnician"])) { ?>
         <?= $form->field($model, 'repairman_id')->hiddenInput(["value" => Yii::$app->user->id])->label(false) ?>
