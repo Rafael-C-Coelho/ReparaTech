@@ -16,8 +16,9 @@
             android:name=".Anomalias"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".MenuMainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ReparaTech">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

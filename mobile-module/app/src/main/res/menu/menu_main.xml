@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior ="single" >
+        <item
+            android:id="@+id/navAcessories"
+            android:title="@string/list_of_acessories"
+            android:icon="@drawable/ic_action_listacessories"/>
+        <item
+            android:id="@+id/navListRepairs"
+            android:title="@string/list_of_repairs"
+            android:icon="@drawable/ic_action_listrepairs"/>
+        <item
+            android:id="@+id/navLogin"
+            android:icon="@drawable/ic_action_signin"
+            android:title="@string/sign_in" />
+        <item
+            android:id="@+id/navSignUp"
+            android:icon="@drawable/ic_action_signup"
+            android:title="@string/sign_up" />
+    </group>
+</menu>
