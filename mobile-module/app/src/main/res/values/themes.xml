@@ -5,7 +5,9 @@
         <item name="colorPrimary">@color/yellow</item>
     </style>
 
-    <style name="Theme.ReparaTech" parent="Base.Theme.ReparaTech">
+    <style name="Theme.ReparaTech" parent="Base.Theme.ReparaTech"/>
+
+    <style name="Theme.ReparaTech.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
