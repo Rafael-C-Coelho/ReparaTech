@@ -7,7 +7,7 @@
 
     <style name="Theme.ReparaTech" parent="Base.Theme.ReparaTech"/>
 
-    <style name="Theme.ReparaTech.NoActionBar">
+    <style name="Theme.ReparaTech.NoActionBar" parent="Base.Theme.ReparaTech">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
