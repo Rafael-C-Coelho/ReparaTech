@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,8 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
-
-import java.sql.SQLOutput;
 
 public class MenuMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,7 +51,13 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
             fragment = new AcessoriesListFragment();
             setTitle(item.getTitle());
+
+        } else if (item.getItemId()==R.id.navRepairBookings){
+
+            fragment = new RepairBookingFragment();
+            setTitle(item.getTitle());
         }
+
 
         if (fragment != null) {
             fragmentManager.beginTransaction().replace(R.id.contentfragment, fragment).commit();
@@ -64,7 +67,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    private void carregarFragmentoInicial() { //exercício 9.1 ficha 4
+    private void loadInitialFragment() {
         Menu menu = navigationView.getMenu();
         MenuItem item = menu.getItem(0);
         item.setCheckable(true);

@@ -13,6 +13,10 @@
             android:title="@string/list_of_repairs"
             android:icon="@drawable/ic_action_listrepairs"/>
         <item
+            android:id="@+id/navRepairBookings"
+            android:title="@string/txt_repair_bookings"
+            android:icon="@drawable/ic_action_listrepairs"/>
+        <item
             android:id="@+id/navLogin"
             android:icon="@drawable/ic_action_signin"
             android:title="@string/sign_in" />
