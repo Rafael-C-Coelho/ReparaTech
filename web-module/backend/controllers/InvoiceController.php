@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use common\models\Invoice;
+use common\models\Repair;
+use common\models\User;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -123,6 +125,8 @@ class InvoiceController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'clients' => User::getClients(),
+            'repairs' => Repair::find()->all(),
         ]);
     }
 
@@ -143,6 +147,8 @@ class InvoiceController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'clients' => User::getClients(),
+            'repairs' => Repair::getRepairs(),
         ]);
     }
 
