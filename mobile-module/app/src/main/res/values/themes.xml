@@ -5,6 +5,29 @@
         <item name="colorPrimary">@color/yellow</item>
     </style>
 
+    <!-- EditText personalization -->
+    <style name="EditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">text</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="ButtonTheme" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/yellow</item>
+    </style>
+
+    <style name="TextButtonTheme" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/yellow</item>
+        <item name="android:background">@color/gray</item>
+    </style>
+
     <style name="Theme.ReparaTech" parent="Base.Theme.ReparaTech"/>
 
     <style name="Theme.ReparaTech.NoActionBar" parent="Base.Theme.ReparaTech">

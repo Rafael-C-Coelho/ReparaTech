@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +63,12 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
             fragment = new RepairBookingFragment();
             setTitle(item.getTitle());
+        } else if (item.getItemId() == R.id.navLogin) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.navSignUp) {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
         }
 
 
