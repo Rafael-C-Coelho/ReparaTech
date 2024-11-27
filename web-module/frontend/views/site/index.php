@@ -44,37 +44,6 @@ $this->title = 'Repara Tech';
     }
 </style>
 
-<!-- Featured Start -->
-<div class="container-fluid pt-5">
-    <div class="row px-xl-5 pb-3">
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
-                <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
-                <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
-                <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-            <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
-                <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Featured End -->
-
 <!-- Products Start -->
 <div class="container-fluid pt-5 pb-3">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recently Added Products</span></h2>
@@ -130,10 +99,10 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-volume-mute' style='font-size:68px; color:grey;'></i>
+                        <i class='fas fa-volume-mute' style='font-size:65px; color:grey;'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6><strong>Audio Problems</strong></h6>
+                        <h6><strong>Audio Issues</strong></h6>
                     </div>
                 </div>
             </a>
@@ -142,7 +111,7 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>/img/" alt="">
+                        <i class='fas fa-mobile' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
                         <h6><strong>Broken or Cracked Screen</strong></h6>
@@ -154,7 +123,7 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-share-alt-square' style='font-size:60px;color:grey'></i>
+                        <i class='fas fa-share-alt-square' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
                         <h6><strong>Connectivity Issues</strong></h6>
@@ -166,7 +135,7 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-wine-bottle' style='font-size:60px;color:grey'></i>
+                        <i class='fas fa-wine-bottle' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
                         <h6><strong>Liquid Damage</strong></h6>
@@ -178,7 +147,7 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-camera' style='font-size:68px;color:grey'></i>
+                        <i class='fas fa-camera' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
                         <h6><strong>Camera Issues</strong></h6>
@@ -190,10 +159,10 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='far fa-hdd' style='font-size:48px;color:grey'></i>
+                        <i class='far fa-hdd' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6><strong>Storage Problems</strong></h6>
+                        <h6><strong>Storage Issues</strong></h6>
                     </div>
                 </div>
             </a>
@@ -202,7 +171,7 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-power-off' style='font-size:60px;color:grey'></i>
+                        <i class='fas fa-power-off' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
                         <h6><strong>Damaged Buttons</strong></h6>
@@ -214,22 +183,10 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-battery-quarter' style='font-size:60px;color:grey'></i>
+                        <i class='fas fa-battery-quarter' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6><strong>Dead or Problematic Battery</strong></h6>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="">
-                <div class="cat-item img-zoom d-flex align-items-center mb-4">
-                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                        <img class="img-fluid" src="<?= Yii::getAlias('@web') ?>img/cat-1.jpg" alt="">
-                    </div>
-                    <div class="flex-fill pl-3">
-                        <h6><strong>Gateway</strong></h6>
+                        <h6><strong>Battery Issues</strong></h6>
                     </div>
                 </div>
             </a>
@@ -238,7 +195,19 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-upload' style='font-size:60px;color:grey'></i>
+                        <i class='fa fa-wifi' style='font-size:65px;color:grey'></i>
+                    </div>
+                    <div class="flex-fill pl-3">
+                        <h6><strong>Network Issues</strong></h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+            <a class="text-decoration-none" href="">
+                <div class="cat-item img-zoom d-flex align-items-center mb-4">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                        <i class='fas fa-upload' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
                         <h6><strong>Data Recovery | Backup</strong></h6>
@@ -250,10 +219,10 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-bug' style='font-size:60px;color:grey'></i>
+                        <i class='fas fa-bug' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
-                        <h6><strong>Software Problems</strong></h6>
+                        <h6><strong>Software Issues</strong></h6>
                     </div>
                 </div>
             </a>
@@ -262,7 +231,7 @@ $this->title = 'Repara Tech';
             <a class="text-decoration-none" href="">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <i class='fas fa-wrench' style='font-size:60px;color:grey'></i>
+                        <i class='fas fa-wrench' style='font-size:65px;color:grey'></i>
                     </div>
                     <div class="flex-fill pl-3">
                         <h6><strong>Internal Hardware Cleaning | Maintenance</strong></h6>
