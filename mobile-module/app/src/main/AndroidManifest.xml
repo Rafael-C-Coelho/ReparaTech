@@ -13,15 +13,18 @@
         android:theme="@style/Theme.ReparaTech"
         tools:targetApi="31">
         <activity
-            android:name=".RepairBookingActivity"
+            android:name=".HomepageActivity"
             android:exported="false" />
-
         <activity
-            android:name= ".MenuMainActivity"
+            android:name=".RepairBookingFragment"
+            android:exported="false" />
+        <activity
+            android:name=".MenuMainActivity"
             android:exported="true"
             android:theme="@style/Theme.ReparaTech.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

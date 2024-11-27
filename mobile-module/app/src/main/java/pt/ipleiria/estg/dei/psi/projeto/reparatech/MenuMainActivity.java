@@ -40,14 +40,20 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
+
+        loadInitialFragment();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Fragment fragment = null;
 
-        if (item.getItemId()==R.id.navAcessories) {
+        Fragment fragment = null;
+        if(item.getItemId()==R.id.navHomepage){
+            fragment = new HomepageFragment();
+            setTitle(item.getTitle());
+
+        } else if (item.getItemId()==R.id.navAccessories) {
 
             fragment = new AcessoriesListFragment();
             setTitle(item.getTitle());

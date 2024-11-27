@@ -19,7 +19,6 @@
     <string name="btndate">Date</string>
     <string name="txt_myCalendar">MY CALENDAR</string>
     <string name="txt_repair_bookings">Repair Bookings</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="product_image">Product Image</string>
     <string name="name_product">Product Name</string>

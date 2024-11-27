@@ -18,7 +18,6 @@
     <string name="btndate">Date</string>
     <string name="txt_myCalendar">MY CALENDAR</string>
     <string name="txt_repair_bookings">Repair Bookings</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="product_image">Product Image</string>
     <string name="name_product">Product Name</string>
@@ -27,4 +26,15 @@
     <string name="add_favorite">Add Favorite</string>
     <string name="remove_favorite">Remove Favorite</string>
     <string name="description">Description</string>
+    <string name="txt_price_product">Price</string>
+    <string name="txt_product_name">Product Name</string>
+    <string name="list_of_acessories">list_of_acessories</string>
+    <string name="homepage">Homepage</string>
+    <string name="list_of_accessories">List of Accessories</string>
+    <string name="txt_repair_categories">REPAIR CATEGORIES</string>
+    <string name="txt_bestselling_productName">PRODUCT NAME</string>
+    <string name="txt_bestselling_productPrice">PRICE</string>
+    <string name="txt_recently_added_products">RECENTLY ADDED PRODUCTS</string>
+    <string name="txt_best_selling_products">BEST-SELLING PRODUCTS</string>
+
 </resources>

@@ -5,8 +5,12 @@
 
     <group android:checkableBehavior ="single" >
         <item
-            android:id="@+id/navAcessories"
-            android:title="@string/list_of_acessories"
+            android:id="@+id/navHomepage"
+            android:title="@string/homepage"
+            android:icon="@drawable/ic_action_listacessories"/>
+        <item
+            android:id="@+id/navAccessories"
+            android:title="@string/list_of_accessories"
             android:icon="@drawable/ic_action_listacessories"/>
         <item
             android:id="@+id/navListRepairs"
@@ -16,6 +20,9 @@
             android:id="@+id/navRepairBookings"
             android:title="@string/txt_repair_bookings"
             android:icon="@drawable/ic_action_listrepairs"/>
+    </group>
+
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/navLogin"
             android:icon="@drawable/ic_action_signin"
@@ -25,4 +32,5 @@
             android:icon="@drawable/ic_action_signup"
             android:title="@string/sign_up" />
     </group>
+
 </menu>
