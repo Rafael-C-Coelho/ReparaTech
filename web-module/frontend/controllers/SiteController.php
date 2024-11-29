@@ -282,5 +282,29 @@ class SiteController extends Controller
         return $this->render('order');
     }
 
+    public function actionHardwareCleaningMaintenance(){
+        return $this->render('repairCategory/hardwareCleaningMaintenance');
+    }
+
+    public function actionDataRecovery(){
+        return $this->render('repairCategory/dataRecovery');
+    }
+
+    public function actionSoftwareIssue(){
+        return $this->render('repairCategory/softwareIssue');
+    }
+
+    public function actionNetworkIssue(){
+        return $this->render('repairCategory/networkIssue');
+    }
+
+    public function actionDamageButton(){
+        return $this->render('repairCategory/damageButton');
+    }
+
+    public function actionBatteryIssue(){
+        return $this->render('repairCategory/batteryIssue');
+    }
+
 
 }

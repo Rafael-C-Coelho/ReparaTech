@@ -48,7 +48,7 @@ $categories = ProductCategory::find()->all();
         <!-- Libraries Stylesheet -->
         <link href="<?= Yii::getAlias('@web') ?>/lib/animate/animate.min.css" rel="stylesheet">
         <link href="<?= Yii::getAlias('@web') ?>/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
+        <link href="<?= Yii::getAlias('@web') ?>/img/AudioProblem" rel="stylesheet">
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<?= Yii::getAlias('@web') ?>/css/style.css" rel="stylesheet">
 
@@ -72,17 +72,17 @@ $categories = ProductCategory::find()->all();
                             <h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>Categories</h6>
                             <i class="fa fa-angle-down text-dark"></i>
                         </a>
-                    <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
-                         id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
-                        <div class="navbar-nav w-100">
-                            <?php foreach ($categories as $category) { ?>
-                                <div class="nav-item dropdown">
-                                    <a href="<?= \yii\helpers\Url::to(["product/shop", "category_id" => $category->id]) ?>"
-                                       class="nav-link"><?= $category->name ?></a>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </nav>
+                        <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
+                             id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
+                            <div class="navbar-nav w-100">
+                                <?php foreach ($categories as $category) { ?>
+                                    <div class="nav-item dropdown">
+                                        <a href="<?= \yii\helpers\Url::to(["product/shop", "category_id" => $category->id]) ?>"
+                                           class="nav-link"><?= $category->name ?></a>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </nav>
                     </div>
                     <div class="col-lg-6">
                         <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0">

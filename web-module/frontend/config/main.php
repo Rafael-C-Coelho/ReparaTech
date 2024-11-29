@@ -42,6 +42,13 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'site/painelClient' => 'site/painel-client',
+                'site/softwareIssue' => 'site/software-issue',
+                'site/hardwareCleaningMaintenance' => 'site/hardware-cleaning-maintenance',
+                'site/dataRecovery' => 'site/data-recovery',
+                'site/networkIssue' => 'site/network-issue',
+                'site/damageButton' => 'site/damage-button',
+                'site/batteryIssue' => 'site/battery-issue',
+
             ],
         ],
     ],
