@@ -5,9 +5,44 @@ $this->title="Network Issue";
 
 ?>
 
-<div class="mt-3 mb-4">
-    <h1 class="text-center"><?= $this->title ?></h1>
+<style>
+    .custom-img {
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .custom-img:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .title {
+        color: #ffc107;
+        text-align: center;
+        margin-top: 8px;
+        margin-bottom: 20px;
+        font-weight: bold;
+
+    }
+
+    .text-container {
+        border: 2px solid #e0e0e0; /* Cor suave para a borda */
+        border-radius: 8px; /* Bordas arredondadas */
+        padding: 10px; /* Espaçamento interno */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        background-color: #f9f9f9; /* Fundo claro para separar do resto da página */
+        max-width: 100%; /* Largura máxima para centralizar o conteúdo */
+        margin: 20px auto; /* Centraliza horizontalmente com margem superior e inferior */
+        text-align: center;
+        margin-top: 5px;
+        margin-bottom: 30px;
+
+    }
+
+</style>
+
+<div class="text-container">
+    <h1 class="title"><?= $this->title ?></h1>
 </div>
+
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -17,21 +52,21 @@ $this->title="Network Issue";
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/laptopSoftwareIssue"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/speedtest"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/mobileSoftwareIssue" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/vpn" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/softwareVirus" class="d-block custom-img" alt="softwareVirus" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/modem" class="d-block custom-img" alt="softwareVirus" width="800" height="400">
             </div>
         </div>
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" roe="button" data-slide="prev">
         <span class="fa fa-angle-left" aria-hidden="true" style="font-size:48px;color:#ffc107"></span>
         <span class="sr-only">Previous</span>
     </a>
@@ -48,18 +83,18 @@ $this->title="Network Issue";
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button id="mobilePhonesButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <p style="color:grey"><strong>MOBILE PHONES SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>MOBILE PHONES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Software updates (Android and iOS).</li>
-                    <li>System restore and factory reset.</li>
-                    <li>Fixing problems with applications.</li>
-                    <li>Virus and malware removal.</li>
-                    <li>Unlocking devices (PIN, pattern, account).</li>
+                    <li>Errors in the configuration of mobile data or Wi-Fi.</li>
+                    <li>Problems with the device's internal aerial, affecting internet reception.</li>
+                    <li>Internet access failures caused by misconfigured software updates.</li>
+                    <li>Configuring or repairing VPN problems.</li>
+                    <li>Diagnosis and resolution of Wi-Fi signal interference.</li>
                 </ul>
             </div>
         </div>
@@ -69,18 +104,18 @@ $this->title="Network Issue";
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <p style="color:grey"><strong>TABLETS SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>TABLETS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Software updates (Android and iOS).</li>
-                    <li>System restore and factory reset.</li>
-                    <li>Fixing problems with applications.</li>
-                    <li>Virus and malware removal.</li>
-                    <li>Unlocking devices (PIN, pattern, account).</li>
+                    <li>Errors in the configuration of mobile data or Wi-Fi.</li>
+                    <li>Problems with the device's internal aerial, affecting internet reception.</li>
+                    <li>Internet access failures caused by misconfigured software updates.</li>
+                    <li>Configuring or repairing VPN problems.</li>
+                    <li>Diagnosis and resolution of Wi-Fi signal interference.</li>
                 </ul>
             </div>
         </div>
@@ -90,18 +125,18 @@ $this->title="Network Issue";
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    <p style="color:grey"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Operating system errors (Windows, macOS, Linux).</li>
-                    <li>Blue screen (BSOD) or boot errors.</li>
-                    <li>Updating or installing operating systems.</li>
-                    <li>Virus and malware removal.</li>
-                    <li>Software installation and configuration.</li>
+                    <li>Incorrect DNS or IP configuration preventing internet access.</li>
+                    <li>Wi-Fi or Ethernet network adapter not working (replacement or repair).</li>
+                    <li>Firmware or configuration problems with the router/modem.</li>
+                    <li>Internet interruptions caused by outdated or corrupted network drivers.</li>
+                    <li>Malware that blocks internet access or redirects browsing.</li>
                 </ul>
             </div>
         </div>
@@ -111,15 +146,18 @@ $this->title="Network Issue";
         <div class="card-header" id="headingFour">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    <p style="color:grey"><strong>WEARABLES SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>WEARABLES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Software updates that fail or crash.</li>
-                    <li>Bug fixes for wearable operating systems.</li>
+                    <li>Errors when synchronising internet via Wi-Fi.</li>
+                    <li>Problems accessing the internet due to software configuration faults.</li>
+                    <li>Firmware updates that failed to connect to servers.</li>
+                    <li>Difficulty sharing internet from mobile devices.</li>
+                    <li>Intermittent connection on public or home networks.</li>
                 </ul>
             </div>
         </div>
@@ -129,7 +167,7 @@ $this->title="Network Issue";
         <div class="card-header" id="headingFive">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                    <p style="color:grey;"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
+                    <p style="color:#ffc107"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
                 </button>
             </h2>
         </div>
@@ -144,13 +182,13 @@ $this->title="Network Issue";
         <div class="card-header" id="headingSix">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    <p style="color:grey;"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
+                    <p style="color:#ffc107"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample">
             <div class="card-body">
-                The price of a repair depends on the type of equipment and brand. Request a personalised quote.
+                The price of a repair depends on the time it takes to repair, the type of equipment and the brand. Request a personalised quote.
             </div>
         </div>
     </div>
