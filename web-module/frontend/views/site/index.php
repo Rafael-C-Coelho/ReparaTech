@@ -156,7 +156,7 @@ $this->title = 'Repara Tech';
             </a>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/login'])?>">
+            <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/storageIssue'])?>">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
                         <i class='far fa-hdd' style='font-size:65px;color:grey'></i>

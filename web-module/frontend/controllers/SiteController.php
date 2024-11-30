@@ -306,5 +306,10 @@ class SiteController extends Controller
         return $this->render('repairCategory/batteryIssue');
     }
 
+    public function  actionStorageIssue(){
+        return $this->render('repairCategory/storageIssue');
+    }
+
+
 
 }

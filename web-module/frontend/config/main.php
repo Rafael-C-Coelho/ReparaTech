@@ -48,6 +48,7 @@ return [
                 'site/networkIssue' => 'site/network-issue',
                 'site/damageButton' => 'site/damage-button',
                 'site/batteryIssue' => 'site/battery-issue',
+                'site/storageIssue' => 'site/storage-issue',
 
             ],
         ],
