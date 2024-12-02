@@ -1,26 +1,29 @@
-package pt.ipleiria.estg.dei.psi.projeto.reparatech.homepage;
+package pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton;
 
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Settings;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Singleton;
 
 public class ReparaTechSingleton {
 
     private ArrayList<RepairExample> repairExamples;
     private ArrayList<BestSellingProduct> bestSellingProducts;
     private static ReparaTechSingleton instance = null;
+    private static Settings settings;
 
     public static synchronized ReparaTechSingleton getInstance() {
         if(instance==null)
-            instance = new ReparaTechSingleton();
-
+            instance = new ReparaTechSingleton(settings);
         return instance;
     }
 
-
-    private ReparaTechSingleton(){
-            generateDinamicRepairExamples();
-            generateDinamicBestSellingProducts();
+    private ReparaTechSingleton(Settings settings){
+        generateDinamicRepairExamples();
+        generateDinamicBestSellingProducts();
     }
 
     private void generateDinamicRepairExamples(){
@@ -52,10 +55,13 @@ public class ReparaTechSingleton {
     }
 
     public ArrayList<RepairExample> getRepairExamples(){
+
         return new ArrayList<>(repairExamples);
     }
 
     public ArrayList<BestSellingProduct> getbestSellingProductsExamples() {
         return new ArrayList<>(bestSellingProducts);
     }
+
+
 }

@@ -7,12 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.homepage.BestSellingProduct;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 
 public class BestSellingProductsAdapter extends BaseAdapter {
 

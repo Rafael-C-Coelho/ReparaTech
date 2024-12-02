@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.homepage.BestSellingProduct;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.homepage.RepairExample;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.homepage.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
 
 
 public class HomepageFragment extends Fragment {

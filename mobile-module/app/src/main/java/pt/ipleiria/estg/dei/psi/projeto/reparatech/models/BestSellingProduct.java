@@ -1,11 +1,11 @@
-package pt.ipleiria.estg.dei.psi.projeto.reparatech.homepage;
+package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
-public class RepairExample {
+public class BestSellingProduct {
 
-    private int id, img;
-    private String price,title;
+    private int id, img, price;
+    private String title;
 
-    public RepairExample(int id, String title, String price, int img) {
+    public BestSellingProduct(int id, String title, int price, int img) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -20,7 +20,7 @@ public class RepairExample {
         return title;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -28,12 +28,11 @@ public class RepairExample {
         return img;
     }
 
-
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -1,13 +1,11 @@
-package pt.ipleiria.estg.dei.psi.projeto.reparatech.homepage;
+package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
-import android.widget.TextView;
+public class RepairExample {
 
-public class BestSellingProduct {
+    private int id, img;
+    private String price,title;
 
-    private int id, img, price;
-    private String title;
-
-    public BestSellingProduct(int id, String title, int price, int img) {
+    public RepairExample(int id, String title, String price, int img) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -22,7 +20,7 @@ public class BestSellingProduct {
         return title;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
@@ -30,11 +28,12 @@ public class BestSellingProduct {
         return img;
     }
 
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.homepage.RepairExample;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
 
 public class RepairExamplesListAdapter  extends BaseAdapter {
 

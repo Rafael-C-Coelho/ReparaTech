@@ -7,7 +7,6 @@ public class Singleton {
 
     private Singleton(Settings settings) {
         this.settings = settings;
-        carregarDadosDinamicos();
     }
 
     public static synchronized Singleton getInstance(Settings settings) {
@@ -16,9 +15,6 @@ public class Singleton {
         return instance;
     }
 
-    private void carregarDadosDinamicos() {
-        // Load dynamic data, potentially using settings
-    }
 
     public Settings getSettings() {
         return settings;
