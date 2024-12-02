@@ -310,6 +310,30 @@ class SiteController extends Controller
         return $this->render('repairCategory/storageIssue');
     }
 
+    public function actionCameraIssue(){
+        return $this->render('repairCategory/cameraIssue');
+    }
+
+    public function actionLiquidDamage(){
+        return $this->render('repairCategory/liquidDamage');
+    }
+
+    public function actionConnectivityIssue(){
+        return $this->render('repairCategory/connectivityIssue');
+    }
+
+    public function actionBrokenScreen(){
+        return $this->render('repairCategory/brokenScreen');
+    }
+
+    public function actionAudioIssue(){
+        return $this->render('repairCategory/audioIssue');
+    }
+
+    public function actionAllRepairCategories(){
+        return $this->render('repairCategory/allRepairCategories');
+    }
+
 
 
 }

@@ -1,7 +1,7 @@
 <?php
 /** @var yii\web\View $this */
 
-$this->title = 'Software Issues';
+$this->title = 'SOFTWARE ISSUE';
 ?>
 
 <style>
@@ -14,7 +14,7 @@ $this->title = 'Software Issues';
     }
 
     .title {
-        color: #ffc107;
+        color: #FFD333;
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
@@ -82,7 +82,7 @@ $this->title = 'Software Issues';
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                     <button id="mobilePhonesButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <p style="color:#ffc107"><strong>MOBILE PHONES SOLUTIONS</strong></p>
+                        <p style="color:#FFD333"><strong>MOBILE PHONES SOLUTIONS</strong></p>
                     </button>
             </h2>
         </div>
@@ -103,7 +103,7 @@ $this->title = 'Software Issues';
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <p style="color:#ffc107"><strong>TABLETS SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>TABLETS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
@@ -124,7 +124,7 @@ $this->title = 'Software Issues';
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    <p style="color:#ffc107"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
@@ -145,7 +145,7 @@ $this->title = 'Software Issues';
         <div class="card-header" id="headingFour">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    <p style="color:#ffc107"><strong>WEARABLES SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>WEARABLES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
@@ -163,7 +163,7 @@ $this->title = 'Software Issues';
         <div class="card-header" id="headingFive">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                    <p style="color:#ffc107"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
+                    <p style="color:#FFD333"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
                 </button>
             </h2>
         </div>
@@ -178,7 +178,7 @@ $this->title = 'Software Issues';
         <div class="card-header" id="headingSix">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    <p style="color:#ffc107"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
+                    <p style="color:#FFD333"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
                 </button>
             </h2>
         </div>

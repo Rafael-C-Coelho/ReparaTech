@@ -1,10 +1,9 @@
 <?php
 
 /** @var yii\web\View $this */
+$this->title = 'Broken Screen';
 
-$this->title = 'Storage Issue';
 ?>
-
 
 <style>
     .custom-img {
@@ -16,7 +15,7 @@ $this->title = 'Storage Issue';
     }
 
     .title {
-        color: #FFD333;
+        color: #ffc107;
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
@@ -48,16 +47,22 @@ $this->title = 'Storage Issue';
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/ssdMemory"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/ssd" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="<?= Yii::getAlias('@web') ?>/img/" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
             </div>
         </div>
     </div>
@@ -78,7 +83,7 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button id="mobilePhonesButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <p style="color:#FFD333"><strong>MOBILE PHONES SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>MOBILE PHONES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
@@ -97,7 +102,7 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <p style="color:#FFD333"><strong>TABLETS SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>TABLETS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
@@ -116,7 +121,7 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    <p style="color:#FFD333"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
@@ -138,7 +143,7 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingFour">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    <p style="color:#FFD333"><strong>WEARABLES SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>WEARABLES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
@@ -157,7 +162,7 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingFive">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                    <p style="color:#FFD333"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
+                    <p style="color:#ffc107"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
                 </button>
             </h2>
         </div>
@@ -172,7 +177,7 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingSix">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    <p style="color:#FFD333"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
+                    <p style="color:#ffc107"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
                 </button>
             </h2>
         </div>

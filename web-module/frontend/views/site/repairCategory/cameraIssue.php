@@ -1,10 +1,8 @@
 <?php
-
 /** @var yii\web\View $this */
 
-$this->title = 'Storage Issue';
+$this->title= 'Camera Issues';
 ?>
-
 
 <style>
     .custom-img {
@@ -16,7 +14,7 @@ $this->title = 'Storage Issue';
     }
 
     .title {
-        color: #FFD333;
+        color: #ffc107;
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
@@ -48,16 +46,22 @@ $this->title = 'Storage Issue';
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/ssdMemory"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/iphoneCamera"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/ssd" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/phoneCamera" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="<?= Yii::getAlias('@web') ?>/img/tclCamera" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
             </div>
         </div>
     </div>
@@ -78,16 +82,19 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button id="mobilePhonesButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <p style="color:#FFD333"><strong>MOBILE PHONES SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>MOBILE PHONES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Data recovery and/or replacement of microSD cards.</li>
-                    <li>Cleaning the memory manually or using specialised tools.</li>
-                    <li>Repair or replacement in case of internal storage failure (eMMC or UFS).</li>
+                    <li>Camera does not open or freezes due to a problem with the camera software or application.</li>
+                    <li>Camera blurry and smudged due to dirty or damaged lens.</li>
+                    <li>Front or rear camera does not work due to faulty connector or camera module.</li>
+                    <li>Autofocus does not work because the module is broken or stuck.</li>
+                    <li>Hardware error transmitting messages like "Camera not detected" due to communication failures between the camera and the motherboard.</li>
+                    <li>Flash does not work or is out of calibration because the flash LED is synchronization problems between the flash and shutter.</li>
                 </ul>
             </div>
         </div>
@@ -97,16 +104,19 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <p style="color:#FFD333"><strong>TABLETS SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>TABLETS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Data recovery and/or replacement of microSD cards.</li>
-                    <li>Cleaning the memory manually or using specialised tools.</li>
-                    <li>Repair or replacement in case of internal storage failure (eMMC or UFS).</li>
+                    <li>Camera does not open or freezes due to a problem with the camera software or application.</li>
+                    <li>Camera blurry and smudged due to dirty or damaged lens.</li>
+                    <li>Front or rear camera does not work due to faulty connector or camera module.</li>
+                    <li>Autofocus does not work because the module is broken or stuck.</li>
+                    <li>Hardware error transmitting messages like "Camera not detected" due to communication failures between the camera and the motherboard.</li>
+                    <li>Flash does not work or is out of calibration because the flash LED is synchronization problems between the flash and shutter.</li>
                 </ul>
             </div>
         </div>
@@ -116,38 +126,18 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    <p style="color:#FFD333"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
+                    <p style="color:#ffc107"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Diagnosis and replacement of a damaged Hard Disk Drive (HDD) or SSD.</li>
-                    <li>Bad sectors on hard drives with Logical Repair (software) or physical replacement.</li>
-                    <li>Installation of larger or faster discs (NVMe SSD, for example).</li>
-                    <li>Disc-related boot problems such as operating system not found or boot failures.</li>
-                    <li>Damaged SATA or NVMe connections are repaired or components replaced.</li>
-                    <li>External disks not recognised or inaccessible.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header" id="headingFour">
-            <h2 class="mb-0">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    <p style="color:#FFD333"><strong>WEARABLES SOLUTIONS</strong></p>
-                </button>
-            </h2>
-        </div>
-        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
-            <div class="card-body">
-                <ul>
-                    <li>Freeing up space and reconfiguring synchronisation in the event of limited storage for data synchronisation.</li>
-                    <li>Reinstalling or updating the device's software.</li>
-                    <li>Failed to recognise internal or connected storage.</li>
+                    <li>Camera not detected due to outdated or incompatible driver.</li>
+                    <li>Camera with black or frozen image due to poorly connected or damaged internal cable.</li>
+                    <li>Software problems with video conferencing applications (Zoom, Skype, etc.).</li>
+                    <li>Built-in camera microphone not working due to problems with the driver or faults with the microphone cable.</li>
+                    <li>USB connectivity problems (external cameras).</li>
                 </ul>
             </div>
         </div>
@@ -157,7 +147,7 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingFive">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                    <p style="color:#FFD333"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
+                    <p style="color:#ffc107"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
                 </button>
             </h2>
         </div>
@@ -172,7 +162,7 @@ $this->title = 'Storage Issue';
         <div class="card-header" id="headingSix">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    <p style="color:#FFD333"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
+                    <p style="color:#ffc107"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
                 </button>
             </h2>
         </div>

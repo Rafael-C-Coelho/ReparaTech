@@ -49,6 +49,12 @@ return [
                 'site/damageButton' => 'site/damage-button',
                 'site/batteryIssue' => 'site/battery-issue',
                 'site/storageIssue' => 'site/storage-issue',
+                'site/cameraIssue' => 'site/camera-issue',
+                'site/liquidDamage' => 'site/liquid-damage',
+                'site/connectivityIssue' => 'site/connectivity-issue',
+                'site/brokenScreen' => 'site/broken-screen',
+                'site/audioIssue' => 'site/audio-issue',
+                'site/allRepairCategories' => 'site/all-repair-categories',
 
             ],
         ],
