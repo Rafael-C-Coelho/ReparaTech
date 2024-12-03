@@ -9,7 +9,7 @@
             android:title="@string/homepage"
             android:icon="@drawable/ic_action_listacessories"/>
         <item
-            android:id="@+id/navAccessories"
+            android:id="@+id/navProducts"
             android:title="@string/list_of_accessories"
             android:icon="@drawable/ic_action_listacessories"/>
         <item

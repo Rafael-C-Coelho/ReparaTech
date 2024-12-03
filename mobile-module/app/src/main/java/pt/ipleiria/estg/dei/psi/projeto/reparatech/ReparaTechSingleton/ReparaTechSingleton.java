@@ -1,15 +1,20 @@
-package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
+package pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategory;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Settings;
 
 public class ReparaTechSingleton {
 
     private ArrayList<RepairExample> repairExamples;
     private ArrayList<BestSellingProduct> bestSellingProducts;
     private ArrayList<RepairCategory> repairCategories;
+    private ArrayList<Product> products;
     private static ReparaTechSingleton instance = null;
 
 
@@ -17,6 +22,7 @@ public class ReparaTechSingleton {
         generateDinamicRepairExamples();
         generateDinamicBestSellingProducts();
         generateDinamicRepairCategories();
+        generateDinamicProducts();
     }
 
     public static synchronized ReparaTechSingleton getInstance() {
@@ -74,10 +80,13 @@ public class ReparaTechSingleton {
         System.out.println("Repair Categories generated: " + repairCategories.size());
     }
 
-
+    private void generateDinamicProducts(){
+        products = new ArrayList<>();
+        products.add(new Product(1, "Capa Iphone", "Capa para Iphone", 10, R.drawable.iphone_capa));
+        products.add(new Product(2, "Capa Samsung", "Capa para Samsung", 10, R.drawable.iphone_capa));
+    }
 
     public ArrayList<RepairExample> getRepairExamples(){
-
         return new ArrayList<>(repairExamples);
     }
 
@@ -89,5 +98,8 @@ public class ReparaTechSingleton {
         return new ArrayList<>(repairCategories);
     }
 
+    public ArrayList<Product> getProducts(){
+        return new ArrayList<>(products);
+    }
 
 }

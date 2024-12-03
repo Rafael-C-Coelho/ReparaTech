@@ -54,9 +54,9 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             fragment = new HomepageFragment();
             setTitle(item.getTitle());
 
-        } else if (item.getItemId()==R.id.navAccessories) {
+        } else if (item.getItemId()==R.id.navProducts) {
 
-            fragment = new AcessoriesListFragment();
+            fragment = new ProductsListFragment();
             setTitle(item.getTitle());
 
         } else if (item.getItemId()==R.id.navRepairBookings) {

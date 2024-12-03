@@ -16,7 +16,8 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Settings;
 
 
 public class HomepageFragment extends Fragment {
@@ -39,6 +40,7 @@ public class HomepageFragment extends Fragment {
 
         hScrollViewRepairCategories = view.findViewById(R.id.hScrollViewRepairCategories);
         hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
+
         repairExamples = ReparaTechSingleton.getInstance().getRepairExamples();
         bestSellingProducts = ReparaTechSingleton.getInstance().getbestSellingProductsExamples();
 
@@ -58,7 +60,7 @@ public class HomepageFragment extends Fragment {
         }
 
         for (BestSellingProduct bestSellingProduct: bestSellingProducts) {
-            View cardView = inflater.inflate(R.layout.item_best_selling_product,llBestSellingProducts,false);
+            View cardView = inflater.inflate(R.layout.item_bestselling_product,llBestSellingProducts,false);
 
             ImageView imgBestSellingProduct = cardView.findViewById(R.id.imgBestSellingProduct);
             TextView tvBestSellingProductName = cardView.findViewById(R.id.tvBestSellingProductName);

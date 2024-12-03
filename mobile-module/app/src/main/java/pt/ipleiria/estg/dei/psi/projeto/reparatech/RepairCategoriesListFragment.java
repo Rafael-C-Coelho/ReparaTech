@@ -3,7 +3,6 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.ViewUtils;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,8 +15,7 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters_homepage.RepairCategoriesListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategory;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Singleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
 
 public class RepairCategoriesListFragment extends Fragment {
 
