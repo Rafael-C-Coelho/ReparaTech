@@ -1,14 +1,17 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
-public class RepairExample {
+import android.widget.TextView;
+
+public class RepairCategory {
 
     private int id, img;
-    private String price,title;
+    private String title, description;
 
-    public RepairExample(int id, String title /* String price */, int img) {
+
+    public RepairCategory(int id, String title, String description, int img) {
         this.id = id;
         this.title = title;
-        //this.price = price;
+        this.description = description;
         this.img = img;
     }
 
@@ -20,26 +23,22 @@ public class RepairExample {
         return title;
     }
 
-    /*
-    public String getPrice() {
-        return price;
+    public String getDescription() {
+        return description;
     }
-     */
 
     public int getImg() {
         return img;
     }
 
-
     public void setTitle(String title) {
         this.title = title;
     }
 
-    /*
-    public void setPrice(String price) {
-        this.price = price;
+    public void setDescription(String description) {
+        this.description = description;
     }
-    */
+
     public void setImg(int img) {
         this.img = img;
     }

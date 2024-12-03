@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 
 public class HomepageFragment extends Fragment {
@@ -25,6 +25,8 @@ public class HomepageFragment extends Fragment {
     private HorizontalScrollView hScrollBestSellingProducts;
     private ArrayList<RepairExample> repairExamples;
     private ArrayList<BestSellingProduct> bestSellingProducts;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,18 +47,18 @@ public class HomepageFragment extends Fragment {
 
             ImageView imgCapa = cardView.findViewById(R.id.imgCapa);
             TextView tvBrokenScreen = cardView.findViewById(R.id.tvBrokenScreen);
-            TextView tvPrice = cardView.findViewById(R.id.tvPrice);
+            //TextView tvPrice = cardView.findViewById(R.id.tvPrice);
 
             imgCapa.setImageResource(repairExample.getImg());
             tvBrokenScreen.setText(repairExample.getTitle());
-            tvPrice.setText(repairExample.getPrice());
+            //tvPrice.setText(repairExample.getPrice());
 
             gallery.addView(cardView);
 
         }
 
         for (BestSellingProduct bestSellingProduct: bestSellingProducts) {
-            View cardView = inflater.inflate(R.layout.item_bestselling_product,llBestSellingProducts,false);
+            View cardView = inflater.inflate(R.layout.item_best_selling_product,llBestSellingProducts,false);
 
             ImageView imgBestSellingProduct = cardView.findViewById(R.id.imgBestSellingProduct);
             TextView tvBestSellingProductName = cardView.findViewById(R.id.tvBestSellingProductName);
@@ -64,7 +66,7 @@ public class HomepageFragment extends Fragment {
 
             imgBestSellingProduct.setImageResource(bestSellingProduct.getImg());
             tvBestSellingProductName.setText(bestSellingProduct.getTitle());
-            tvBestSellingProductPrice.setText(" €" + bestSellingProduct.getPrice()); //conversão do preço para string
+            //tvBestSellingProductPrice.setText(" €" + bestSellingProduct.getPrice()); //conversão do preço para string
 
             llBestSellingProducts.addView(cardView);
 

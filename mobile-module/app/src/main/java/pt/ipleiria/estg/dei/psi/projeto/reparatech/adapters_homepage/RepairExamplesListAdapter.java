@@ -59,14 +59,14 @@ public class RepairExamplesListAdapter  extends BaseAdapter {
 
         public ViewHolderList(View view) {
             tvBrokenScreen = view.findViewById(R.id.tvBrokenScreen);
-            tvPrice = view.findViewById(R.id.tvPrice);
+            //tvPrice = view.findViewById(R.id.tvPrice);
             imgCapa = view.findViewById(R.id.imgCapa);
 
         }
 
         public void update(RepairExample repairExample) {
             tvBrokenScreen.setText(repairExample.getTitle());
-            tvPrice.setText(repairExample.getPrice());
+            //tvPrice.setText(repairExample.getPrice());
             imgCapa.setImageResource(repairExample.getImg());
         }
     }

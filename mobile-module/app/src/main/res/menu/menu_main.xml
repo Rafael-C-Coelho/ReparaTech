@@ -13,9 +13,10 @@
             android:title="@string/list_of_accessories"
             android:icon="@drawable/ic_action_listacessories"/>
         <item
-            android:id="@+id/navListRepairs"
-            android:title="@string/list_of_repairs"
+            android:id="@+id/navListRepairCategories"
+            android:title="@string/list_of_repair_categories"
             android:icon="@drawable/ic_action_listrepairs"/>
+
         <item
             android:id="@+id/navRepairBookings"
             android:title="@string/txt_repair_bookings"

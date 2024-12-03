@@ -27,7 +27,7 @@ public class ServerSettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         Settings settings = new Settings(sharedPreferences);
         if (settings.getUrl() != null) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, MenuMainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -41,7 +41,7 @@ public class ServerSettingsActivity extends AppCompatActivity {
                 return;
             }
             settings.setUrl(url);
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, MenuMainActivity.class);
             startActivity(intent);
             finish();
         });

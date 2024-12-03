@@ -13,7 +13,7 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="list_of_products">List of Products</string>
-    <string name="list_of_repairs">List of Repairs</string>
+    <string name="list_of_repair_categories">List of Repair Categories </string>
     <string name="ndOpen">Open</string>
     <string name="ndClose">Close</string>
     <string name="date">Date</string>
@@ -38,11 +38,17 @@
     <string name="list_of_acessories">list_of_acessories</string>
     <string name="homepage">Homepage</string>
     <string name="list_of_accessories">List of Accessories</string>
-    <string name="txt_repair_categories">REPAIR CATEGORIES</string>
     <string name="txt_bestselling_productName">PRODUCT NAME</string>
     <string name="txt_bestselling_productPrice">PRICE</string>
     <string name="txt_recently_added_products">RECENTLY ADDED PRODUCTS</string>
     <string name="txt_best_selling_products">BEST-SELLING PRODUCTS</string>
     <string name="label_register">Register</string>
+    <string name="txt_myAgenda">My Agenda</string>
+    <string name="txt_myRepairBookings">My Repair Bookings</string>
+    <string name="txt_someRepairsWeDo">SOME OF THE REPAIRS WE DO</string>
+    <string name="txt_viewDetails">View Details</string>
+    <string name="txt_AllCategories">All Repair Categories</string>
+    <string name="txt_repair_category_description">Little Description</string>
+    <string name="txt_camera_issues">Camera Issues</string>
 
 </resources>

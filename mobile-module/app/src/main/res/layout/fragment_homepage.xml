@@ -27,6 +27,7 @@
                 android:paddingBottom="5dp"
                 android:text="@string/txt_recently_added_products"
                 android:textSize="20sp"
+                android:background="@color/yellow"
                 android:textStyle="bold"/>
 
             <HorizontalScrollView
@@ -52,6 +53,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/yellow"
                 android:paddingBottom="5dp"
                 android:text="@string/txt_best_selling_products"
                 android:textSize="20sp"
@@ -82,9 +85,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/yellow"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
-                android:text="@string/txt_repair_categories"
+                android:text="@string/txt_someRepairsWeDo"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
