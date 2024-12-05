@@ -159,9 +159,9 @@
     </div>
     <div class="col">
         <div class="card">
-            <img src="<?= Yii::getAlias('@web')?>/img/pcWater" class="card-img-top" alt="pcWater">
+            <img src="<?= Yii::getAlias('@web')?>/img/iphoneWater" class="card-img-top" alt="pcWater">
             <div class="card-body">
-                <a href="<?= yii\helpers\Url::to(['site/'])?>" id="cardRepair" class="card-title" <strong>Liquid Damage</strong></a>
+                <a href="<?= yii\helpers\Url::to(['site/liquidDamage'])?>" id="cardRepair" class="card-title" <strong>Liquid Damage</strong></a>
                 <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
             </div>
         </div>

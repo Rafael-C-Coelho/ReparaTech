@@ -33,7 +33,7 @@
                         'icon' => 'user-tie',
                         'url' => ['manager/view', 'id' => Yii::$app->user->id],
                     ] : [],
-                    Yii::$app->user->can("ListClients") ? [
+                    Yii::$app->user->can("listClients") ? [
                         'label' => 'Clients',
                         'icon' => 'users',
                         'url' => ['client/index'],
@@ -57,6 +57,11 @@
                         'label' => 'Budgets',
                         'icon' => 'wallet',
                         'url' => ['budget/index'],
+                    ] : [],
+                    (Yii::$app->user->can("listBookings")) ? [
+                        'label' => 'Bookings',
+                        'icon' => 'calendar-alt',
+                        'url' => ['booking/index'],
                     ] : [],
                     Yii::$app->user->can("listFavoriteProducts") ? [
                         'label' => 'Favorite Products',

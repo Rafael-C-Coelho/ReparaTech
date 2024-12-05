@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace backend\controllers;
 
 use common\models\Booking;
 use yii\data\ActiveDataProvider;
@@ -24,7 +24,7 @@ class BookingController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index','create', 'view', 'update', 'delete'],
+                    'only' => ['index','view', 'create', 'update', 'delete'],
                     'rules' => [
                         [
                               'allow' => true,
@@ -55,14 +55,14 @@ class BookingController extends Controller
                         ],
                         [
                             'allow' => false,
-                            'roles' => ['?'],
+                            'roles' => ['?','client'],
                         ],
                     ],
+                ],
                     'verbs' => [
                         'class' => VerbFilter::className(),
                         'actions' => [
                             'delete' => ['POST'],
-                        ],
                     ],
                 ],
             ]

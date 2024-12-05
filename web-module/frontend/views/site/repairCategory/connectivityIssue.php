@@ -14,7 +14,7 @@ $this->title = 'Connectivity Issue';
     }
 
     .title {
-        color: #ffc107;
+        color: #FFD333;
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
@@ -46,22 +46,16 @@ $this->title = 'Connectivity Issue';
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/connectivityIssue"  class="d-block custom-img" alt="connectivityIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/headphonesPC" class="d-block custom-img" alt="headphonesPc" width="800" height="400">
             </div>
         </div>
     </div>
@@ -82,16 +76,16 @@ $this->title = 'Connectivity Issue';
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button id="mobilePhonesButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <p style="color:#ffc107"><strong>MOBILE PHONES SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>MOBILE PHONES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Data recovery and/or replacement of microSD cards.</li>
-                    <li>Cleaning the memory manually or using specialised tools.</li>
-                    <li>Repair or replacement in case of internal storage failure (eMMC or UFS).</li>
+                    <li>Bluetooth: failure to pair or maintain connection with other devices (e.g., headphones or car systems).</li>
+                    <li>Broken internal Wi-Fi antenna or loose connections.</li>
+                    <li>USB/charging ports like due to not recognized when connected to a computer.</li>
                 </ul>
             </div>
         </div>
@@ -101,16 +95,16 @@ $this->title = 'Connectivity Issue';
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <p style="color:#ffc107"><strong>TABLETS SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>TABLETS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Data recovery and/or replacement of microSD cards.</li>
-                    <li>Cleaning the memory manually or using specialised tools.</li>
-                    <li>Repair or replacement in case of internal storage failure (eMMC or UFS).</li>
+                    <lI>Bluetooth: range or unstable connections with accessories.</lI>
+                    <li>USB-C/Lightning Port: problems with external accessories (e.g., keyboards, hubs).</li>
+                    <li>Incompatibility with peripheral connections like styluses.</li>
                 </ul>
             </div>
         </div>
@@ -120,19 +114,16 @@ $this->title = 'Connectivity Issue';
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    <p style="color:#ffc107"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Diagnosis and replacement of a damaged Hard Disk Drive (HDD) or SSD.</li>
-                    <li>Bad sectors on hard drives with Logical Repair (software) or physical replacement.</li>
-                    <li>Installation of larger or faster discs (NVMe SSD, for example).</li>
-                    <li>Disc-related boot problems such as operating system not found or boot failures.</li>
-                    <li>Damaged SATA or NVMe connections are repaired or components replaced.</li>
-                    <li>External disks not recognised or inaccessible.</li>
+                    <li>USB Ports: Non-functional ports due to damage or driver issues.</li>
+                    <li>Peripheral Device Connectivity: Issues with keyboards, mice, or webcams.</li>
+                    <li>Internal Expansion Cards: Faulty Bluetooth or Wi-Fi cards.</li>
                 </ul>
             </div>
         </div>
@@ -142,16 +133,16 @@ $this->title = 'Connectivity Issue';
         <div class="card-header" id="headingFour">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    <p style="color:#ffc107"><strong>WEARABLES SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>WEARABLES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Freeing up space and reconfiguring synchronisation in the event of limited storage for data synchronisation.</li>
-                    <li>Reinstalling or updating the device's software.</li>
-                    <li>Failed to recognise internal or connected storage.</li>
+                    <lI>Bluetooth Pairing: Connection drops frequently or fails to initiate.</lI>
+                    <li>NFC/Contactless Payments: Malfunctioning NFC chips.</li>
+                    <lI>Magnetic Charging: Intermittent connection with the charger.</lI>
                 </ul>
             </div>
         </div>
@@ -161,7 +152,7 @@ $this->title = 'Connectivity Issue';
         <div class="card-header" id="headingFive">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                    <p style="color:#ffc107"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
+                    <p style="color:#FFD333"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
                 </button>
             </h2>
         </div>
@@ -176,7 +167,7 @@ $this->title = 'Connectivity Issue';
         <div class="card-header" id="headingSix">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    <p style="color:#ffc107"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
+                    <p style="color:#FFD333"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
                 </button>
             </h2>
         </div>

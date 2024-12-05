@@ -14,9 +14,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'repair_id')->textInput() ?>
 
-    <?= $form->field($model, 'date')->textInput() ?>
+    <?= $form->field($model, 'date')->textInput(['type' => 'date']) ?>
 
-    <?= $form->field($model, 'time')->textInput() ?>
+    <?= $form->field($model, 'time')->textInput(['type' => 'time']) ?>
 
     <?= $form->field($model, 'status')->dropDownList([ 'Requested' => 'Requested', 'Confirmed' => 'Confirmed', 'Denied' => 'Denied', 'Cancelled' => 'Cancelled', ], ['prompt' => '']) ?>
 

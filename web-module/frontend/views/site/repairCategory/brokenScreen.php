@@ -15,7 +15,7 @@ $this->title = 'Broken Screen';
     }
 
     .title {
-        color: #ffc107;
+        color: #FFD333;
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
@@ -52,17 +52,17 @@ $this->title = 'Broken Screen';
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/samsungScreen"  class="d-block custom-img" alt="samsungScreen" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/iWatchBroken" class="d-block custom-img" alt="iWatchBroken" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/pcBroken" class="d-block custom-img" alt="pcBroken" width="800" height="400">
             </div>
         </div>
     </div>
@@ -83,16 +83,18 @@ $this->title = 'Broken Screen';
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button id="mobilePhonesButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <p style="color:#ffc107"><strong>MOBILE PHONES SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>MOBILE PHONES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Data recovery and/or replacement of microSD cards.</li>
-                    <li>Cleaning the memory manually or using specialised tools.</li>
-                    <li>Repair or replacement in case of internal storage failure (eMMC or UFS).</li>
+                    <li>Cracked or physically damaged screen.</li>
+                    <li>Partial or full unresponsiveness of the touchscreen</li>
+                    <li>Screen burn-in, permanent discoloration due to static images.</li>
+                    <li>Dead zones, with specific areas on the screen not responding to touch.</li>
+                    <li>Display discoloration, like color issues like yellow/green tints or washed-out colors.</li>
                 </ul>
             </div>
         </div>
@@ -102,16 +104,18 @@ $this->title = 'Broken Screen';
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <p style="color:#ffc107"><strong>TABLETS SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>TABLETS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Data recovery and/or replacement of microSD cards.</li>
-                    <li>Cleaning the memory manually or using specialised tools.</li>
-                    <li>Repair or replacement in case of internal storage failure (eMMC or UFS).</li>
+                    <li>Cracked or damaged screen.</li>
+                    <li>Touchscreen calibration issues.</li>
+                    <li>Screen registering non-existent .</li>
+                    <li>Black screen (no display), often due to faulty cables or connectors.</li>
+                    <li>Screen stuck on a single image due to hardware/software problems.</li>
                 </ul>
             </div>
         </div>
@@ -121,19 +125,19 @@ $this->title = 'Broken Screen';
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    <p style="color:#ffc107"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Diagnosis and replacement of a damaged Hard Disk Drive (HDD) or SSD.</li>
-                    <li>Bad sectors on hard drives with Logical Repair (software) or physical replacement.</li>
-                    <li>Installation of larger or faster discs (NVMe SSD, for example).</li>
-                    <li>Disc-related boot problems such as operating system not found or boot failures.</li>
+                    <li>Cracked or physically damaged screen.</li>
+                    <li>Dead pixels or pixel bleeding like unresponsive pixels or areas on the screen.</li>
+                    <li>Flickering screen caused by loose connections, faulty drivers, or hardware issues.</li>
+                    <li>Backlight failure, the screen appears dim or completely dark while the system works.</li>
                     <li>Damaged SATA or NVMe connections are repaired or components replaced.</li>
-                    <li>External disks not recognised or inaccessible.</li>
+                    <li>Touchscreen malfunction (if applicable).</li>
                 </ul>
             </div>
         </div>
@@ -143,16 +147,20 @@ $this->title = 'Broken Screen';
         <div class="card-header" id="headingFour">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    <p style="color:#ffc107"><strong>WEARABLES SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>WEARABLES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Freeing up space and reconfiguring synchronisation in the event of limited storage for data synchronisation.</li>
+                    <li>Cracked or scratched glass.</li>
                     <li>Reinstalling or updating the device's software.</li>
                     <li>Failed to recognise internal or connected storage.</li>
+                    <li>Partial or full unresponsiveness of the touchscreen.</li>
+                    <li>Random flashes or unstable brightness levels.</li>
+                    <li>Water damage.</li>
+                    <li>Low screen brightness or no display</li>
                 </ul>
             </div>
         </div>
@@ -162,7 +170,7 @@ $this->title = 'Broken Screen';
         <div class="card-header" id="headingFive">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                    <p style="color:#ffc107"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
+                    <p style="color:#FFD333"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
                 </button>
             </h2>
         </div>
@@ -177,7 +185,7 @@ $this->title = 'Broken Screen';
         <div class="card-header" id="headingSix">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    <p style="color:#ffc107"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
+                    <p style="color:#FFD333"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
                 </button>
             </h2>
         </div>

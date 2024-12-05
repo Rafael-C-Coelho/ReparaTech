@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Repair;
+use common\models\Invoice;
 use common\models\User;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;

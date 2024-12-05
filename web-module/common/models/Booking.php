@@ -32,6 +32,8 @@ class Booking extends \yii\db\ActiveRecord
             [['repair_id', 'date', 'time'], 'required'],
             [['repair_id'], 'integer'],
             [['date', 'time'], 'safe'],
+            ['date', 'date', 'format' => 'php:Y-m-d'],
+            ['time', 'time', 'format' => 'php:H:i'],
             [['status'], 'string'],
             [['repair_id'], 'exist', 'skipOnError' => true, 'targetClass' => Repairs::class, 'targetAttribute' => ['repair_id' => 'id']],
         ];

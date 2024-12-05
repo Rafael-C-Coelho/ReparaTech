@@ -103,6 +103,7 @@ class RbacController extends Controller
         // Define all entities that need permissions
         $entities = [
             'Budgets',
+            'Bookings',
             'Clients',
             'Comments',
             'FavoriteProducts',
@@ -160,6 +161,13 @@ class RbacController extends Controller
         $auth->addChild($repairTechnician, $auth->getPermission('viewBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('listBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('deleteBudgets'));
+
+        //Booking permissions
+        $auth->addChild($repairTechnician, $auth->getPermission('listBookings'));
+        $auth->addChild($repairTechnician, $auth->getPermission('viewBookings'));
+        $auth->addChild($repairTechnician, $auth->getPermission('createBookings'));
+        $auth->addChild($repairTechnician, $auth->getPermission('updateBookings'));
+        $auth->addChild($repairTechnician, $auth->getPermission('deleteBookings'));
 
         echo "RBAC configured for Repair Technician.\n";
     }

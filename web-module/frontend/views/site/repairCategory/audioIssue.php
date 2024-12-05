@@ -1,7 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
-$this->title = 'Audio Issue';
+$this->title = 'AUDIO';
 ?>
 
 <style>
@@ -14,7 +14,7 @@ $this->title = 'Audio Issue';
     }
 
     .title {
-        color: #ffc107;
+        color: #FFD333;
         text-align: center;
         margin-top: 8px;
         margin-bottom: 20px;
@@ -51,17 +51,17 @@ $this->title = 'Audio Issue';
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/pcSound"  class="d-block custom-img" alt="pcSound" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/connectivityIssue" class="d-block custom-img" alt="connectivityIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/headphonesPC" class="d-block custom-img" alt="headphonesPC" width="800" height="400">
             </div>
         </div>
     </div>
@@ -82,16 +82,20 @@ $this->title = 'Audio Issue';
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button id="mobilePhonesButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <p style="color:#ffc107"><strong>MOBILE PHONES SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>MOBILE PHONES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Data recovery and/or replacement of microSD cards.</li>
-                    <li>Cleaning the memory manually or using specialised tools.</li>
-                    <li>Repair or replacement in case of internal storage failure (eMMC or UFS).</li>
+                    <li>Weak, distorted or absent sound.</li>
+                    <li>Low volume or no sound during calls.</li>
+                    <li>No sound during calls in speakerphone mode.</li>
+                    <li>Microphone muted or muffled during calls.</li>
+                    <li>Interruptions in connection to wireless audio devices.</li>
+                    <li>Poor sound quality via Bluetooth.</li>
+                    <li>Firmware or driver updates that cause sound issues.</li>
                 </ul>
             </div>
         </div>
@@ -101,16 +105,20 @@ $this->title = 'Audio Issue';
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <p style="color:#ffc107"><strong>TABLETS SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>TABLETS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Data recovery and/or replacement of microSD cards.</li>
-                    <li>Cleaning the memory manually or using specialised tools.</li>
-                    <li>Repair or replacement in case of internal storage failure (eMMC or UFS).</li>
+                    <li>Weak, distorted or absent sound.</li>
+                    <li>Strange noises during playback.</li>
+                    <li>Interruptions in connection to wireless audio devices.</li>
+                    <li>Poor sound quality via Bluetooth.</li>
+                    <li>Does not capture sound or captures very low sound.</li>
+                    <li>Interference or echo during video conferences.</li>
+                    <lI>Sound not captured when recording audio or using voice commands..</lI>
                 </ul>
             </div>
         </div>
@@ -120,19 +128,23 @@ $this->title = 'Audio Issue';
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    <p style="color:#ffc107"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>DESKTOPS AND LAPTOPS SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Diagnosis and replacement of a damaged Hard Disk Drive (HDD) or SSD.</li>
-                    <li>Bad sectors on hard drives with Logical Repair (software) or physical replacement.</li>
-                    <li>Installation of larger or faster discs (NVMe SSD, for example).</li>
-                    <li>Disc-related boot problems such as operating system not found or boot failures.</li>
-                    <li>Damaged SATA or NVMe connections are repaired or components replaced.</li>
-                    <li>External disks not recognised or inaccessible.</li>
+                    <li>Strange noises during playback.</li>
+                    <li>Weak, distorted or absent sound.</li>
+                    <li>Interference or echo during video conferences.</li>
+                    <li>Does not capture sound or captures very low sound.</li>
+                    <li>Microphone muted or muffled during video calls.</li>
+                    <li>Headphones or external speakers not detected.</li>
+                    <li>Outdated or corrupt drivers.</li>
+                    <li>Physical defects in the sound card (internal or external).</li>
+                    <li>Audio not transmitted via HDMI or DisplayPort cables.</li>
+                    <li>Conflicts between third-party software and the operating system.</li>
                 </ul>
             </div>
         </div>
@@ -142,16 +154,17 @@ $this->title = 'Audio Issue';
         <div class="card-header" id="headingFour">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    <p style="color:#ffc107"><strong>WEARABLES SOLUTIONS</strong></p>
+                    <p style="color:#FFD333"><strong>WEARABLES SOLUTIONS</strong></p>
                 </button>
             </h2>
         </div>
         <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
             <div class="card-body">
                 <ul>
-                    <li>Freeing up space and reconfiguring synchronisation in the event of limited storage for data synchronisation.</li>
-                    <li>Reinstalling or updating the device's software.</li>
-                    <li>Failed to recognise internal or connected storage.</li>
+                    <li>Bugs in updates that affect audio.</li>
+                    <li>Need for audio calibration.</li>
+                    <li>Notifications, calls or voice commands not audible.</li>
+                    <li>Audio is out of sync with the main device.</li>
                 </ul>
             </div>
         </div>
@@ -161,7 +174,7 @@ $this->title = 'Audio Issue';
         <div class="card-header" id="headingFive">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                    <p style="color:#ffc107"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
+                    <p style="color:#FFD333"><strong>HOW LONG DOES A REPAIR TAKE?</strong></p>
                 </button>
             </h2>
         </div>
@@ -176,7 +189,7 @@ $this->title = 'Audio Issue';
         <div class="card-header" id="headingSix">
             <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    <p style="color:#ffc107"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
+                    <p style="color:#FFD333"><strong>HOW MUCH WILL THE REPAIR COST?</strong></p>
                 </button>
             </h2>
         </div>
