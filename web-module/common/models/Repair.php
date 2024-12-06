@@ -6,6 +6,7 @@ use common\models\Budget;
 use common\models\RepairPart;
 use common\models\User;
 
+
 /**
  * This is the model class for table "repairs".
  *
@@ -118,4 +119,9 @@ class Repair extends \yii\db\ActiveRecord
         }
         return Repair::find()->all();
     }
+
+    public function getBooking(){
+        return $this->hasMany(\common\models\Booking::class,['repair_id' => 'id']);
+    }
+
 }

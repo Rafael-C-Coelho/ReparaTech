@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Booking;
+use common\models\Repair;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -114,7 +115,8 @@ class BookingController extends Controller
         $model = new Booking();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            $model->load($this->request->post());
+            if($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -123,6 +125,7 @@ class BookingController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'repairs' => Repair::getRepairs(),
         ]);
     }
 

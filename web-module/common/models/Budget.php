@@ -4,6 +4,7 @@ namespace common\models;
 
 use common\models\BudgetsHasParts;
 use common\models\Repairs;
+use Yii;
 
 /**
  * This is the model class for table "{{%budgets}}".

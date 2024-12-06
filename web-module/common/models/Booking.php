@@ -35,7 +35,7 @@ class Booking extends \yii\db\ActiveRecord
             ['date', 'date', 'format' => 'php:Y-m-d'],
             ['time', 'time', 'format' => 'php:H:i'],
             [['status'], 'string'],
-            [['repair_id'], 'exist', 'skipOnError' => true, 'targetClass' => Repairs::class, 'targetAttribute' => ['repair_id' => 'id']],
+            [['repair_id'], 'exist', 'skipOnError' => true, 'targetClass' => \common\models\Repair::class, 'targetAttribute' => ['repair_id' => 'id']],
         ];
     }
 
@@ -52,4 +52,11 @@ class Booking extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
+    public function getRepair(){
+        return $this->hasOne(\common\models\Repairs::class, ['id' => 'repair_id']);
+    }
+
+
+
 }
