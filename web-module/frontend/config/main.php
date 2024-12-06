@@ -14,6 +14,9 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -55,8 +58,31 @@ return [
                 'site/brokenScreen' => 'site/broken-screen',
                 'site/audioIssue' => 'site/audio-issue',
                 'site/allRepairCategories' => 'site/all-repair-categories',
-
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/product',
+                    'pluralize' => true
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/auth',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST login' => 'login',
+                        'POST register' => 'register',
+                        'POST requestPasswordReset' => 'requestPasswordReset',
+                        'GET profile' => 'profile',
+                        'PATCH updateProfile' => 'updateProfile',
+                        'POST refreshToken' => 'refreshToken',
+                        'POST logout' => 'logout',
+                    ],
+                ],
             ],
+        ],
+    ],
+    'modules' => [
+        'api' => [
+            'class' => 'frontend\modules\api\ModuleAPI',
         ],
     ],
     'layout' => '@frontend/views/layouts/main.php',

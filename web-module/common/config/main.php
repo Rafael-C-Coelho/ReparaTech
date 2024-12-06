@@ -1,4 +1,7 @@
 <?php
+
+use kaabar\jwt\JwtHttpBearerAuth;
+
 return [
     'id' => 'repara-tech',
     'name' => 'Repara Tech',
@@ -14,7 +17,6 @@ return [
         'cache' => [
             'class' => \yii\caching\FileCache::class,
         ],
-
     ],
     'modules' => [
         'gii' => [

@@ -1,9 +1,8 @@
 <?php
 
-namespace backend\modules\api\controllers;
+namespace frontend\modules\api\controllers;
 
 use yii\rest\ActiveController;
-use yii\web\Controller;
 
 /**
  * Default controller for the `api` module

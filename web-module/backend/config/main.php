@@ -39,17 +39,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/product',
-                    'pluralize' => true
-                ],
-            ],
-        ],
         'view' => [
             'class' => View::class,
             'theme' => [
@@ -62,11 +51,6 @@ return [
             'bundles' => [
                 'hail812\adminlte3\AdminLteAsset',
             ],
-        ],
-    ],
-    'modules' => [
-        'api' => [
-            'class' => 'backend\modules\api\ModuleAPI',
         ],
     ],
     'layout' => '@backend/views/layouts/main.php',

@@ -28,6 +28,7 @@
  * ];
  * ```
  */
+
 return [
     'Development' => [
         'path' => 'dev',
