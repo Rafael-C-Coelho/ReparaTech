@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategory;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoryDetail;
 
@@ -32,7 +32,7 @@ public class RepairCategoriesDetailsActivity extends AppCompatActivity {
 
         int id = getIntent().getIntExtra(ID_REPAIRCATEGORY, 0);
 
-        repairCategory = ReparaTechSingleton.getInstance().getRepairCategory(id);
+        repairCategory = ReparaTechSingleton.getInstance(this).getRepairCategory(id);
 
         TextView tvMobileRepairDescription = findViewById(R.id.tvMobileRepairDescription);
         TextView tvTabletSolutionRepairDescription = findViewById(R.id.tvTabletSolutionRepairDescription);

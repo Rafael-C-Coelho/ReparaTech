@@ -16,8 +16,8 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters_homepage.RepairCategoriesListAdapter;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.RepairCategoriesListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategory;
 
 public class RepairCategoriesListActivity extends AppCompatActivity {
@@ -39,7 +39,7 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
 
         lvRepairCategories = findViewById(R.id.lvRepairCategories);
 
-        repairCategories = ReparaTechSingleton.getInstance().getRepairCategories();
+        repairCategories = ReparaTechSingleton.getInstance(getBaseContext()).getRepairCategories();
 
 
         lvRepairCategories.setAdapter(new RepairCategoriesListAdapter(RepairCategoriesListActivity.this,repairCategories));

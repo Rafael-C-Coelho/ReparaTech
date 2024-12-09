@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategories.RepairCategoriesListActivity;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 
