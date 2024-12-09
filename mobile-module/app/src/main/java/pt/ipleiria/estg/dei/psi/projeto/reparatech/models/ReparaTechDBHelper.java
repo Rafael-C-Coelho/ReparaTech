@@ -23,7 +23,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String TABLE_SETTINGS = "settings";
     private static final String URL = "url";
 
-    private static final String TABLE_USERS = "auth";
+    private static final String TABLE_AUTH = "auth";
     private static final String USERNAME = "username";
     private static final String TOKEN = "token";
     private static final String REFRESH_TOKEN = "refresh_token";
@@ -35,17 +35,17 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String createSettingsTable = "CREATE TABLE " + TABLE_SETTINGS +
+        String createSettingsTable = "CREATE TABLE IF NOT EXISTS " + TABLE_SETTINGS +
                 "(" + URL + " TEXT NOT NULL" +
                 ");";
         sqLiteDatabase.execSQL(createSettingsTable);
 
-        String createAuthTable = "CREATE TABLE " + TABLE_USERS +
+        String createAuthTable = "CREATE TABLE " + TABLE_AUTH +
                 "(" + USERNAME + " TEXT NOT NULL, " +
                 TOKEN + " TEXT NOT NULL, " +
                 REFRESH_TOKEN + " TEXT NOT NULL" +
                 ");";
-        sqLiteDatabase.execSQL(createSettingsTable);
+        sqLiteDatabase.execSQL(createAuthTable);
 
         /*String createProductTable = "CREATE TABLE " + TABLE_PRODUCTS +
                                     "(" + NAME_PRODUCT + " TEXT "*/
@@ -54,6 +54,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_AUTH);
         this.onCreate(db);
     }
 
@@ -97,11 +98,11 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(TOKEN, auth.getToken());
         values.put(REFRESH_TOKEN, auth.getRefreshToken());
 
-        this.db.insert(TABLE_USERS, null, values);
+        this.db.insert(TABLE_AUTH, null, values);
     }
 
     public Auth getAuthDB() {
-        Cursor cursor = this.db.query(TABLE_USERS,new String[]{USERNAME, TOKEN, REFRESH_TOKEN},
+        Cursor cursor = this.db.query(TABLE_AUTH,new String[]{USERNAME, TOKEN, REFRESH_TOKEN},
                 null,
                 null,
                 null,
@@ -120,11 +121,11 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(TOKEN, auth.getToken());
         values.put(REFRESH_TOKEN, auth.getRefreshToken());
 
-        this.db.update(TABLE_USERS, values, null, null);
+        this.db.update(TABLE_AUTH, values, null, null);
     }
 
     public void removeAllAuthDB() {
-        this.db.delete(TABLE_USERS, null, null);
+        this.db.delete(TABLE_AUTH, null, null);
     }
 
     // endregion
