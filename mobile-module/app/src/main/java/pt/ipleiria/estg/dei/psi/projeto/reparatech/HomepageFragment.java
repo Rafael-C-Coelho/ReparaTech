@@ -1,12 +1,15 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,10 +17,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategories.RepairCategoriesListActivity;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Settings;
 
 
 public class HomepageFragment extends Fragment {
@@ -26,6 +29,7 @@ public class HomepageFragment extends Fragment {
     private HorizontalScrollView hScrollBestSellingProducts;
     private ArrayList<RepairExample> repairExamples;
     private ArrayList<BestSellingProduct> bestSellingProducts;
+    private RepairExample repairExample;
 
 
 
@@ -34,6 +38,7 @@ public class HomepageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
 
+
         LinearLayout gallery = view.findViewById(R.id.RepairCategories);
         LinearLayout llBestSellingProducts = view.findViewById(R.id.BestSellingProducts);
 
@@ -41,8 +46,11 @@ public class HomepageFragment extends Fragment {
         hScrollViewRepairCategories = view.findViewById(R.id.hScrollViewRepairCategories);
         hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
 
+
+
         repairExamples = ReparaTechSingleton.getInstance().getRepairExamples();
         bestSellingProducts = ReparaTechSingleton.getInstance().getbestSellingProductsExamples();
+
 
         for (RepairExample repairExample: repairExamples) {
             View cardView = inflater.inflate(R.layout.item_repair_example,gallery,false);
@@ -50,15 +58,28 @@ public class HomepageFragment extends Fragment {
             ImageView imgCapa = cardView.findViewById(R.id.imgCapa);
             TextView tvBrokenScreen = cardView.findViewById(R.id.tvBrokenScreen);
             //TextView tvPrice = cardView.findViewById(R.id.tvPrice);
-
+            Button btnDetails = cardView.findViewById(R.id.btnDetails);
             imgCapa.setImageResource(repairExample.getImg());
             tvBrokenScreen.setText(repairExample.getTitle());
             //tvPrice.setText(repairExample.getPrice());
 
             gallery.addView(cardView);
 
+            btnDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("--->HomepageFragment", "RepairExample ID: " + repairExample.getId());
+                    if (repairExample.getId() == -1) {
+                        Intent intent = new Intent(getActivity(), RepairCategoriesListActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+
         }
 
+
+        /*
         for (BestSellingProduct bestSellingProduct: bestSellingProducts) {
             View cardView = inflater.inflate(R.layout.item_bestselling_product,llBestSellingProducts,false);
 
@@ -73,8 +94,12 @@ public class HomepageFragment extends Fragment {
             llBestSellingProducts.addView(cardView);
 
         }
+   
+         */
 
         return view;
     }
+
+
 
 }

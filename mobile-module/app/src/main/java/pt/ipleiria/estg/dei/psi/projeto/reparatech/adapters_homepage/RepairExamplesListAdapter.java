@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class RepairExamplesListAdapter  extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<RepairExample> repairExamples;
+    private Button btnDedails;
 
     public RepairExamplesListAdapter(Context context, ArrayList<RepairExample> repairExamples) {
         this.context = context;
@@ -56,6 +58,7 @@ public class RepairExamplesListAdapter  extends BaseAdapter {
 
         private TextView tvBrokenScreen,tvPrice;
         private ImageView imgCapa;
+        private Button btnDetails;
 
         public ViewHolderList(View view) {
             tvBrokenScreen = view.findViewById(R.id.tvBrokenScreen);
@@ -69,5 +72,11 @@ public class RepairExamplesListAdapter  extends BaseAdapter {
             //tvPrice.setText(repairExample.getPrice());
             imgCapa.setImageResource(repairExample.getImg());
         }
+
+
     }
+
+
+
+
 }

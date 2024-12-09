@@ -50,5 +50,16 @@
     <string name="txt_AllCategories">All Repair Categories</string>
     <string name="txt_repair_category_description">Little Description</string>
     <string name="txt_camera_issues">Camera Issues</string>
+    <string name="expandable_text">We Sanchhaya Education Pvt. Ltd., are registered and headquartered
+        at BC 227, 2nd Floor, Matrix Business Tower, B4, Sector 132, Noida, UP-201301, hereinafter
+        referred to as GeeksforGeeks. We also offer paid Courses managed by Sanchhaya Classes Pvt. Ltd. </string>
+    <string name="txt_cost_repair_description">How Much Will the Repair Cost?</string>
+    <string name="txt_long_repair_take">How Long Will the Repair Take?</string>
+    <string name="txt_wearables_solutions">Wearables Solutions:</string>
+    <string name="txt_desktops_laptops_solutions">Desktops and Laptops Solutions:</string>
+    <string name="txt_tablets_solutions">Tablets Solutions:</string>
+    <string name="txt_mobile_phones_solutions">Mobile Phones Solutions:</string>
+    <string name="txt_btn_request_quote">Request Quote</string>
+    <string name="txt_server_settings">Server Settings</string>
 
 </resources>

@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategories.RepairCategoriesListActivity;
+
 public class MenuMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView navigationView;
@@ -43,6 +45,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         fragmentManager = getSupportFragmentManager();
 
         loadInitialFragment();
+
     }
 
     @Override
@@ -60,14 +63,12 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             setTitle(item.getTitle());
 
         } else if (item.getItemId()==R.id.navRepairBookings) {
-
-            fragment = new RepairBookingFragment();
-            setTitle(item.getTitle());
+            Intent intent = new Intent(this, RepairBookingActivity.class);
+            startActivity(intent);
 
         } else if (item.getItemId()==R.id.navListRepairCategories) {
-            fragment = new RepairCategoriesListFragment();
-            setTitle(item.getTitle());
-
+            Intent intent = new Intent( this, RepairCategoriesListActivity.class);
+            startActivity(intent);
 
         } else if (item.getItemId() == R.id.navLogin) {
             Intent intent = new Intent(this, LoginActivity.class);

@@ -32,6 +32,10 @@
             android:id="@+id/navSignUp"
             android:icon="@drawable/ic_action_signup"
             android:title="@string/sign_up" />
+        <item
+            android:id="@+id/navServer"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/txt_server_settings" />
     </group>
 
 </menu>
