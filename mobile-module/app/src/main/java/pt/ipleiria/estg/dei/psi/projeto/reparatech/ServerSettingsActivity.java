@@ -1,35 +1,35 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.databinding.ActivityServerSettingsBinding;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Settings;
 
 public class ServerSettingsActivity extends AppCompatActivity {
 
     private ActivityServerSettingsBinding binding;
+    private Settings settings;
+    public static final String ACTION = "ACTION";
+    public static final String EDIT_ACTION = "EDIT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.settings = ReparaTechSingleton.getInstance(this).getSettings();
         binding = ActivityServerSettingsBinding.inflate(getLayoutInflater());
 
-        SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-        Settings settings = new Settings(sharedPreferences);
-        if (settings.getUrl() != null) {
-            Intent intent = new Intent(this, MenuMainActivity.class);
-            startActivity(intent);
-            finish();
+        if (getIntent().getStringExtra(ACTION) != null && getIntent().getStringExtra(ACTION).equals(EDIT_ACTION)) {
+            binding.txtServerUrl.setText(this.settings.getUrl());
+        } else {
+            if (this.settings != null) {
+                Intent intent = new Intent(this, MenuMainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
         setContentView(binding.getRoot());
@@ -40,7 +40,8 @@ public class ServerSettingsActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.url_cannot_be_empty_text, Toast.LENGTH_LONG).show();
                 return;
             }
-            settings.setUrl(url);
+            this.settings = new Settings(url);
+            ReparaTechSingleton.getInstance(this).setSettings(this.settings);
             Intent intent = new Intent(this, MenuMainActivity.class);
             startActivity(intent);
             finish();

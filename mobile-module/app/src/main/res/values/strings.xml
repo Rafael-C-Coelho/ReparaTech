@@ -61,5 +61,7 @@
     <string name="txt_mobile_phones_solutions">Mobile Phones Solutions:</string>
     <string name="txt_btn_request_quote">Request Quote</string>
     <string name="txt_server_settings">Server Settings</string>
+    <string name="email_cannot_be_empty">Email cannot be empty</string>
+    <string name="password_cannot_be_empty">Password cannot be empty</string>
 
 </resources>

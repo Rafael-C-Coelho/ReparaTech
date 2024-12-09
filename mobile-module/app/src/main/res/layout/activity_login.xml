@@ -26,13 +26,13 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etEmail"
         style="@style/EditTextTheme"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_weight="15"
         android:hint="@string/label_username"
-        android:inputType="text" />
+        android:inputType="textEmailAddress" />
 
     <EditText
         style="@style/EditTextTheme"

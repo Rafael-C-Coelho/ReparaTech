@@ -35,6 +35,24 @@
         android:inputType="text" />
 
     <EditText
+        android:id="@+id/etEmail"
+        style="@style/EditTextTheme"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:hint="@string/label_email"
+        android:layout_weight="15"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/etName"
+        style="@style/EditTextTheme"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="15"
+        android:hint="@string/label_name"
+        android:inputType="text" />
+
+    <EditText
         style="@style/EditTextTheme"
         android:id="@+id/etPassword"
         android:layout_width="match_parent"

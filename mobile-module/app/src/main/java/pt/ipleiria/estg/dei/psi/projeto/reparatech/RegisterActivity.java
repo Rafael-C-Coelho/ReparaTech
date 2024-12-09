@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -20,6 +21,12 @@ public class RegisterActivity extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(RegisterActivity.this, R.color.gray));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
+        }
     }
 
     @Override

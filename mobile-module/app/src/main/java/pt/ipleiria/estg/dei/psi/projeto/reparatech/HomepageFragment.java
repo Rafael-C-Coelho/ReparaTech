@@ -21,6 +21,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategories.RepairCatego
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 
 public class HomepageFragment extends Fragment {
@@ -37,21 +38,17 @@ public class HomepageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
-
-
+        
         LinearLayout gallery = view.findViewById(R.id.RepairCategories);
         LinearLayout llBestSellingProducts = view.findViewById(R.id.BestSellingProducts);
 
 
         hScrollViewRepairCategories = view.findViewById(R.id.hScrollViewRepairCategories);
         hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
-
-
-
-        repairExamples = ReparaTechSingleton.getInstance().getRepairExamples();
-        bestSellingProducts = ReparaTechSingleton.getInstance().getbestSellingProductsExamples();
-
-
+        
+        repairExamples = ReparaTechSingleton.getInstance(getContext()).getRepairExamples();
+        bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getbestSellingProductsExamples();
+        
         for (RepairExample repairExample: repairExamples) {
             View cardView = inflater.inflate(R.layout.item_repair_example,gallery,false);
 
@@ -75,7 +72,6 @@ public class HomepageFragment extends Fragment {
                     }
                 }
             });
-
         }
 
 
@@ -99,7 +95,4 @@ public class HomepageFragment extends Fragment {
 
         return view;
     }
-
-
-
 }

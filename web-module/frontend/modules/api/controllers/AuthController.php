@@ -187,6 +187,12 @@ class AuthController extends Controller
     public function actionRefreshToken()
     {
         $refreshToken = \Yii::$app->request->post('refresh_token');
+        if (!$refreshToken) {
+            return $this->asJson([
+                'status' => 'error',
+                'message' => 'Refresh token is required.',
+            ]);
+        }
         $user = User::findOne(['refresh_token' => $refreshToken]);
 
         if (!$user) {
@@ -211,8 +217,7 @@ class AuthController extends Controller
 
     public function actionLogout()
     {
-        $refreshToken = \Yii::$app->request->post('refresh_token');
-        $user = User::findOne(['refresh_token' => $refreshToken]);
+        $user = \Yii::$app->user->identity;
 
         if (!$user) {
             return $this->asJson([

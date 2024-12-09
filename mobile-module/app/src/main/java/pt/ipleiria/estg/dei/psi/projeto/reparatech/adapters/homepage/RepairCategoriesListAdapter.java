@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters_homepage;
+package pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,32 +1,47 @@
-package pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton;
+package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
+
+import android.content.Context;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategory;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Settings;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
 public class ReparaTechSingleton {
     private ArrayList<BestSellingProduct> bestSellingProducts;
     private ArrayList<RepairCategory> repairCategories;
     private ArrayList<Product> products;
-    private static ReparaTechSingleton instance = null;
 
+    private static RequestQueue volleyQueue;
+    private static ReparaTechSingleton INSTANCE = null;
+    private Context context;
+    private ReparaTechDBHelper dbHelper;
 
-    private ReparaTechSingleton(){
+    private ReparaTechSingleton(Context context){
+        dbHelper = new ReparaTechDBHelper(context);
+        this.context = context;
         generateDinamicRepairCategories();
         generateDinamicBestSellingProducts();
         generateDinamicProducts();
     }
 
-    public static synchronized ReparaTechSingleton getInstance() {
-        if(instance==null) {
-            instance = new ReparaTechSingleton();
+    public static synchronized ReparaTechSingleton getInstance(Context context){
+        if(INSTANCE==null) {
+            INSTANCE = new ReparaTechSingleton(context);
+            volleyQueue = Volley.newRequestQueue(context);
         }
-        return instance;
+        return INSTANCE;
+    }
+
+    public RequestQueue getVolleyQueue(){
+        return volleyQueue;
     }
 
     public ArrayList<RepairExample> getRepairExamples(){
@@ -93,7 +108,6 @@ public class ReparaTechSingleton {
     }
 
 
-
     private void generateDinamicProducts(){
         products = new ArrayList<>();
         products.add(new Product(1, "Capa Iphone", "Capa para Iphone", 10, R.drawable.iphone_capa));
@@ -122,6 +136,54 @@ public class ReparaTechSingleton {
         return new ArrayList<>(products);
     }
 
+    // region # Settings METHODS #
 
+    public void setSettings(Settings settings){
+        dbHelper.addSettingsDB(settings);
+    }
+
+    public Settings getSettings(){
+        return dbHelper.getSettingsDB();
+    }
+
+    public void updateSettings(Settings settings){
+        dbHelper.updateSettingsDB(settings);
+    }
+
+    // endregion
+
+    // region # AUTH API METHODS #
+
+    public void login(String email, String password) {
+        String url = "/api/auth/login";
+        JSONObject body = new JSONObject();
+
+        try {
+            body.put("email", email);
+            body.put("password", password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        new ApiHelper(this.context).makeRequest(this.context, ApiHelper.JSON_OBJECT_REQUEST, Request.Method.POST, url, body, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("--------> POST API response:\n" + response.toString());
+
+                // TODO: ADD LISTENER
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(com.android.volley.VolleyError error) {
+                System.out.println("--------> POST API error:\n" + error.toString());
+            }
+        });
+    }
+
+    // endregion
+
+    // region # AUTH API METHODS #
+
+    // endregion
 
 }

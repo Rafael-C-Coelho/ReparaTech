@@ -14,8 +14,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.ReparaTechSingleton.ReparaTechSingleton;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters_homepage.ProductsListAdapter;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
 
 public class ProductsListFragment extends Fragment {
@@ -37,7 +37,7 @@ public class ProductsListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         lvProducts = view.findViewById(R.id.LvProducts);
-        products = ReparaTechSingleton.getInstance().getProducts();
+        products = ReparaTechSingleton.getInstance(getContext()).getProducts();
         lvProducts.setAdapter((ListAdapter) new ProductsListAdapter(getContext(), products));
         lvProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
