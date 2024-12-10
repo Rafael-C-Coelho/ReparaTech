@@ -1,6 +1,8 @@
 <?php
 /* @var $content string */
 
+$this->title = 'ReparaTech Dashboard';
+
 use yii\bootstrap4\Breadcrumbs;
 ?>
 <div class="content-wrapper">
