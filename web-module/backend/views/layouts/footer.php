@@ -26,7 +26,8 @@ use yii\bootstrap4\Html;
         align-items: center;
         width: 100%;
         padding: 10px 20px;
-        background-color: #f4f4f4;
+        background-color: unset !important;
+        border-top: unset !important;
         text-align: center;
         position: relative;
         bottom: 0;
@@ -38,7 +39,7 @@ use yii\bootstrap4\Html;
     }
 </style>
 
-<footer class="main-footer ">
+<footer class="main-footer">
 
     <strong>Copyright &copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?>.</strong>
     All rights reserved.
