@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Budget;
+use common\models\Repair;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -13,18 +14,14 @@ $this->title = "Repair #" . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Repairs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$dataProviderBudgets = new yii\data\ActiveDataProvider([
-    'query' => $model->getBudgets(),
-]);
-$dataProviderInvoices = new yii\data\ActiveDataProvider([
-    'query' => $model->getInvoices(),
-]);
 
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="repair-view">
     <p>
+        <?php if ($model->progress !== Repair::STATUS_COMPLETED && $model->progress !== Repair::STATUS_DENIED) { ?>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php } ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -40,6 +37,7 @@ $dataProviderInvoices = new yii\data\ActiveDataProvider([
             'id',
             'device',
             'progress',
+            'hours_spent_working',
             'repairman_id',
             'client_id',
             'description',
@@ -48,13 +46,16 @@ $dataProviderInvoices = new yii\data\ActiveDataProvider([
 
     <div class="d-flex my-2 justify-content-between align-items-center">
         <h6>Related budgets</h6>
+        <?php if ($model->progress !== Repair::STATUS_COMPLETED) { ?>
         <?= Html::a('Create Budget', ['budget/create', 'repair_id' => $model->id], ['class' => 'btn btn-success']) ?>
+        <?php } ?>
     </div>
     <?= \yii\grid\GridView::widget([
         'dataProvider' => $dataProviderBudgets,
         'columns' => [
             'id',
             'value',
+            'status',
             'date:date',
             'time:time',
             [
@@ -67,25 +68,20 @@ $dataProviderInvoices = new yii\data\ActiveDataProvider([
     ]); ?>
 
     <div class="d-flex my-2 justify-content-between align-items-center">
-        <h6>Related invoices</h6>
-        <?= Html::a('Create Invoice', ['invoice/create', "repair_id" => $model->id], ['class' => 'btn btn-success']) ?>
+        <h6>Related comments</h6>
     </div>
     <?= \yii\grid\GridView::widget([
-        'dataProvider' => $dataProviderInvoices,
+        'dataProvider' => $dataProviderComments,
         'columns' => [
             'id',
-            'total',
+            'description',
+            'status',
             'date:date',
             'time:time',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Budget $model, $key, $index, $column) {
-                    return Url::toRoute(['invoice/' . $action, 'id' => $model->id]);
-                }
             ],
         ],
     ]); ?>
-
-
 
 </div>

@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use common\models\Repairs;
+use common\models\Repair;
 
 /**
  * This is the model class for table "{{%comments}}".
@@ -12,7 +12,7 @@ use common\models\Repairs;
  * @property resource|null $photo
  * @property string|null $description
  *
- * @property Repairs $repair
+ * @property Repair $repair
  */
 class Comment extends \yii\db\ActiveRecord
 {
@@ -34,7 +34,7 @@ class Comment extends \yii\db\ActiveRecord
             [['repair_id'], 'integer'],
             [['photo'], 'string'],
             [['description'], 'string', 'max' => 512],
-            [['repair_id'], 'exist', 'skipOnError' => true, 'targetClass' => Repairs::class, 'targetAttribute' => ['repair_id' => 'id']],
+            [['repair_id'], 'exist', 'skipOnError' => true, 'targetClass' => Repair::class, 'targetAttribute' => ['repair_id' => 'id']],
         ];
     }
 
@@ -60,6 +60,13 @@ class Comment extends \yii\db\ActiveRecord
      */
     public function getRepair()
     {
-        return $this->hasOne(Repairs::class, ['id' => 'repair_id']);
+        return $this->hasOne(Repair::class, ['id' => 'repair_id']);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->time = date('H:i:s');
+        $this->date = date('Y-m-d');
+        return parent::beforeSave($insert);
     }
 }

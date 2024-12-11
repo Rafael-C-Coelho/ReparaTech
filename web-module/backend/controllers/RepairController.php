@@ -109,6 +109,12 @@ class RepairController extends Controller
         }
         return $this->render('view', [
             'model' => $this->findModel($id),
+            "dataProviderBudgets" => new ActiveDataProvider([
+                'query' => $this->findModel($id)->getBudgets(),
+            ]),
+            "dataProviderComments" => new ActiveDataProvider([
+                'query' => $this->findModel($id)->getComments(),
+            ])
         ]);
     }
 
@@ -159,7 +165,13 @@ class RepairController extends Controller
         return $this->render('update', [
             'model' => $model,
             'clients' => User::getClients(),
-            'repairTechnicians' => User::getRepairTechnicians()
+            'repairTechnicians' => User::getRepairTechnicians(),
+            "dataProviderBudgets" => new ActiveDataProvider([
+                'query' => $this->findModel($id)->getBudgets(),
+            ]),
+            "dataProviderComments" => new ActiveDataProvider([
+                'query' => $this->findModel($id)->getComments(),
+            ])
         ]);
     }
 

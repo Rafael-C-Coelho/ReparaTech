@@ -24,6 +24,8 @@ class m241104_212303_create_repairs_table extends Migration
             'progress' => "ENUM('Created','Pending Acceptance','Denied','In Progress','Completed') NOT NULL",
             'repairman_id' => $this->integer()->notNull(),
             'client_id' => $this->integer()->notNull(),
+            'invoice_id' => $this->integer(),
+            'hours_spent_working' => $this->integer()->defaultValue(0),
             'description' => $this->text()->notNull(),
         ]);
 
@@ -40,6 +42,23 @@ class m241104_212303_create_repairs_table extends Migration
             '{{%repairs}}',
             'repairman_id',
             '{{%user}}',
+            'id',
+            'RESTRICT'
+        );
+
+        // creates index for column `repairman_id`
+        $this->createIndex(
+            '{{%idx-repairs-invoice_id}}',
+            '{{%repairs}}',
+            'invoice_id'
+        );
+
+        // add foreign key for table `{{%repairman}}`
+        $this->addForeignKey(
+            '{{%fk-repairs-invoice_id}}',
+            '{{%repairs}}',
+            'invoice_id',
+            '{{%invoices}}',
             'id',
             'RESTRICT'
         );
@@ -76,6 +95,18 @@ class m241104_212303_create_repairs_table extends Migration
         // drops index for column `repairman_id`
         $this->dropIndex(
             '{{%idx-repairs-repairman_id}}',
+            '{{%repairs}}'
+        );
+
+        // drops foreign key for table `{{%repairman}}`
+        $this->dropForeignKey(
+            '{{%fk-repairs-invoice_id}}',
+            '{{%repairs}}'
+        );
+
+        // drops index for column `repairman_id`
+        $this->dropIndex(
+            '{{%idx-repairs-invoice_id}}',
             '{{%repairs}}'
         );
 

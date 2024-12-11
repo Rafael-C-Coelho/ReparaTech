@@ -17,6 +17,7 @@ class m241104_225750_create_budgets_table extends Migration
             'value' => $this->DECIMAL(8,2)->notNull(),
             'date' => $this->DATE()->notNull(),
             'client_id' => $this->integer()->notNull(),
+            'hours_estimated_working' => $this->integer()->notNull(),
             'repairman_id' => $this->integer()->notNull(),
             'repair_id' => $this->integer()->notNull(),
             'time' => $this->TIME()->notNull(),

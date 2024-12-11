@@ -3,7 +3,7 @@
 namespace common\models;
 
 use common\models\BudgetsHasParts;
-use common\models\Repairs;
+use common\models\Repair;
 use Yii;
 
 /**
@@ -14,6 +14,7 @@ use Yii;
  * @property string $date
  * @property string $time
  * @property string $status
+ * @property string $description
  * @property int $repair_id
  * @property int $repairman_id
  *
@@ -25,8 +26,6 @@ class Budget extends \yii\db\ActiveRecord
     const STATUS_PENDING = 'Pending';
     const STATUS_APPROVED = 'Approved';
     const STATUS_REJECTED = 'Rejected';
-
-    public $description;
 
     /**
      * {@inheritdoc}
@@ -42,9 +41,9 @@ class Budget extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['value', 'date', 'time', 'repair_id', 'repairman_id', 'status'], 'required'],
-            [['value', 'repair_id', 'repairman_id'], 'number'],
-            [['status'], 'string'],
+            [['value', 'date', 'time', 'description', 'repair_id', 'repairman_id', 'status', 'hours_estimated_working'], 'required'],
+            [['value', 'repair_id', 'repairman_id', 'hours_estimated_working'], 'number'],
+            [['status', 'description'], 'string'],
             [['date', 'time'], 'safe'],
         ];
     }
@@ -60,6 +59,7 @@ class Budget extends \yii\db\ActiveRecord
             'date' => 'Date',
             'time' => 'Time',
             'repair_id' => 'Repair ID',
+            'description' => 'Description',
         ];
     }
 
