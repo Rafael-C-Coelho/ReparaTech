@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Repair', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -25,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'device',
             'progress',
+            'hours_spent_working',
             'repairman_id',
             'client_id',
             'description',

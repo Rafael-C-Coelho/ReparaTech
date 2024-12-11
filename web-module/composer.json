@@ -23,7 +23,9 @@
         "wbraganca/yii2-dynamicform": "^2.0",
         "kaabar-jwt/yii2-jwt": "dev-master",
         "firebase/php-jwt": "^6.10",
-        "lcobucci/jwt": "^4.3"
+        "lcobucci/jwt": "^4.3",
+        "mpdf/mpdf": "*",
+        "dompdf/dompdf": "^3.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -43,7 +45,8 @@
             "common\\tests\\": ["common/tests/", "common/tests/_support"],
             "backend\\tests\\": ["backend/tests/", "backend/tests/_support"],
             "frontend\\tests\\": ["frontend/tests/", "frontend/tests/_support"],
-            "Lcobucci\\JWT" : "vendor/lcobucci/jwt/src"
+            "Lcobucci\\JWT\\" : "vendor/lcobucci/jwt/src",
+            "Dompdf\\Dompdf" : "vendor/dompdf/dompdf/src"
         }
     },
     "config": {

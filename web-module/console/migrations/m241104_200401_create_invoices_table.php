@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%invoices}}`.
  */
-class m241104_230401_create_invoices_table extends Migration
+class m241104_200401_create_invoices_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,9 @@ class m241104_230401_create_invoices_table extends Migration
             'date' => $this->DATE()->notNull(),
             'time' => $this->TIME()->notNull(),
             'client_id' => $this->integer()->notNull(),
-            'repair_id' => $this->integer()->notNull(),
             'total' => $this->DECIMAL(8,2)->notNull(),
+            'pdf_file' => $this->string(),
+            'items' => $this->text()->notNull(),
         ]);
 
         $this->createIndex(
@@ -32,22 +33,6 @@ class m241104_230401_create_invoices_table extends Migration
             '{{%invoices}}',
             'client_id',
             '{{%user}}',
-            'id',
-            'RESTRICT'
-        );
-
-        $this->createIndex(
-            '{{%idx-invoices-repair_id}}',
-            '{{%invoices}}',
-            'repair_id'
-        );
-
-
-        $this->addForeignKey(
-            '{{%fk-invoices-repair_id}}',
-            '{{%invoices}}',
-            'repair_id',
-            '{{%repairs}}',
             'id',
             'RESTRICT'
         );

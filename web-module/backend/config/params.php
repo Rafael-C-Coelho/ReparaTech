@@ -1,4 +1,4 @@
 <?php
 return [
-    'adminEmail' => 'admin@example.com',
+    'frontendUrl' => 'http://34.243.70.204/',
 ];

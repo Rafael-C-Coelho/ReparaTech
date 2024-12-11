@@ -16,6 +16,9 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'value')->textInput(['maxlength' => true, "type" => "number"]) ?>
+    <?= $form->field($model, 'hours_estimated_working')->textInput(["type" => "number"]) ?>
+
+    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
     <?php if (isset(Yii::$app->request->queryParams['repair_id'])) { ?>
         <?= $form->field($model, 'repair_id')->hiddenInput(["value" => Yii::$app->request->queryParams['repair_id']])->label(false) ?>

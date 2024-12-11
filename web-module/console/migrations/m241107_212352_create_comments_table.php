@@ -18,43 +18,26 @@ class m241107_212352_create_comments_table extends Migration
     {
         $this->createTable('{{%comments}}', [
             'id' => $this->primaryKey(),
-            'sender_id' => $this->integer()->notNull(),
-            'recipient_id' => $this->integer()->notNull(),
-            'value' => $this->decimal(8,2)->notNull(),
+            'repair_id' => $this->integer()->notNull(),
+            'description' => $this->text()->notNull(),
+            'photo' => $this->text(),
             'date' => $this->date()->notNull(),
             'time' => $this->time()->notNull(),
         ]);
 
         // creates index for column `sender_id`
         $this->createIndex(
-            '{{%idx-comments-sender_id}}',
+            '{{%idx-comments-repair_id}}',
             '{{%comments}}',
-            'sender_id'
+            'repair_id'
         );
 
         // add foreign key for table `{{%user}}`
         $this->addForeignKey(
-            '{{%fk-comments-sender_id}}',
+            '{{%fk-comments-repair_id}}',
             '{{%comments}}',
-            'sender_id',
-            '{{%user}}',
-            'id',
-            'RESTRICT'
-        );
-
-        // creates index for column `recipient_id`
-        $this->createIndex(
-            '{{%idx-comments-recipient_id}}',
-            '{{%comments}}',
-            'recipient_id'
-        );
-
-        // add foreign key for table `{{%user}}`
-        $this->addForeignKey(
-            '{{%fk-comments-recipient_id}}',
-            '{{%comments}}',
-            'recipient_id',
-            '{{%user}}',
+            'repair_id',
+            '{{%repairs}}',
             'id',
             'RESTRICT'
         );
@@ -67,25 +50,13 @@ class m241107_212352_create_comments_table extends Migration
     {
         // drops foreign key for table `{{%user}}`
         $this->dropForeignKey(
-            '{{%fk-comments-sender_id}}',
+            '{{%fk-comments-repair_id}}',
             '{{%comments}}'
         );
 
         // drops index for column `sender_id`
         $this->dropIndex(
-            '{{%idx-comments-sender_id}}',
-            '{{%comments}}'
-        );
-
-        // drops foreign key for table `{{%user}}`
-        $this->dropForeignKey(
-            '{{%fk-comments-recipient_id}}',
-            '{{%comments}}'
-        );
-
-        // drops index for column `recipient_id`
-        $this->dropIndex(
-            '{{%idx-comments-recipient_id}}',
+            '{{%idx-comments-repair_id}}',
             '{{%comments}}'
         );
 

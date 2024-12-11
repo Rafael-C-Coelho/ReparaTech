@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'value',
+            'hours_estimated_working',
             'date',
             'time',
         ],

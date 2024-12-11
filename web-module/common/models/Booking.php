@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use app\models\Repairs;
+use common\models\Repair;
 
 /**
  * This is the model class for table "{{%Bookings}}".
@@ -20,7 +20,7 @@ class Booking extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%Bookings}}';
+        return '{{%bookings}}';
     }
 
     /**
@@ -54,7 +54,7 @@ class Booking extends \yii\db\ActiveRecord
     }
 
     public function getRepair(){
-        return $this->hasOne(\common\models\Repairs::class, ['id' => 'repair_id']);
+        return $this->hasOne(\common\models\Repair::class, ['id' => 'repair_id']);
     }
 
 

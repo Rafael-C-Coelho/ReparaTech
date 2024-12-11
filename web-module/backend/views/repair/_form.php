@@ -20,6 +20,8 @@ use yii\widgets\DetailView;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'hours_spent_working')->textInput(["type" => "number"]) ?>
+
     <?= $form->field($model, 'device')->dropDownList(['Computer' => 'Computer', 'Phone' => 'Phone', 'Tablet' => 'Tablet', 'Wearable' => 'Wearable',], ['prompt' => '']) ?>
 
     <?= $form->field($model, 'progress')->dropDownList(['Created' => 'Created', 'Pending Acceptance' => 'Pending Acceptance', 'Denied' => 'Denied', 'In Progress' => 'In Progress', 'Completed' => 'Completed',]) ?>
@@ -34,9 +36,11 @@ use yii\widgets\DetailView;
 
     <?= $form->field($model, 'client_id')->dropDownList($clients) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
+    <?php if ($model->progress !== Repair::STATUS_COMPLETED && $model->progress !== Repair::STATUS_DENIED) { ?>
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
+    <?php } ?>
 
     <?php ActiveForm::end(); ?>
 

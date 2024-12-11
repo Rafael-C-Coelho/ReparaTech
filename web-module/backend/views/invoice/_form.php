@@ -17,11 +17,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'date')->textInput(["type" => "date"])?>
     <?= $form->field($model, 'time') ->textInput(["type" => "time"])?>
     <?= $form->field($model,'total') ->textInput(["type" => "decimal"])?>
-    <?php if (isset(Yii::$app->request->queryParams['repair_id'])) { ?>
-        <?= $form->field($model, 'repair_id')->hiddenInput(["value" => Yii::$app->request->queryParams['repair_id']])->label(false) ?>
-    <?php } else { ?>
-        <?= $form->field($model, 'repair_id')->dropDownList(ArrayHelper::map($repairs, 'id', 'id')) ?>
-    <?php } ?>
+
     <?= $form->field($model, 'client_id')->dropDownList($clients)?>
 
     <div class="form-group">
