@@ -10,25 +10,6 @@ $this->title = 'Repara Tech';
 
 <style>
 
-    .row.pb-3 {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-
-    .product-item {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-
-    .product-img {
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-    }
 
     .section-title {
         font-size: 30px;
@@ -72,32 +53,177 @@ $this->title = 'Repara Tech';
         color: grey;
     }
 
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    footer{
+        background-color: white;
+        text-align: center;
+        padding: 50px 0;
+
+    }
+    .container-footer{
+        max-width: 1400px;
+        padding: 0 4%;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .row-footer{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .footer-col{
+        width: 25%;
+        padding: 0 15px;
+        text-align: center;
+    }
+
+    .footer-col h4{
+        font-size: 22px;
+        color: #FFD333;
+        margin-bottom: 20px;
+        font-weight: 500;
+        position: relative;
+        text-transform: uppercase;
+    }
+    .footer-col ul{
+        list-style: none;
+        color: grey;
+    }
+    .footer-col ul li{
+        margin: 10px 0;
+    }
+    .footer-col ul li a{
+        font-size: 16px;
+        text-transform: capitalize;
+        color: grey;
+        text-decoration: none;
+        font-weight: 300;
+        display: block;
+        transition: all 0.3s ease;
+    }
+    .footer-col ul li a:hover{
+        color: #FFD333;
+        padding-left: 10px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 800px) {
+        .footer-col{
+            width: 50%;
+            margin-bottom: 30px;
+        }
+    }
+    @media (max-width:600px) {
+        .footer-col{
+            width: 100%;
+        }
+    }
 
 </style>
 
+<div class="scroll-container">
     <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recently Added Products</span></h2>
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Recently Added Products</span>
+        </h2>
         <div class="row px-xl-5">
             <?php foreach ($recent_added_products as $product) { ?>
-                <div class="col pb-1">
-                    <div class="product-item bg-light mb-4 h-75">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="<?= $product->image !== '' ? $product->image : 'https://placehold.co/400' ?>" alt="Image">
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>"><?= $product->name ?></a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5><?= $product->price ?> €</h5>
-                            </div>
+                <div class="col-12 col-md-6 col-lg-4 pb-1">
+                    <!-- Card Bootstrap -->
+                    <div class="card" style="width: 18rem;">
+                        <img
+                                src="<?= htmlspecialchars($product->image) ?>"
+                                class="card-img-top"
+                                alt="<?= htmlspecialchars($product->name) ?>"
+                        >
+                        <div class="card-body text-center">
+                            <h5 class="card-title"><?= htmlspecialchars($product->name) ?></h5>
+                            <p class="card-text">Price: <?= number_format($product->price, 2) ?> €</p>
+                            <a
+                                    href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>"
+                                    class="btn btn-primary">View Details
+                            </a>
+                            <a
+                                    href="<?= \yii\helpers\Url::to(['site/cart']) ?>"
+                                    class="btn btn-success mt-2">Add to Cart
+                            </a>
                         </div>
                     </div>
                 </div>
             <?php } ?>
         </div>
     </div>
-    <!-- Products End -->
+</div>
 
-    <!-- Products Start -->
+<div class="container-fluid pt-5 pb-3">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">Best-Selling Products</span>
+    </h2>
+    <div class="row px-xl-5">
+        <?php foreach ($most_bought_products as $product) { ?>
+            <div class="col-12 col-md-6 col-lg-4 pb-1">
+                <!-- Card Bootstrap -->
+                <div class="card" style="width: 18rem;">
+                    <img
+                            src="<?= $product->image !== '' ? $product->image : 'https://placehold.co/400' ?>"
+                            class="card-img-top"
+                            alt="<?= $product->image !== '' ? $product->image : 'https://placehold.co/400' ?>"
+                    >
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><?= htmlspecialchars($product->name) ?></h5>
+                        <p class="card-text">Price: <?= number_format($product->price, 2) ?> €</p>
+                        <a
+                                href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?><?= $product->name ?>" class="btn btn-primary">View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+
+
+
+
+<!--
+<div class="container-fluid pt-5 pb-3">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">Recently Added Products</span>
+    </h2>
+        <div class="card-container">
+            <div class="row px-xl-5">
+                <?php foreach ($recent_added_products as $product) { ?>
+                    <div class="col-12 col-md-6 col-lg-4 pb-1">
+                        <div class="product-item card bg-light mb-4 h-100">
+                            <div class="card-content text-center py-4">
+                                <a
+                                    class="h6 text-decoration-none text-truncate" href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>"><?= $product->name ?>
+                                </a>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <h5><?= $product->price ?> €</h5>
+                                </div>
+                                <a
+                                    href="<?= yii\helpers\Url::to(['site/cart']) ?>" class="card-button mt-3 d-inline-block">Add Cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+</div>
+
+-->
+<!--
     <div class="container-fluid pt-5 pb-3">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Best-Selling Products</span></h2>
         <div class="row px-xl-5">
@@ -118,7 +244,7 @@ $this->title = 'Repara Tech';
             <?php } ?>
         </div>
     </div>
-
+-->
 
 <div class="container-fluid pt-5">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Some of the repairs we do</span></h2>
@@ -147,7 +273,7 @@ $this->title = 'Repara Tech';
                 </div>
             </a>
         </div>
-        <!--
+
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="<//?=yii\helpers\Url::to(['site/connectivityIssue'])?>">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
@@ -199,7 +325,7 @@ $this->title = 'Repara Tech';
                 </div>
             </a>
         </div>
-        -->
+
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
             <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/cameraIssue'])?>">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
@@ -272,9 +398,35 @@ $this->title = 'Repara Tech';
         </div>
     </div>
 </div>
-<!-- Categories End -->
 
-<!-- Footer Start -->
+<footer>
+    <div class="container-footer">
+        <div class="row-footer">
+
+            <div class="footer-col">
+                <h4><strong>About Company</strong></h4>
+                <ul>
+                    <li>Repair shop for multi-brand electronic devices and sale of accessories.</li>
+                    <li>reparatech@store.com</li>
+                    <li>Leiria, Portugal</li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4><strong>Our Website</strong></h4>
+                <ul>
+                    <li><a href="#">Sign Up</a></li>
+                    <li><a href="#">Sign In</a></li>
+                    <li><a href="#">List of Products</a></li>
+                    <li><a href="#">Repair Categories</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Footer Start
 <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
     <div class="containerAll">
         <div class="row px-xl-5 pt-5">
@@ -298,7 +450,7 @@ $this->title = 'Repara Tech';
                 </div>
             </div>
 
-            <!-- Minha Conta -->
+
             <div class="col-lg-2 col-md-6 mb-5">
                 <h5 class="text-light text-uppercase mb-4">My Account</h5>
                 <div class="d-flex flex-column">
@@ -311,6 +463,7 @@ $this->title = 'Repara Tech';
                 </div>
             </div>
         </div>
+
         <div class="row border-top mx-xl-5 py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
             <div class="col-md-6 text-center text-md-left">
                 <p class="mb-md-0 text-secondary">
@@ -323,6 +476,7 @@ $this->title = 'Repara Tech';
         </div>
     </div>
 </div>
+
 <!-- Footer End -->
 
 
