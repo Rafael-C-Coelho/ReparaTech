@@ -178,7 +178,7 @@ class Repair extends \yii\db\ActiveRecord
             $invoice->total = $this->hours_spent_working * $this->getRepairman()->one()->value + $acceptedBudget->value;
             $invoice->items = json_encode($items);
             $invoice->save();
-            $fileName = 'invoice_' . $invoice->id . '.pdf';
+            $fileName = 'invoice_' . $invoice->id . $this->client->id . $this->client->username . $invoice->id . '.pdf';
             $filePath = $path . DIRECTORY_SEPARATOR . $fileName;
             $this->invoice_id = $invoice->id;
 

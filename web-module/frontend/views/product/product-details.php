@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </button>
                                 </div>
                                 <input name="quantity" type="text"
-                                       class="form-control bg-secondary border-0 text-center" value="1" min="0">
+                                       class="form-control bg-secondary border-0 text-center" value="1" max="<?= $model->stock ?>" min="0">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-primary btn-plus">
                                         <i class="fa fa-plus"></i>
