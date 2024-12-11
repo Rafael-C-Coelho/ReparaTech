@@ -25,6 +25,8 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property string $nif
+ * @property string $address
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -39,6 +41,8 @@ class User extends ActiveRecord implements IdentityInterface
     const SCENARIO_REPAIR_TECHNICIAN = 'repairTechnician';
 
     public $password;
+
+
 
 
     /**

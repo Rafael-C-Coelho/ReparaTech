@@ -124,6 +124,20 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    public function actionInformation(){
+
+        $model = Yii::$app->user->identity;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
+            Yii::$app->session->setFlash('success', 'Information updated successfully.');
+            return $this->redirect(['site/painelClient']);
+        }
+
+        return $this->render('personalInformation', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionCart() {
         return $this->render('cart');
     }
@@ -270,16 +284,24 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionInformation() {
-        return $this->render('information');
-    }
 
     public function actionRepair(){
-        return $this->render('repair');
+        return $this->render('repair',
+            [
+            'dataProvider' => new \yii\data\ActiveDataProvider([
+                'query' => \common\models\Repair::find()->where(['client_id' => Yii::$app->user->id]),
+            ])
+        ]);
     }
 
     public function actionOrder() {
-        return $this->render('order');
+        return $this->render('order',
+            [
+                'dataProvider' => new \yii\data\ActiveDataProvider([
+                'query' => \common\models\SaleProduct::find()->where(['sale_id' => Yii::$app->user->id]),
+                ])
+            ]
+        );
     }
 
     public function actionHardwareCleaningMaintenance(){

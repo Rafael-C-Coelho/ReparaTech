@@ -5,7 +5,6 @@ use yii\bootstrap4\Html;
 ?>
 
 
-
 <style>
     * {
         margin: 0;

@@ -22,6 +22,7 @@ use common\models\User;
  * @property User $client
  * @property User $repairman
  * @property RepairPart[] $repairsHasParts
+ *
  */
 class Repair extends \yii\db\ActiveRecord
 {
@@ -124,4 +125,9 @@ class Repair extends \yii\db\ActiveRecord
         return $this->hasMany(\common\models\Booking::class,['repair_id' => 'id']);
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+
+        parent::afterSave($insert, $changedAttributes);
+    }
 }
