@@ -61,7 +61,16 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/product',
-                    'pluralize' => true
+                    'pluralize' => true,
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/dashboard',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET latest' => 'latest',
+                        'GET mostSold' => 'mostSold',
+                    ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',

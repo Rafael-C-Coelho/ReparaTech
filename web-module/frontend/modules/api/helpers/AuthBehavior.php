@@ -21,7 +21,8 @@ class AuthBehavior extends ActionFilter
             }
         }
 
-        Yii::$app->response->statusCode = 401;
+        Yii::$app->response->statusCode = $claims ?? 401;
+        Yii::$app->response->data = ['status' => 'error', 'message' => 'Unauthorized'];
         return false;
     }
 }

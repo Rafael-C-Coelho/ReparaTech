@@ -152,10 +152,6 @@ $this->title = 'Repara Tech';
                                     href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>"
                                     class="btn btn-primary">View Details
                             </a>
-                            <a
-                                    href="<?= \yii\helpers\Url::to(['site/cart']) ?>"
-                                    class="btn btn-success mt-2">Add to Cart
-                            </a>
                         </div>
                     </div>
                 </div>

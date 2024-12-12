@@ -80,7 +80,7 @@ class ProductController extends \yii\web\Controller
                     if ($quantity === 0)
                         unset($cart[$i]);
                     else
-                        $cart[$i]['quantity'] = (int)$cart[$i]['quantity'] + (int)$quantity;
+                        $cart[$i]['quantity'] = (int)$quantity;
 
                     $found = true;
                 }

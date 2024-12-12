@@ -26,7 +26,7 @@ class JwtHelper
         return $config->builder()
             ->issuedBy('reparatech') // Issuer
             ->issuedAt($now)           // Token issued at time
-            ->expiresAt($now->modify('+1 hour')) // Expiry
+            ->expiresAt($now->modify('+1 minute')) // Expiry
             ->withClaim('uid', $userId)
             ->withClaim('roles', $roles)
             ->getToken(self::$signer, InMemory::plainText(self::$key))
@@ -39,7 +39,7 @@ class JwtHelper
         $parsedToken = $config->parser()->parse($token);
 
         if ($parsedToken->isExpired(new DateTimeImmutable())) {
-            return false;
+            return 406;
         }
 
         if ($config->validator()->validate(
@@ -52,7 +52,7 @@ class JwtHelper
             return $parsedToken->claims();
         }
 
-        return false;
+        return 401;
     }
 }
 

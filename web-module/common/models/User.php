@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\models\FavoriteProduct;
+use Faker\Factory;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -361,5 +362,19 @@ class User extends ActiveRecord implements IdentityInterface
     public function hasRole($role)
     {
         return isset(Yii::$app->authManager->getRolesByUser($this->id)[$role]);
+    }
+
+    public function delete()
+    {
+        $this->status = self::STATUS_DELETED;
+        $this->name = "Deleted User";
+        $this->email = random_int(1000000000, 9999999999) . "@deleted.com";
+        $this->username = random_int(1000000000, 9999999999);
+        $this->password_hash = Yii::$app->security->generatePasswordHash(random_int(1000000000, 9999999999));
+        $this->auth_key = null;
+        $this->nif = "";
+        $this->address = "";
+        $this->refresh_token = "";
+        return $this->save();
     }
 }
