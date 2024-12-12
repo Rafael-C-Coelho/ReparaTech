@@ -47,7 +47,7 @@ $categories = ProductCategory::find()->all();
 
         <!-- Libraries Stylesheet -->
         <link href="<?= Yii::getAlias('@web') ?>/lib/animate/animate.min.css" rel="stylesheet">
-        <link href="<?= Yii::getAlias('@web') ?>/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="<?= Yii::getAlias('@web') ?>/js/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="<?= Yii::getAlias('@web') ?>/img/AudioProblem" rel="stylesheet">
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<?= Yii::getAlias('@web') ?>/css/style.css" rel="stylesheet">
@@ -198,8 +198,8 @@ $categories = ProductCategory::find()->all();
     </footer>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="<?= Yii::getAlias('@web') ?>/lib/easing/easing.min.js"></script>
-    <script src="<?= Yii::getAlias('@web') ?>/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/js/easing/easing.min.js"></script>
+    <script src="<?= Yii::getAlias('@web') ?>/js/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Contact Javascript File -->
     <script src="<?= Yii::getAlias('@web') ?>/mail/jqBootstrapValidation.min.js"></script>

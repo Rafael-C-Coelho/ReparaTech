@@ -136,4 +136,8 @@ public class RepairCategoriesDetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public ArrayList<RepairCategoryDetail> getRepairCategoryDetails() {
+        return repairCategoryDetails;
+    }
 }

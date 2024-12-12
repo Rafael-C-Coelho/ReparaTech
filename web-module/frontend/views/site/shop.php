@@ -21,7 +21,7 @@
 
     <!-- Libraries Stylesheet -->
     <link href="/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/js/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
@@ -535,8 +535,8 @@
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-<script src="/lib/easing/easing.min.js"></script>
-<script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/js/easing/easing.min.js"></script>
+<script src="/frontend/web/lib/owlcarousel/owl.carousel.min.js"></script>
 
 <!-- Contact Javascript File -->
 <script src="/mail/jqBootstrapValidation.min.js"></script>
