@@ -103,18 +103,128 @@ $this->title = 'Repara Tech';
     }
 
 
+
+    .section-title-bestSelling {
+        font-size: 30px;
+        font-weight: 700;
+        margin: 25px;
+    }
+
+    #cCarousel-bestSelling {
+        position: relative;
+        margin: auto;
+        background-color: #F5F5F5;
+        background-size: 100%;
+    }
+
+    #cCarousel-bestSelling .arrow {
+        position: absolute;
+        top: 50%;
+        display: flex;
+        width: 45px;
+        height: 45px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        z-index: 1;
+        font-size: 26px;
+        color: white;
+        background: #FFD333;
+        cursor: pointer;
+    }
+
+    #cCarousel-bestSelling #prev-bestSelling {
+        left: 80px;
+    }
+
+    #cCarousel-bestSelling #next-bestSelling {
+        right: 80px;
+    }
+
+    #carousel-vp-bestSelling {
+        width: 920px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        margin: auto;
+    }
+
+    @media (max-width: 770px) {
+        #carousel-vp-bestSelling {
+            width: 510px;
+        }
+    }
+
+    @media (max-width: 510px) {
+        #carousel-vp-bestSelling {
+            width: 250px;
+        }
+    }
+
+    #cCarousel-bestSelling #cCarousel-inner-bestSelling {
+        display: flex;
+        position: absolute;
+        transition: 0.3s ease-in-out;
+        gap: 10px;
+        left: 0px;
+    }
+
+    .cCarousel-item-bestSelling {
+        width: 300px;
+        height: 380px;
+        border: 2px solid white;
+        border-radius: 15px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cCarousel-item-bestSelling img {
+        width: 100%;
+        object-fit: cover;
+        min-height: 246px;
+        color: white;
+    }
+
+    .cCarousel-item-bestSelling .infos {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        background: #3D464D;
+        color: #FFD333;
+    }
+
+    .cCarousel-item-bestSelling .infos h3 {
+        font-size: 20px;
+        margin: 10px 0;
+        color: #FFD333;
+    }
+
+    .cCarousel-item-bestSelling .infos p {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .cCarousel-item-bestSelling .infos .btn-details a {
+        background-color: #FFD333;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-bottom: 50px;
+    }
+
+
+
     /* Carousel */
 
     .section-title-recentAddProducts{
         font-size: 30px;
         font-weight: 700;
         margin-left: 25px;
-    }
-
-    .section-title-bestSelling {
-        font-size: 30px;
-        font-weight: 700;
-        margin: 25px;
     }
 
 
@@ -230,6 +340,7 @@ $this->title = 'Repara Tech';
 
 <script>
 
+    // Carousel for Most Recent Products
     document.addEventListener("DOMContentLoaded", function() {
         const prev = document.querySelector("#prev");
         const next = document.querySelector("#next");
@@ -291,10 +402,74 @@ $this->title = 'Repara Tech';
             }
         }
     });
+
+    // Carousel for Best-Selling Products
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const prevBestSelling = document.querySelector("#prev-bestSelling");
+        const nextBestSelling = document.querySelector("#next-bestSelling");
+
+        let carouselVpBestSelling = document.querySelector("#carousel-vp-bestSelling");
+        let cCarouselInnerBestSelling = document.querySelector("#cCarousel-inner-bestSelling");
+        let carouselInnerWidthBestSelling = cCarouselInnerBestSelling.getBoundingClientRect().width;
+
+        let leftValueBestSelling = 0;
+
+        // Variable used to set the carousel movement value (card's width + gap)
+        const totalMovementSizeBestSelling =
+            parseFloat(
+                document.querySelector(".cCarousel-item-bestSelling").getBoundingClientRect().width,
+                10
+            ) +
+            parseFloat(
+                window.getComputedStyle(cCarouselInnerBestSelling).getPropertyValue("gap"),
+                10
+            );
+
+        prevBestSelling.addEventListener("click", () => {
+            if (leftValueBestSelling < 0) {
+                leftValueBestSelling += totalMovementSizeBestSelling;
+                cCarouselInnerBestSelling.style.left = leftValueBestSelling + "px";
+            }
+        });
+
+        nextBestSelling.addEventListener("click", () => {
+            const carouselVpWidthBestSelling = carouselVpBestSelling.getBoundingClientRect().width;
+            if (carouselInnerWidthBestSelling - Math.abs(leftValueBestSelling) > carouselVpWidthBestSelling) {
+                leftValueBestSelling -= totalMovementSizeBestSelling;
+                cCarouselInnerBestSelling.style.left = leftValueBestSelling + "px";
+            }
+        });
+
+        const mediaQuery510BestSelling = window.matchMedia("(max-width: 510px)");
+        const mediaQuery770BestSelling = window.matchMedia("(max-width: 770px)");
+
+        mediaQuery510BestSelling.addEventListener("change", mediaManagementBestSelling);
+        mediaQuery770BestSelling.addEventListener("change", mediaManagementBestSelling);
+
+        let oldViewportWidthBestSelling = window.innerWidth;
+
+        function mediaManagementBestSelling() {
+            const newViewportWidthBestSelling = window.innerWidth;
+
+            if (leftValueBestSelling <= -totalMovementSizeBestSelling && oldViewportWidthBestSelling < newViewportWidthBestSelling) {
+                leftValueBestSelling += totalMovementSizeBestSelling;
+                cCarouselInnerBestSelling.style.left = leftValueBestSelling + "px";
+                oldViewportWidthBestSelling = newViewportWidthBestSelling;
+            } else if (
+                leftValueBestSelling <= -totalMovementSizeBestSelling &&
+                oldViewportWidthBestSelling > newViewportWidthBestSelling
+            ) {
+                leftValueBestSelling -= totalMovementSizeBestSelling;
+                cCarouselInnerBestSelling.style.left = leftValueBestSelling + "px";
+                oldViewportWidthBestSelling = newViewportWidthBestSelling;
+            }
+        }
+    });
 </script>
 
 
-<section >
+<section>
     <div class="section-title-recentAddProducts">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
             <span class="bg-secondary pr-3">Most Recent Products</span>
@@ -332,25 +507,25 @@ $this->title = 'Repara Tech';
     </div>
 </section>
 
-<section>
+<section class="bestSelling">
     <div class="section-title-bestSelling">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
             <span class="bg-secondary pr-3">Best-Selling Products</span>
         </h2>
     </div>
-    <div id="cCarousel">
-        <button class="arrow" id="prev" aria-label="Previous" role="button">
+    <div id="cCarousel-bestSelling">
+        <button class="arrow" id="prev-bestSelling" aria-label="Previous" role="button">
             <i class='fas fa-angle-left' style='font-size:36px;color:white'></i>
         </button>
-        <button class="arrow" id="next" aria-label="Next" role="button">
+        <button class="arrow" id="next-bestSelling" aria-label="Next" role="button">
             <i class='fas fa-angle-right' style='font-size:36px;color:white'></i>
         </button>
 
-        <div id="carousel-vp">
-            <div id="cCarousel-inner">
+        <div id="carousel-vp-bestSelling">
+            <div id="cCarousel-inner-bestSelling">
                 <!-- Conteúdo dos itens do carrossel -->
-                <?php foreach ($recent_added_products as $product) { ?>
-                    <article class="cCarousel-item">
+                <?php foreach ($most_bought_products as $product) { ?>
+                    <article class="cCarousel-item-bestSelling">
                         <img src="<?= htmlspecialchars($product->image) ?>" alt="<?= htmlspecialchars($product->name) ?>">
                         <div class="infos">
                             <div class="info-name">
@@ -369,38 +544,6 @@ $this->title = 'Repara Tech';
         </div>
     </div>
 </section>
-
-
-<!--
-<div class="container-fluid pt-5 pb-3">
-    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
-        <span class="bg-secondary pr-3">Best-Selling Products</span>
-    </h2>
-    <div class="row px-xl-5">
-        <//?php foreach ($most_bought_products as $product) { ?>
-            <div class="col-12 col-md-6 col-lg-4 pb-1">
-
-                <div class="card" style="width: 18rem;">
-                    <img
-                            src="<//?= $product->image !== '' ? $product->image : 'https://placehold.co/400' ?>"
-                            class="card-img-top"
-                            alt="<//?= $product->image !== '' ? $product->image : 'https://placehold.co/400' ?>"
-                    >
-                    <div class="card-body text-center">
-                        <h5 class="card-title"><//?= htmlspecialchars($product->name) ?></h5>
-                        <p class="card-text">Price: <//?= number_format($product->price, 2) ?> €</p>
-                        <a
-                                href="<//?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?><//?= $product->name ?>" class="btn btn-primary">View Details
-                        </a>
-                    </div>
-                </div>
-            </div>
-        <//?php } ?>
-    </div>
-</div>
-
--->
-
 
 
 <div class="container-fluid pt-5">
