@@ -11,18 +11,6 @@ $this->title = 'Repara Tech';
 
 <style>
 
-    .title-bestSelling {
-        margin: 50px 0;
-    }
-
-
-
-    .section-title {
-        font-size: 30px;
-        font-weight: 700;
-        margin-bottom: 30px;
-    }
-
 
     .cat-item {
         border-radius: 10px;
@@ -115,16 +103,18 @@ $this->title = 'Repara Tech';
     }
 
 
-    @media (max-width: 800px) {
-        .footer-col{
-            width: 50%;
-            margin-bottom: 30px;
-        }
+    /* Carousel */
+
+    .section-title-recentAddProducts{
+        font-size: 30px;
+        font-weight: 700;
+        margin-left: 25px;
     }
-    @media (max-width:600px) {
-        .footer-col{
-            width: 100%;
-        }
+
+    .section-title-bestSelling {
+        font-size: 30px;
+        font-weight: 700;
+        margin: 25px;
     }
 
 
@@ -152,11 +142,11 @@ $this->title = 'Repara Tech';
     }
 
     #cCarousel #prev {
-        left: 30px;
+        left: 80px;
     }
 
     #cCarousel #next {
-        right: 30px;
+        right: 80px;
     }
 
     #carousel-vp {
@@ -188,6 +178,7 @@ $this->title = 'Repara Tech';
         gap: 10px;
         left: 0px;
     }
+
 
     .cCarousel-item {
         width: 300px;
@@ -303,10 +294,12 @@ $this->title = 'Repara Tech';
 </script>
 
 
-<section>
-    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
-        <span class="bg-secondary pr-3">Recently Added Products</span>
-    </h2>
+<section >
+    <div class="section-title-recentAddProducts">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Most Recent Products</span>
+        </h2>
+    </div>
     <div id="cCarousel">
         <button class="arrow" id="prev" aria-label="Previous" role="button">
             <i class='fas fa-angle-left' style='font-size:36px;color:white'></i>
@@ -326,7 +319,45 @@ $this->title = 'Repara Tech';
                                 <h3><?= htmlspecialchars($product->name) ?></h3>
                             </div>
                             <div class="info-price">
-                                <p>Price: <?= number_format($product->price, 2) ?> €</p>
+                                <p><?= number_format($product->price, 2) ?> €</p>
+                            </div>
+                            <div class="btn-details">
+                                <a href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </article>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-title-bestSelling">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Best-Selling Products</span>
+        </h2>
+    </div>
+    <div id="cCarousel">
+        <button class="arrow" id="prev" aria-label="Previous" role="button">
+            <i class='fas fa-angle-left' style='font-size:36px;color:white'></i>
+        </button>
+        <button class="arrow" id="next" aria-label="Next" role="button">
+            <i class='fas fa-angle-right' style='font-size:36px;color:white'></i>
+        </button>
+
+        <div id="carousel-vp">
+            <div id="cCarousel-inner">
+                <!-- Conteúdo dos itens do carrossel -->
+                <?php foreach ($recent_added_products as $product) { ?>
+                    <article class="cCarousel-item">
+                        <img src="<?= htmlspecialchars($product->image) ?>" alt="<?= htmlspecialchars($product->name) ?>">
+                        <div class="infos">
+                            <div class="info-name">
+                                <h3><?= htmlspecialchars($product->name) ?></h3>
+                            </div>
+                            <div class="info-price">
+                                <p><?= number_format($product->price, 2) ?> €</p>
                             </div>
                             <div class="btn-details">
                                 <a href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>" class="btn btn-primary">View Details</a>
@@ -541,7 +572,7 @@ $this->title = 'Repara Tech';
             <div class="footer-col">
                 <h4><strong>Our Website</strong></h4>
                 <ul>
-                    <li><a href="<? yii\helpers\Url::to([])?>"> List of Acessories123</a></li>
+                    <li><a href="<? yii\helpers\Url::to([])?>"> List of Acessories</a></li>
                     <li><a href="<?=yii\helpers\Url::to(['site/allRepairCategories'])?>">Repair Categories</a></li>
                 </ul>
             </div>
