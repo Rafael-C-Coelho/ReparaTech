@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="173dp"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
     app:cardCornerRadius="10dp"
@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/imgCapa"
             android:layout_width="match_parent"
-            android:layout_height="121dp"
+            android:layout_height="150dp"
             android:src="@drawable/iphone_capa" />
 
         <TextView
@@ -26,22 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textSize="20sp"
             android:text="Broken Screen"
             android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/yellow"
-            android:textColor="@color/white"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:text="@string/txt_viewDetails"
-            android:layout_gravity="center" />
 
     </LinearLayout>
 

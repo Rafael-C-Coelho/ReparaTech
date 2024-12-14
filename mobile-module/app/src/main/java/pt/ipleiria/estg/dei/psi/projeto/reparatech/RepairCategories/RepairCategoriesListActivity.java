@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoryDetail;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.RepairCategoriesListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategory;
@@ -46,14 +47,14 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
 
         lvRepairCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(RepairCategoriesListActivity.this, RepairCategoriesDetailsActivity.class);
-                intent.putExtra(RepairCategoriesDetailsActivity.ID_REPAIRCATEGORY,(int) l);
+                intent.putExtra(RepairCategoriesDetailsActivity.ID_REPAIRCATEGORY, repairCategories.get(position).getId());
                 startActivity(intent);
-
             }
         });
+
+
 
     }
 
@@ -65,4 +66,8 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 }
