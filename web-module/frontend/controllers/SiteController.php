@@ -285,33 +285,12 @@ class SiteController extends Controller
     }
 
 
-    public function actionRepair(){
-        return $this->render('repair',
-            [
-            'dataProvider' => new \yii\data\ActiveDataProvider([
-                'query' => \common\models\Repair::find()->where(['client_id' => Yii::$app->user->id]),
-            ])
-        ]);
-    }
-
-    public function actionOrder() {
-        return $this->render('order',
-            [
-                'dataProvider' => new \yii\data\ActiveDataProvider([
-                'query' => \common\models\SaleProduct::find()->where(['sale_id' => Yii::$app->user->id]),
-                ])
-            ]
-        );
-    }
-
     public function actionHardwareCleaningMaintenance(){
         return $this->render('repairCategory/hardwareCleaningMaintenance');
     }
-
     public function actionDataRecovery(){
         return $this->render('repairCategory/dataRecovery');
     }
-
     public function actionSoftwareIssue(){
         return $this->render('repairCategory/softwareIssue');
     }
