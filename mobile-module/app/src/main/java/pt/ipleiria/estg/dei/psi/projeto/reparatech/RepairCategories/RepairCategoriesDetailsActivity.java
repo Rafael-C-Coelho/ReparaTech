@@ -1,6 +1,8 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategories;
 
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +22,9 @@ public class RepairCategoriesDetailsActivity extends AppCompatActivity {
 
     public static final String ID_REPAIRCATEGORY = "ID_REPAIRCATEGORY";
     private RepairCategory repairCategory;
-    private ArrayList<RepairCategoryDetail> repairCategoryDetails;
+    private RepairCategoryDetail repairCategoryDetail;
     private Button btnRequestQuote;
+    private ArrayList<RepairCategoryDetail> repairCategoryDetails;
 
 
 
@@ -48,6 +51,15 @@ public class RepairCategoriesDetailsActivity extends AppCompatActivity {
         ImageView imgCostButton = findViewById(R.id.imgCostRepairButton);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        tvMobileRepairDescription.setText(repairCategoryDetail.getMobile());
+        tvTabletSolutionRepairDescription.setText(repairCategoryDetail.getTablet());
+        tvDesktopLaptopRepairDescription.setText(repairCategoryDetail.getDesktop());
+        tvWearablesRepairDescription.setText(repairCategoryDetail.getWearable());
+        tvRepairTimeDescription.setText(repairCategoryDetail.getDuration());
+        tvCostRepairDescription.setText(repairCategoryDetail.getCost());
+
+
 
         imgMobileRepairButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,9 +147,5 @@ public class RepairCategoriesDetailsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public ArrayList<RepairCategoryDetail> getRepairCategoryDetails() {
-        return repairCategoryDetails;
     }
 }

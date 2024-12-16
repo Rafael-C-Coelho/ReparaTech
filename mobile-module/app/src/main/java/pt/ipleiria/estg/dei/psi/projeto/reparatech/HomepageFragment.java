@@ -46,22 +46,20 @@ public class HomepageFragment extends Fragment {
         hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
         
         repairExamples = ReparaTechSingleton.getInstance(getContext()).getRepairExamples();
-        bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getbestSellingProductsExamples();
+        //bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getbestSellingProductsExamples();
         
         for (RepairExample repairExample: repairExamples) {
             View cardView = inflater.inflate(R.layout.item_repair_example,gallery,false);
 
             ImageView imgCapa = cardView.findViewById(R.id.imgCapa);
             TextView tvBrokenScreen = cardView.findViewById(R.id.tvBrokenScreen);
-            //TextView tvPrice = cardView.findViewById(R.id.tvPrice);
-            Button btnDetails = cardView.findViewById(R.id.btnDetails);
             imgCapa.setImageResource(repairExample.getImg());
             tvBrokenScreen.setText(repairExample.getTitle());
-            //tvPrice.setText(repairExample.getPrice());
+
 
             gallery.addView(cardView);
 
-            btnDetails.setOnClickListener(new View.OnClickListener() {
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.d("--->HomepageFragment", "RepairExample ID: " + repairExample.getId());

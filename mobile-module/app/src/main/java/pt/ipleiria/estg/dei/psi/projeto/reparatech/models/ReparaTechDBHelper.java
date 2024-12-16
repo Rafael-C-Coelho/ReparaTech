@@ -51,6 +51,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                                     "(" + NAME_PRODUCT + " TEXT "*/
     }
 
+    
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);

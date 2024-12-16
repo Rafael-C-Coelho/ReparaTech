@@ -10,6 +10,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
@@ -18,6 +20,9 @@ public class ReparaTechSingleton {
     private ArrayList<BestSellingProduct> bestSellingProducts;
     private ArrayList<RepairCategory> repairCategories;
     private ArrayList<Product> products;
+    private static ReparaTechSingleton instance;
+    private Map<Integer, RepairCategoryDetail> repairCategoryDetails;
+    private RepairCategoryDetail repairCategoryDetail;
 
     private static RequestQueue volleyQueue;
     private static ReparaTechSingleton INSTANCE = null;
@@ -28,8 +33,9 @@ public class ReparaTechSingleton {
         dbHelper = new ReparaTechDBHelper(context);
         this.context = context;
         generateDinamicRepairCategories();
-        generateDinamicBestSellingProducts();
+        //generateDinamicBestSellingProducts();
         generateDinamicProducts();
+
     }
 
     public static synchronized ReparaTechSingleton getInstance(Context context){
@@ -55,8 +61,10 @@ public class ReparaTechSingleton {
         }
         repairExamples.add(new RepairExample(-1,"VIEW ALL",R.drawable.repairs));
         return repairExamples;
+
     }
 
+    /*
     private void generateDinamicBestSellingProducts() {
         bestSellingProducts = new ArrayList<>();
         bestSellingProducts.add(new BestSellingProduct(1,"Capa Iphone",20, R.drawable.iphone_capa));
@@ -66,43 +74,45 @@ public class ReparaTechSingleton {
         bestSellingProducts.add(new BestSellingProduct(5,"Mochila ASUS para Laptop ",55, R.drawable.iphone_capa));
         bestSellingProducts.add(new BestSellingProduct(6,"Rato Ergonómico Logitech",85, R.drawable.iphone_capa));
     }
+    */
+
 
     private void generateDinamicRepairCategories(){
         repairCategories = new ArrayList<>();
-        repairCategories.add(new RepairCategory(1,"Audio Issues",
+        repairCategories.add(new RepairCategory(1,"Audio",
                 "If your device does not transmit sounds, our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(2,"Battery Issues",
+        repairCategories.add(new RepairCategory(2,"Battery",
                 "If your device has battery damaged, our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(3,"Buttons Issues",
+        repairCategories.add(new RepairCategory(3,"Buttons",
                 "If your device has some button damaged, our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(4,"Broken Screen",
+        repairCategories.add(new RepairCategory(4,"Screen",
                 "If your device has a damaged screen, our team is ready to solve the problem with maximum efficiency and quality.\".",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(5,"Camera Issues",
+        repairCategories.add(new RepairCategory(5,"Camera",
                 "If your device has camera damaged, our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(6,"Connectivity Issues",
+        repairCategories.add(new RepairCategory(6,"Connectivity",
                 "If your device has connectivity issues, our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
         repairCategories.add(new RepairCategory(7,"Data Recovery",
                 "Have you lost important data that you'd like to recover? Our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(8,"Hardware Cleaning",
+        repairCategories.add(new RepairCategory(8,"Hardware",
                 "Do you want to carry out routine maintenance or clean the internal components of your device? Our team is ready to do it with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
         repairCategories.add(new RepairCategory(9,"Liquid Damage",
                 "Has your device fallen into the pool and won't switch on? Our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(10,"Network Issues",
+        repairCategories.add(new RepairCategory(10,"Network",
                 "If your device has network issues, our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(11,"Software Issues",
+        repairCategories.add(new RepairCategory(11,"Software",
                 "If your device has malicious software, our team is ready to solve the problem with the utmost efficiency and quality.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(12,"Storage Issues",
+        repairCategories.add(new RepairCategory(12,"Storage",
                 "If your device has storage issues, our team is ready to solve the problem with maximum efficiency and quality.",
                 R.drawable.iphone_capa));
     }
@@ -114,13 +124,13 @@ public class ReparaTechSingleton {
         products.add(new Product(2, "Capa Samsung", "Capa para Samsung", 10, R.drawable.iphone_capa));
     }
 
+    /*
     public ArrayList<BestSellingProduct> getbestSellingProductsExamples() {
         return new ArrayList<>(bestSellingProducts);
     }
+    */
 
-    public ArrayList<RepairCategory> getRepairCategories(){
-        return new ArrayList<>(repairCategories);
-    }
+
 
 
     public RepairCategory getRepairCategory(int id){
@@ -180,10 +190,37 @@ public class ReparaTechSingleton {
         });
     }
 
+
+
+    public RepairCategoryDetail getRepairCategoryDetail(int id) {
+        return repairCategoryDetails.get(id);
+    }
+
+
+    public Map<Integer, RepairCategoryDetail> getRepairCategoryDetails() {
+        repairCategoryDetails = new HashMap<>();
+        repairCategoryDetails.put(1, new RepairCategoryDetail(1, "Mobile Info 1", "Tablet Info 1", "Desktop Info 1", "Wearable Info 1", "Cost Info 1", "Duration Info 1"));
+        repairCategoryDetails.put(2, new RepairCategoryDetail(2, "Mobile Info 2", "Tablet Info 2", "Desktop Info 2", "Wearable Info 2", "Cost Info 2", "Duration Info 2"));
+        repairCategoryDetails.put(3, new RepairCategoryDetail(3, "Mobile Info 3", "Tablet Info 3", "Desktop Info 3", "Wearable Info 3", "Cost Info 3", "Duration Info 3"));
+        repairCategoryDetails.put(4, new RepairCategoryDetail(4, "Mobile Info 4", "Tablet Info 4", "Desktop Info 4", "Wearable Info 4", "Cost Info 4", "Duration Info 4"));
+        repairCategoryDetails.put(5, new RepairCategoryDetail(5, "Mobile Info 5", "Tablet Info 5", "Desktop Info 5", "Wearable Info 5", "Cost Info 5", "Duration Info 5"));
+        repairCategoryDetails.put(6, new RepairCategoryDetail(6, "Mobile Info 6", "Tablet Info 6", "Desktop Info 6", "Wearable Info 6", "Cost Info 6", "Duration Info 6"));
+
+        return repairCategoryDetails;
+    }
+
+    public ArrayList<RepairCategory> getRepairCategories() {
+        return new ArrayList<>(repairCategories);
+    }
+
+
+}
+
+
     // endregion
 
     // region # AUTH API METHODS #
 
     // endregion
 
-}
+

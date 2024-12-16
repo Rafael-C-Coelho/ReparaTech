@@ -68,4 +68,6 @@ public class RepairCategoryDetail {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+
+
 }
