@@ -31,14 +31,14 @@ $this->title = 'Cart';
                         <td class="align-middle">
                             <div data-product="<?= $product->id ?>" class="quantity-div input-group quantity mx-auto" style="width: 100px;">
                                 <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-primary btn-minus">
+                                    <button onclick="manageCart('<?= $product->id ?>', <?= $quantity - 1 ?>)" class="btn btn-sm btn-primary btn-minus">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
                                 <input type="text" class="quantity-input form-control form-control-sm bg-secondary border-0 text-center"
                                        value="<?= $quantity ?>" max="<?= $product->stock ?>">
                                 <div class="input-group-btn">
-                                    <button onclick="manageCart('<?= $product->id ?>', 0)" class="btn btn-sm btn-primary btn-plus">
+                                    <button onclick="manageCart('<?= $product->id ?>', <?= $quantity + 1 ?>)" class="btn btn-sm btn-primary btn-plus">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
@@ -94,7 +94,7 @@ $this->title = 'Cart';
 <script>
     function manageCart(productId, quantity) {
         event.preventDefault();
-        $.ajax({
+        jQuery.ajax({
             url: '<?= \yii\helpers\Url::to(["product/manage-cart"])?>',
             type: 'POST',
             data: {
@@ -112,12 +112,12 @@ $this->title = 'Cart';
         window.location.reload();
     }
 
-    $(document).ready(function() {
-        $(document).on('click', '.quantity-div', function() {
+    jQuery(document).ready(function() {
+        jQuery(document).on('click', '.quantity-div', function() {
             // Get the productId from the data-product attribute
-            let productId = $(this).data('product');
+            let productId = jQuery(this).data('product');
             // Get the quantity from the inner .quantity-input field
-            let quantity = $(this).find('.quantity-input').val();
+            let quantity = jQuery(this).find('.quantity-input').val();
             console.log("Product ID:", productId, "Quantity:", quantity);
             // Send the AJAX request
             manageCart(productId, quantity);

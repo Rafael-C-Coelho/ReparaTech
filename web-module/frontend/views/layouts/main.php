@@ -34,6 +34,7 @@ $categories = ProductCategory::find()->all();
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
         <!-- Favicon -->
         <link href="./img/favicon.ico" rel="icon">
@@ -51,8 +52,6 @@ $categories = ProductCategory::find()->all();
         <link href="<?= Yii::getAlias('@web') ?>/img/AudioProblem" rel="stylesheet">
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<?= Yii::getAlias('@web') ?>/css/style.css" rel="stylesheet">
-
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body class="d-flex flex-column h-100">
 
