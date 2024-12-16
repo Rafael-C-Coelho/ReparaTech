@@ -24,8 +24,8 @@
         "kaabar-jwt/yii2-jwt": "dev-master",
         "firebase/php-jwt": "^6.10",
         "lcobucci/jwt": "^4.3",
-        "mpdf/mpdf": "*",
-        "dompdf/dompdf": "^3.0"
+        "dompdf/dompdf": "^3.0",
+        "php-mqtt/client": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -46,7 +46,8 @@
             "backend\\tests\\": ["backend/tests/", "backend/tests/_support"],
             "frontend\\tests\\": ["frontend/tests/", "frontend/tests/_support"],
             "Lcobucci\\JWT\\" : "vendor/lcobucci/jwt/src",
-            "Dompdf\\Dompdf" : "vendor/dompdf/dompdf/src"
+            "Dompdf\\Dompdf" : "vendor/dompdf/dompdf/src",
+            "PhpMqtt\\Client" : "vendor/php-mqtt/client/src"
         }
     },
     "config": {
