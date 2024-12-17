@@ -14,7 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="repair-view">
 
     <?= DetailView::widget([
-        'dataProvider' => $dataProvider,
         'model' => $model,
         'attributes' => [
             'id',

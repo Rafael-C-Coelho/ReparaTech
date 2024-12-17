@@ -2,6 +2,7 @@
 
 /** @var \common\models\SaleProduct $model */
 /** @var \yii\data\ActiveDataProvider $dataProvider */
+/** @var \yii\web\View $this */
 
 use yii\bootstrap4\Html;
 use yii\grid\GridView;
@@ -14,7 +15,6 @@ $this->title = 'Orders';
         <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
     </div>
     <div>
-        <p>Here you can see all your orders:</p>
         <div class="site-orders">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
@@ -37,7 +37,6 @@ $this->title = 'Orders';
                     ]
                 ],
             ]) ?>
-
         </div>
     </div>
 

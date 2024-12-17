@@ -35,13 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         )?>
 
     </div>
-
-
     <a href="<?= \yii\helpers\Url::to(['repair/index']) ?>" type="button" style="background-color: #FFD333;"  class="btn btn-primary">
         <strong>Back</strong>
     </a>
-
-
-
-
 </div>
