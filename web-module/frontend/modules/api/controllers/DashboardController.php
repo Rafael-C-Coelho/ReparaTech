@@ -1,4 +1,4 @@
-
+<?php
 
 namespace frontend\modules\api\controllers;
 
