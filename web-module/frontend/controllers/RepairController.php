@@ -32,6 +32,9 @@ class RepairController extends Controller
     {
         return $this->render('view', [
            'model' => $this->findModel($id),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
         ]);
     }
 

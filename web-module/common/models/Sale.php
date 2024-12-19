@@ -14,8 +14,8 @@ use common\models\User;
  * @property int $invoice_id
  *
  * @property User $client
- * @property Invoices $invoice
- * @property SalesHasProducts[] $salesHasProducts
+ * @property Invoice $invoice
+ * @property SaleProduct[] $saleProduct
  */
 class Sale extends \yii\db\ActiveRecord
 {
@@ -33,10 +33,12 @@ class Sale extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'invoice_id'], 'required'],
-            [['client_id', 'invoice_id'], 'integer'],
+            [['client_id','client_name','total_order', 'invoice_id', 'product_quantity'], 'required'],
+            [['client_id', 'invoice_id', 'product_quantity'], 'integer'],
+            [['total_order'], 'number'],
+            [['client_name'], 'string', 'max' => 255],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['client_id' => 'id']],
-            [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoices::class, 'targetAttribute' => ['invoice_id' => 'id']],
+            [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::class, 'targetAttribute' => ['invoice_id' => 'id']],
         ];
     }
 
@@ -48,7 +50,12 @@ class Sale extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'client_id' => 'Client ID',
+            'client_name' => 'Client Name',
+            'total_order' => 'Total Order',
             'invoice_id' => 'Invoice ID',
+            'product_quantity' => 'Product Quantity',
+
+
         ];
     }
 
@@ -62,6 +69,8 @@ class Sale extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'client_id']);
     }
 
+
+
     /**
      * Gets query for [[Invoice]].
      *
@@ -69,7 +78,9 @@ class Sale extends \yii\db\ActiveRecord
      */
     public function getInvoice()
     {
-        return $this->hasOne(Invoices::class, ['id' => 'invoice_id']);
+
+        return $this->hasOne(Invoice::class, ['id' => 'invoice_id']);
+
     }
 
     /**
@@ -77,8 +88,8 @@ class Sale extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSalesHasProducts()
+    public function getSaleProduct()
     {
-        return $this->hasMany(SalesHasProducts::class, ['sale_id' => 'id']);
+        return $this->hasMany(SaleProduct::class, ['sale_id' => 'id']);
     }
 }

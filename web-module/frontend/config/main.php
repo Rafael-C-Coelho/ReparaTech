@@ -44,6 +44,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'repair/index' => 'repair/index',
+                'order/index' => 'order/index',
                 'site/painelClient' => 'site/painel-client',
                 'site/softwareIssue' => 'site/software-issue',
                 'site/hardwareCleaningMaintenance' => 'site/hardware-cleaning-maintenance',
