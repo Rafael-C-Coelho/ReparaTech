@@ -5,8 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".ProductsListFragment">
 
-    <ListView
-        android:id="@+id/LvProducts"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/LvProducts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

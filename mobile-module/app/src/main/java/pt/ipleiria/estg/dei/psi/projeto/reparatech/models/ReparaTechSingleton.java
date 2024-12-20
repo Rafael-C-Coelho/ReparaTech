@@ -30,6 +30,7 @@ public class ReparaTechSingleton {
     private ReparaTechDBHelper dbHelper;
 
     private ReparaTechSingleton(Context context){
+        products = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
         this.context = context;
         generateDinamicRepairCategories();
@@ -118,20 +119,13 @@ public class ReparaTechSingleton {
     }
 
 
-    private void generateDinamicProducts(){
-        products = new ArrayList<>();
-        products.add(new Product(1, "Capa Iphone", "Capa para Iphone", 10, R.drawable.iphone_capa));
-        products.add(new Product(2, "Capa Samsung", "Capa para Samsung", 10, R.drawable.iphone_capa));
-    }
+
 
     /*
     public ArrayList<BestSellingProduct> getbestSellingProductsExamples() {
         return new ArrayList<>(bestSellingProducts);
     }
     */
-
-
-
 
     public RepairCategory getRepairCategory(int id){
         for (RepairCategory l:repairCategories){
@@ -142,9 +136,38 @@ public class ReparaTechSingleton {
         return null;
     }
 
+    // region # PRODUCTS METHODS #
+
+    private void generateDinamicProducts(){
+        products = new ArrayList<>();
+        products.add(new Product(1, "Capa Iphone", "Capa para Iphone", 10, R.drawable.iphone_capa));
+        products.add(new Product(2, "Capa Samsung", "Capa para Samsung", 12, R.drawable.iphone_capa));
+        products.add(new Product(3, "Película de Ecrã Iphone 13", "Película de Ecrã para Iphone 13", 15, R.drawable.iphone_capa));
+        products.add(new Product(4, "Película de Ecrã Xiaomi Redmi Note 13", "Película de Ecrã para Xiaomi Redmi Note 13", 15, R.drawable.iphone_capa));
+        products.add(new Product(5, "Mochila ASUS para Laptop", "Mochila ASUS para Laptop", 55, R.drawable.iphone_capa));
+        products.add(new Product(6, "Rato Ergonómico Logitech", "Rato Ergonómico Logitech", 85, R.drawable.iphone_capa));
+    }
+
     public ArrayList<Product> getProducts(){
         return new ArrayList<>(products);
     }
+    /*public ArrayList<Product> getProductsDB(){
+        products = dbHelper.getAllProductsDB();
+        return new ArrayList<>(products);
+
+    }*/
+
+    public Product getProduct(int id){
+        for (Product product:products){
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+
+    // endregion
 
     // region # Settings METHODS #
 

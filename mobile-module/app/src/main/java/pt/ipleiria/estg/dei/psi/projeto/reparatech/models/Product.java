@@ -15,6 +15,10 @@ public class Product {
         this.image = image;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

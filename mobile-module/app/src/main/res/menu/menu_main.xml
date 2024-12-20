@@ -10,8 +10,8 @@
             android:icon="@drawable/ic_action_listacessories"/>
         <item
             android:id="@+id/navProducts"
-            android:title="@string/list_of_accessories"
-            android:icon="@drawable/ic_action_listacessories"/>
+            android:icon="@drawable/ic_action_listacessories"
+            android:title="@string/list_of_products" />
         <item
             android:id="@+id/navListRepairCategories"
             android:title="@string/list_of_repair_categories"

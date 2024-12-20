@@ -1,9 +1,12 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechDBHelper;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
@@ -23,6 +27,8 @@ public class ProductsListFragment extends Fragment {
 
     private ListView lvProducts;
     private ArrayList<Product> products;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public ProductsListFragment() {
     }
@@ -37,16 +43,32 @@ public class ProductsListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         lvProducts = view.findViewById(R.id.LvProducts);
+
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ProductsListFragment.this.onRefresh();
+            }
+        });
+
         products = ReparaTechSingleton.getInstance(getContext()).getProducts();
-        lvProducts.setAdapter((ListAdapter) new ProductsListAdapter(getContext(), products));
+        lvProducts.setAdapter(new ProductsListAdapter(getContext(), products));
         lvProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), MenuMainActivity.class);
+                Intent intent = new Intent(getContext(), DetailsProductActivity.class);
+                intent.putExtra(DetailsProductActivity.ID_PRODUCT, (int) id);
                 startActivity(intent);
             }
         });
 
         return view;
+    }
+
+    public void onRefresh() {
+        products = ReparaTechSingleton.getInstance(getContext()).getProducts();
+        lvProducts.setAdapter(new ProductsListAdapter(getContext(), products));
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
