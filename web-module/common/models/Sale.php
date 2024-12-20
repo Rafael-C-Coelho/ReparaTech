@@ -16,8 +16,8 @@ use common\models\User;
  * @property string $zip_code
  *
  * @property User $client
- * @property Invoices $invoice
- * @property SalesHasProducts[] $salesHasProducts
+ * @property Invoice $invoice
+ * @property SaleProduct[] $saleProduct
  */
 class Sale extends \yii\db\ActiveRecord
 {
@@ -73,7 +73,7 @@ class Sale extends \yii\db\ActiveRecord
      */
     public function getInvoice()
     {
-        return $this->hasOne(Invoices::class, ['id' => 'invoice_id']);
+        return $this->hasOne(Invoice::class, ['id' => 'invoice_id']);
     }
 
     /**
@@ -81,8 +81,8 @@ class Sale extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSalesHasProducts()
+    public function getSaleProduct()
     {
-        return $this->hasMany(SalesHasProducts::class, ['sale_id' => 'id']);
+        return $this->hasMany(SaleProduct::class, ['sale_id' => 'id']);
     }
 }
