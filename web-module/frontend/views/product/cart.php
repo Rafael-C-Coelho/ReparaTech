@@ -82,7 +82,7 @@ $this->title = 'Cart';
                         <h5>Total</h5>
                         <h5><?= Yii::$app->formatter->asCurrency($subtotal + Yii::$app->params["defaultShipping"], "EUR") ?></h5>
                     </div>
-                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" data-toggle="modal" data-target="#shippingModal">Proceed To Checkout</button>
                 </div>
                 <?php } ?>
             </div>
@@ -90,6 +90,33 @@ $this->title = 'Cart';
     </div>
 </div>
 
+<!-- Shipping Details Modal -->
+<div class="modal fade" id="shippingModal" tabindex="-1" role="dialog" aria-labelledby="shippingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shippingModalLabel">Shipping Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="shippingForm" action="<?= \yii\helpers\Url::to(["site/checkout"]) ?>" method="post">
+                    <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="zipCode">Zip Code</label>
+                        <input type="text" class="form-control" id="zipCode" name="zipCode" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     function manageCart(productId, quantity) {
