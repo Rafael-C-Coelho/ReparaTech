@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,7 +48,7 @@ public class HomepageFragment extends Fragment {
         //bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getbestSellingProductsExamples();
         
         for (RepairExample repairExample: repairExamples) {
-            View cardView = inflater.inflate(R.layout.item_repair_example,gallery,false);
+            View cardView = inflater.inflate(R.layout.item_repaircategorie_homepage,gallery,false);
 
             ImageView imgCapa = cardView.findViewById(R.id.imgCapa);
             TextView tvBrokenScreen = cardView.findViewById(R.id.tvBrokenScreen);

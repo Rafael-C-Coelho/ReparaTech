@@ -2,20 +2,23 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategories;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.RepairCategoryDetailAdapter;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.databinding.ActivityMenuMainBinding;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoryDetail;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.RepairCategoriesListAdapter;
@@ -25,6 +28,7 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
 
     private ListView lvRepairCategories;
     private ArrayList<RepairCategory> repairCategories;
+
 
     public RepairCategoriesListActivity() {
 
@@ -36,6 +40,7 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_repair_categories_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
 
 
         lvRepairCategories = findViewById(R.id.lvRepairCategories);
@@ -54,10 +59,7 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
-
 
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == android.R.id.home){
@@ -68,6 +70,33 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
     }
 
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.search_item);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Search Repair");
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ArrayList<RepairCategory> repairCategoryArrayList= new ArrayList<>();
+
+                for (RepairCategory repairCategory: ReparaTechSingleton.getInstance(getBaseContext()).getRepairCategories()) {
+                    if (repairCategory.getTitle().toLowerCase().contains(s.toLowerCase())){
+                        repairCategoryArrayList.add(repairCategory);
+                    }
+                }
+
+                lvRepairCategories.setAdapter(new RepairCategoriesListAdapter(RepairCategoriesListActivity.this, repairCategoryArrayList));
+                return true;
+            }
+        });
+        return true;
+    }
 }
