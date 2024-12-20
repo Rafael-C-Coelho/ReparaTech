@@ -28,6 +28,9 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String TOKEN = "token";
     private static final String REFRESH_TOKEN = "refresh_token";
 
+    private static final String TABLE_REPAIR_CATEGORIES = "repair_categories";
+    private static final String NAME = "name";
+
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.db = getWritableDatabase();
@@ -46,6 +49,9 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 REFRESH_TOKEN + " TEXT NOT NULL" +
                 ");";
         sqLiteDatabase.execSQL(createAuthTable);
+
+        String createRepairCategoriesTable = "CREATE TABLE IF NOT EXISTS" + TABLE_REPAIR_CATEGORIES +
+                "(" + NAME + " TEXT NOT NULL, " +  ");";
 
         /*String createProductTable = "CREATE TABLE " + TABLE_PRODUCTS +
                                     "(" + NAME_PRODUCT + " TEXT "*/

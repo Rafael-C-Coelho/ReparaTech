@@ -12,10 +12,12 @@ use common\models\User;
  * @property int $id
  * @property int $client_id
  * @property int $invoice_id
+ * @property string $address
+ * @property string $zip_code
  *
  * @property User $client
- * @property Invoices $invoice
- * @property SalesHasProducts[] $salesHasProducts
+ * @property Invoice $invoice
+ * @property SaleProduct[] $saleProduct
  */
 class Sale extends \yii\db\ActiveRecord
 {
@@ -33,10 +35,10 @@ class Sale extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'invoice_id'], 'required'],
+            [['client_id'], 'required'],
             [['client_id', 'invoice_id'], 'integer'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['client_id' => 'id']],
-            [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoices::class, 'targetAttribute' => ['invoice_id' => 'id']],
+            [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::class, 'targetAttribute' => ['invoice_id' => 'id']],
         ];
     }
 
@@ -49,6 +51,8 @@ class Sale extends \yii\db\ActiveRecord
             'id' => 'ID',
             'client_id' => 'Client ID',
             'invoice_id' => 'Invoice ID',
+            'address' => 'Address',
+            'zip_code' => 'Zip Code',
         ];
     }
 
@@ -69,7 +73,7 @@ class Sale extends \yii\db\ActiveRecord
      */
     public function getInvoice()
     {
-        return $this->hasOne(Invoices::class, ['id' => 'invoice_id']);
+        return $this->hasOne(Invoice::class, ['id' => 'invoice_id']);
     }
 
     /**
@@ -77,8 +81,8 @@ class Sale extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSalesHasProducts()
+    public function getSaleProduct()
     {
-        return $this->hasMany(SalesHasProducts::class, ['sale_id' => 'id']);
+        return $this->hasMany(SaleProduct::class, ['sale_id' => 'id']);
     }
 }

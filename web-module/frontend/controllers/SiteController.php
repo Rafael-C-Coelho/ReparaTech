@@ -2,11 +2,16 @@
 
 namespace frontend\controllers;
 
+use common\models\Invoice;
 use common\models\Product;
+use common\models\Sale;
+use common\models\SaleProduct;
+use Dompdf\Dompdf;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\helpers\FileHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -138,12 +143,98 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionCart() {
-        return $this->render('cart');
-    }
-
     public function actionCheckout() {
-        return $this->render('checkout');
+        $cart = Yii::$app->session->get('cart', []);
+        if (empty($cart)) {
+            Yii::$app->session->setFlash('error', 'Your cart is empty.');
+            return $this->redirect(['product/cart']);
+        }
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $sale = new Sale();
+            $sale->client_id = Yii::$app->user->id;
+            $sale->address = Yii::$app->request->post('address');
+            $sale->zip_code = Yii::$app->request->post('zipCode');
+            $total = 0;
+            $items = [];
+            if (!$sale->save()) {
+                throw new \Exception('Failed to save sale.');
+            }
+
+            foreach ($cart as $productId => $details) {
+                $product = Product::findOne($details['product_id']);
+                if (!$product) {
+                    throw new \Exception('Product not found.');
+                }
+
+                $saleProduct = new SaleProduct();
+                $saleProduct->sale_id = $sale->id;
+                $saleProduct->product_id = $product->id;
+                $saleProduct->quantity = $details['quantity'];
+                $saleProduct->total_price = $product->price;
+                $product->stock = $product->stock - $details['quantity'];
+                $items[] = [
+                    'name' => $product->name,
+                    'quantity' => $details['quantity'],
+                    'price' => $product->price,
+                ];
+
+                if (!$saleProduct->save()) {
+                    throw new \Exception('Failed to save sale product.');
+                }
+                $product->save();
+                $total += $product->price * $details["quantity"];
+            }
+
+            $items[] = [
+                'name' => "Shipping",
+                'quantity' => 1,
+                'price' => Yii::$app->params['defaultShipping'],
+            ];
+
+            if (!$sale->save()) {
+                throw new \Exception('Failed to update sale total.');
+            }
+
+            $path = \Yii::getAlias('@app/web/uploads/invoices');
+            FileHelper::createDirectory($path);
+
+            // Save file path to the model
+            $invoice = new Invoice();
+            $invoice->client_id = Yii::$app->user->id;
+            $invoice->total = $total;
+            $invoice->items = json_encode($items);
+            $invoice->save();
+            $fileName = 'invoice_' . $invoice->id . Yii::$app->user->identity->id . Yii::$app->user->identity->username . $invoice->id . '.pdf';
+            $filePath = $path . DIRECTORY_SEPARATOR . $fileName;
+            $sale->invoice_id = $invoice->id;
+
+            $content = \Yii::$app->controller->renderPartial('invoice-sale', [
+                'model' => $sale,
+                'items' => $items,
+                'invoice' => $invoice
+            ]);
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($content);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+
+            // Save PDF to file
+            file_put_contents($filePath, $dompdf->output());
+
+            $invoice->pdf_file = '/uploads/invoices/' . $fileName;
+            $invoice->save();
+            $sale->save();
+            $transaction->commit();
+            Yii::$app->session->remove('cart');
+            Yii::$app->session->setFlash('success', 'Purchase completed successfully.');
+            return $this->redirect(['site/painelClient']);
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', 'Failed to complete purchase: ' . $e->getMessage());
+            return $this->redirect(['product/cart']);
+        }
     }
 
     public function actionShop() {
@@ -285,33 +376,12 @@ class SiteController extends Controller
     }
 
 
-    public function actionRepair(){
-        return $this->render('repair',
-            [
-            'dataProvider' => new \yii\data\ActiveDataProvider([
-                'query' => \common\models\Repair::find()->where(['client_id' => Yii::$app->user->id]),
-            ])
-        ]);
-    }
-
-    public function actionOrder() {
-        return $this->render('order',
-            [
-                'dataProvider' => new \yii\data\ActiveDataProvider([
-                'query' => \common\models\SaleProduct::find()->where(['sale_id' => Yii::$app->user->id]),
-                ])
-            ]
-        );
-    }
-
     public function actionHardwareCleaningMaintenance(){
         return $this->render('repairCategory/hardwareCleaningMaintenance');
     }
-
     public function actionDataRecovery(){
         return $this->render('repairCategory/dataRecovery');
     }
-
     public function actionSoftwareIssue(){
         return $this->render('repairCategory/softwareIssue');
     }

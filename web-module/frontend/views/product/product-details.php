@@ -37,14 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                    value="<?= Yii::$app->request->csrfToken; ?>"/>
                             <div class="input-group quantity mr-3" style="width: 130px;">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-minus">
+                                    <button type="button" class="btn btn-primary btn-minus" onclick="updateQuantity(-1)">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
                                 <input name="quantity" type="text"
-                                       class="form-control bg-secondary border-0 text-center" value="1" max="<?= $model->stock ?>" min="0">
+                                       class="form-control bg-secondary border-0 text-center" value="1" max="<?= $model->stock ?>" min="0" id="quantity-input">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-plus">
+                                    <button type="button" class="btn btn-primary btn-plus" onclick="updateQuantity(1)">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
@@ -71,6 +71,23 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <!-- Shop Detail End -->
 
+<script>
+    function updateQuantity(change) {
+        const input = document.getElementById('quantity-input');
+        let currentValue = parseInt(input.value);
+        const max = parseInt(input.getAttribute('max'));
+        const min = parseInt(input.getAttribute('min'));
+
+        currentValue += change;
+        if (currentValue > max) {
+            currentValue = max;
+        } else if (currentValue < min) {
+            currentValue = min;
+        }
+
+        input.value = currentValue;
+    }
+</script>
 
 <!-- Products Start
 <div class="container-fluid py-5">
@@ -101,4 +118,3 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 Products End -->
-

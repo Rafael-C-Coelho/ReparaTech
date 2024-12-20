@@ -10,6 +10,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Dompdf\Dompdf;
 
 /**
  * RepairController implements the CRUD actions for Repair model.

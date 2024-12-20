@@ -3,45 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
     tools:context=".MenuMainActivity">
 
+
+    <ImageView
+        android:id="@+id/imgRepairCategoryList"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="0.3"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@tools:sample/avatars" />
+
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
 
-        <ImageView
-            android:id="@+id/imgRepairCategoryList"
+        <TextView
+            android:id="@+id/tvRepairCategoryName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="4dp"
+            android:text="@string/txt_camera_issues" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvCategoryDescription"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvRepairCategoryName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="@string/txt_camera_issues" />
-
-            <TextView
-                android:id="@+id/tvCategoryDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:maxLines="3"
-                android:text="@string/txt_repair_category_description" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textColor="@android:color/darker_gray"
+            android:text="@string/txt_repair_category_description" />
     </LinearLayout>
 
 </LinearLayout>

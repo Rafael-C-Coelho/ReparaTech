@@ -14,8 +14,8 @@ use common\models\Sales;
  * @property int $quantity
  * @property float $total_price
  *
- * @property Products $product
- * @property Sales $sale
+ * @property Product $product
+ * @property Sale $sale
  */
 class SaleProduct extends \yii\db\ActiveRecord
 {
@@ -36,8 +36,8 @@ class SaleProduct extends \yii\db\ActiveRecord
             [['sale_id', 'product_id', 'quantity', 'total_price'], 'required'],
             [['sale_id', 'product_id', 'quantity'], 'integer'],
             [['total_price'], 'number'],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::class, 'targetAttribute' => ['product_id' => 'id']],
-            [['sale_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sales::class, 'targetAttribute' => ['sale_id' => 'id']],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
+            [['sale_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sale::class, 'targetAttribute' => ['sale_id' => 'id']],
         ];
     }
 
@@ -62,7 +62,7 @@ class SaleProduct extends \yii\db\ActiveRecord
      */
     public function getProduct()
     {
-        return $this->hasOne(Products::class, ['id' => 'product_id']);
+        return $this->hasOne(Product::class, ['id' => 'product_id']);
     }
 
     /**
@@ -72,6 +72,6 @@ class SaleProduct extends \yii\db\ActiveRecord
      */
     public function getSale()
     {
-        return $this->hasOne(Sales::class, ['id' => 'sale_id']);
+        return $this->hasOne(Sale::class, ['id' => 'sale_id']);
     }
 }
