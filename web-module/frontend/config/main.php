@@ -46,6 +46,7 @@ return [
             'rules' => [
                 'site/painelClient' => 'site/painel-client',
                 'site/softwareIssue' => 'site/software-issue',
+                'site/checkout' => 'site/checkout',
                 'site/hardwareCleaningMaintenance' => 'site/hardware-cleaning-maintenance',
                 'site/dataRecovery' => 'site/data-recovery',
                 'site/networkIssue' => 'site/network-issue',

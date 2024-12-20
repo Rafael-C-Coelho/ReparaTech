@@ -3,10 +3,13 @@
 namespace common\models;
 
 use Exception;
-use PhpMqtt\Client\Exceptions\ProtocolNotSupportedException;
-use PhpMqtt\Client\MQTTClient;
 use PhpMqtt\Client\ConnectionSettings;
-use common\models\Repair;
+use PhpMqtt\Client\Exceptions\ConfigurationInvalidException;
+use PhpMqtt\Client\Exceptions\ConnectingToBrokerFailedException;
+use PhpMqtt\Client\Exceptions\DataTransferException;
+use PhpMqtt\Client\Exceptions\ProtocolNotSupportedException;
+use PhpMqtt\Client\Exceptions\RepositoryException;
+use PhpMqtt\Client\MqttClient;
 
 /**
  * This is the model class for table "{{%comments}}".
@@ -74,6 +77,13 @@ class Comment extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @throws ConnectingToBrokerFailedException
+     * @throws ConfigurationInvalidException
+     * @throws RepositoryException
+     * @throws ProtocolNotSupportedException
+     * @throws DataTransferException
+     */
     public function afterSave($insert, $changedAttributes)
     {
         $brokerAddr = 'test.mosquitto.org';
@@ -81,18 +91,17 @@ class Comment extends \yii\db\ActiveRecord
         $clientHash = md5(base64_encode($this->repair->client->email));
 
         try {
-            $client = new MQTTClient($brokerAddr, $brokerPort, 'client_' . $clientHash);
-            $connSettings = (new ConnectionSettings);
+            $client = new MQTTClient($brokerAddr, $brokerPort);
 
-            $client->connect($connSettings);
-            $client->publish('/reparatech/' . $clientHash, json_encode(
+            $client->connect();
+            $client->publish('reparatech/client_' . $clientHash, json_encode(
                 [
                     'repair_id' => $this->repair_id,
                     'description' => $this->description,
                     'date' => $this->date,
                     'time' => $this->time,
                 ]
-            ), 0);
+            ), 0, 1);
             $client->disconnect();
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";

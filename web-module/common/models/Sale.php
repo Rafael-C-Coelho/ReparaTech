@@ -12,6 +12,8 @@ use common\models\User;
  * @property int $id
  * @property int $client_id
  * @property int $invoice_id
+ * @property string $address
+ * @property string $zip_code
  *
  * @property User $client
  * @property Invoices $invoice
@@ -33,10 +35,10 @@ class Sale extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'invoice_id'], 'required'],
+            [['client_id'], 'required'],
             [['client_id', 'invoice_id'], 'integer'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['client_id' => 'id']],
-            [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoices::class, 'targetAttribute' => ['invoice_id' => 'id']],
+            [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::class, 'targetAttribute' => ['invoice_id' => 'id']],
         ];
     }
 
@@ -49,6 +51,8 @@ class Sale extends \yii\db\ActiveRecord
             'id' => 'ID',
             'client_id' => 'Client ID',
             'invoice_id' => 'Invoice ID',
+            'address' => 'Address',
+            'zip_code' => 'Zip Code',
         ];
     }
 

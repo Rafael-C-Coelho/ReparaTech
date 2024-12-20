@@ -1,4 +1,4 @@
-
+<?php
 
 namespace frontend\modules\api\controllers;
 
@@ -44,7 +44,14 @@ class DashboardController extends Controller
 
     public function actionLatest()
     {
-        $products = Product::find()->orderBy(['id' => SORT_DESC])->limit(8)->all();
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find()->orderBy(['id' => SORT_DESC]),
+            'pagination' => [
+                'pageSize' => 8,
+            ],
+        ]);
+
+        $products = $dataProvider->getModels();
         if ($products) {
             return ['products' => $products, "status" => "success"];
         }
@@ -53,15 +60,19 @@ class DashboardController extends Controller
 
     public function actionMostSold()
     {
-        $sales = SaleProduct::find()->select(['product_id', 'SUM(quantity) as total'])->groupBy('product_id')->orderBy(['total' => SORT_DESC])->limit(8)->asArray()->all();
-        $sales = SaleProduct::find()
+        $salesQuery = SaleProduct::find()
             ->select(['product_id', 'SUM(quantity) as total'])
             ->groupBy('product_id')
-            ->orderBy(['total' => SORT_DESC])
-            ->limit(8)
-            ->asArray()
-            ->all();
+            ->orderBy(['total' => SORT_DESC]);
 
+        $dataProvider = new ActiveDataProvider([
+            'query' => $salesQuery,
+            'pagination' => [
+                'pageSize' => 8,
+            ],
+        ]);
+
+        $sales = $dataProvider->getModels();
         $products = [];
         foreach ($sales as $sale) {
             $product = Product::findOne($sale['product_id']);
