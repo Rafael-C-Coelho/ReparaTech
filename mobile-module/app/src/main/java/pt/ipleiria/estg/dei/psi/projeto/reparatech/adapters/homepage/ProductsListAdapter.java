@@ -62,7 +62,7 @@ public class ProductsListAdapter extends BaseAdapter {
 
     private class ViewHolderList {
 
-        private TextView tvNameProduct,tvDescriptionProduct, tvPriceProduct;
+        private TextView tvNameProduct, tvPriceProduct;
         private ImageView imgProduct;
         public ViewHolderList(View view) {
             tvNameProduct = view.findViewById(R.id.tvNameDetailsProduct);

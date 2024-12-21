@@ -52,7 +52,7 @@ public class ProductsListFragment extends Fragment {
             }
         });
 
-        products = ReparaTechSingleton.getInstance(getContext()).getProducts();
+        products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
         lvProducts.setAdapter(new ProductsListAdapter(getContext(), products));
         lvProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,7 +67,7 @@ public class ProductsListFragment extends Fragment {
     }
 
     public void onRefresh() {
-        products = ReparaTechSingleton.getInstance(getContext()).getProducts();
+        products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
         lvProducts.setAdapter(new ProductsListAdapter(getContext(), products));
         swipeRefreshLayout.setRefreshing(false);
     }

@@ -35,7 +35,7 @@ public class ReparaTechSingleton {
         this.context = context;
         generateDinamicRepairCategories();
         //generateDinamicBestSellingProducts();
-        generateDinamicProducts();
+        //generateDinamicProducts();
 
     }
 
@@ -142,24 +142,23 @@ public class ReparaTechSingleton {
 
     // region # PRODUCTS METHODS #
 
-    private void generateDinamicProducts(){
+    /*private void generateDinamicProducts(){
         products = new ArrayList<>();
-        products.add(new Product(1, "Capa Iphone", "Capa para Iphone", 10, R.drawable.iphone_capa));
-        products.add(new Product(2, "Capa Samsung", "Capa para Samsung", 12, R.drawable.iphone_capa));
-        products.add(new Product(3, "Película de Ecrã Iphone 13", "Película de Ecrã para Iphone 13", 15, R.drawable.iphone_capa));
-        products.add(new Product(4, "Película de Ecrã Xiaomi Redmi Note 13", "Película de Ecrã para Xiaomi Redmi Note 13", 15, R.drawable.iphone_capa));
-        products.add(new Product(5, "Mochila ASUS para Laptop", "Mochila ASUS para Laptop", 55, R.drawable.iphone_capa));
-        products.add(new Product(6, "Rato Ergonómico Logitech", "Rato Ergonómico Logitech", 85, R.drawable.iphone_capa));
-    }
+        products.add(new Product(1, "Capa Iphone",  10, R.drawable.iphone_capa));
+        products.add(new Product(2, "Capa Samsung",  12, R.drawable.iphone_capa));
+        products.add(new Product(3, "Película de Ecrã Iphone 13",  15, R.drawable.iphone_capa));
+        products.add(new Product(4, "Película de Ecrã Xiaomi Redmi Note 13",  15, R.drawable.iphone_capa));
+        products.add(new Product(5, "Mochila ASUS para Laptop",  55, R.drawable.iphone_capa));
+        products.add(new Product(6, "Rato Ergonómico Logitech",  85, R.drawable.iphone_capa));
+    }*/
 
     public ArrayList<Product> getProducts(){
         return new ArrayList<>(products);
     }
-    /*public ArrayList<Product> getProductsDB(){
+    public ArrayList<Product> getProductsDB(){
         products = dbHelper.getAllProductsDB();
         return new ArrayList<>(products);
-
-    }*/
+    }
 
     public Product getProduct(int id){
         for (Product product:products){

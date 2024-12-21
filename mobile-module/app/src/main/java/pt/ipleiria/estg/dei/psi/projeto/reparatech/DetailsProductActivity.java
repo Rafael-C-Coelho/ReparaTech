@@ -20,7 +20,7 @@ public class DetailsProductActivity extends AppCompatActivity {
     public static final String ID_PRODUCT = "id_Product";
     private Product product;
 
-    private TextView tvName, tvDescription, tvPrice;
+    private TextView tvName, tvPrice;
     private ImageView imgProduct;
 
     @Override
@@ -30,7 +30,6 @@ public class DetailsProductActivity extends AppCompatActivity {
 
         tvName = findViewById(R.id.tvNameProductDetails);
         imgProduct = findViewById(R.id.imgProductDetails);
-        tvDescription = findViewById(R.id.tvDescriptionProductDetails);
         tvPrice = findViewById(R.id.tvPriceProductDetails);
 
         int productid = getIntent().getIntExtra(ID_PRODUCT, -1);
@@ -48,7 +47,6 @@ public class DetailsProductActivity extends AppCompatActivity {
         setTitle("Detalhes: "+product.getName());
         tvName.setText(product.getName());
         imgProduct.setImageResource(product.getImage());
-        tvDescription.setText(product.getDescription());
-        tvPrice.setText(""+product.getPrice());
+        tvPrice.setText(product.getPrice()+"€");
     }
 }
