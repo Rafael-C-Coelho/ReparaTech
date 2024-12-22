@@ -54,16 +54,6 @@ class Invoice extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Repairs]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRepairs()
-    {
-        return $this->hasMany(Repair::class, ['invoice_id' => 'id']);
-    }
-
 
     public function getClient()
     {
@@ -72,7 +62,7 @@ class Invoice extends \yii\db\ActiveRecord
 
     public function getRepair()
     {
-        return $this->hasOne(Repair::class, ['id' => 'repair_id']);
+        return $this->hasOne(Repair::class, ['invoice_id' => 'id']);
     }
 
     /**

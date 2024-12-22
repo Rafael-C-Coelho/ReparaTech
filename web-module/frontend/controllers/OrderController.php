@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Invoice;
 use common\models\Sale;
+use common\models\SaleProduct;
 use Yii;
 use yii\data\ActiveDataProvider;
 
@@ -27,20 +28,22 @@ class OrderController extends \yii\web\Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-
-        return $this->render('view', [
-        'model' => $model,
+        $dataProvider = new ActiveDataProvider([
+            'query' => SaleProduct::find()->where(['sale_id' => $model->id]),
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => 100,
             ],
         ]);
-
+        return $this->render('view', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 
     public function actionDownloadInvoice($id){
         $invoice = Invoice::findOne($id);
-        $path = \Yii::$app->params["backend_url"] . '/' .$invoice->pdf_file;
+        $path = \Yii::$app->params["frontend_url"] . '/' .$invoice->pdf_file;
         return Yii::$app->response->redirect($path);
     }
 

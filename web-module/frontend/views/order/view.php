@@ -1,5 +1,6 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -34,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'label' => 'Product Quantity',
                     'value' => function ($model){
-                        return count($model->saleProduct);
+                        return count($model->saleProducts);
                     }
                 ],
                 [
@@ -47,6 +48,35 @@ $this->params['breadcrumbs'][] = $this->title;
                             'download' => true]);
                     }
                 ]
+            ],
+        ]) ?>
+
+        <div>
+            <h3>Sale products</h3>
+        </div>
+
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                'id',
+                [
+                    'label' => 'Product Name',
+                    'value' => function ($model) {
+                        return $model->product->name;
+                    },
+                ],
+                [
+                    'label' => 'Product Price',
+                    'value' => function ($model) {
+                        return Yii::$app->formatter->asCurrency($model->product->price, 'EUR');
+                    },
+                ],
+                [
+                    'label' => 'Product Price',
+                    'value' => function ($model) {
+                        return $model->quantity;
+                    },
+                ],
             ],
         ]) ?>
     </div>

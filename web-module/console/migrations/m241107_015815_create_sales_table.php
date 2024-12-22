@@ -19,7 +19,10 @@ class m241107_015815_create_sales_table extends Migration
         $this->createTable('{{%sales}}', [
             'id' => $this->primaryKey(),
             'client_id' => $this->integer()->notNull(),
-            'invoice_id' => $this->integer()->notNull(),
+            'invoice_id' => $this->integer(),
+            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'address' => $this->string()->notNull(),
+            'zip_code' => $this->string()->notNull(),
         ]);
 
         // creates index for column `client_id`

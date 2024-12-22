@@ -37,7 +37,7 @@ $this->title = 'Orders';
                     [
                         'label' => 'Product Quantity',
                         'value' => function ($model){
-                            return count($model->saleProduct);
+                            return count($model->saleProducts);
                         } 
                     ],
                     ['class' => 'yii\grid\ActionColumn', 'template' => '{view}',

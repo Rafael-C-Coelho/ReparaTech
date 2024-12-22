@@ -81,7 +81,7 @@ class Sale extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSaleProduct()
+    public function getSaleProducts()
     {
         return $this->hasMany(SaleProduct::class, ['sale_id' => 'id']);
     }
