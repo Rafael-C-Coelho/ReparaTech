@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+
 public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "reparatech";
@@ -16,6 +20,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private final SQLiteDatabase db;
 
     private static final String TABLE_PRODUCTS = "products";
+    private static final String ID_PRODUCT = "id";
     private static final String NAME_PRODUCT = "name";
     private static final String PRICE_PRODUCT = "price";
     private static final String IMAGE_PRODUCT = "image";
@@ -27,6 +32,9 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String USERNAME = "username";
     private static final String TOKEN = "token";
     private static final String REFRESH_TOKEN = "refresh_token";
+
+    private static final String TABLE_REPAIR_CATEGORIES = "repair_categories";
+    private static final String NAME = "name";
 
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -47,8 +55,16 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 ");";
         sqLiteDatabase.execSQL(createAuthTable);
 
-        /*String createProductTable = "CREATE TABLE " + TABLE_PRODUCTS +
-                                    "(" + NAME_PRODUCT + " TEXT "*/
+        String createRepairCategoriesTable = "CREATE TABLE IF NOT EXISTS" + TABLE_REPAIR_CATEGORIES +
+                "(" + NAME + " TEXT NOT NULL, " +  ");";
+
+        String createProductTable = "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCTS +
+                                    "("+ ID_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                    NAME_PRODUCT + " TEXT NOT NULL, " +
+                                    PRICE_PRODUCT + " DECIMAL NOT NULL, " +
+                                    IMAGE_PRODUCT + " INTEGER" + ");";
+        sqLiteDatabase.execSQL(createProductTable);
+        insertInitialProducts(sqLiteDatabase);
     }
 
     
@@ -56,6 +72,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_AUTH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         this.onCreate(db);
     }
 
@@ -132,6 +149,57 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     // endregion
 
     // region # AUTH METHODS #
+
+    // endregion
+
+    // region # PRODUCTS METHODS #
+    private void insertInitialProducts(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+
+        values.put(NAME_PRODUCT, "Capa Iphone");
+        values.put(PRICE_PRODUCT, 10);
+        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
+        db.insert(TABLE_PRODUCTS, null, values);
+
+        values.put(NAME_PRODUCT, "Capa Samsung");
+        values.put(PRICE_PRODUCT, 12);
+        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
+        db.insert(TABLE_PRODUCTS, null, values);
+
+        values.put(NAME_PRODUCT, "Película de Ecrã Iphone 13");
+        values.put(PRICE_PRODUCT, 15);
+        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
+        db.insert(TABLE_PRODUCTS, null, values);
+
+        values.put(NAME_PRODUCT, "Película de Ecrã Xiaomi Redmi Note 13");
+        values.put(PRICE_PRODUCT, 15);
+        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
+        db.insert(TABLE_PRODUCTS, null, values);
+
+        values.put(NAME_PRODUCT, "Mochila ASUS para Laptop");
+        values.put(PRICE_PRODUCT, 55);
+        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
+        db.insert(TABLE_PRODUCTS, null, values);
+
+        values.put(NAME_PRODUCT, "Rato Ergonómico Logitech");
+        values.put(PRICE_PRODUCT, 85);
+        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
+        db.insert(TABLE_PRODUCTS, null, values);
+    }
+
+    public ArrayList<Product> getAllProductsDB(){
+        ArrayList<Product> products = new ArrayList<>();
+
+        Cursor cursor = this.db.query(TABLE_PRODUCTS, new String[]{ID_PRODUCT ,NAME_PRODUCT, PRICE_PRODUCT, IMAGE_PRODUCT}, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Product product = new Product(cursor.getInt(0),cursor.getString(1), cursor.getDouble(2), cursor.getInt(3));
+                products.add(product);
+            }while (cursor.moveToNext());
+        }
+        return products;
+    }
 
     // endregion
 }

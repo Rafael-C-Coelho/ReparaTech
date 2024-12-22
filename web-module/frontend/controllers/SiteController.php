@@ -128,21 +128,7 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
-
-    public function actionInformation(){
-
-        $model = Yii::$app->user->identity;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
-            Yii::$app->session->setFlash('success', 'Information updated successfully.');
-            return $this->redirect(['site/painelClient']);
-        }
-
-        return $this->render('personalInformation', [
-            'model' => $model,
-        ]);
-    }
-
+    
     public function actionCheckout() {
         $cart = Yii::$app->session->get('cart', []);
         if (empty($cart)) {

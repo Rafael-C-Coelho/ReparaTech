@@ -46,7 +46,7 @@ public class ProductsListAdapter extends BaseAdapter {
         }
 
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.item_list_product, null);
+            convertView = inflater.inflate(R.layout.item_list_product_test, null);
         }
 
         ViewHolderList viewHolderList = (ViewHolderList) convertView.getTag();
@@ -65,14 +65,14 @@ public class ProductsListAdapter extends BaseAdapter {
         private TextView tvNameProduct, tvPriceProduct;
         private ImageView imgProduct;
         public ViewHolderList(View view) {
-            tvNameProduct = view.findViewById(R.id.tvNameProduct);
-            tvPriceProduct = view.findViewById(R.id.tvPriceProduct);
-            imgProduct = view.findViewById(R.id.imgProduct);
+            tvNameProduct = view.findViewById(R.id.tvNameDetailsProduct);
+            tvPriceProduct = view.findViewById(R.id.tvPriceDetailsProduct);
+            imgProduct = view.findViewById(R.id.imgDetailsProduct);
         }
 
         public void update(Product product) {
             tvNameProduct.setText(product.getName());
-            tvPriceProduct.setText(""+product.getPrice());
+            tvPriceProduct.setText(product.getPrice()+"€");
             imgProduct.setImageResource(product.getImage());
         }
     }

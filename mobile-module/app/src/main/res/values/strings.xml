@@ -29,15 +29,13 @@
     <string name="product_image">Product Image</string>
     <string name="name_product">Product Name</string>
     <string name="price">€</string>
-    <string name="add_shop_cart">Add Shop Cart</string>
+    <string name="add_shop_cart">Add</string>
     <string name="add_favorite">Add Favorite</string>
     <string name="remove_favorite">Remove Favorite</string>
     <string name="description">Description</string>
     <string name="txt_price_product">Price</string>
     <string name="txt_product_name">Product Name</string>
-    <string name="list_of_acessories">list_of_acessories</string>
     <string name="homepage">Homepage</string>
-    <string name="list_of_accessories">List of Accessories</string>
     <string name="txt_bestselling_productName">PRODUCT NAME</string>
     <string name="txt_bestselling_productPrice">PRICE</string>
     <string name="txt_recently_added_products">RECENTLY ADDED PRODUCTS</string>
@@ -62,5 +60,11 @@
     <string name="txt_btn_request_quote">Request Quote</string>
     <string name="email_cannot_be_empty">Email cannot be empty</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
+    <string name="reparacoes_de_wearables">Reparações de wearables</string>
+    <string name="reparacoes_de_desktops_laptops">Reparações de desktops e laptops</string>
+    <string name="reparacoes_de_telemoveis_tablets">Reparações de telemóveis e tablets</string>
+    <string name="txt_search">Search</string>
+    <string name="txt_search_repair">Search Repair</string>
+
 
 </resources>

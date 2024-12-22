@@ -3,16 +3,18 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 public class Product {
     private int id;
     private String name;
-    private String description;
     private double price;
     private int image;
 
-    public Product(int id, String name, String description, double price, int image) {
+    public Product(int id, String name,  double price, int image) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.price = price;
         this.image = image;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -25,14 +27,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public double getPrice() {

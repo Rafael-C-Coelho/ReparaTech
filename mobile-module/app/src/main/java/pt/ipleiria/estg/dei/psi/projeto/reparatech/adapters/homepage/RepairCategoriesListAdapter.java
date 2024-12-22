@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class RepairCategoriesListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<RepairCategory> repairCategories;
+    private SearchView searchView;
 
     public RepairCategoriesListAdapter(Context context, ArrayList<RepairCategory> repairCategories) {
         this.context = context;

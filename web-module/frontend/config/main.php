@@ -44,6 +44,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'client/index' => 'client/index',
                 'repair/index' => 'repair/index',
                 'order/index' => 'order/index',
                 'site/painelClient' => 'site/painel-client',
