@@ -10,20 +10,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
 public class ReparaTechSingleton {
     private ArrayList<BestSellingProduct> bestSellingProducts;
-    private ArrayList<RepairCategory> repairCategories;
+    private ArrayList<RepairCategoriesList> repairCategoriesList;
+    private ArrayList<RepairCategoryDetail> repairCategoryDetails;
     private ArrayList<Product> products;
-    private static ReparaTechSingleton instance;
-    private Map<Integer, RepairCategoryDetail> repairCategoryDetails;
-    private RepairCategoryDetail repairCategoryDetail;
-
     private static RequestQueue volleyQueue;
     private static ReparaTechSingleton INSTANCE = null;
     private Context context;
@@ -31,9 +25,10 @@ public class ReparaTechSingleton {
 
     private ReparaTechSingleton(Context context){
         products = new ArrayList<>();
+        repairCategoriesList = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
         this.context = context;
-        generateDinamicRepairCategories();
+        //generateDinamicRepairCategories();
         //generateDinamicBestSellingProducts();
         //generateDinamicProducts();
 
@@ -51,6 +46,7 @@ public class ReparaTechSingleton {
         return volleyQueue;
     }
 
+    /*
     public ArrayList<RepairExample> getRepairExamples(){
         ArrayList<RepairExample> repairExamples = new ArrayList<>();
         for (int i = 1; i <= 8; i++) {
@@ -64,6 +60,8 @@ public class ReparaTechSingleton {
         return repairExamples;
 
     }
+    */
+
 
     /*
     private void generateDinamicBestSellingProducts() {
@@ -78,47 +76,48 @@ public class ReparaTechSingleton {
     */
 
 
+    /*
     private void generateDinamicRepairCategories(){
         repairCategories = new ArrayList<>();
-        repairCategories.add(new RepairCategory(1,"Audio",
+        repairCategories.add(new RepairCategoriesList(1,"Audio",
                 "If your device does not transmit sounds, our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.audio_issues));
-        repairCategories.add(new RepairCategory(2,"Battery",
+        repairCategories.add(new RepairCategoriesList(2,"Battery",
                 "If your device has battery damaged, our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.battery_issues));
-        repairCategories.add(new RepairCategory(3,"Buttons",
+        repairCategories.add(new RepairCategoriesList(3,"Buttons",
                 "If your device has some button damaged, our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.buttons_iphone));
-        repairCategories.add(new RepairCategory(4,"Camera",
+        repairCategories.add(new RepairCategoriesList(4,"Camera",
                 "If your device has camera damaged, our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(5,"Connectivity",
+        repairCategories.add(new RepairCategoriesList(5,"Connectivity",
                 "If your device has connectivity issues, our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(6,"Data Recovery",
+        repairCategories.add(new RepairCategoriesList(6,"Data Recovery",
                 "Have you lost important data that you'd like to recover? Our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(7,"Hardware",
+        repairCategories.add(new RepairCategoriesList(7,"Hardware",
                 "Do you want to carry out routine maintenance? Our team is ready to do it with maximum efficiency.",
                 R.drawable.cleaning_computer));
-        repairCategories.add(new RepairCategory(8,"Liquid Damage",
+        repairCategories.add(new RepairCategoriesList(8,"Liquid Damage",
                 "Has your device fallen into the pool and won't switch on? Our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategory(9,"Network",
+        repairCategories.add(new RepairCategoriesList(9,"Network",
                 "If your device has network issues, our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.network_issues));
-        repairCategories.add(new RepairCategory(10,"Screen",
+        repairCategories.add(new RepairCategoriesList(10,"Screen",
                 "If your device has a damaged screen, our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.broked_screen));
-        repairCategories.add(new RepairCategory(12,"Software",
+        repairCategories.add(new RepairCategoriesList(12,"Software",
                 "If your device has malicious software, our team is ready to solve the problem with the utmost efficiency.",
                 R.drawable.software_issues));
-        repairCategories.add(new RepairCategory(13,"Storage",
+        repairCategories.add(new RepairCategoriesList(13,"Storage",
                 "If your device has storage issues, our team is ready to solve the problem with maximum efficiency.",
                 R.drawable.storage_issues));
-        repairCategories.add(new RepairCategory(14, "Repair not Defined", "If the anomaly is not listed, please contact us!",R.drawable.repairs));
+        repairCategories.add(new RepairCategoriesList(14, "Repair not Defined", "If the anomaly is not listed, please contact us!",R.drawable.repairs));
     }
-
+    */
 
 
 
@@ -128,17 +127,17 @@ public class ReparaTechSingleton {
     }
     */
 
-
-
-
-    public RepairCategory getRepairCategory(int id){
-        for (RepairCategory l:repairCategories){
+    /*
+    public RepairCategoriesList getRepairCategory(int id){
+        for (RepairCategoriesList l:repairCategories){
             if (l.getId() == id) {
                 return l;
             }
         }
         return null;
     }
+    */
+
 
     // region # PRODUCTS METHODS #
 
@@ -169,6 +168,34 @@ public class ReparaTechSingleton {
         return null;
     }
 
+    public ArrayList<RepairCategoriesList> getAllRepairCategoriesList() {
+        return new ArrayList<>(repairCategoriesList);
+    }
+    public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB(){
+        repairCategoriesList = dbHelper.getAllRepairCategoriesListDB();
+        return new ArrayList<>(repairCategoriesList);
+    }
+
+
+    public ArrayList<RepairCategoryDetail> getAllRepairCategoryDetail(){
+        return new ArrayList<>(repairCategoryDetails);
+    }
+    public ArrayList<RepairCategoryDetail> getAllRepairCategoryDetailDB(){
+        repairCategoryDetails= dbHelper.getAllRepairCategoryDetailDB();
+        return new ArrayList<>(repairCategoryDetails);
+    }
+
+    public RepairCategoryDetail getRepairCategoryDetail(int id){
+        if (repairCategoryDetails == null) {
+            repairCategoryDetails = getAllRepairCategoryDetailDB(); // Populate if null
+        }
+        for (RepairCategoryDetail repairCategoryDetail : repairCategoryDetails) {
+            if (repairCategoryDetail.getId() == id) {
+                return repairCategoryDetail;
+            }
+        }
+        return null;
+    }
 
     // endregion
 
@@ -216,12 +243,14 @@ public class ReparaTechSingleton {
         });
     }
 
-
-    public ArrayList<RepairCategory> getRepairCategories() {
-        return new ArrayList<>(repairCategories);
+    public ArrayList<RepairCategoryDetail> getRepairCategoryDetailById(int repairCategoryID) {
+        for (RepairCategoryDetail repairCategoryDetail : repairCategoryDetails) {
+            if (repairCategoryDetail.getId() == repairCategoryID) {
+                return new ArrayList<>(repairCategoryDetails);
+            }
+        }
+        return null;
     }
-
-
 }
 
 

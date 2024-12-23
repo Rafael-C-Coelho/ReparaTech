@@ -12,33 +12,33 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategory;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoriesList;
 
 public class RepairCategoriesListAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private ArrayList<RepairCategory> repairCategories;
+    private ArrayList<RepairCategoriesList> repairCategoriesList;
     private SearchView searchView;
 
-    public RepairCategoriesListAdapter(Context context, ArrayList<RepairCategory> repairCategories) {
+    public RepairCategoriesListAdapter(Context context, ArrayList<RepairCategoriesList> repairCategoriesList) {
         this.context = context;
-        this.repairCategories = repairCategories;
+        this.repairCategoriesList = repairCategoriesList;
     }
 
     @Override
     public int getCount() {
-        return repairCategories.size();
+        return repairCategoriesList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return repairCategories.get(i);
+        return repairCategoriesList.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return repairCategories.get(i).getId();
+        return repairCategoriesList.get(i).getId();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class RepairCategoriesListAdapter extends BaseAdapter {
             view.setTag(viewHolderList);
         }
 
-        viewHolderList.update(repairCategories.get(i));
+        viewHolderList.update(repairCategoriesList.get(i));
 
         return view;
     }
@@ -75,7 +75,7 @@ public class RepairCategoriesListAdapter extends BaseAdapter {
            imgRepairCategoryList = view.findViewById(R.id.imgRepairCategoryList);
        }
 
-        public void update(RepairCategory repairCategory) {
+        public void update(RepairCategoriesList repairCategory) {
            tvRepairCategoryName.setText(repairCategory.getTitle());
            tvCategoryDescription.setText(repairCategory.getDescription());
            imgRepairCategoryList.setImageResource(repairCategory.getImg());

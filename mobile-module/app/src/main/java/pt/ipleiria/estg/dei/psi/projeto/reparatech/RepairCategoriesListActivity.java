@@ -1,38 +1,29 @@
-package pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategories;
+package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.RepairCategoryDetailAdapter;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.databinding.ActivityMenuMainBinding;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoryDetail;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.RepairCategoriesListAdapter;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategory;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoriesList;
 
 public class RepairCategoriesListActivity extends AppCompatActivity {
 
     private ListView lvRepairCategories;
-    private ArrayList<RepairCategory> repairCategories;
+    private ArrayList<RepairCategoriesList> repairCategoriesList;
 
-
-    public RepairCategoriesListActivity() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +36,24 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
 
         lvRepairCategories = findViewById(R.id.lvRepairCategories);
 
-        repairCategories = ReparaTechSingleton.getInstance(getBaseContext()).getRepairCategories();
+        repairCategoriesList = ReparaTechSingleton.getInstance(getBaseContext()).getAllRepairCategoriesListDB();
 
 
-        lvRepairCategories.setAdapter(new RepairCategoriesListAdapter(RepairCategoriesListActivity.this,repairCategories));
+        lvRepairCategories.setAdapter(new RepairCategoriesListAdapter(RepairCategoriesListActivity.this,repairCategoriesList));
 
         lvRepairCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(RepairCategoriesListActivity.this, RepairCategoriesDetailsActivity.class);
-                intent.putExtra(RepairCategoriesDetailsActivity.ID_REPAIRCATEGORY, repairCategories.get(position).getId());
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putInt("ID_CATEGORIES_LIST", repairCategoriesList.get(position).getId());
+                RepairCategoryDetailFragment repairCategoryDetailFragment = new RepairCategoryDetailFragment();
+                repairCategoryDetailFragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.repairCategoryDetailFragment, repairCategoryDetailFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -69,7 +67,6 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
@@ -77,7 +74,7 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Search Repair");
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //filtro de pesquisa
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
@@ -85,9 +82,9 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                ArrayList<RepairCategory> repairCategoryArrayList= new ArrayList<>();
+                ArrayList<RepairCategoriesList> repairCategoryArrayList= new ArrayList<>();
 
-                for (RepairCategory repairCategory: ReparaTechSingleton.getInstance(getBaseContext()).getRepairCategories()) {
+                for (RepairCategoriesList repairCategory: ReparaTechSingleton.getInstance(getBaseContext()).getAllRepairCategoriesListDB()) {
                     if (repairCategory.getTitle().toLowerCase().contains(s.toLowerCase())){
                         repairCategoryArrayList.add(repairCategory);
                     }

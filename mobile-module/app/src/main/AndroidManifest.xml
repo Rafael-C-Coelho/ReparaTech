@@ -26,7 +26,7 @@
             android:name=".RepairCategories.listaCategoriasReparacao"
             android:exported="false" />
         <activity
-            android:name=".RepairCategories.RepairCategoriesListActivity"
+            android:name=".RepairCategoriesListActivity"
             android:exported="false" />
         <activity
             android:name=".RepairBookingActivity"

@@ -1,25 +1,19 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategories.RepairCategoriesListActivity;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 
 public class HomepageFragment extends Fragment {
@@ -44,9 +38,9 @@ public class HomepageFragment extends Fragment {
         hScrollViewRepairCategories = view.findViewById(R.id.hScrollViewRepairCategories);
         hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
         
-        repairExamples = ReparaTechSingleton.getInstance(getContext()).getRepairExamples();
+        //repairExamples = ReparaTechSingleton.getInstance(getContext()).getRepairExamples();
         //bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getbestSellingProductsExamples();
-        
+        /*
         for (RepairExample repairExample: repairExamples) {
             View cardView = inflater.inflate(R.layout.item_repaircategorie_homepage,gallery,false);
 
@@ -69,6 +63,7 @@ public class HomepageFragment extends Fragment {
                 }
             });
         }
+        */
 
 
         /*

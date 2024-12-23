@@ -1,18 +1,20 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
-import android.widget.TextView;
-
-public class RepairCategory {
+public class RepairCategoriesList {
 
     private int id, img;
     private String title, description;
 
 
-    public RepairCategory(int id, String title, String description, int img) {
+    public RepairCategoriesList(int id, String title, String description, int img) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.img = img;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
