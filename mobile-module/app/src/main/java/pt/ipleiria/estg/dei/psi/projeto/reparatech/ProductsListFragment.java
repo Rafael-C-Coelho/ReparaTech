@@ -1,23 +1,24 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechDBHelper;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
@@ -28,6 +29,7 @@ public class ProductsListFragment extends Fragment {
     private ListView lvProducts;
     private ArrayList<Product> products;
 
+    private SearchView searchView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public ProductsListFragment() {
@@ -64,6 +66,31 @@ public class ProductsListFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.search_item);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ArrayList<Product> tempProducts = new ArrayList<>();
+                for (Product product : products) {
+                    if (product.getName().toLowerCase().contains(newText.toLowerCase())) {
+                        tempProducts.add(product);
+                    }
+                }
+                lvProducts.setAdapter(new ProductsListAdapter(getContext(), tempProducts));
+                return true;
+            }
+        });
     }
 
     public void onRefresh() {
