@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_weight="15"
-        android:hint="@string/label_username"
+        android:hint="@string/label_email"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -49,6 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_weight="15"
+        android:clickable="true"
+        android:focusable="true"
         android:text="@string/label_login" />
 
     <View

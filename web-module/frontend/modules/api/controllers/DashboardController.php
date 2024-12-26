@@ -3,6 +3,7 @@
 namespace frontend\modules\api\controllers;
 
 use common\models\Product;
+use common\models\Sale;
 use common\models\SaleProduct;
 use frontend\modules\api\helpers\AuthBehavior;
 use yii\data\ActiveDataProvider;
@@ -60,29 +61,27 @@ class DashboardController extends Controller
 
     public function actionMostSold()
     {
-        $salesQuery = SaleProduct::find()
-            ->select(['product_id', 'SUM(quantity) as total'])
-            ->groupBy('product_id')
-            ->orderBy(['total' => SORT_DESC]);
+        $products = Product::find()
+            ->select(['products.*', 'SUM(sales_has_products.quantity) AS total_quantity'])
+            ->joinWith('saleProducts') // Assuming 'saleProducts' is the relation in Product
+            ->groupBy(['products.id', 'products.name'])
+            ->orderBy(['total_quantity' => SORT_DESC])
+            ->limit(8)
+            ->asArray()
+            ->all();
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $salesQuery,
-            'pagination' => [
-                'pageSize' => 8,
-            ],
-        ]);
-
-        $sales = $dataProvider->getModels();
-        $products = [];
-        foreach ($sales as $sale) {
-            $product = Product::findOne($sale['product_id']);
-            if ($product) {
-                $products[] = [
-                    'product' => $product,
-                    'total' => $sale['total'],
+        $products = array_filter(array_map(function ($product) {
+            if ($product['total_quantity'] > 0) {
+                return [
+                    'id' => $product['id'],
+                    'name' => $product['name'],
+                    'price' => $product['price'],
+                    'image' => $product['image'],
                 ];
             }
-        }
+            return null;
+        }, $products), function ($v) { return !is_null($v); });
+
         return ['sales' => $products, "status" => "success"];
     }
 }

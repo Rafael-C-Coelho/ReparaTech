@@ -21,13 +21,18 @@
             android:id="@+id/navRepairBookings"
             android:title="@string/txt_repair_bookings"
             android:icon="@drawable/ic_action_listrepairs"/>
+
+        <item
+            android:id="@+id/navCart"
+            android:title="@string/txt_cart"
+            android:icon="@drawable/ic_shopping_cart"/>
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navUrl"
             android:icon="@drawable/ic_action_baseurl"
-            android:title="Change API URL" />
+            android:title="@string/change_api_url" />
         <item
             android:id="@+id/navLogin"
             android:icon="@drawable/ic_action_signin"
@@ -36,6 +41,11 @@
             android:id="@+id/navSignUp"
             android:icon="@drawable/ic_action_signup"
             android:title="@string/sign_up" />
+        <item
+            android:id="@+id/navSignOut"
+            android:visible="false"
+            android:icon="@drawable/ic_action_signup"
+            android:title="@string/sign_out" />
     </group>
 
 </menu>

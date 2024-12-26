@@ -13,24 +13,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.DetailsProductActivity;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
 
 public class ProductsListFragment extends Fragment {
-
-
     private ListView lvProducts;
     private ArrayList<Product> products;
 
     private SearchView searchView;
+    private ProductsListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private int page = 1;
+    private boolean isLoading = false; // To prevent multiple requests
 
     public ProductsListFragment() {
     }
@@ -39,29 +46,42 @@ public class ProductsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        View view= inflater.inflate(R.layout.fragment_products_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_products_list, container, false);
 
         setHasOptionsMenu(true);
 
         lvProducts = view.findViewById(R.id.LvProducts);
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                ProductsListFragment.this.onRefresh();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
         products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
-        lvProducts.setAdapter(new ProductsListAdapter(getContext(), products));
+        adapter = new ProductsListAdapter(getContext(), products);
+        lvProducts.setAdapter(adapter);
+
+        // Set item click listener
         lvProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), DetailsProductActivity.class);
                 intent.putExtra(DetailsProductActivity.ID_PRODUCT, (int) id);
                 startActivity(intent);
+            }
+        });
+
+        // Set scroll listener
+        lvProducts.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (!isLoading && (firstVisibleItem + visibleItemCount >= totalItemCount) && totalItemCount > 0) {
+                    isLoading = true;
+                    fetchMoreProducts();
+                    lvProducts.refreshDrawableState();
+                }
             }
         });
 
@@ -94,8 +114,25 @@ public class ProductsListFragment extends Fragment {
     }
 
     public void onRefresh() {
+        // Refresh the list
+        page = 1;
+        swipeRefreshLayout.setRefreshing(true);
+        ReparaTechSingleton.getInstance(getContext()).clearProductsDB();
+        ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
         products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
-        lvProducts.setAdapter(new ProductsListAdapter(getContext(), products));
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void fetchMoreProducts() {
+        // Simulate a Volley request here
+        // Example:
+        swipeRefreshLayout.setRefreshing(true);
+        page++;
+        ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
+        isLoading = false;
+        adapter.notifyDataSetChanged();
+        lvProducts.refreshDrawableState();
         swipeRefreshLayout.setRefreshing(false);
     }
 }

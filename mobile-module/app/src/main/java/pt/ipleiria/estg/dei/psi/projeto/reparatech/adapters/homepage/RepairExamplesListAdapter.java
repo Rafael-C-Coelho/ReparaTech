@@ -72,8 +72,6 @@ public class RepairExamplesListAdapter  extends BaseAdapter {
             //tvPrice.setText(repairExample.getPrice());
             imgCapa.setImageResource(repairExample.getImg());
         }
-
-
     }
 
 

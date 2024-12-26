@@ -1,25 +1,25 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 public class Auth {
-    private String username;
+    private String email;
     private String token;
     private String refreshToken;
 
     public Auth() {
     }
 
-    public Auth(String username, String token, String refreshToken) {
-        this.username = username;
+    public Auth(String email, String token, String refreshToken) {
+        this.email = email;
         this.token = token;
         this.refreshToken = refreshToken;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = this.email;
     }
 
     public String getToken() {

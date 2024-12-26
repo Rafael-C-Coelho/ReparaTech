@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,17 +17,33 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MenuMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.RepairCategoriesListActivity;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.databinding.ActivityMenuMainBinding;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Auth;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.MqttManager;
+
+public class MenuMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LoginListener, RegisterListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
-
+    private ActivityMenuMainBinding binding;
     private FragmentManager fragmentManager;
+    MqttManager mqttManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityMenuMainBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_menu_main);
+
+        if (ReparaTechSingleton.getInstance(this).getAuth() != null) {
+            Auth auth = ReparaTechSingleton.getInstance(this).getAuth();
+            mqttManager = new MqttManager(this, "tcp://test.mosquitto.org:1883", auth.getEmail());
+            Toast.makeText(this, "Welcome " + auth.getEmail(), Toast.LENGTH_SHORT).show();
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,21 +59,22 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
         fragmentManager = getSupportFragmentManager();
 
+        ReparaTechSingleton.getInstance(this).setLoginListener(this);
+        ReparaTechSingleton.getInstance(this).setRegisterListener(this);
+        onValidateLogin(ReparaTechSingleton.getInstance(this).isLogged());
+
         loadInitialFragment();
 
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-
         Fragment fragment = null;
         if(item.getItemId()==R.id.navHomepage){
             fragment = new HomepageFragment();
             setTitle(item.getTitle());
 
         } else if (item.getItemId()==R.id.navProducts) {
-
             fragment = new ProductsListFragment();
             setTitle(item.getTitle());
 
@@ -78,6 +96,9 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         } else if (item.getItemId() == R.id.navSignUp) {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.navSignOut) {
+            ReparaTechSingleton.getInstance(this).removeAuth();
+            onValidateLogin(false);
         }
 
 
@@ -94,5 +115,22 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         MenuItem item = menu.getItem(0);
         item.setCheckable(true);
         onNavigationItemSelected(item);
+    }
+
+    @Override
+    public void onValidateLogin(boolean isValid) {
+        Menu menu = navigationView.getMenu();
+
+        // Hide/show login-related menu items based on login state
+        menu.findItem(R.id.navLogin).setVisible(!isValid);
+        menu.findItem(R.id.navSignUp).setVisible(!isValid);
+        menu.findItem(R.id.navSignOut).setVisible(isValid);
+
+        navigationView.invalidate();
+    }
+
+    @Override
+    public void onValidateRegister(boolean isValid) {
+        Toast.makeText(this, R.string.register_successful_verify_your_email, Toast.LENGTH_SHORT).show();
     }
 }

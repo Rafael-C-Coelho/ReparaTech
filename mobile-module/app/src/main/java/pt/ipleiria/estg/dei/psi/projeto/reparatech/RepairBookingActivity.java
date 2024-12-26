@@ -2,11 +2,8 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
 
 
-import static android.text.TextUtils.replace;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MenuItem;
@@ -17,11 +14,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -100,7 +93,7 @@ public class RepairBookingActivity extends AppCompatActivity {
                 calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 calendar.set(Calendar.MINUTE,minute);
                 if(hourOfDay < 9 || hourOfDay > 18){
-                    Toast.makeText(RepairBookingActivity.this, "Choose an hour between 9am and 18am.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RepairBookingActivity.this, getString(R.string.choose_an_hour_between_9am_and_18pm), Toast.LENGTH_SHORT).show();
                 } else {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
                     etTime.setText(simpleDateFormat.format(calendar.getTime()));
@@ -123,7 +116,7 @@ public class RepairBookingActivity extends AppCompatActivity {
 
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                    Toast.makeText(RepairBookingActivity.this, "Please, choose a weekday.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RepairBookingActivity.this, getString(R.string.please_choose_a_weekday), Toast.LENGTH_SHORT).show();
                 } else {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     etDate.setText(simpleDateFormat.format(calendar.getTime()));
@@ -134,7 +127,4 @@ public class RepairBookingActivity extends AppCompatActivity {
         new DatePickerDialog(RepairBookingActivity.this,dateSetListener,calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
-
-
-
 }

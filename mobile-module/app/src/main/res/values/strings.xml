@@ -36,6 +36,7 @@
     <string name="txt_price_product">Price</string>
     <string name="txt_product_name">Product Name</string>
     <string name="homepage">Homepage</string>
+    <string name="list_of_accessories">List of Accessories</string>
     <string name="txt_bestselling_productName">PRODUCT NAME</string>
     <string name="txt_bestselling_productPrice">PRICE</string>
     <string name="txt_recently_added_products">RECENTLY ADDED PRODUCTS</string>
@@ -66,5 +67,42 @@
     <string name="txt_search">Search</string>
     <string name="txt_search_repair">Search Repair</string>
 
+    <string name="change_api_url">Change API URL</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="register_successful_verify_your_email">Register successful. Verify your email</string>
+    <string name="please_choose_a_weekday">Please, choose a weekday.</string>
+    <string name="choose_an_hour_between_9am_and_18pm">Choose an hour between 9am and 6pm.</string>
+    <string name="audio">Audio</string>
+    <string name="if_your_device_does_not_transmit_sounds_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">If your device does not transmit sounds, our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="battery">Battery</string>
+    <string name="if_your_device_has_battery_damaged_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">If your device has battery damaged, our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="buttons">Buttons</string>
+    <string name="if_your_device_has_some_button_damaged_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">If your device has some button damaged, our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="screen">Screen</string>
+    <string name="if_your_device_has_a_damaged_screen_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">If your device has a damaged screen, our team is ready to solve the problem with maximum efficiency and quality.\".</string>
+    <string name="camera">Camera</string>
+    <string name="if_your_device_has_camera_damaged_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">If your device has camera damaged, our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="connectivity">Connectivity</string>
+    <string name="if_your_device_has_connectivity_issues_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">If your device has connectivity issues, our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="data_recovery">Data Recovery</string>
+    <string name="have_you_lost_important_data_that_you_d_like_to_recover_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">Have you lost important data that you\'d like to recover? Our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="hardware">Hardware</string>
+    <string name="do_you_want_to_carry_out_routine_maintenance_or_clean_the_internal_components_of_your_device_our_team_is_ready_to_do_it_with_maximum_efficiency_and_quality">Do you want to carry out routine maintenance or clean the internal components of your device? Our team is ready to do it with maximum efficiency and quality.</string>
+    <string name="liquid_damage">Liquid Damage</string>
+    <string name="has_your_device_fallen_into_the_pool_and_won_t_switch_on_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">Has your device fallen into the pool and won\'t switch on? Our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="network">Network</string>
+    <string name="if_your_device_has_network_issues_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">If your device has network issues, our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="software">Software</string>
+    <string name="if_your_device_has_malicious_software_our_team_is_ready_to_solve_the_problem_with_the_utmost_efficiency_and_quality">If your device has malicious software, our team is ready to solve the problem with the utmost efficiency and quality.</string>
+    <string name="storage">Storage</string>
+    <string name="if_your_device_has_storage_issues_our_team_is_ready_to_solve_the_problem_with_maximum_efficiency_and_quality">If your device has storage issues, our team is ready to solve the problem with maximum efficiency and quality.</string>
+    <string name="no_internet_connection_try_again_later">No internet connection. Try again later</string>
+    <string name="login_failed">Login failed</string>
+    <string name="login_successful">Login successful</string>
+    <string name="register_failed">Register failed</string>
+    <string name="quantity_with_2_dots">Quantity:</string>
+    <string name="price_with_2_dots">Price:</string>
+    <string name="details_with_2_dots">"Details: "</string>
+    <string name="txt_cart">Cart</string>
 
 </resources>

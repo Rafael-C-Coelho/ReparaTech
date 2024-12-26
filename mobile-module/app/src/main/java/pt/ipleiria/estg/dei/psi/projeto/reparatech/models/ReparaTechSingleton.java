@@ -1,19 +1,29 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
 public class ReparaTechSingleton {
+    private ArrayList<BestSellingProduct> bestSellingProducts;
     private ArrayList<RepairCategoriesList> repairCategoriesList;
     private ArrayList<RepairCategoryDetail> repairCategoryDetails;
     private ArrayList<Product> products;
@@ -22,14 +32,18 @@ public class ReparaTechSingleton {
     private Context context;
     private ReparaTechDBHelper dbHelper;
 
+    private LoginListener loginListener;
+    private RegisterListener registerListener;
+    private UpdateProductsListener updateProductsListener;
+
     private ReparaTechSingleton(Context context){
         products = new ArrayList<>();
         repairCategoriesList = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
         this.context = context;
-        //generateDinamicRepairCategories();
-        //generateDinamicBestSellingProducts();
-        //generateDinamicProducts();
+        // generateDinamicRepairCategories();
+        // generateDinamicBestSellingProducts();
+        // generateDinamicProducts();
 
     }
 
@@ -39,6 +53,18 @@ public class ReparaTechSingleton {
             volleyQueue = Volley.newRequestQueue(context);
         }
         return INSTANCE;
+    }
+
+    public void setLoginListener(LoginListener loginListener) {
+        this.loginListener = loginListener;
+    }
+
+    public void setRegisterListener(RegisterListener registerListener) {
+        this.registerListener = registerListener;
+    }
+
+    public void setUpdateProductsListener(UpdateProductsListener updateProductsListener) {
+        this.updateProductsListener = updateProductsListener;
     }
 
     public RequestQueue getVolleyQueue(){
@@ -57,10 +83,8 @@ public class ReparaTechSingleton {
         }
         repairExamples.add(new RepairExample(-1,"VIEW ALL",R.drawable.repairs));
         return repairExamples;
-
     }
     */
-
 
     /*
     private void generateDinamicBestSellingProducts() {
@@ -73,7 +97,6 @@ public class ReparaTechSingleton {
         bestSellingProducts.add(new BestSellingProduct(6,"Rato Ergonómico Logitech",85, R.drawable.iphone_capa));
     }
     */
-
 
     /*
     private void generateDinamicRepairCategories(){
@@ -118,8 +141,6 @@ public class ReparaTechSingleton {
     }
     */
 
-
-
     /*
     public ArrayList<BestSellingProduct> getbestSellingProductsExamples() {
         return new ArrayList<>(bestSellingProducts);
@@ -137,7 +158,6 @@ public class ReparaTechSingleton {
     }
     */
 
-
     // region # PRODUCTS METHODS #
 
     /*private void generateDinamicProducts(){
@@ -153,9 +173,14 @@ public class ReparaTechSingleton {
     public ArrayList<Product> getProducts(){
         return new ArrayList<>(products);
     }
+
     public ArrayList<Product> getProductsDB(){
         products = dbHelper.getAllProductsDB();
         return new ArrayList<>(products);
+    }
+
+    public void clearProductsDB(){
+        dbHelper.removeProductsDB();
     }
 
     public Product getProduct(int id){
@@ -170,6 +195,10 @@ public class ReparaTechSingleton {
     public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB(){
         repairCategoriesList = dbHelper.getAllRepairCategoriesListDB();
         return new ArrayList<>(repairCategoriesList);
+    }
+
+    public ArrayList<RepairCategoryDetail> getAllRepairCategoriesDetailsListDB(){
+        return new ArrayList<>(dbHelper.getAllRepairCategoriesDetailsListDB());
     }
 
     // endregion
@@ -190,6 +219,53 @@ public class ReparaTechSingleton {
 
     // endregion
 
+    // region # AUTH METHODS #
+
+    public void setAuth(Auth auth){
+        dbHelper.addAuthDB(auth);
+    }
+
+    public Auth getAuth(){
+        return dbHelper.getAuthDB();
+    }
+
+    public void updateAuth(Auth auth){
+        dbHelper.updateAuthDB(auth);
+    }
+
+    public void removeAuth(){
+        dbHelper.removeAllAuthDB();
+    }
+
+
+    public Map<String, String> getHeaders() {
+        Auth auth = dbHelper.getAuthDB();
+        if (auth == null) {
+            return Map.of("Dummy", "header");
+        }
+        return Map.of("Authorization", "Bearer " + auth.getToken());
+    }
+
+    public JSONObject getRefreshTokenBody() {
+        Auth auth = dbHelper.getAuthDB();
+        if (auth == null) {
+            return null;
+        }
+        JSONObject body = new JSONObject();
+        try {
+            body.put("refresh_token", auth.getRefreshToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return body;
+    }
+
+    public boolean isLogged() {
+        return dbHelper.getAuthDB() != null;
+    }
+
+    // endregion
+
     // region # AUTH API METHODS #
 
     public void login(String email, String password) {
@@ -203,27 +279,124 @@ public class ReparaTechSingleton {
             e.printStackTrace();
         }
 
-        new ApiHelper(this.context).makeRequest(this.context, ApiHelper.JSON_OBJECT_REQUEST, Request.Method.POST, url, body, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println("--------> POST API response:\n" + response.toString());
-
-                // TODO: ADD LISTENER
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(com.android.volley.VolleyError error) {
-                System.out.println("--------> POST API error:\n" + error.toString());
-            }
-        });
+        try {
+            new ApiHelper(context).request(context, Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (response.optString("status").equals("success")) {
+                        Auth auth = new Auth(
+                                email,
+                                response.optString("access_token"),
+                                response.optString("refresh_token")
+                        );
+                        ReparaTechSingleton.getInstance(context).setAuth(auth);
+                        Toast.makeText(context, context.getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
+                        if (loginListener != null) {
+                            loginListener.onValidateLogin(true);
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(com.android.volley.VolleyError error) {
+                    Toast.makeText(context, context.getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
+                    System.out.println(context.getString(R.string.login_failed));
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+        }
     }
+
+    public void register(String email, String username, String name, String password) {
+        String url = "/api/auth/register";
+        JSONObject body = new JSONObject();
+
+        try {
+            body.put("email", email);
+            body.put("username", username);
+            body.put("name", name);
+            body.put("password", password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            new ApiHelper(context).request(context, Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (response.optString("status").equals("success")) {
+                        if (registerListener != null) {
+                            registerListener.onValidateRegister(true);
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(com.android.volley.VolleyError error) {
+                    Toast.makeText(context, context.getString(R.string.register_failed), Toast.LENGTH_SHORT).show();
+                    System.out.println(context.getString(R.string.register_failed));
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public RepairCategoryDetail getRepairCategoryDetailById(int repairCategoryID) {
+        for (RepairCategoryDetail repairCategoryDetail : getAllRepairCategoriesDetailsListDB()) {
+            if (repairCategoryDetail.getIdCategory() == repairCategoryID) {
+                return repairCategoryDetail;
+            }
+        }
+        return null;
+    }
+
+    // endregion
+
+    // region # PRODUCT METHODS #
+
+    public void setProducts(ArrayList<Product> products){
+        dbHelper.addProductsDB(products);
+    }
+
+    public void updateProducts(ArrayList<Product> products){
+        dbHelper.removeProductsDB();
+        dbHelper.addProductsDB(products);
+    }
+
+    // endregion
+
+    // region # PRODUCT API METHODS #
+
+    public void getProductsFromAPI(int page) {
+        String url = "/api/products" + "?page=" + page;
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    products = ProductJsonParser.parserJsonProducts(response);
+                    dbHelper.addProductsDB(products);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    products = dbHelper.getAllProductsDB();
+                    Toast.makeText(context, "Error loading products. Try again later", Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (NoConnectionError e) {
+            products = dbHelper.getAllProductsDB();
+            Toast.makeText(context, "No internet connection. Try again later", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void addProductToCart(Product product, int quantity) {
+        dbHelper.addProductToCartDB(product, quantity);
+    }
+
+    // endregion
+
 }
-
-
-    // endregion
-
-    // region # AUTH API METHODS #
-
-    // endregion
-
-

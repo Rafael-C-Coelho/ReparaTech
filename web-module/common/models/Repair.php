@@ -205,7 +205,7 @@ class Repair extends \yii\db\ActiveRecord
         $comment->repair_id = $this->id;
         if ($this->progress === Repair::STATUS_CREATED) {
             $comment->description = "Your repair has been created";
-            $comment->save();
+            $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(
@@ -218,7 +218,7 @@ class Repair extends \yii\db\ActiveRecord
                 ->send();
         } else if ($this->progress === Repair::STATUS_PENDING_ACCEPTANCE) {
             $comment->description = "Your repair is pending acceptance";
-            $comment->save();
+            $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(
@@ -231,7 +231,7 @@ class Repair extends \yii\db\ActiveRecord
                 ->send();
         } else if ($this->progress === Repair::STATUS_DENIED) {
             $comment->description = "Your repair has been denied";
-            $comment->save();
+            $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(
@@ -244,7 +244,7 @@ class Repair extends \yii\db\ActiveRecord
                 ->send();
         } else if ($this->progress === Repair::STATUS_IN_PROGRESS) {
             $comment->description = "Your repair is in progress";
-            $comment->save();
+            $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(
@@ -257,7 +257,7 @@ class Repair extends \yii\db\ActiveRecord
                 ->send();
         } else if ($this->progress === Repair::STATUS_COMPLETED) {
             $comment->description = "Your repair has been completed";
-            $comment->save();
+            $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(

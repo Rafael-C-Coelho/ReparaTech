@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
@@ -72,8 +75,11 @@ public class ProductsListAdapter extends BaseAdapter {
 
         public void update(Product product) {
             tvNameProduct.setText(product.getName());
-            tvPriceProduct.setText(product.getPrice()+"€");
-            imgProduct.setImageResource(product.getImage());
+            tvPriceProduct.setText(product.getPrice() + " €");
+            Glide.with(context)
+                    .load(product.getImage())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imgProduct);
         }
     }
 }

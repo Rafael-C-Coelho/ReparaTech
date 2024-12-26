@@ -32,19 +32,15 @@ public class RepairCategoryDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_category_detail);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         tvMobileDescription = findViewById(R.id.tvMobileDescription);
         tvTabletDescription = findViewById(R.id.tvTabletDescription);
         tvDesktopLaptopDescription = findViewById(R.id.tvDesktopLaptopDescription);
         tvWearablesDescription = findViewById(R.id.tvWearablesDescription);
 
-
-        reparaTechDBHelper = new ReparaTechDBHelper(this);
-
         int idCategory = getIntent().getIntExtra(ID_CATEGORIES_LIST, 0);
         if (idCategory != 0) {
-            repairCategoryDetail = reparaTechDBHelper.getRepairCategoryDetail(idCategory);
+            repairCategoryDetail = ReparaTechSingleton.getInstance(getApplicationContext()).getRepairCategoryDetailById(idCategory);
             updateUI();
         }
 

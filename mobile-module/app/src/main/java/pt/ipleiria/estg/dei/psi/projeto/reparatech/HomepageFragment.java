@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 
 public class HomepageFragment extends Fragment {
@@ -34,11 +35,10 @@ public class HomepageFragment extends Fragment {
         LinearLayout gallery = view.findViewById(R.id.RepairCategories);
         LinearLayout llBestSellingProducts = view.findViewById(R.id.BestSellingProducts);
 
-
         hScrollViewRepairCategories = view.findViewById(R.id.hScrollViewRepairCategories);
         hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
         
-        //repairExamples = ReparaTechSingleton.getInstance(getContext()).getRepairExamples();
+        // repairExamples = ReparaTechSingleton.getInstance(getContext()).getRepairExamples();
         //bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getbestSellingProductsExamples();
         /*
         for (RepairExample repairExample: repairExamples) {
@@ -55,7 +55,6 @@ public class HomepageFragment extends Fragment {
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("--->HomepageFragment", "RepairExample ID: " + repairExample.getId());
                     if (repairExample.getId() == -1) {
                         Intent intent = new Intent(getActivity(), RepairCategoriesListActivity.class);
                         startActivity(intent);

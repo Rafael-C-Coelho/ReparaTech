@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "reparatech";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 1;
 
-    private final SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     private static final String TABLE_PRODUCTS = "products";
     private static final String ID_PRODUCT = "id";
@@ -25,20 +26,37 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String PRICE_PRODUCT = "price";
     private static final String IMAGE_PRODUCT = "image";
 
+    private static final String TABLE_CART_ITEMS = "cart_items";
+    private static final String ID_CART_ITEM = "id";
+    private static final String ID_PRODUCT_CART_ITEM = "id_product";
+    private static final String QUANTITY_CART_ITEM = "quantity";
+
+    private static final String TABLE_RECENTLYADDED_PRODUCT = "recently_added_products";
+    private static final String ID_RECENTLYADDED_PRODUCT = "id";
+    private static final String NAME_RECENTLYADDED_PRODUCT = "name";
+    private static final String PRICE_RECENTLYADDED_PRODUCT = "price";
+    private static final String IMAGE_RECENTLYADDED_PRODUCT = "image";
+
+    private static final String TABLE_BESTSELLING_PRODUCT = "best_selling_products";
+    private static final String ID_BESTSELLING_PRODUCT = "id";
+    private static final String NAME_BESTSELLING_PRODUCT = "name";
+    private static final String PRICE_BESTSELLING_PRODUCT = "price";
+    private static final String IMAGE_BESTSELLING_PRODUCT = "image";
+
     private static final String TABLE_SETTINGS = "settings";
     private static final String URL = "url";
 
     private static final String TABLE_AUTH = "auth";
-    private static final String USERNAME = "username";
-    private static final String TOKEN = "token";
+    private static final String ID_AUTH = "id";
+    private static final String EMAIL_AUTH = "email";
+    private static final String TOKEN_AUTH = "token";
     private static final String REFRESH_TOKEN = "refresh_token";
 
-    private static final String TABLE_REPAIR_CATEGORIES_LIST ="repair_categories_list";
+    private static final String TABLE_REPAIR_CATEGORIES_LIST = "repair_categories_list";
     private static final String ID_CATEGORIES_LIST = "id_categories_list";
-    private static final String NAME_REPAIR_CATEGORIES ="name_repair_categories";
-    private static final String DESCRIPTION ="description";
+    private static final String NAME_REPAIR_CATEGORIES = "name_repair_categories";
+    private static final String DESCRIPTION = "description";
     private static final String IMAGE_REPAIR_CATEGORIES = "img_repair_categories";
-
 
     private static final String TABLE_REPAIR_CATEGORY_DETAIL = "repair_category_detail";
     private static final String ID_REPAIR_CATEGORY = "id";
@@ -48,9 +66,15 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String DESKTOP_LAPTOP_SOLUTION = "desktop_laptop_solution";
     private static final String WEARABLES_SOLUTION = "wearables_solution";
 
+
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.db = getWritableDatabase();
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
     }
 
     @Override
@@ -61,8 +85,9 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createSettingsTable);
 
         String createAuthTable = "CREATE TABLE " + TABLE_AUTH +
-                "(" + USERNAME + " TEXT NOT NULL, " +
-                TOKEN + " TEXT NOT NULL, " +
+                "(" + ID_AUTH + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                EMAIL_AUTH + " TEXT NOT NULL, " +
+                TOKEN_AUTH + " TEXT NOT NULL, " +
                 REFRESH_TOKEN + " TEXT NOT NULL" +
                 ");";
         sqLiteDatabase.execSQL(createAuthTable);
@@ -73,7 +98,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 DESCRIPTION + " TEXT NOT NULL, " +
                 IMAGE_REPAIR_CATEGORIES + " INTEGER" + ");";
         sqLiteDatabase.execSQL(createTableRepairCategoriesList);
-        insertInitialRepairCategoriesList(sqLiteDatabase);
 
         String createTableRepairCategoryDetail = "CREATE TABLE IF NOT EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL +
                 "(" + ID_REPAIR_CATEGORY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -85,52 +109,77 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 " FOREIGN KEY (" + CATEGORIES_LIST_ID + ") REFERENCES " + TABLE_REPAIR_CATEGORIES_LIST + "(" + ID_CATEGORIES_LIST + ")" +
                 ");";
         sqLiteDatabase.execSQL(createTableRepairCategoryDetail);
-        insertInitialRepairCategoryDetail(sqLiteDatabase);
 
         String createProductTable = "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCTS +
-                                    "("+ ID_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                    NAME_PRODUCT + " TEXT NOT NULL, " +
-                                    PRICE_PRODUCT + " DECIMAL NOT NULL, " +
-                                    IMAGE_PRODUCT + " INTEGER" + ");";
+                "(" + ID_PRODUCT + " INTEGER PRIMARY KEY, " +
+                NAME_PRODUCT + " TEXT NOT NULL, " +
+                PRICE_PRODUCT + " DECIMAL NOT NULL, " +
+                IMAGE_PRODUCT + " TEXT" + ");";
         sqLiteDatabase.execSQL(createProductTable);
-        insertInitialProducts(sqLiteDatabase);
+        // insertInitialProducts(sqLiteDatabase);
+
+        String createCartItemsTable = "CREATE TABLE " + TABLE_CART_ITEMS +
+                "(" + ID_CART_ITEM + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ID_PRODUCT_CART_ITEM + " INTEGER NOT NULL, " +
+                QUANTITY_CART_ITEM + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ID_PRODUCT_CART_ITEM + ") REFERENCES products(id)" +
+                ");";
+        sqLiteDatabase.execSQL(createCartItemsTable);
+
+        String createBestSellingProductTable = "CREATE TABLE IF NOT EXISTS " + TABLE_BESTSELLING_PRODUCT +
+                "(" + ID_BESTSELLING_PRODUCT + " INTEGER PRIMARY KEY, " +
+                NAME_BESTSELLING_PRODUCT + " TEXT NOT NULL, " +
+                PRICE_BESTSELLING_PRODUCT + " DECIMAL NOT NULL, " +
+                IMAGE_BESTSELLING_PRODUCT + " TEXT" + ");";
+        sqLiteDatabase.execSQL(createBestSellingProductTable);
+
+        String createRecentlyAddedProductTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECENTLYADDED_PRODUCT +
+                "(" + ID_RECENTLYADDED_PRODUCT + " INTEGER PRIMARY KEY, " +
+                NAME_RECENTLYADDED_PRODUCT + " TEXT NOT NULL, " +
+                PRICE_RECENTLYADDED_PRODUCT + " DECIMAL NOT NULL, " +
+                IMAGE_RECENTLYADDED_PRODUCT + " TEXT" + ");";
+        sqLiteDatabase.execSQL(createRecentlyAddedProductTable);
+        insertInitialRepairCategoriesList(sqLiteDatabase);
+        insertInitialRepairCategoryDetail(sqLiteDatabase);
     }
 
-    
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_AUTH);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORIES_LIST);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL);
+        this.db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
+        this.db.execSQL("DROP TABLE IF EXISTS " + TABLE_AUTH);
+        this.db.execSQL("DROP TABLE IF EXISTS " + TABLE_BESTSELLING_PRODUCT);
+        this.db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECENTLYADDED_PRODUCT);
+        this.db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
+        this.db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORIES_LIST);
+        this.db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL);
         this.onCreate(db);
     }
 
     // region # SETTINGS METHODS #
 
-    public void addSettingsDB(Settings settings){
+    public void addSettingsDB(Settings settings) {
         ContentValues values = new ContentValues();
         values.put(URL, settings.getUrl());
 
         this.db.insert(TABLE_SETTINGS, null, values);
     }
 
-    public Settings getSettingsDB(){
-        Cursor cursor = this.db.query(TABLE_SETTINGS,new String[]{URL},
+    public Settings getSettingsDB() {
+        Cursor cursor = this.db.query(TABLE_SETTINGS, new String[]{URL},
                 null,
                 null,
                 null,
                 null,
                 null);
 
-        if(cursor.moveToLast()){
+        if (cursor.moveToLast()) {
             return new Settings(cursor.getString(0));
         }
         return null;
     }
 
-    public void updateSettingsDB(Settings settings){
+    public void updateSettingsDB(Settings settings) {
         ContentValues values = new ContentValues();
         values.put(URL, settings.getUrl());
 
@@ -143,22 +192,22 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     public void addAuthDB(Auth auth) {
         ContentValues values = new ContentValues();
-        values.put(USERNAME, auth.getUsername());
-        values.put(TOKEN, auth.getToken());
+        values.put(EMAIL_AUTH, auth.getEmail());
+        values.put(TOKEN_AUTH, auth.getToken());
         values.put(REFRESH_TOKEN, auth.getRefreshToken());
 
         this.db.insert(TABLE_AUTH, null, values);
     }
 
     public Auth getAuthDB() {
-        Cursor cursor = this.db.query(TABLE_AUTH,new String[]{USERNAME, TOKEN, REFRESH_TOKEN},
+        Cursor cursor = this.db.query(TABLE_AUTH, new String[]{EMAIL_AUTH, TOKEN_AUTH, REFRESH_TOKEN},
                 null,
                 null,
                 null,
                 null,
                 null);
 
-        if(cursor.moveToLast()){
+        if (cursor.moveToLast()) {
             return new Auth(cursor.getString(0), cursor.getString(1), cursor.getString(2));
         }
         return null;
@@ -166,8 +215,8 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     public void updateAuthDB(Auth auth) {
         ContentValues values = new ContentValues();
-        values.put(USERNAME, auth.getUsername());
-        values.put(TOKEN, auth.getToken());
+        values.put(EMAIL_AUTH, auth.getEmail());
+        values.put(TOKEN_AUTH, auth.getToken());
         values.put(REFRESH_TOKEN, auth.getRefreshToken());
 
         this.db.update(TABLE_AUTH, values, null, null);
@@ -184,38 +233,39 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     // endregion
 
     // region # PRODUCTS METHODS #
+    /*
     private void insertInitialProducts(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
 
         values.put(NAME_PRODUCT, "Capa Iphone");
         values.put(PRICE_PRODUCT, 10);
         values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        db.insert(TABLE_PRODUCTS, null, values);
+        this.db.insert(TABLE_PRODUCTS, null, values);
 
         values.put(NAME_PRODUCT, "Capa Samsung");
         values.put(PRICE_PRODUCT, 12);
         values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        db.insert(TABLE_PRODUCTS, null, values);
+        this.db.insert(TABLE_PRODUCTS, null, values);
 
         values.put(NAME_PRODUCT, "Película de Ecrã Iphone 13");
         values.put(PRICE_PRODUCT, 15);
         values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        db.insert(TABLE_PRODUCTS, null, values);
+        this.db.insert(TABLE_PRODUCTS, null, values);
 
         values.put(NAME_PRODUCT, "Película de Ecrã Xiaomi Redmi Note 13");
         values.put(PRICE_PRODUCT, 15);
         values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        db.insert(TABLE_PRODUCTS, null, values);
+        this.db.insert(TABLE_PRODUCTS, null, values);
 
         values.put(NAME_PRODUCT, "Mochila ASUS para Laptop");
         values.put(PRICE_PRODUCT, 55);
         values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        db.insert(TABLE_PRODUCTS, null, values);
+        this.db.insert(TABLE_PRODUCTS, null, values);
 
         values.put(NAME_PRODUCT, "Rato Ergonómico Logitech");
         values.put(PRICE_PRODUCT, 85);
         values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        db.insert(TABLE_PRODUCTS, null, values);
+        this.db.insert(TABLE_PRODUCTS, null, values);
     }
 
     public ArrayList<Product> getAllProductsDB(){
@@ -225,106 +275,257 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-                Product product = new Product(cursor.getInt(0),cursor.getString(1), cursor.getDouble(2), cursor.getInt(3));
+                Product product = new Product(cursor.getInt(0),cursor.getString(1), cursor.getDouble(2), cursor.getString(3));
                 products.add(product);
             }while (cursor.moveToNext());
         }
         return products;
     }
+    */
+
+
+    public ArrayList<Product> getAllProductsDB() {
+        ArrayList<Product> products = new ArrayList<>();
+
+        Cursor cursor = this.db.query(TABLE_PRODUCTS, new String[]{ID_PRODUCT, NAME_PRODUCT, PRICE_PRODUCT, IMAGE_PRODUCT}, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3));
+                products.add(product);
+            } while (cursor.moveToNext());
+        }
+        return products;
+    }
+
+    public void addProductsDB(ArrayList<Product> products) {
+        for (Product product : products) {
+            ContentValues values = new ContentValues();
+            values.put(ID_PRODUCT, product.getId());
+            values.put(NAME_PRODUCT, product.getName());
+            values.put(PRICE_PRODUCT, product.getPrice());
+            values.put(IMAGE_PRODUCT, product.getImage());
+
+            this.db.insert(TABLE_PRODUCTS, null, values);
+        }
+    }
+
+    public void removeProductsDB() {
+        this.db.delete(TABLE_PRODUCTS, null, null);
+    }
+
+    public ArrayList<Product> getAllRecentlyAddedProductsDB() {
+        ArrayList<Product> products = new ArrayList<>();
+
+        Cursor cursor = this.db.query(TABLE_RECENTLYADDED_PRODUCT, new String[]{ID_RECENTLYADDED_PRODUCT, NAME_RECENTLYADDED_PRODUCT, PRICE_RECENTLYADDED_PRODUCT, IMAGE_RECENTLYADDED_PRODUCT}, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3));
+                products.add(product);
+            } while (cursor.moveToNext());
+        }
+        return products;
+    }
+
+    public void addRecentlyAddedProductsDB(ArrayList<Product> products) {
+        for (Product product : products) {
+            ContentValues values = new ContentValues();
+            values.put(ID_RECENTLYADDED_PRODUCT, product.getId());
+            values.put(NAME_RECENTLYADDED_PRODUCT, product.getName());
+            values.put(PRICE_RECENTLYADDED_PRODUCT, product.getPrice());
+            values.put(IMAGE_RECENTLYADDED_PRODUCT, product.getImage());
+
+            this.db.insert(TABLE_RECENTLYADDED_PRODUCT, null, values);
+        }
+    }
+
+    public void removeRecentlyAddedProductsDB() {
+        this.db.delete(TABLE_RECENTLYADDED_PRODUCT, null, null);
+    }
+
+    public ArrayList<Product> getAllBestSellingProductsDB() {
+        ArrayList<Product> products = new ArrayList<>();
+
+        Cursor cursor = this.db.query(TABLE_BESTSELLING_PRODUCT, new String[]{ID_BESTSELLING_PRODUCT, NAME_BESTSELLING_PRODUCT, PRICE_BESTSELLING_PRODUCT, IMAGE_BESTSELLING_PRODUCT}, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3));
+                products.add(product);
+            } while (cursor.moveToNext());
+        }
+        return products;
+    }
+
+    public void addBestSellingProductsDB(ArrayList<Product> products) {
+        for (Product product : products) {
+            ContentValues values = new ContentValues();
+            values.put(ID_BESTSELLING_PRODUCT, product.getId());
+            values.put(NAME_BESTSELLING_PRODUCT, product.getName());
+            values.put(PRICE_BESTSELLING_PRODUCT, product.getPrice());
+            values.put(IMAGE_BESTSELLING_PRODUCT, product.getImage());
+
+            this.db.insert(TABLE_BESTSELLING_PRODUCT, null, values);
+        }
+    }
+
+    public void removeBestSellingProductsDB() {
+        this.db.delete(TABLE_BESTSELLING_PRODUCT, null, null);
+    }
 
     // endregion
 
-    // region # REPAIR CATEGORIES LIST #
-    private void insertInitialRepairCategoriesList(SQLiteDatabase db){
+    // region # CART ITEMS #
+    public void addProductToCartDB(Product product, int quantity) {
         ContentValues values = new ContentValues();
+        values.put(ID_PRODUCT_CART_ITEM, product.getId());
+        values.put(QUANTITY_CART_ITEM, quantity);
 
+        this.db.insert(TABLE_CART_ITEMS, null, values);
+    }
+
+
+    public ArrayList<CartItem> getAllCartItemsDB() {
+        ArrayList<CartItem> cartItems = new ArrayList<>();
+
+        Cursor cursor = this.db.query(TABLE_CART_ITEMS,
+                new String[]{ID_CART_ITEM, ID_PRODUCT_CART_ITEM, QUANTITY_CART_ITEM},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                CartItem cartItem = new CartItem(
+                        cursor.getInt(0),    // id
+                        cursor.getInt(1),    // id_product
+                        cursor.getInt(2)     // quantity
+                );
+                cartItems.add(cartItem);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return cartItems;
+    }
+
+    public void addCartItemsDB(ArrayList<CartItem> cartItems) {
+        for (CartItem cartItem : cartItems) {
+            ContentValues values = new ContentValues();
+            values.put(ID_CART_ITEM, cartItem.getId());
+            values.put(ID_PRODUCT_CART_ITEM, cartItem.getIdProduct());
+            values.put(QUANTITY_CART_ITEM, cartItem.getQuantity());
+
+            this.db.insert(TABLE_CART_ITEMS, null, values);
+        }
+    }
+
+    public void removeCartItemsDB() {
+        this.db.delete(TABLE_CART_ITEMS, null, null);
+    }
+    // endregion
+
+    // region # REPAIR CATEGORIES LIST #
+    private void insertInitialRepairCategoriesList(@NonNull SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
         values.put(NAME_REPAIR_CATEGORIES, "Audio");
         values.put(DESCRIPTION, "If your device does not transmit sounds, our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Battery");
         values.put(DESCRIPTION, "If your device has battery damaged, our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Buttons");
         values.put(DESCRIPTION, "If your device has some button damaged, our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Broken Screen");
         values.put(DESCRIPTION, "If your device has a damaged screen, our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Camera");
         values.put(DESCRIPTION, "If your device has camera damaged, our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Connectivity");
         values.put(DESCRIPTION, "If your device has connectivity issues, our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Data Recovery");
         values.put(DESCRIPTION, "Have you lost important data that you'd like to recover? Our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Hardware Cleaning");
         values.put(DESCRIPTION, "Do you want to carry out routine maintenance? Our team is ready to do it with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Liquid Damage");
         values.put(DESCRIPTION, "Has your device fallen into the pool and won't switch on? Our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Network");
         values.put(DESCRIPTION, "If your device has network issues, our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Software");
         values.put(DESCRIPTION, "If your device has malicious software, our team is ready to solve the problem with the utmost efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Storage");
         values.put(DESCRIPTION, "If your device has storage issues, our team is ready to solve the problem with maximum efficiency.");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Repair Not Listed");
         values.put(DESCRIPTION, "If the anomaly is not listed, please contact us!");
         values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
-        db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
     }
 
-    public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB(){
+    public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB() {
         ArrayList<RepairCategoriesList> repairCategoriesList = new ArrayList<>();
 
-        Cursor cursor = this.db.query(TABLE_REPAIR_CATEGORIES_LIST, new String[] {ID_CATEGORIES_LIST, NAME_REPAIR_CATEGORIES, DESCRIPTION, IMAGE_REPAIR_CATEGORIES}, null, null, null,null, null);
-        if (cursor.moveToFirst()){
+        Cursor cursor = this.db.query(TABLE_REPAIR_CATEGORIES_LIST, new String[]{ID_CATEGORIES_LIST, NAME_REPAIR_CATEGORIES, DESCRIPTION, IMAGE_REPAIR_CATEGORIES}, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
             do {
-                RepairCategoriesList repairCategoryList = new RepairCategoriesList(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getInt(3));
+                RepairCategoriesList repairCategoryList = new RepairCategoriesList(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3));
                 repairCategoriesList.add(repairCategoryList);
             } while (cursor.moveToNext());
         }
         cursor.close();
         return repairCategoriesList;
-
     }
 
+    public ArrayList<RepairCategoryDetail> getAllRepairCategoriesDetailsListDB() {
+        ArrayList<RepairCategoryDetail> repairCategoriesDetailsList = new ArrayList<>();
+
+        Cursor cursor = this.db.query(TABLE_REPAIR_CATEGORY_DETAIL, new String[]{ID_REPAIR_CATEGORY, MOBILE_SOLUTION, TABLET_SOLUTION, DESKTOP_LAPTOP_SOLUTION, WEARABLES_SOLUTION}, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                RepairCategoryDetail repairCategoryDetail = new RepairCategoryDetail(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+                repairCategoriesDetailsList.add(repairCategoryDetail);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return repairCategoriesDetailsList;
+    }
 
     // endregion
 
     // region # REPAIR CATEGORY DETAIL #
 
-    private void insertInitialRepairCategoryDetail(SQLiteDatabase db){
+    private void insertInitialRepairCategoryDetail(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put(ID_CATEGORIES_LIST, 1);
         values.put(MOBILE_SOLUTION, "Weak, distorted or absent sound.\n" +
@@ -332,7 +533,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "No sound during calls in speakerphone mode.\n" +
                 "Microphone muted or muffled during calls.\n" +
                 "Interruptions in connection to wireless audio devices.");
-        values.put(TABLET_SOLUTION , "Weak, distorted or absent sound.\n" +
+        values.put(TABLET_SOLUTION, "Weak, distorted or absent sound.\n" +
                 "Strange noises during playback.\n" +
                 "Interruptions in connection to wireless audio devices.\n" +
                 "Poor sound quality via Bluetooth.\n" +
@@ -346,14 +547,14 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Need for audio calibration.\n" +
                 "Notifications, calls or voice commands not audible.\n" +
                 "Audio is out of sync with the main device.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 2);
         values.put(MOBILE_SOLUTION, "Diagnosis and replacement of degraded batteries.\n" +
                 "Repair the battery or charging ports.\n" +
                 "Checking for possible faults in the battery's internal circuit.\n" +
                 "Immediate replacement of swollen or damaged batteries to avoid the risk of explosion.");
-        values.put(TABLET_SOLUTION , "Diagnosis and replacement of degraded batteries.\n" +
+        values.put(TABLET_SOLUTION, "Diagnosis and replacement of degraded batteries.\n" +
                 "Repair the battery or charging ports.\n" +
                 "Checking for possible faults in the battery's internal circuit.\n" +
                 "Immediate replacement of swollen or damaged batteries to avoid the risk of explosion.");
@@ -364,14 +565,14 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(WEARABLES_SOLUTION, "Diagnosis and replacement of degraded batteries.\n" +
                 "Repair the battery or charging ports.\n" +
                 "Checking for possible faults in the battery's internal circuit.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 3);
         values.put(MOBILE_SOLUTION, "Replacing damaged or worn buttons.\n" +
                 "Internal cleaning to remove dirt or dust that prevents operation.\n" +
                 "Fingerprint sensor replacement.\n" +
                 "Repair of internal connectors or flex cables.");
-        values.put(TABLET_SOLUTION , "Replacing damaged or worn buttons.\n" +
+        values.put(TABLET_SOLUTION, "Replacing damaged or worn buttons.\n" +
                 "Internal cleaning to remove dirt or dust that prevents operation.\n" +
                 "Fingerprint sensor replacement.\n" +
                 "Repair of internal connectors or flex cables.");
@@ -382,7 +583,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Internal cleaning to remove dirt or dust that prevents operation.\n" +
                 "Repair of internal connectors or flex cables.\n" +
                 "Fingerprint sensor replacement.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 4);
         values.put(MOBILE_SOLUTION, "Cracked or physically damaged screen.\n" +
@@ -390,7 +591,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Screen burn-in, permanent discoloration due to static images.\n" +
                 "Display discoloration, like color issues like yellow/green tints or washed-out colors. \n" +
                 "Dead zones, with specific areas on the screen not responding to touch.");
-        values.put(TABLET_SOLUTION , "Cracked or damaged screen.\n" +
+        values.put(TABLET_SOLUTION, "Cracked or damaged screen.\n" +
                 "Touchscreen calibration issues.\n" +
                 "Screen registering non-existent .\n" +
                 "Screen stuck on a single image due to hardware/software problems.\n" +
@@ -403,7 +604,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Random flashes or unstable brightness levels.\n" +
                 "Low screen brightness or no display.\n" +
                 "Partial or full unresponsiveness of the touchscreen.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 5);
         values.put(MOBILE_SOLUTION, "Camera does not open or freezes due to a problem with the camera software or application.\n" +
@@ -411,7 +612,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Front or rear camera does not work due to faulty connector or camera module.\n" +
                 "Autofocus does not work because the module is broken or stuck. \n" +
                 "Hardware error transmitting messages like \"Camera not detected\" due to communication failures between the camera and the motherboard.");
-        values.put(TABLET_SOLUTION , "Camera does not open or freezes due to a problem with the camera software or application.\n" +
+        values.put(TABLET_SOLUTION, "Camera does not open or freezes due to a problem with the camera software or application.\n" +
                 "Camera blurry and smudged due to dirty or damaged lens.\n" +
                 "Front or rear camera does not work due to faulty connector or camera module.\n" +
                 "Autofocus does not work because the module is broken or stuck..\n" +
@@ -420,13 +621,13 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Camera with black or frozen image due to poorly connected or damaged internal cable.\n" +
                 "Built-in camera microphone not working due to problems with the driver or faults with the microphone cable.\n" +
                 "USB connectivity problems (external cameras).");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 6);
         values.put(MOBILE_SOLUTION, "Bluetooth: failure to pair or maintain connection with other devices (e.g., headphones or car systems).\n" +
                 "Broken internal Wi-Fi antenna or loose connections.\n" +
                 "USB/charging ports like due to not recognized when connected to a computer.");
-        values.put(TABLET_SOLUTION , "Bluetooth: range or unstable connections with accessories.\n" +
+        values.put(TABLET_SOLUTION, "Bluetooth: range or unstable connections with accessories.\n" +
                 "USB-C/Lightning Port: problems with external accessories (e.g., keyboards, hubs)." +
                 "Incompatibility with peripheral connections like styluses.");
         values.put(DESKTOP_LAPTOP_SOLUTION, "USB Ports: Non-functional ports due to damage or driver issues.\n" +
@@ -435,7 +636,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(WEARABLES_SOLUTION, "Bluetooth Pairing: Connection drops frequently or fails to initiate.\n" +
                 "NFC/Contactless Payments: Malfunctioning NFC chips.\n" +
                 "Magnetic Charging: Intermittent connection with the charger.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 7);
         values.put(MOBILE_SOLUTION, "Frequent ‘storage full’ messages.\n" +
@@ -443,7 +644,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Recovery of accidentally deleted files.\n" +
                 "Replacing or expanding internal memory.\n" +
                 "Backing up data to the cloud.");
-        values.put(TABLET_SOLUTION , "Frequent ‘storage full’ messages.\n" +
+        values.put(TABLET_SOLUTION, "Frequent ‘storage full’ messages.\n" +
                 "Unable to install or update applications.\n" +
                 "Recovery of accidentally deleted files.\n" +
                 "Replacing or expanding internal memory.\n" +
@@ -456,13 +657,13 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Synchronization failures with smartphones or cloud services.\n" +
                 "Apps taking up unnecessary storage with large files or cache.\n" +
                 "Data corruption in internal memory or during backups.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 8);
         values.put(MOBILE_SOLUTION, "Cleaning the screen and surfaces.\n" +
                 "Cleaning ports and connectors.\n" +
                 "Lubricating connectors.");
-        values.put(TABLET_SOLUTION , "Cleaning the screen and surfaces.\n" +
+        values.put(TABLET_SOLUTION, "Cleaning the screen and surfaces.\n" +
                 "Cleaning ports and connectors." +
                 "Lubricating connectors.");
         values.put(DESKTOP_LAPTOP_SOLUTION, "Internal cleaning (fans, boards and components).\n" +
@@ -472,7 +673,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(WEARABLES_SOLUTION, "Cleaning the screen and sensors.\n" +
                 "Wristband cleaning.\n" +
                 "Button lubrication.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 9);
         values.put(MOBILE_SOLUTION, "Corrosion of connectors (charging port, headphone jack, SIM card slot).\n" +
@@ -480,7 +681,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Screen damage (water stains or unresponsive touch).\n" +
                 "Muffled or non-functioning microphone and speaker.\n" +
                 "Swollen or non-charging battery.");
-        values.put(TABLET_SOLUTION , "Touchscreen malfunction or water stains.\n" +
+        values.put(TABLET_SOLUTION, "Touchscreen malfunction or water stains.\n" +
                 "Damaged charging or audio ports." +
                 "Logic board issues due to liquid seepage.");
         values.put(DESKTOP_LAPTOP_SOLUTION, "Spills on keyboards or mice.\n" +
@@ -489,7 +690,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(WEARABLES_SOLUTION, "Audio and vibration issues.\n" +
                 "Corrosion on magnetic charging connectors.\n" +
                 "Touchscreen faults.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 10);
         values.put(MOBILE_SOLUTION, "Errors in the configuration of mobile data or Wi-Fi.\n" +
@@ -497,7 +698,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Internet access failures caused by misconfigured software updates.\n" +
                 "Configuring or repairing VPN problems.\n" +
                 "Diagnosis and resolution of Wi-Fi signal interference.");
-        values.put(TABLET_SOLUTION , "Errors in the configuration of mobile data or Wi-Fi.\n" +
+        values.put(TABLET_SOLUTION, "Errors in the configuration of mobile data or Wi-Fi.\n" +
                 "Problems with the device's internal aerial, affecting internet reception.\n" +
                 "Internet access failures caused by misconfigured software updates.\n" +
                 "Configuring or repairing VPN problems.\n" +
@@ -512,7 +713,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Firmware updates that failed to connect to servers.\n" +
                 "Difficulty sharing internet from mobile devices.\n" +
                 "Intermittent connection on public or home networks.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 11);
         values.put(MOBILE_SOLUTION, "Software updates (Android and iOS).\n" +
@@ -520,7 +721,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Fixing problems with applications.\n" +
                 "Virus and malware removal.\n" +
                 "Unlocking devices (PIN, pattern, account).");
-        values.put(TABLET_SOLUTION , "Software updates (Android and iOS).\n" +
+        values.put(TABLET_SOLUTION, "Software updates (Android and iOS).\n" +
                 "System restore and factory reset.\n" +
                 "Fixing problems with applications.\n" +
                 "Virus and malware removal.\n" +
@@ -532,13 +733,13 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Software installation and configuration.");
         values.put(WEARABLES_SOLUTION, "Software updates that fail or crash.\n" +
                 "Bug fixes for wearable operating systems.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
         values.put(ID_CATEGORIES_LIST, 12);
         values.put(MOBILE_SOLUTION, "Data recovery and/or replacement of microSD cards.\n" +
                 "Cleaning the memory manually or using specialised tools.\n" +
                 "Repair or replacement in case of internal storage failure (eMMC or UFS).");
-        values.put(TABLET_SOLUTION , "Data recovery and/or replacement of microSD cards.\n" +
+        values.put(TABLET_SOLUTION, "Data recovery and/or replacement of microSD cards.\n" +
                 "Cleaning the memory manually or using specialised tools.\n" +
                 "Repair or replacement in case of internal storage failure (eMMC or UFS).");
         values.put(DESKTOP_LAPTOP_SOLUTION, "Diagnosis and replacement of a damaged Hard Disk Drive (HDD) or SSD.\n" +
@@ -549,7 +750,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(WEARABLES_SOLUTION, "Freeing up space and reconfiguring synchronisation in the event of limited storage for data synchronisation.\n" +
                 "Reinstalling or updating the device's software.\n" +
                 "Failed to recognise internal or connected storage.");
-        db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
+        this.db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
     }
 
     /*
@@ -568,17 +769,17 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     }
     */
 
-    public RepairCategoryDetail getRepairCategoryDetail(int idCategory){
+    public RepairCategoryDetail getRepairCategoryDetail(int idCategory) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_REPAIR_CATEGORY_DETAIL, null, ID_REPAIR_CATEGORY + " = ?", new String[]{String.valueOf(idCategory)}, null, null, null);
 
-        if (cursor != null && cursor.moveToFirst()){
+        if (cursor != null && cursor.moveToFirst()) {
             int mobileSolutionIndex = cursor.getColumnIndex(MOBILE_SOLUTION);
             int tabletSolutionIndex = cursor.getColumnIndex(TABLET_SOLUTION);
             int desktopLaptopSolutionIndex = cursor.getColumnIndex(DESKTOP_LAPTOP_SOLUTION);
             int wearablesSolutionIndex = cursor.getColumnIndex(WEARABLES_SOLUTION);
 
-            if(mobileSolutionIndex >= 0 && tabletSolutionIndex >= 0 && desktopLaptopSolutionIndex >= 0 && wearablesSolutionIndex >= 0){
+            if (mobileSolutionIndex >= 0 && tabletSolutionIndex >= 0 && desktopLaptopSolutionIndex >= 0 && wearablesSolutionIndex >= 0) {
                 String mobileSolution = cursor.getString(mobileSolutionIndex);
                 String tabletSolution = cursor.getString(tabletSolutionIndex);
                 String desktopLaptopSolution = cursor.getString(desktopLaptopSolutionIndex);
@@ -588,7 +789,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
             }
         }
 
-        if(cursor != null){
+        if (cursor != null) {
             cursor.close();
         }
         return null;
