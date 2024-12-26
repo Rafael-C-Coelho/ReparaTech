@@ -14,13 +14,18 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoryDetail;
 
 public class RepairCategoryDetailAdapter extends BaseAdapter {
 
-    private Context context;
+    public Context context;
     private LayoutInflater inflater;
     private ArrayList<RepairCategoryDetail> repairCategoryDetail;
+    ArrayList <String> mobile_solution, tablet_solution, desktop_laptop_solution, wearable_solution;
 
-    public RepairCategoryDetailAdapter(Context context, ArrayList<RepairCategoryDetail> repairCategoryDetail) {
+    public RepairCategoryDetailAdapter(Context context, ArrayList<RepairCategoryDetail> repairCategoryDetail, ArrayList<String> mobile_solution, ArrayList<String> tablet_solution, ArrayList<String> desktop_laptop_solution, ArrayList<String> wearable_solution) {
         this.context = context;
         this.repairCategoryDetail = repairCategoryDetail;
+        this.mobile_solution = mobile_solution;
+        this.tablet_solution = tablet_solution;
+        this.desktop_laptop_solution = desktop_laptop_solution;
+        this.wearable_solution = wearable_solution;
     }
 
     @Override
@@ -35,7 +40,7 @@ public class RepairCategoryDetailAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return repairCategoryDetail.get(i).getId();
+        return repairCategoryDetail.get(i).getIdCategory();
     }
 
     @Override
@@ -47,7 +52,7 @@ public class RepairCategoryDetailAdapter extends BaseAdapter {
                 inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             }
 
-            view = inflater.inflate(R.layout.fragment_repair_category, viewGroup, false);
+            view = inflater.inflate(R.layout.activity_repair_category_detail, viewGroup, false);
             viewHolderList = new ViewHolderList(view);
             view.setTag(viewHolderList);
         }else{
@@ -60,7 +65,7 @@ public class RepairCategoryDetailAdapter extends BaseAdapter {
     }
 
     private class ViewHolderList{
-        private TextView tvMobileDescription, tvTabletDescription,tvDesktopLaptopDescription, tvWearablesDescription;
+        TextView tvMobileDescription, tvTabletDescription,tvDesktopLaptopDescription, tvWearablesDescription;
 
         public ViewHolderList(View view){
             tvMobileDescription = view.findViewById(R.id.tvMobileDescription);

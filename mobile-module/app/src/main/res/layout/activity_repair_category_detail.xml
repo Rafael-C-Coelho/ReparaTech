@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/repairCategoryDetailFragment"
+    android:id="@+id/repairCategoryDetailActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -39,8 +39,8 @@
         android:id="@+id/tvMobileDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reparacoes_de_telemoveis_tablets"
         android:maxLines="5"
+        android:text=""
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:textSize="16sp"/>
@@ -58,8 +58,8 @@
         android:id="@+id/tvTabletDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reparacoes_de_telemoveis_tablets"
         android:maxLines="5"
+        android:text=""
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:textSize="16sp"/>
@@ -77,8 +77,8 @@
         android:id="@+id/tvDesktopLaptopDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reparacoes_de_desktops_laptops"
         android:maxLines="5"
+        android:text=""
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:textSize="16sp"/>
@@ -96,8 +96,8 @@
         android:id="@+id/tvWearablesDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/reparacoes_de_wearables"
         android:maxLines="5"
+        android:text=""
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:textSize="16sp"/>

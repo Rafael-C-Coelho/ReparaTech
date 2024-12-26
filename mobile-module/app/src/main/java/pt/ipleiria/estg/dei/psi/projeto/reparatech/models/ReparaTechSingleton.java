@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
 public class ReparaTechSingleton {
-    private ArrayList<BestSellingProduct> bestSellingProducts;
     private ArrayList<RepairCategoriesList> repairCategoriesList;
     private ArrayList<RepairCategoryDetail> repairCategoryDetails;
     private ArrayList<Product> products;
@@ -168,33 +167,9 @@ public class ReparaTechSingleton {
         return null;
     }
 
-    public ArrayList<RepairCategoriesList> getAllRepairCategoriesList() {
-        return new ArrayList<>(repairCategoriesList);
-    }
     public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB(){
         repairCategoriesList = dbHelper.getAllRepairCategoriesListDB();
         return new ArrayList<>(repairCategoriesList);
-    }
-
-
-    public ArrayList<RepairCategoryDetail> getAllRepairCategoryDetail(){
-        return new ArrayList<>(repairCategoryDetails);
-    }
-    public ArrayList<RepairCategoryDetail> getAllRepairCategoryDetailDB(){
-        repairCategoryDetails= dbHelper.getAllRepairCategoryDetailDB();
-        return new ArrayList<>(repairCategoryDetails);
-    }
-
-    public RepairCategoryDetail getRepairCategoryDetail(int id){
-        if (repairCategoryDetails == null) {
-            repairCategoryDetails = getAllRepairCategoryDetailDB(); // Populate if null
-        }
-        for (RepairCategoryDetail repairCategoryDetail : repairCategoryDetails) {
-            if (repairCategoryDetail.getId() == id) {
-                return repairCategoryDetail;
-            }
-        }
-        return null;
     }
 
     // endregion
@@ -241,15 +216,6 @@ public class ReparaTechSingleton {
                 System.out.println("--------> POST API error:\n" + error.toString());
             }
         });
-    }
-
-    public ArrayList<RepairCategoryDetail> getRepairCategoryDetailById(int repairCategoryID) {
-        for (RepairCategoryDetail repairCategoryDetail : repairCategoryDetails) {
-            if (repairCategoryDetail.getId() == repairCategoryID) {
-                return new ArrayList<>(repairCategoryDetails);
-            }
-        }
-        return null;
     }
 }
 

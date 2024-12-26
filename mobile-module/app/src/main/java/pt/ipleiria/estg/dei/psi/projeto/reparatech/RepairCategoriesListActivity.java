@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoryDetail;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.RepairCategoriesListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoriesList;
@@ -44,16 +46,9 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
         lvRepairCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("ID_CATEGORIES_LIST", repairCategoriesList.get(position).getId());
-                RepairCategoryDetailFragment repairCategoryDetailFragment = new RepairCategoryDetailFragment();
-                repairCategoryDetailFragment.setArguments(bundle);
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.repairCategoryDetailFragment, repairCategoryDetailFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                Intent intent = new Intent(RepairCategoriesListActivity.this, RepairCategoryDetailActivity.class);
+                intent.putExtra(RepairCategoryDetailActivity.ID_CATEGORIES_LIST, repairCategoriesList.get(position).getId());
+                startActivity(intent);
             }
         });
 

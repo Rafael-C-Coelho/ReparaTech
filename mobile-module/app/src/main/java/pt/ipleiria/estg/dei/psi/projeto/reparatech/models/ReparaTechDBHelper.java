@@ -15,7 +15,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "reparatech";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     private final SQLiteDatabase db;
 
@@ -47,7 +47,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String TABLET_SOLUTION = "tablet_solution";
     private static final String DESKTOP_LAPTOP_SOLUTION = "desktop_laptop_solution";
     private static final String WEARABLES_SOLUTION = "wearables_solution";
-
 
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -327,7 +326,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     private void insertInitialRepairCategoryDetail(SQLiteDatabase db){
         ContentValues values = new ContentValues();
-
+        System.out.println("--->Inserting repair category details");
         values.put(MOBILE_SOLUTION, "Weak, distorted or absent sound.\n" +
                 "Low volume or no sound during calls.\n" +
                 "No sound during calls in speakerphone mode.\n" +
@@ -543,7 +542,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
     }
 
-
+    /*
     public ArrayList<RepairCategoryDetail> getAllRepairCategoryDetailDB(){
         ArrayList<RepairCategoryDetail> repairCategoryDetail = new ArrayList<>();
 
@@ -557,7 +556,32 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return repairCategoryDetail;
     }
+    */
 
+    public RepairCategoryDetail getRepairCategoryDetail(int idCategory){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_REPAIR_CATEGORY_DETAIL, null, ID_REPAIR_CATEGORY + " = ?", new String[]{String.valueOf(idCategory)}, null, null, null);
 
+        if (cursor != null && cursor.moveToFirst()){
+            int mobileSolutionIndex = cursor.getColumnIndex(MOBILE_SOLUTION);
+            int tabletSolutionIndex = cursor.getColumnIndex(TABLET_SOLUTION);
+            int desktopLaptopSolutionIndex = cursor.getColumnIndex(DESKTOP_LAPTOP_SOLUTION);
+            int wearablesSolutionIndex = cursor.getColumnIndex(WEARABLES_SOLUTION);
+
+            if(mobileSolutionIndex >= 0 && tabletSolutionIndex >= 0 && desktopLaptopSolutionIndex >= 0 && wearablesSolutionIndex >= 0){
+                String mobileSolution = cursor.getString(mobileSolutionIndex);
+                String tabletSolution = cursor.getString(tabletSolutionIndex);
+                String desktopLaptopSolution = cursor.getString(desktopLaptopSolutionIndex);
+                String wearablesSolution = cursor.getString(wearablesSolutionIndex);
+                cursor.close();
+                return new RepairCategoryDetail(idCategory, mobileSolution, tabletSolution, desktopLaptopSolution, wearablesSolution);
+            }
+        }
+
+        if(cursor != null){
+            cursor.close();
+        }
+        return null;
+    }
     // endregion
 }

@@ -1,25 +1,20 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 public class RepairCategoryDetail {
-    private int id, categories_list;
+    public static final String ID_CATEGORIES_LIST = "id_categories_list";
+    private int idCategory;
     private String mobile_solution, tablet_solution, desktop_laptop_solution, wearable_solution;
 
-    public RepairCategoryDetail(int id, int categories_list, String mobile_solution, String tablet_solution, String desktop_laptop_solution, String wearable_solution) {
-        this.id = id;
-        this.categories_list = categories_list;
+    public RepairCategoryDetail(int idCategory, String mobile_solution, String tablet_solution, String desktop_laptop_solution, String wearable_solution) {
+        this.idCategory = idCategory;
         this.mobile_solution = mobile_solution;
         this.tablet_solution = tablet_solution;
         this.desktop_laptop_solution = desktop_laptop_solution;
         this.wearable_solution = wearable_solution;
     }
 
-    public void setId(int id) {
-
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+    public int getIdCategory() {
+        return idCategory;
     }
 
     public String getMobile_solution() {
@@ -38,19 +33,4 @@ public class RepairCategoryDetail {
         return wearable_solution;
     }
 
-    public void setMobile_solution(String mobile_solution) {
-        this.mobile_solution = mobile_solution;
-    }
-
-    public void setTablet_solution(String tablet_solution) {
-        this.tablet_solution = tablet_solution;
-    }
-
-    public void setDesktop_laptop_solution(String desktop_laptop_solution) {
-        this.desktop_laptop_solution = desktop_laptop_solution;
-    }
-
-    public void setWearable_solution(String wearable_solution) {
-        this.wearable_solution = wearable_solution;
-    }
 }
