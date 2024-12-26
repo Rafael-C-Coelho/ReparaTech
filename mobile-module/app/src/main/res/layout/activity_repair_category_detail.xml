@@ -9,6 +9,108 @@
     tools:context=".RepairCategoriesListActivity">
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:text="Mobile:"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvMobileDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:maxLines="5"
+                android:text=""
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:text="Tablet:"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTabletDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:maxLines="5"
+                android:text=""
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:text="Desktop / Laptop:"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDesktopLaptopDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:maxLines="5"
+                android:text=""
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:text="Wearables:"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvWearablesDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:maxLines="5"
+                android:text=""
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnRequestQuote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:text="@string/txt_btn_request_quote"
+                android:textColor="@color/blue"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:ignore="VisualLintButtonSize" />
+        </LinearLayout>
+    </ScrollView>
+
     <androidx.cardview.widget.CardView
         android:layout_width="380dp"
         android:layout_height="200dp"
@@ -26,90 +128,4 @@
             android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mobile:"
-        android:textSize="18sp"
-        android:textColor="@color/gray"
-        android:textStyle="bold"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"/>
-    <TextView
-        android:id="@+id/tvMobileDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:text=""
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:textSize="16sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tablet:"
-        android:textSize="18sp"
-        android:textColor="@color/gray"
-        android:textStyle="bold"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"/>
-    <TextView
-        android:id="@+id/tvTabletDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:text=""
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:textSize="16sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Desktop / Laptop:"
-        android:textSize="18sp"
-        android:textColor="@color/gray"
-        android:textStyle="bold"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"/>
-    <TextView
-        android:id="@+id/tvDesktopLaptopDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:text=""
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:textSize="16sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wearables:"
-        android:textSize="18sp"
-        android:textColor="@color/gray"
-        android:textStyle="bold"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"/>
-    <TextView
-        android:id="@+id/tvWearablesDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:text=""
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:textSize="16sp"/>
-
-    <Button
-        android:id="@+id/btnRequestQuote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="@string/txt_btn_request_quote"
-        android:textColor="@color/blue"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        tools:ignore="VisualLintButtonSize" />
 </LinearLayout>

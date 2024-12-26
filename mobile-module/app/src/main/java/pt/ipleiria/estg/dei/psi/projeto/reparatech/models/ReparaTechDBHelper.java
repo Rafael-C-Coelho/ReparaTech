@@ -77,7 +77,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
         String createTableRepairCategoryDetail = "CREATE TABLE IF NOT EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL +
                 "(" + ID_REPAIR_CATEGORY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                CATEGORIES_LIST_ID + " INTEGER NOT NULL, " +
+                ID_CATEGORIES_LIST + " INTEGER NOT NULL, " +
                 MOBILE_SOLUTION + " TEXT NOT NULL, " +
                 TABLET_SOLUTION + " TEXT NOT NULL, " +
                 DESKTOP_LAPTOP_SOLUTION + " TEXT NOT NULL, " +
@@ -326,7 +326,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     private void insertInitialRepairCategoryDetail(SQLiteDatabase db){
         ContentValues values = new ContentValues();
-        System.out.println("--->Inserting repair category details");
+        values.put(ID_CATEGORIES_LIST, 1);
         values.put(MOBILE_SOLUTION, "Weak, distorted or absent sound.\n" +
                 "Low volume or no sound during calls.\n" +
                 "No sound during calls in speakerphone mode.\n" +
@@ -348,7 +348,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Audio is out of sync with the main device.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
-
+        values.put(ID_CATEGORIES_LIST, 2);
         values.put(MOBILE_SOLUTION, "Diagnosis and replacement of degraded batteries.\n" +
                 "Repair the battery or charging ports.\n" +
                 "Checking for possible faults in the battery's internal circuit.\n" +
@@ -366,6 +366,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Checking for possible faults in the battery's internal circuit.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 3);
         values.put(MOBILE_SOLUTION, "Replacing damaged or worn buttons.\n" +
                 "Internal cleaning to remove dirt or dust that prevents operation.\n" +
                 "Fingerprint sensor replacement.\n" +
@@ -383,6 +384,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Fingerprint sensor replacement.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 4);
         values.put(MOBILE_SOLUTION, "Cracked or physically damaged screen.\n" +
                 "Partial or full unresponsiveness of the touchscreen.\n" +
                 "Screen burn-in, permanent discoloration due to static images.\n" +
@@ -403,6 +405,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Partial or full unresponsiveness of the touchscreen.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 5);
         values.put(MOBILE_SOLUTION, "Camera does not open or freezes due to a problem with the camera software or application.\n" +
                 "Camera blurry and smudged due to dirty or damaged lens.\n" +
                 "Front or rear camera does not work due to faulty connector or camera module.\n" +
@@ -419,6 +422,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "USB connectivity problems (external cameras).");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 6);
         values.put(MOBILE_SOLUTION, "Bluetooth: failure to pair or maintain connection with other devices (e.g., headphones or car systems).\n" +
                 "Broken internal Wi-Fi antenna or loose connections.\n" +
                 "USB/charging ports like due to not recognized when connected to a computer.");
@@ -433,6 +437,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Magnetic Charging: Intermittent connection with the charger.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 7);
         values.put(MOBILE_SOLUTION, "Frequent ‘storage full’ messages.\n" +
                 "Unable to install or update applications.\n" +
                 "Recovery of accidentally deleted files.\n" +
@@ -453,6 +458,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Data corruption in internal memory or during backups.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 8);
         values.put(MOBILE_SOLUTION, "Cleaning the screen and surfaces.\n" +
                 "Cleaning ports and connectors.\n" +
                 "Lubricating connectors.");
@@ -468,6 +474,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Button lubrication.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 9);
         values.put(MOBILE_SOLUTION, "Corrosion of connectors (charging port, headphone jack, SIM card slot).\n" +
                 "Short circuits on the motherboard.\n" +
                 "Screen damage (water stains or unresponsive touch).\n" +
@@ -484,6 +491,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Touchscreen faults.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 10);
         values.put(MOBILE_SOLUTION, "Errors in the configuration of mobile data or Wi-Fi.\n" +
                 "Problems with the device's internal aerial, affecting internet reception.\n" +
                 "Internet access failures caused by misconfigured software updates.\n" +
@@ -506,6 +514,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Intermittent connection on public or home networks.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 11);
         values.put(MOBILE_SOLUTION, "Software updates (Android and iOS).\n" +
                 "System restore and factory reset.\n" +
                 "Fixing problems with applications.\n" +
@@ -525,6 +534,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "Bug fixes for wearable operating systems.");
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
 
+        values.put(ID_CATEGORIES_LIST, 12);
         values.put(MOBILE_SOLUTION, "Data recovery and/or replacement of microSD cards.\n" +
                 "Cleaning the memory manually or using specialised tools.\n" +
                 "Repair or replacement in case of internal storage failure (eMMC or UFS).");
