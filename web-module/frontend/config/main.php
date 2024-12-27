@@ -90,6 +90,28 @@ return [
                         'POST logout' => 'logout',
                     ],
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/repair',
+                    'pluralize' => true,
+                    'extraPatterns' => [
+                        'GET count' => 'count',
+                        'GET {id}/device' => 'device',
+                        'GET {id}/hours-spent-working' => 'hours-spent-working',
+                        'GET {id}/description' => 'description',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/budget',
+                    'pluralize' => true,
+                    'extraPatterns' => [
+                        'GET {id}/value' => 'value',
+                        'GET count' => 'count',
+                        'GET {id}/status' => 'status',
+                        'GET {id}/description' => 'description',
+                    ],
+                ],
             ],
         ],
     ],
