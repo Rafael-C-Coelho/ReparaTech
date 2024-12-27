@@ -4,6 +4,7 @@ namespace frontend\modules\api\controllers;
 
 use common\models\Budget;
 use frontend\modules\api\helpers\AuthBehavior;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\auth\HttpBasicAuth;
 use yii\rest\ActiveController;
@@ -45,9 +46,8 @@ class BudgetController extends ActiveController
 
     public function checkAccess($action, $model = null, $params = [])
     {
-       if (\Yii::$app->user->identity->hasRole('admin') || \Yii::$app->user->identity->hasRole('manager') || \Yii::$app->user->identity->hasRole('technician')) {
-           return;
-       } else {
+       if (\Yii::$app->user->identity->hasRole('admin' || 'manager' || 'technician' )) {
+
            throw new \yii\web\ForbiddenHttpException('You can only view budgets.');
        }
     }
@@ -102,5 +102,4 @@ class BudgetController extends ActiveController
         $budgets = $budgetModel::find()->select(['description'])->where(['id' => $id])->one();
         return $budgets;
     }
-
 }

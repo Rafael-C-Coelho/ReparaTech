@@ -46,7 +46,6 @@ class RepairController extends ActiveController
                 'device' => ['GET'],
                 'hours-spent-working' => ['GET'],
                 'description' => ['GET'],
-
             ]
         );
     }
@@ -54,10 +53,8 @@ class RepairController extends ActiveController
     public function checkAccess($action, $model = null, $params = [])
     {
         if($action === 'create' || $action === 'update' || $action === 'delete'){
-            if(\Yii::$app->user->identity->hasRole('admin') || \Yii::$app->user->identity->hasRole('manager') || \Yii::$app->user->identity->hasRole('manager'))
+            if(\Yii::$app->user->identity->hasRole('admin' || 'manager' || 'technician'))
             {
-                return;
-            } else{
                 throw new \yii\web\ForbiddenHttpException('You can only view repairs.');
             }
         }
