@@ -46,29 +46,21 @@ class SaleController extends ActiveController
 
     public function actionIndex(){
 
-        try{
-            $activeData = new ActiveDataProvider([
-                'query' => Sale::find()->with('saleProducts'),
-            ]);
+        $activeData = new ActiveDataProvider([
+            'query' => Sale::find()->with('saleProducts'),
+        ]);
 
-            $sales = $activeData->getModels();
-            $salesData = [];
+        $sales = $activeData->getModels();
+        $salesData = [];
 
-            foreach ($sales as $sale) {
-                $salesData[] = [
-                    'sale' => $sale,
-                    'sale_products' => $sale->saleProducts,
-                ];
-            }
-
-            return ['sales' => $salesData, 'total' => $activeData->getTotalCount(), "status" => "success"];
-        }catch (\Exception $e){
-            return[
-                'satus' => 'error',
-                'message' => $e->getMessage()
+        foreach ($sales as $sale) {
+            $salesData[] = [
+                'sale' => $sale,
+                'sale_products' => $sale->saleProducts,
             ];
         }
 
+        return ['sales' => $salesData, 'total' => $activeData->getTotalCount(), "status" => "success"];
     }
 
     public function actionView($id){
