@@ -31,6 +31,7 @@ public class ReparaTechSingleton {
     private static ReparaTechSingleton INSTANCE = null;
     private Context context;
     private ReparaTechDBHelper dbHelper;
+    private Settings settings;
 
     private LoginListener loginListener;
     private RegisterListener registerListener;
@@ -40,6 +41,8 @@ public class ReparaTechSingleton {
         products = new ArrayList<>();
         repairCategoriesList = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
+        settings = new Settings();
+
         this.context = context;
         // generateDinamicRepairCategories();
         // generateDinamicBestSellingProducts();
@@ -53,6 +56,12 @@ public class ReparaTechSingleton {
             volleyQueue = Volley.newRequestQueue(context);
         }
         return INSTANCE;
+    }
+
+
+
+    public ReparaTechDBHelper getDbHelper() {
+        return dbHelper;
     }
 
     public void setLoginListener(LoginListener loginListener) {
@@ -85,6 +94,7 @@ public class ReparaTechSingleton {
         return repairExamples;
     }
     */
+
 
     /*
     private void generateDinamicBestSellingProducts() {
@@ -157,6 +167,7 @@ public class ReparaTechSingleton {
         return null;
     }
     */
+
 
     // region # PRODUCTS METHODS #
 

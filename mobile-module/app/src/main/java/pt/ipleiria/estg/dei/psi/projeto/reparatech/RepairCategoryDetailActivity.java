@@ -24,7 +24,6 @@ public class RepairCategoryDetailActivity extends AppCompatActivity {
     public static final String ID_CATEGORIES_LIST = "ID_CATEGORIES_LIST";
     private TextView tvMobileDescription, tvTabletDescription, tvDesktopLaptopDescription, tvWearablesDescription;
     private RepairCategoryDetail repairCategoryDetail;
-    public ReparaTechDBHelper reparaTechDBHelper;
 
 
     @Override

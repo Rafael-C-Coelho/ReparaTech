@@ -34,8 +34,6 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
-
         lvRepairCategories = findViewById(R.id.lvRepairCategories);
 
         repairCategoriesList = ReparaTechSingleton.getInstance(getBaseContext()).getAllRepairCategoriesListDB();

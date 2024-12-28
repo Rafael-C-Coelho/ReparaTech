@@ -104,5 +104,9 @@
     <string name="price_with_2_dots">Price:</string>
     <string name="details_with_2_dots">"Details: "</string>
     <string name="txt_cart">Cart</string>
+    <string name="txt_wearables">Wearables:</string>
+    <string name="txt_desktop_laptop">Desktop / Laptop:</string>
+    <string name="txt_tablet">Tablet:</string>
+    <string name="txt_mobile">Mobile:</string>
 
 </resources>

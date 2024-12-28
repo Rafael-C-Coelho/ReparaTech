@@ -18,12 +18,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <ImageView
+                android:id="@+id/detailImage"
+                android:layout_width="380dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/iphone_capa" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
-                android:text="Mobile:"
+                android:text="@string/txt_mobile"
                 android:textColor="@color/gray"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -36,14 +44,17 @@
                 android:layout_marginTop="5dp"
                 android:maxLines="5"
                 android:text=""
-                android:textSize="16sp" />
+                android:letterSpacing="0.2"
+                android:lineSpacingExtra="5dp"
+                android:lineSpacingMultiplier="1"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
-                android:text="Tablet:"
+                android:text="@string/txt_tablet"
                 android:textColor="@color/gray"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -56,14 +67,17 @@
                 android:layout_marginTop="5dp"
                 android:maxLines="5"
                 android:text=""
-                android:textSize="16sp" />
+                android:letterSpacing="0.2"
+                android:lineSpacingExtra="5dp"
+                android:lineSpacingMultiplier="1"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
-                android:text="Desktop / Laptop:"
+                android:text="@string/txt_desktop_laptop"
                 android:textColor="@color/gray"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -76,14 +90,16 @@
                 android:layout_marginTop="5dp"
                 android:maxLines="5"
                 android:text=""
-                android:textSize="16sp" />
-
+                android:letterSpacing="0.2"
+                android:lineSpacingExtra="5dp"
+                android:lineSpacingMultiplier="1"
+                android:textSize="14sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
-                android:text="Wearables:"
+                android:text="@string/txt_wearables"
                 android:textColor="@color/gray"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -96,7 +112,10 @@
                 android:layout_marginTop="5dp"
                 android:maxLines="5"
                 android:text=""
-                android:textSize="16sp" />
+                android:letterSpacing="0.2"
+                android:lineSpacingExtra="5dp"
+                android:lineSpacingMultiplier="1"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btnRequestQuote"
@@ -110,22 +129,5 @@
                 tools:ignore="VisualLintButtonSize" />
         </LinearLayout>
     </ScrollView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="380dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="8dp"
-        android:layout_marginTop="20dp"
-        app:cardElevation="8dp">
-
-        <ImageView
-            android:layout_width="380dp"
-            android:layout_height="200dp"
-            android:id="@+id/detailImage"
-            android:layout_gravity="center"
-            android:src="@drawable/iphone_capa"
-            android:scaleType="centerCrop"/>
-    </androidx.cardview.widget.CardView>
 
 </LinearLayout>
