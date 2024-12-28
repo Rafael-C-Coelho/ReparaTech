@@ -115,7 +115,7 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/sale',
-                    'pluralize' => false,
+                    'pluralize' => true,
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',

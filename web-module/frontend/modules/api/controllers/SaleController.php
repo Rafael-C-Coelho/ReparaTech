@@ -4,6 +4,7 @@ namespace frontend\modules\api\controllers;
 
 use common\models\Sale;
 use frontend\modules\api\helpers\AuthBehavior;
+use PHPUnit\Exception;
 use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 
@@ -13,7 +14,7 @@ class SaleController extends ActiveController
     public $user = null;
 
     public function behaviors(){
-        return array(parent::behaviors(), [
+        return array_merge(parent::behaviors(), [
             'authenticator' => [
                 'class' => AuthBehavior::class,
                 'except' => ['index', 'view'],
@@ -45,14 +46,33 @@ class SaleController extends ActiveController
 
     public function actionIndex(){
 
-        $activeData = new ActiveDataProvider([
-            'query' => Sale::find()->with('saleProducts'),
-        ]);
-        return ['sales' => $activeData->getModels(), 'total' => $activeData->getTotalCount(), "status" => "success"];
+        try{
+            $activeData = new ActiveDataProvider([
+                'query' => Sale::find()->with('saleProducts'),
+            ]);
+
+            $sales = $activeData->getModels();
+            $salesData = [];
+
+            foreach ($sales as $sale) {
+                $salesData[] = [
+                    'sale' => $sale,
+                    'sale_products' => $sale->saleProducts,
+                ];
+            }
+
+            return ['sales' => $salesData, 'total' => $activeData->getTotalCount(), "status" => "success"];
+        }catch (\Exception $e){
+            return[
+                'satus' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+
     }
 
     public function actionView($id){
-        $sale = Sale::findOne()->with('saleProducts')->where(['id' => $id])->one();
+        $sale = Sale::find()->with('saleProducts')->where(['id' => $id])->one();
         if ($sale) {
             return ['sale' => $sale, 'sale_products' => $sale->saleProducts, "status" => "success"];
         }
