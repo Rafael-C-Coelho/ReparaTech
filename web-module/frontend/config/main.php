@@ -112,6 +112,16 @@ return [
                         'GET {id}/description' => 'description',
                     ],
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/sale',
+                    'pluralize' => false,
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/sale-product',
+                    'pluralize' => true,
+                ],
             ],
         ],
     ],
