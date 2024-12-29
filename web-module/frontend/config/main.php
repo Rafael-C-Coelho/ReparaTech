@@ -117,6 +117,9 @@ return [
                   'controller' => 'api/favourite-product',
                   'pluralize' => true,
                   'extraPatterns' => [],
+
+                ],
+                [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/sale',
                     'pluralize' => true,

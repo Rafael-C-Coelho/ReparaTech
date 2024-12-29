@@ -69,8 +69,9 @@ class SaleController extends ActiveController
 
     public function actionCreate(){
         $postData = \Yii::$app->request->post();
+        $user = \Yii::$app->user->identity;
         $sale = new Sale();
-        $sale->client_id = $postData['client_id'];
+        $sale->client_id = $user->id;
         $sale->address = $postData['address'];
         $sale->zip_code = $postData['zip_code'];
 
@@ -106,7 +107,7 @@ class SaleController extends ActiveController
             }
 
             $invoice = new Invoice();
-            $invoice->client_id = $postData['client_id'];
+            $invoice->client_id = $user->id;
             $invoice->total = $total;
             $invoice->items = json_encode($totalItems);
 
