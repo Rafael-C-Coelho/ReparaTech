@@ -26,7 +26,7 @@ class JwtHelper
         return $config->builder()
             ->issuedBy('reparatech') // Issuer
             ->issuedAt($now)           // Token issued at time
-            ->expiresAt($now->modify('+1 minute')) // Expiry
+            ->expiresAt($now->modify('+1 hour')) // Expiry //TODO Alterar tempo do token
             ->withClaim('uid', $userId)
             ->withClaim('roles', $roles)
             ->getToken(self::$signer, InMemory::plainText(self::$key))
