@@ -85,4 +85,13 @@ class Sale extends \yii\db\ActiveRecord
     {
         return $this->hasMany(SaleProduct::class, ['sale_id' => 'id']);
     }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        $fields['sale_products'] = 'saleProducts';
+
+        return $fields;
+    }
 }

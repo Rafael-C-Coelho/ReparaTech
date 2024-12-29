@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
-                    'label' => 'Product Price',
+                    'label' => 'Product Quantity',
                     'value' => function ($model) {
                         return $model->quantity;
                     },

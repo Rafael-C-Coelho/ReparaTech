@@ -5,6 +5,7 @@ namespace frontend\modules\api\controllers;
 use common\models\Product;
 use frontend\modules\api\helpers\AuthBehavior;
 use yii\data\ActiveDataProvider;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 
 /**
@@ -19,7 +20,7 @@ class ProductController extends ActiveController
     {
         return array_merge(parent::behaviors(), [
             'authenticator' => [
-                'class' => AuthBehavior::class,
+                'class' => HttpBearerAuth::class,
                 'except' => ['index', 'view', 'latest-inserted'],
             ],
         ]);

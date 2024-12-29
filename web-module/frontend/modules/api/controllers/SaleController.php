@@ -2,10 +2,15 @@
 
 namespace frontend\modules\api\controllers;
 
+use common\models\Invoice;
+use common\models\Product;
 use common\models\Sale;
+use common\models\SaleProduct;
 use frontend\modules\api\helpers\AuthBehavior;
 use PHPUnit\Exception;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\VarDumper;
 use yii\rest\ActiveController;
 
 class SaleController extends ActiveController
@@ -13,11 +18,11 @@ class SaleController extends ActiveController
     public $modelClass = 'common\models\Sale';
     public $user = null;
 
-    public function behaviors(){
+    public function behaviors()
+    {
         return array_merge(parent::behaviors(), [
-            'authenticator' => [
+            $behaviors['sale'] = [
                 'class' => AuthBehavior::class,
-                'except' => ['index', 'view'],
             ],
         ]);
     }
@@ -38,7 +43,7 @@ class SaleController extends ActiveController
 
     public function checkAccess($action, $model = null, $params = []){
         if ($action === 'create' || $action === 'update' || $action === 'delete') {
-            if (\Yii::$app->user->identity->hasRole('client')) {
+            if (\Yii::$app->user->identity->hasRole('admin' || 'manager' || 'technician')) {
                 throw new \yii\web\ForbiddenHttpException('You can only view sales.');
             }
         }
@@ -50,32 +55,71 @@ class SaleController extends ActiveController
             'query' => Sale::find()->with('saleProducts'),
         ]);
 
-        $sales = $activeData->getModels();
-        $salesData = [];
 
-        foreach ($sales as $sale) {
-            $salesData[] = [
-                'sale' => $sale,
-                'sale_products' => $sale->saleProducts,
-            ];
-        }
-
-        return ['sales' => $salesData, 'total' => $activeData->getTotalCount(), "status" => "success"];
+        return ['sales' => $activeData, 'total' => $activeData->getTotalCount(), "status" => "success"];
     }
 
     public function actionView($id){
         $sale = Sale::find()->with('saleProducts')->where(['id' => $id])->one();
         if ($sale) {
-            return ['sale' => $sale, 'sale_products' => $sale->saleProducts, "status" => "success"];
+            return ['sale' => $sale, "status" => "success"];
         }
         return ['message' => 'Sale not found', "status" => "error"];
     }
 
     public function actionCreate(){
+        $postData = \Yii::$app->request->post();
         $sale = new Sale();
-        $sale->load(\Yii::$app->request->post(), '');
+        $sale->client_id = $postData['client_id'];
+        $sale->address = $postData['address'];
+        $sale->zip_code = $postData['zip_code'];
+
         if ($sale->save()) {
-            return ['sale' => $sale, "status" => "success"];
+            $total = 0;
+            $totalItems = [];
+
+            if(isset($postData['sale_products'])){
+                foreach ($postData['sale_products'] as $productData){
+                    $saleProduct = new SaleProduct();
+                    $product = Product::findOne($productData['product_id']);
+
+                    if($product === null){
+                        return ['message' => 'Product not found', 'status' => 'error'];
+                    }
+
+                    $saleProduct->sale_id = $sale->id;
+                    $saleProduct->product_id = $product->id;
+                    $saleProduct->quantity = $productData['quantity'];
+                    $saleProduct->total_price = $product->price;
+
+                    $totalItems[] = [
+                        'name' => $product->name,
+                        'quantity' => $productData['quantity'],
+                        'total_price' => $product->price,
+                    ];
+                    if(!$saleProduct->save()){
+                        return ['message' => 'SaleProduct not created', 'errors' => $product->errors, "status" => "error"];
+                    }
+
+                    $total += $product->price * $productData['quantity'];
+                }
+            }
+
+            $invoice = new Invoice();
+            $invoice->client_id = $postData['client_id'];
+            $invoice->total = $total;
+            $invoice->items = json_encode($totalItems);
+
+            if($invoice->save()) {
+                $sale->invoice_id = $invoice->id;
+                if (!$sale->save()) {
+                    return ['message' => 'Sale not created', 'errors' => $sale->errors, "status" => "error"];
+                }
+                return ['sale' => $sale, 'invoice_id' => $invoice->id, "status" => "success"];
+            }
+        }
+        if (!$sale->save()) {
+            return ['errors' => $sale->errors, 'status' => 'error', 'message' => 'Sale not created'];
         }
         return ['message' => 'Sale not created', "status" => "error"];
     }

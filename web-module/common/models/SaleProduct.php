@@ -74,4 +74,9 @@ class SaleProduct extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Sale::class, ['id' => 'sale_id']);
     }
+
+    public function getSaleProducts()
+    {
+        return $this->hasMany(SaleProduct::className(), ['sale_id' => 'id']);
+    }
 }
