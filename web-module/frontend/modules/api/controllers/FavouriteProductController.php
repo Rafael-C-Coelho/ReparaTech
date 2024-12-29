@@ -7,6 +7,7 @@ use FontLib\Table\Type\post;
 use frontend\modules\api\helpers\AuthBehavior;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 
 class FavouriteProductController extends ActiveController
@@ -17,17 +18,13 @@ class FavouriteProductController extends ActiveController
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
+            /*$behaviors ['favorite-product'] = [
+                'class' => AuthBehavior::class,
+            ],
+            */
             'authenticator' => [
-                'class' => \yii\filters\auth\HttpBasicAuth::class,
-                'auth' => function ($username, $password) {
-                    $user = \common\models\User::findOne(['username' => $username]);
-                    if ($user && $user->validatePassword($password)) {
-                        return $user;
-                    }
-                    return null;
-                },
-                'except' => ['index', 'view'] // ações sem autenticação
-
+                'class' => AuthBehavior::class,
+                'except' => [],
             ]
         ]);
     }
@@ -55,7 +52,7 @@ class FavouriteProductController extends ActiveController
 
     public function checkAccess($action, $model = null, $params = [])
     {
-        if(\Yii::$app->user->identity->hasRole('admin' || 'manager' || 'technician')) {
+        if(\Yii::$app->user->identity->hasRole('admin') || \Yii::$app->user->identity->hasRole('manager') || \Yii::$app->user->identity->hasRole('manager') || \Yii::$app->user->identity->hasRole('technician'))  {
             throw new \yii\web\ForbiddenHttpException('You can only view favourite products');
         }
     }

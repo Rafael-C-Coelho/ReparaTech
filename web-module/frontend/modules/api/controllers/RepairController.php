@@ -17,13 +17,8 @@ class RepairController extends ActiveController
         return array_merge(parent::behaviors(), [
             'authenticator' => [
                 'class' => AuthBehavior::class,
-                'except' => ['index',
-                            'view',
-                            'count',
-                            'device',
-                            'hours-spent-working',
-                            'description'],
-            ]
+                'except' => [],
+            ],
         ]);
     }
 

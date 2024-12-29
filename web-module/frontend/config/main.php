@@ -116,6 +116,7 @@ return [
                   'class' => 'yii\rest\UrlRule',
                   'controller' => 'api/favourite-product',
                   'pluralize' => true,
+
                   'extraPatterns' => [],
 
                 ],
@@ -128,6 +129,14 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/sale-product',
                     'pluralize' => true,
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/comment',
+                    'pluralize' => true,
+                    'extraPatterns' => [
+                        'GET {id}/description' => 'description',
+                    ]
                 ],
             ],
         ],

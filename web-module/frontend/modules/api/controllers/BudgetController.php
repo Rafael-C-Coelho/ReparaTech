@@ -18,7 +18,7 @@ class BudgetController extends ActiveController
         return array_merge(parent::behaviors(), [
             'authenticator' => [
                 'class' => AuthBehavior::class,
-                'except' => ['index', 'view', 'value', 'count', 'status', 'description'],
+                'except' => [],
             ]
         ]);
     }
@@ -80,7 +80,7 @@ class BudgetController extends ActiveController
     {
         $budgetModel = new $this->modelClass;
         $budgets = $budgetModel::find()->all();
-        return count($budgets);
+        return ['count' => count($budgets)];
     }
 
     public function actionValue($id){

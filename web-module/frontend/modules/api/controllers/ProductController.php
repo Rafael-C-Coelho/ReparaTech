@@ -20,7 +20,7 @@ class ProductController extends ActiveController
     {
         return array_merge(parent::behaviors(), [
             'authenticator' => [
-                'class' => HttpBearerAuth::class,
+                'class' => AuthBehavior::class,
                 'except' => ['index', 'view', 'latest-inserted'],
             ],
         ]);

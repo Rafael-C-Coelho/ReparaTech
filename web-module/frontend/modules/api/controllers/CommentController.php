@@ -16,9 +16,8 @@ class CommentController extends ActiveController
     {
         return array_merge(parent::behaviors(), [
             'authenticator' => [
-                'class' => AuthBehavior::class,
-                'except' => ['index',
-                            'view'],
+                    'class' => AuthBehavior::class,
+                    'except' => [],
             ]
         ]);
     }
@@ -33,14 +32,12 @@ class CommentController extends ActiveController
     }
 
     protected function verbs(){
-        return array_merge(parent::verbs(), [
-
-        ]);
+        return array_merge(parent::verbs(), []);
     }
 
     public function checkAccess($action, $model = null, $params = [])
     {
-        if(\Yii::$app->user->identity->hasRole('admin' || 'manager' || 'technician' )){
+        if(\Yii::$app->user->identity->hasRole('admin' || 'manager')){
 
             throw new \yii\web\ForbiddenHttpException("You can only view comments.");
         }
@@ -67,5 +64,10 @@ class CommentController extends ActiveController
         } else {
             return ['message' => "Comment not found", "status" => "error"];
         }
+    }
+    public function actionDescription($id){
+        $commentModel = new $this->modelClass();
+        $comments = $commentModel->find()->select(['description'])->where(['id'=>$id])->one();
+        return $comments;
     }
 }
