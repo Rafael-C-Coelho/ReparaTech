@@ -78,7 +78,7 @@ class ProductController extends ActiveController
 
     public function actionLatest()
     {
-        $products = Product::find()->orderBy(['id' => SORT_DESC])->limit(4);
+        $products = Product::find()->orderBy(['id' => SORT_DESC])->limit(4)->all();
         if ($products) {
             return ['products' => $products, "status" => "success"];
         }
