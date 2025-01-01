@@ -16,11 +16,17 @@ class m241107_015815_create_sales_table extends Migration
      */
     public function safeUp()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            // https://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
         $this->createTable('{{%sales}}', [
             'id' => $this->primaryKey(),
             'client_id' => $this->integer()->notNull(),
             'invoice_id' => $this->integer(),
             'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'status' => "ENUM('Processing', 'Sent') DEFAULT 'Processing'",
             'address' => $this->string()->notNull(),
             'zip_code' => $this->string()->notNull(),
         ]);
