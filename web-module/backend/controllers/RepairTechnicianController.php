@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\User;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
