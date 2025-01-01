@@ -44,6 +44,7 @@ class Budget extends \yii\db\ActiveRecord
             [['value', 'date', 'time', 'description', 'repair_id', 'repairman_id', 'status', 'hours_estimated_working'], 'required'],
             [['value', 'repair_id', 'repairman_id', 'hours_estimated_working'], 'number'],
             [['status', 'description'], 'string'],
+            [['value', 'hours_estimated_working'], 'safe'],
             [['date', 'time'], 'safe'],
         ];
     }

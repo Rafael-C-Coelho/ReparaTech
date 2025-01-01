@@ -52,12 +52,12 @@ $this->title = 'Liquid Damage';
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/iphoneWater"  class="d-block custom-img" alt="iphoneWater" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/iphoneWater.jpg"  class="d-block custom-img" alt="iphoneWater" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/waterDevices" class="d-block custom-img" alt="waterDevices" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/waterDevices.jpg" class="d-block custom-img" alt="waterDevices" width="800" height="400">
             </div>
         </div>
     </div>

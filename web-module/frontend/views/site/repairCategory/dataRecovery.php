@@ -52,17 +52,17 @@ $this->title = 'Data Recovery';
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/dataRecoveryProcess" class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/dataRecoveryProcess.jpg" class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/data" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/data.jpg" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/backup" class="d-block custom-img" alt="softwareVirus" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/backup.jpg" class="d-block custom-img" alt="softwareVirus" width="800" height="400">
             </div>
         </div>
     </div>

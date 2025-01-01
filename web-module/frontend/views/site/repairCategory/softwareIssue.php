@@ -51,17 +51,17 @@ $this->title = 'SOFTWARE ISSUE';
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/laptopSoftwareIssue"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/laptopSoftwareIssue.jpg"  class="d-block custom-img" alt="laptopSoftwareIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/greenScreen" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/greenScreen.jpg" class="d-block custom-img" alt="mobileSoftwareIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/softwareAlert" class="d-block custom-img" alt="softwareVirus" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/softwareAlert.jpg" class="d-block custom-img" alt="softwareVirus" width="800" height="400">
             </div>
         </div>
     </div>
