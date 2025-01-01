@@ -86,8 +86,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $recent_added_products = Product::find()->orderBy('created_at DESC')->limit(4)->all();
-        $most_bought_products = Product::find()->limit(4)->all();
+        $recent_added_products = Product::find()->orderBy('id DESC')->limit(4)->all();
+        $most_bought_products_on_saleproducts = SaleProduct::find()
+            ->select('product_id, SUM(quantity) as total_quantity')
+            ->groupBy('product_id')
+            ->orderBy('total_quantity DESC')
+            ->limit(4)
+            ->all();
+
+        $most_bought_products = [];
+        foreach ($most_bought_products_on_saleproducts as $most_bought_product) {
+            $product = Product::findOne($most_bought_product->product_id);
+            if ($product) {
+                $most_bought_products[] = $product;
+            }
+        }
         return $this->render('index', [
             'recent_added_products' => $recent_added_products,
             'most_bought_products' => $most_bought_products,
@@ -158,7 +171,7 @@ class SiteController extends Controller
                 $saleProduct->sale_id = $sale->id;
                 $saleProduct->product_id = $product->id;
                 $saleProduct->quantity = $details['quantity'];
-                $saleProduct->total_price = $product->price;
+                $saleProduct->total_price = $product->price * $details['quantity'];
                 $product->stock = $product->stock - $details['quantity'];
                 $items[] = [
                     'name' => $product->name,
@@ -255,7 +268,10 @@ class SiteController extends Controller
         }
 
         if ($model->hasErrors()) {
-            Yii::$app->session->setFlash('error', 'Signup failed: ' . json_encode($model->errors));
+            Yii::$app->session->setFlash('error', 'Signup failed');
+            foreach ($model->errors as $error) {
+                Yii::$app->session->setFlash('error', $error);
+            }
         }
 
         return $this->render('signup', [
