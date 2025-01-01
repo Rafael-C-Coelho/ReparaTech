@@ -74,9 +74,6 @@ class User extends ActiveRecord implements IdentityInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -85,6 +82,22 @@ class User extends ActiveRecord implements IdentityInterface
             [['value'], 'required', 'on' => self::SCENARIO_REPAIR_TECHNICIAN],
             [['username', 'email', 'name', 'nif', 'address', 'contact'], 'string', 'max' => 255],
             [['email'], 'email'],
+            [['username'], 'unique', 'message' => 'This username is already taken.'],
+            [['email'], 'unique', 'message' => 'This email is already registered.'],
+            [['username'], 'match', 'pattern' => '/^[a-zA-Z0-9_\-]{4,20}$/', 'message' => 'Username can only contain alphanumeric characters, underscores, or dashes, and must be between 4 and 20 characters.'],
+            [['name'], 'match', 'pattern' => '/^[a-zA-ZÀ-ÿ\s\-]{1,100}$/u', 'message' => 'Name can only contain letters, spaces, and hyphens.'],
+            [['password'], 'match', 'pattern' => '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/',
+                'message' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'],
+            [['nif'], 'match', 'pattern' => '/^\d{9}$/', 'message' => 'NIF must be a 9-digit number.'],
+            [['address'], 'string', 'min' => 5, 'message' => 'Address must be at least 5 characters long.'],
+            [['contact'], 'match', 'pattern' => '/^\d{9,15}$/', 'message' => 'Contact number must be between 9 and 15 digits.'],
+            [['status'], 'in', 'range' => [self::STATUS_DELETED, self::STATUS_AWAITING_ACTIVATION, self::STATUS_INACTIVE, self::STATUS_ACTIVE],
+                'message' => 'Invalid status value.'],
+            [['value'], function ($attribute, $params, $validator) {
+                if ($this->scenario === self::SCENARIO_REPAIR_TECHNICIAN && !is_numeric($this->$attribute)) {
+                    $this->addError($attribute, 'Value must be a number for repair technicians.');
+                }
+            }],
         ];
     }
 
