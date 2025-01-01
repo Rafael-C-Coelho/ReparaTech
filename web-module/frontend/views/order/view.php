@@ -17,14 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
-                'id',
-                'client_id',
-                [
-                    'label' => 'Client Name',
-                    'value' => function ($model) {
-                        return $model->client->name;
-                    },
-                ],
+                'status',
                 [
                     'label' => 'Total Order', //serve para ir buscar o preço total às faturas
                     'value' => function ($model) {
