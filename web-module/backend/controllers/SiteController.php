@@ -2,7 +2,12 @@
 
 namespace backend\controllers;
 
+use common\models\Invoice;
 use common\models\LoginForm;
+use common\models\Product;
+use common\models\ProductCategory;
+use common\models\Repair;
+use common\models\Sale;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -70,7 +75,25 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if (Yii::$app->user->identity->hasRole('repairTechnician')) {
+            $totalRevenue = 0;
+            foreach (Repair::find()->where(['repairman_id' => Yii::$app->user->id])->all() as $repair) {
+                $totalRevenue += $repair->invoice->total;
+            }
+            return $this->render('index-repairman', [
+                'totalRepairs' => Repair::find()->where(['repairman_id' => Yii::$app->user->id])->count(),
+                'totalRevenue' => $totalRevenue,
+            ]);
+        }
+        return $this->render('index', [
+            'revenue' => Invoice::find()->sum('total'),
+            'totalSales' => Sale::find()->count(),
+            'totalRepairs' => Repair::find()->count(),
+            'totalClients' => Invoice::find()->select('client_id')->distinct()->count(),
+            'totalProducts' => Product::find()->count(),
+            'totalRevenueWeek' => Invoice::find()->where(['>=', 'date', date('Y-m-d', strtotime('-1 week'))])->sum('total'),
+            'totalRevenueMonth' => Invoice::find()->where(['>=', 'date', date('Y-m-d', strtotime('-1 month'))])->sum('total'),
+        ]);
     }
 
     /**

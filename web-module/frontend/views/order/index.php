@@ -19,14 +19,8 @@ $this->title = 'Orders';
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
                     'client_id',
-                    [
-                        'label' => 'Client Name',
-                        'value' => function ($model) {
-                            return $model->client->name;
-                        },
-                    ],
+                    'status',
                     [
                         'label' => 'Total Order', //serve para ir buscar o preço total às faturas
                         'value' => function ($model) {
@@ -37,7 +31,11 @@ $this->title = 'Orders';
                     [
                         'label' => 'Product Quantity',
                         'value' => function ($model){
-                            return count($model->saleProducts);
+                            $quantity = 0;
+                            foreach ($model->saleProducts as $saleProduct){
+                                $quantity += $saleProduct->quantity;
+                            }
+                            return $quantity;
                         } 
                     ],
                     ['class' => 'yii\grid\ActionColumn', 'template' => '{view}',
