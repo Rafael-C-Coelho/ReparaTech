@@ -23,203 +23,6 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <h5 class="mb-2">Info Box</h5>
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Messages</span>
-                                    <span class="info-box-number">1,410</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Bookmarks</span>
-                                    <span class="info-box-number">410</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Uploads</span>
-                                    <span class="info-box-number">13,648</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Likes</span>
-                                    <span class="info-box-number">93,139</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-
-                  <!--
-
-                    <h5 class="mb-2">Info Box With Custom Shadows <small><i>Using Bootstrap's Shadow Utility</i></small></h5>
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box shadow-none">
-                                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Shadows</span>
-                                    <span class="info-box-number">None</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box shadow-sm">
-                                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Shadows</span>
-                                    <span class="info-box-number">Small</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box shadow">
-                                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Shadows</span>
-                                    <span class="info-box-number">Regular</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box shadow-lg">
-                                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Shadows</span>
-                                    <span class="info-box-number">Large</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    -->
-
-                    <!-- =========================================================== -->
-                    <h5 class="mt-4 mb-2">Info Box With <code>bg-*</code></h5>
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box bg-info">
-                                <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Bookmarks</span>
-                                    <span class="info-box-number">41,410</span>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: 70%"></div>
-                                    </div>
-                                    <span class="progress-description">
-                      70% Increase in 30 Days
-                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box bg-success">
-                                <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Likes</span>
-                                    <span class="info-box-number">41,410</span>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: 70%"></div>
-                                    </div>
-                                    <span class="progress-description">
-                      70% Increase in 30 Days
-                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box bg-warning">
-                                <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Events</span>
-                                    <span class="info-box-number">41,410</span>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: 70%"></div>
-                                    </div>
-                                    <span class="progress-description">
-                      70% Increase in 30 Days
-                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box bg-danger">
-                                <span class="info-box-icon"><i class="fas fa-comments"></i></span>
-
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Comments</span>
-                                    <span class="info-box-number">41,410</span>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width: 70%"></div>
-                                    </div>
-                                    <span class="progress-description">
-                      70% Increase in 30 Days
-                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-
                     <!-- Small Box (Stat card) -->
                     <h5 class="mb-2 mt-4"><strong>Statistics</strong></h5>
                     <div class="row">
@@ -227,16 +30,12 @@
                             <!-- small card -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>150</h3>
-
-                                    <p>New Orders</p>
+                                    <h3><?= Yii::$app->formatter->asCurrency($revenue ?? 0, "EUR") ?></h3>
+                                    <p>Total Revenue</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-shopping-cart"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -244,16 +43,13 @@
                             <!-- small card -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+                                    <h3><?= $totalClients ?? 0 ?></h3>
 
-                                    <p>Bounce Rate</p>
+                                    <p>Total Clients</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-stats-bars"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -261,16 +57,13 @@
                             <!-- small card -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>44</h3>
+                                    <h3><?= Yii::$app->formatter->asCurrency($totalRevenueWeek ?? 0, 'EUR') ?></h3>
 
-                                    <p>User Registrations</p>
+                                    <p>Total Revenue Week</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="fas fa-user-plus"></i>
+                                    <i class="fas fa-shopping-cart"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -278,16 +71,55 @@
                             <!-- small card -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3>65</h3>
+                                    <h3><?= Yii::$app->formatter->asCurrency($totalRevenueMonth ?? 0, "EUR") ?></h3>
 
-                                    <p>Unique Visitors</p>
+                                    <p>Total Revenue Month</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-chart-pie"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">
-                                    More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-12">
+                            <!-- small card -->
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h3><?= $totalProducts ?? 0 ?></h3>
+                                    <p>Total Products</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-4 col-12">
+                            <!-- small card -->
+                            <div class="small-box bg-danger">
+                                <div class="inner">
+                                    <h3><?= $totalRepairs ?? 0 ?></h3>
+
+                                    <p>Total Repairs</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-4 col-12">
+                            <!-- small card -->
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3><?= $totalSales ?? 0 ?></h3>
+
+                                    <p>Total Sales</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
