@@ -110,6 +110,7 @@ return [
                         'GET count' => 'count',
                         'GET {id}/status' => 'status',
                         'GET {id}/description' => 'description',
+                        'POST requestBudget' => 'requestBudget',
                     ],
                 ],
                 [

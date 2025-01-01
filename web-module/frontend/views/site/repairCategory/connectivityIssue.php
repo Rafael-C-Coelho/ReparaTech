@@ -50,12 +50,12 @@ $this->title = 'Connectivity Issue';
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/connectivityIssue"  class="d-block custom-img" alt="connectivityIssue" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/connectivityIssue.jpg"  class="d-block custom-img" alt="connectivityIssue" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/headphonesPC" class="d-block custom-img" alt="headphonesPc" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/headphonesPC.jpg" class="d-block custom-img" alt="headphonesPc" width="800" height="400">
             </div>
         </div>
     </div>

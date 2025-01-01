@@ -52,17 +52,17 @@ $this->title = 'Broken Screen';
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/samsungScreen"  class="d-block custom-img" alt="samsungScreen" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/samsungScreen.jpg"  class="d-block custom-img" alt="samsungScreen" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/iWatchBroken" class="d-block custom-img" alt="iWatchBroken" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/iWatchBroken.jpg" class="d-block custom-img" alt="iWatchBroken" width="800" height="400">
             </div>
         </div>
         <div class="carousel-item">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="<?= Yii::getAlias('@web') ?>/img/pcBroken" class="d-block custom-img" alt="pcBroken" width="800" height="400">
+                <img src="<?= Yii::getAlias('@web') ?>/img/pcBroken.jpg" class="d-block custom-img" alt="pcBroken" width="800" height="400">
             </div>
         </div>
     </div>
