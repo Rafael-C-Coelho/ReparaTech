@@ -40,8 +40,9 @@ class Sale extends \yii\db\ActiveRecord
     {
         return [
             [['client_id'], 'required'],
-            [['client_id', 'invoice_id', 'zip_code'], 'integer'],
+            [['client_id', 'invoice_id'], 'integer'],
             [['address'], 'string', 'max' => 255],
+            [['zip_code'], 'string', 'max' => 8],
             [['status'], 'in', 'range' => [self::STATUS_PROCESSING, self::STATUS_SENT], 'message' => 'Invalid status value.'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['client_id' => 'id']],
             [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::class, 'targetAttribute' => ['invoice_id' => 'id']],

@@ -125,4 +125,25 @@ class SaleController extends ActiveController
         return ['message' => 'Sale not created', "status" => "error"];
     }
 
+    public function actionZipCode($id){
+        $zipCode = Sale::find()->select(['zip_code'])->where(['id' => $id])->scalar();
+
+        if($zipCode !== null){
+            return ['zip_code' => $zipCode, "status" => "success"];
+        }
+        return ['message' => 'Zip code not found', "status" => "error"];
+    }
+
+    public function actionProducts($id){
+        $saleProducts = SaleProduct::find()->where(['sale_id' => $id])->with(['product'])->all();
+        $products = array_map(function($saleProduct){
+            return [
+                'product_id' => $saleProduct->product_id,
+                'quantity' => $saleProduct->quantity,
+                'total_price' => $saleProduct->total_price,
+                'product' => $saleProduct->product,
+            ];
+        }, $saleProducts);
+        return ['sale_products' => $products, "status" => "success"];
+    }
 }
