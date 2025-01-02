@@ -33,12 +33,50 @@ class SaleProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            // Required fields
             [['sale_id', 'product_id', 'quantity', 'total_price'], 'required'],
+
+            // Data type validation
             [['sale_id', 'product_id', 'quantity'], 'integer'],
             [['total_price'], 'number'],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
-            [['sale_id'], 'exist', 'skipOnError' => true, 'targetClass' => Sale::class, 'targetAttribute' => ['sale_id' => 'id']],
+
+            // Foreign key constraints
+            [['product_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Product::class,
+                'targetAttribute' => ['product_id' => 'id']
+            ],
+            [['sale_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => Sale::class,
+                'targetAttribute' => ['sale_id' => 'id']
+            ],
+
+            // Custom validations
+            ['quantity', 'integer', 'min' => 1, 'message' => 'Quantity must be at least 1'],
+            ['total_price', 'number', 'min' => 0, 'message' => 'Total price cannot be negative'],
+            ['product_id', 'validateProductStock'],
+            ['total_price', 'validateTotalPrice'],
         ];
+    }
+
+    public function validateProductStock($attribute, $params)
+    {
+        $product = Product::findOne($this->product_id);
+        if ($product && $this->quantity > $product->stock) {
+            $this->addError($attribute, 'Insufficient stock available');
+        }
+    }
+
+    public function validateTotalPrice($attribute, $params)
+    {
+        $product = Product::findOne($this->product_id);
+        if ($product) {
+            $expectedTotal = $this->quantity * $product->price;
+            if (abs($this->total_price - $expectedTotal) > 0.01) {
+                $this->addError($attribute, 'Total price does not match quantity * product price');
+            }
+        }
     }
 
     /**

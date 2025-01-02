@@ -32,22 +32,22 @@ class ProductCategoryController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'roles' => ['listBudgets'],
+                            'roles' => ['listProductCategories'],
                             'actions' => ['index', 'view'],
                         ],
                         [
                             'allow' => true,
-                            'roles' => ['createBudgets'],
+                            'roles' => ['createProductCategories'],
                             'actions' => ['create'],
                         ],
                         [
                             'allow' => true,
-                            'roles' => ['updateBudgets'],
+                            'roles' => ['updateProductCategories'],
                             'actions' => ['update'],
                         ],
                         [
                             'allow' => true,
-                            'roles' => ['deleteBudgets'],
+                            'roles' => ['deleteProductCategories'],
                             'actions' => ['delete'],
                         ],
                     ],

@@ -13,16 +13,9 @@ $this->title = 'Invoices';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="invoice-index">
-    <p>
-        <?= Html::a('Create Invoice', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'date',
             'time',

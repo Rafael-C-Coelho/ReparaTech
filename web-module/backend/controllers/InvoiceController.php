@@ -126,7 +126,6 @@ class InvoiceController extends Controller
         return $this->render('create', [
             'model' => $model,
             'clients' => User::getClients(),
-            'repairs' => Repair::find()->all(),
         ]);
     }
 
@@ -148,7 +147,6 @@ class InvoiceController extends Controller
         return $this->render('update', [
             'model' => $model,
             'clients' => User::getClients(),
-            'repairs' => Repair::getRepairs(),
         ]);
     }
 

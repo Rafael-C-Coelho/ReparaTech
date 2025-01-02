@@ -31,38 +31,43 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h3 class="font-weight-semi-bold mb-4"><?= number_format($model->price, 2) ?> €</h3>
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="d-flex">
-                        <form method="post" class="d-flex"
-                              action="<?= \yii\helpers\Url::to(['product/manage-cart']) ?>">
-                            <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>"
-                                   value="<?= Yii::$app->request->csrfToken; ?>"/>
-                            <div class="input-group quantity mr-3" style="width: 130px;">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-minus" onclick="updateQuantity(-1)">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
+                        <?php if ($model->stock <= 0) { ?>
+                            <i class="fa fa-minus text-danger mr-2"></i>
+                            <span class="text-danger">Out of stock</span>
+                        <?php } else { ?>
+                            <form method="post" class="d-flex"
+                                  action="<?= \yii\helpers\Url::to(['product/manage-cart']) ?>">
+                                <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>"
+                                       value="<?= Yii::$app->request->csrfToken; ?>"/>
+                                <div class="input-group quantity mr-3" style="width: 130px;">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-minus" onclick="updateQuantity(-1)">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input name="quantity" type="text"
+                                           class="form-control bg-secondary border-0 text-center" value="1" max="<?= $model->stock ?>" min="0" id="quantity-input">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary btn-plus" onclick="updateQuantity(1)">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <input name="quantity" type="text"
-                                       class="form-control bg-secondary border-0 text-center" value="1" max="<?= $model->stock ?>" min="0" id="quantity-input">
-                                <div class="input-group-btn">
-                                    <button type="button" class="btn btn-primary btn-plus" onclick="updateQuantity(1)">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary px-3 mr-3" type="submit"><i
-                                        class="fa fa-shopping-cart mr-1"></i> Add To
-                                Cart
-                            </button>
-                            <input type="hidden" name="productId" value="<?= $model->id ?>">
-                        </form>
-                        <form method="post" action="<?= \yii\helpers\Url::to(['product/toggle-favorites']) ?>">
-                            <input type="hidden" name="returnUrl" value="<?= Yii::$app->request->url ?>" />
-                            <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>"
-                                   value="<?= Yii::$app->request->csrfToken; ?>"/>
-                            <input type="hidden" name="productId" value="<?= $model->id ?>">
-                            <button class="btn btn-primary px-3"><i
-                                        class="fa fa-heart<?= $isFavorite ? '-broken' : '' ?>"></i></button>
-                        </form>
+                                <button class="btn btn-primary px-3 mr-3" type="submit"><i
+                                            class="fa fa-shopping-cart mr-1"></i> Add To
+                                    Cart
+                                </button>
+                                <input type="hidden" name="productId" value="<?= $model->id ?>">
+                            </form>
+                            <form method="post" action="<?= \yii\helpers\Url::to(['product/toggle-favorites']) ?>">
+                                <input type="hidden" name="returnUrl" value="<?= Yii::$app->request->url ?>" />
+                                <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>"
+                                       value="<?= Yii::$app->request->csrfToken; ?>"/>
+                                <input type="hidden" name="productId" value="<?= $model->id ?>">
+                                <button class="btn btn-primary px-3"><i
+                                            class="fa fa-heart<?= $isFavorite ? '-broken' : '' ?>"></i></button>
+                            </form>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

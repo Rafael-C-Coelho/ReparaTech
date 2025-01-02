@@ -17,6 +17,8 @@ class SeedController extends Controller
         echo "Categories seeded successfully!\n";
         $this->seedProducts();
         echo "Products seeded successfully!\n";
+        $this->seedProducts();
+        echo "Products seeded successfully!\n";
         echo "Seeding completed successfully!\n";
     }
 

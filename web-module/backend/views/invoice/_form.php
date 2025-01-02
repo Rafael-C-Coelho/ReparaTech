@@ -8,7 +8,6 @@ use yii\widgets\ActiveForm;
 /** @var common\models\Invoice $model */
 /** @var yii\widgets\ActiveForm $form */
 /** @var common\models\User[] $clients */
-/** @var common\models\Repair[] $repairs */
 ?>
 
 <div class="invoice-form">

@@ -14,7 +14,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'client_id')->textInput() ?>
 
-    <?= $form->field($model, 'invoice_id')->textInput() ?>
+    <?= $form->field($model, 'address')->textInput() ?>
+
+    <?= $form->field($model, 'zip_code')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

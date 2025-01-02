@@ -63,13 +63,18 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->status = User::STATUS_AWAITING_ACTIVATION;
         $user->save();
-        $auth = Yii::$app->authManager;
-        $clientRole = $auth->getRole('client');
-        $auth->assign($clientRole, $user->id);
-
-        $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
-
+        if (!$user->save()) {
+            \Yii::$app->session->setFlash('error', 'Error saving user');
+            foreach ($user->errors as $error) {
+                \Yii::$app->session->setFlash('error', $error[0]);
+            }
+        } else {
+            $auth = Yii::$app->authManager;
+            $clientRole = $auth->getRole('client');
+            $auth->assign($clientRole, $user->id);
+            $user->generateEmailVerificationToken();
+            return $user->save() && $this->sendEmail($user);
+        }
     }
 
     /**
@@ -77,7 +82,8 @@ class SignupForm extends Model
      * @param User $user user model to with email should be send
      * @return bool whether the email was sent
      */
-    protected function sendEmail($user)
+    protected
+    function sendEmail($user)
     {
         return Yii::$app
             ->mailer

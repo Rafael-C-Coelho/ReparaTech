@@ -13,17 +13,13 @@ $this->title = 'Sales';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sale-index">
-    <p>
-        <?= Html::a('Create Sale', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
+            'address',
+            'zip_code',
+            'status',
             'client_id',
             'invoice_id',
             [
@@ -34,6 +30,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
-
 </div>

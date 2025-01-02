@@ -48,7 +48,6 @@ class Invoice extends \yii\db\ActiveRecord
             'id' => 'ID',
             'date' => 'Date',
             'time' => 'Time',
-            'repair_id' => 'Repair ID',
             'client_id' => 'Client ID',
             'total' => 'Total',
         ];

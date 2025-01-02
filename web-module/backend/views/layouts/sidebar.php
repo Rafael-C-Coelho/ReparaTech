@@ -83,6 +83,11 @@
                         'icon' => 'screwdriver',
                         'url' => ['repair/index'],
                     ] : [],
+                    Yii::$app->user->can("listSales") ? [
+                        'label' => 'Sales',
+                        'icon' => 'box',
+                        'url' => ['sale/index'],
+                    ] : [],
                     /*
                     Yii::$app->user->can("listRepairParts") ? [
                         'label' => 'Repair Parts',

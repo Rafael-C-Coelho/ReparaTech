@@ -109,7 +109,7 @@ class Repair extends \yii\db\ActiveRecord
      */
     public function getInvoice()
     {
-        return $this->hasOne(Invoice::class, ['id' => 'repair_id']);
+        return $this->hasOne(Invoice::class, ['invoice_id' => 'id']);
     }
 
     /**
@@ -159,7 +159,6 @@ class Repair extends \yii\db\ActiveRecord
             $path = \Yii::getAlias('@app/web/uploads/invoices');
             FileHelper::createDirectory($path);
 
-
             // Save file path to the model
             $invoice = new Invoice();
             $invoice->client_id = $this->client_id;
@@ -202,72 +201,72 @@ class Repair extends \yii\db\ActiveRecord
     {
         $user = User::find()->where(['id' => $this->client_id])->one();
         $comment = new Comment();
-        $comment->repair_id = $this->id;
-        if ($this->progress === Repair::STATUS_CREATED) {
-            $comment->description = "Your repair has been created";
+        $comment->service_id = $this->id;
+        if ($this->status === Service::STATUS_CREATED) {
+            $comment->description = "Your service request has been created";
             $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(
-                    ['html' => 'createdRepair-html', 'text' => 'createdRepair-text'],
+                    ['html' => 'createdService-html', 'text' => 'createdService-text'],
                     ['user' => $user]
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair has been created at ' . \Yii::$app->name)
+                ->setSubject('Your service request has been created at ' . \Yii::$app->name)
                 ->send();
-        } else if ($this->progress === Repair::STATUS_PENDING_ACCEPTANCE) {
-            $comment->description = "Your repair is pending acceptance";
+        } else if ($this->status === Service::STATUS_PENDING_ACCEPTANCE) {
+            $comment->description = "Your service request is pending acceptance";
             $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(
-                    ['html' => 'pendingRepair-html', 'text' => 'pendingRepair-text'],
+                    ['html' => 'pendingService-html', 'text' => 'pendingService-text'],
                     ['user' => $user]
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
-                ->setTo($this->repairman->email)
-                ->setSubject('You have a repair to accept/deny at ' . \Yii::$app->name)
+                ->setTo($this->provider->email)
+                ->setSubject('You have a service request to accept/deny at ' . \Yii::$app->name)
                 ->send();
-        } else if ($this->progress === Repair::STATUS_DENIED) {
-            $comment->description = "Your repair has been denied";
+        } else if ($this->status === Service::STATUS_DENIED) {
+            $comment->description = "Your service request has been denied";
             $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(
-                    ['html' => 'deniedRepair-html', 'text' => 'deniedRepair-text'],
-                    ['user' => $user]
-                )
-                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
-                ->setTo($this->client->email)
-                ->setSubject('Your repair has been denied at ' . \Yii::$app->name)
-                ->send();
-        } else if ($this->progress === Repair::STATUS_IN_PROGRESS) {
-            $comment->description = "Your repair is in progress";
-            $comment->save(false);
-            \Yii::$app
-                ->mailer
-                ->compose(
-                    ['html' => 'inProgressRepair-html', 'text' => 'inProgressRepair-text'],
+                    ['html' => 'deniedService-html', 'text' => 'deniedService-text'],
                     ['user' => $user]
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair is in progress at ' . \Yii::$app->name)
+                ->setSubject('Your service request has been denied at ' . \Yii::$app->name)
                 ->send();
-        } else if ($this->progress === Repair::STATUS_COMPLETED) {
-            $comment->description = "Your repair has been completed";
+        } else if ($this->status === Service::STATUS_IN_PROGRESS) {
+            $comment->description = "Your service request is in progress";
             $comment->save(false);
             \Yii::$app
                 ->mailer
                 ->compose(
-                    ['html' => 'completedRepair-html', 'text' => 'completedRepair-text'],
+                    ['html' => 'inProgressService-html', 'text' => 'inProgressService-text'],
+                    ['user' => $user]
+                )
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setTo($this->client->email)
+                ->setSubject('Your service request is in progress at ' . \Yii::$app->name)
+                ->send();
+        } else if ($this->status === Service::STATUS_COMPLETED) {
+            $comment->description = "Your service request has been completed";
+            $comment->save(false);
+            \Yii::$app
+                ->mailer
+                ->compose(
+                    ['html' => 'completedService-html', 'text' => 'completedService-text'],
                     ['user' => $user]
                 )
                 ->attach(\Yii::getAlias('@app/web') . Invoice::find()->where(['id' => $this->invoice_id])->one()->pdf_file, ['fileName' => 'invoice.pdf', 'contentType' => 'application/pdf'])
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair has been completed at ' . \Yii::$app->name)
+                ->setSubject('Your service request has been completed at ' . \Yii::$app->name)
                 ->send();
         }
         parent::afterSave($insert, $changedAttributes);

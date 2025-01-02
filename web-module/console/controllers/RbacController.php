@@ -35,8 +35,8 @@ class RbacController extends Controller
         $user->username = 'admin';
         $user->email = 'admin@localhost.test';
         $user->name = 'Admin';
-        $user->setPassword('admin');
-        $user->password = 'admin';
+        $user->setPassword('Test@123');
+        $user->password = 'Test@123';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
         $user->save();
@@ -48,8 +48,8 @@ class RbacController extends Controller
         $user->username = 'manager';
         $user->email = 'manager@localhost.test';
         $user->name = 'Manager';
-        $user->setPassword('manager');
-        $user->password = 'manager';
+        $user->setPassword('Test@123');
+        $user->password = 'Test@123';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
         $user->save();
@@ -65,8 +65,8 @@ class RbacController extends Controller
         $user->username = 'repairman';
         $user->email = 'repairman@localhost.test';
         $user->name = 'Repairman';
-        $user->setPassword('repairman');
-        $user->password = 'repairman';
+        $user->setPassword('Test@123');
+        $user->password = 'Test@123';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
         $user->save();
@@ -82,8 +82,8 @@ class RbacController extends Controller
         $user->username = 'client';
         $user->email = 'client@localhost.test';
         $user->name = 'Client';
-        $user->setPassword('client');
-        $user->password = 'client';
+        $user->setPassword('Test@123');
+        $user->password = 'Test@123';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
         $user->save();
@@ -227,9 +227,6 @@ class RbacController extends Controller
             'SaleProducts',
             'Suppliers',
         ];
-
-        $entities = ['Clients', 'Invoices', 'Repairs', 'Budgets',
-            'ProductCategories', 'RepairTechnician', 'Sales', 'Suppliers', 'Products'];
 
         foreach ($entities as $entity) {
             $operations = ['create', 'update', 'delete', 'view', 'list'];

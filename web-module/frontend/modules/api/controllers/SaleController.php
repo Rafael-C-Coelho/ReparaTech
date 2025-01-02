@@ -91,7 +91,7 @@ class SaleController extends ActiveController
                     $saleProduct->sale_id = $sale->id;
                     $saleProduct->product_id = $product->id;
                     $saleProduct->quantity = $productData['quantity'];
-                    $saleProduct->total_price = $product->price;
+                    $saleProduct->total_price = $product->price * $productData['quantity'];
 
                     $totalItems[] = [
                         'name' => $product->name,

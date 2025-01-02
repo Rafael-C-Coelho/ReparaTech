@@ -28,6 +28,13 @@ class Supplier extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'contact'], 'string'],
+
+            // Contact information should be optional but must be valid if provided
+            [['contact'], 'string', 'max' => 255],
+
+            // Common rules
+            [['name', 'contact'], 'trim'], // Removes extra spaces
+            [['name', 'contact'], 'filter', 'filter' => 'strip_tags'], // Prevents HTML tags
         ];
     }
 

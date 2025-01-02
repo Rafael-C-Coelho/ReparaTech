@@ -21,6 +21,10 @@ use common\models\User;
  */
 class Sale extends \yii\db\ActiveRecord
 {
+
+    const STATUS_PROCESSING = "Processing";
+    const STATUS_SENT = "Sent";
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +40,9 @@ class Sale extends \yii\db\ActiveRecord
     {
         return [
             [['client_id'], 'required'],
-            [['client_id', 'invoice_id'], 'integer'],
+            [['client_id', 'invoice_id', 'zip_code'], 'integer'],
+            [['address'], 'string', 'max' => 255],
+            [['status'], 'in', 'range' => [self::STATUS_PROCESSING, self::STATUS_SENT], 'message' => 'Invalid status value.'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['client_id' => 'id']],
             [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::class, 'targetAttribute' => ['invoice_id' => 'id']],
         ];
@@ -93,5 +99,34 @@ class Sale extends \yii\db\ActiveRecord
         $fields['sale_products'] = 'saleProducts';
 
         return $fields;
+    }
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $user = User::findOne($this->client_id);
+        if ($this->status == self::STATUS_PROCESSING) {
+            \Yii::$app
+                ->mailer
+                ->compose(
+                    ['html' => 'createdSale-html', 'text' => 'createdSale-text'],
+                    ['user' => $user]
+                )
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setTo($this->client->email)
+                ->setSubject('Your repair has been created at ' . \Yii::$app->name)
+                ->send();
+        } elseif ($this->status == self::STATUS_SENT) {
+            \Yii::$app
+                ->mailer
+                ->compose(
+                    ['html' => 'sentSale-html', 'text' => 'sentSale-text'],
+                    ['user' => $user]
+                )
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setTo($this->client->email)
+                ->setSubject('Your repair has been sent at ' . \Yii::$app->name)
+                ->send();
+        }
+        return parent::save($runValidation, $attributeNames);
     }
 }
