@@ -125,11 +125,10 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/sale',
                     'pluralize' => true,
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/sale-product',
-                    'pluralize' => true,
+                    'extraPatterns' => [
+                        'GET {id}/zip-code' => 'zip-code',
+                        'GET {id}/products' => 'products',
+                    ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
