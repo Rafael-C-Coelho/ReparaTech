@@ -29,7 +29,7 @@ class Booking extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['repair_id', 'date', 'time'], 'required'],
+            [['date', 'time'], 'required'],
             [['repair_id'], 'integer'],
             [['date', 'time'], 'safe'],
             ['date', 'date', 'format' => 'php:Y-m-d'],

@@ -18,10 +18,6 @@ class FavouriteProductController extends ActiveController
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
-            /*$behaviors ['favorite-product'] = [
-                'class' => AuthBehavior::class,
-            ],
-            */
             'authenticator' => [
                 'class' => AuthBehavior::class,
                 'except' => [],
@@ -52,7 +48,7 @@ class FavouriteProductController extends ActiveController
 
     public function checkAccess($action, $model = null, $params = [])
     {
-        if(\Yii::$app->user->identity->hasRole('admin') || \Yii::$app->user->identity->hasRole('manager') || \Yii::$app->user->identity->hasRole('manager') || \Yii::$app->user->identity->hasRole('technician'))  {
+        if(\Yii::$app->user->identity->hasRole('admin') || \Yii::$app->user->identity->hasRole('manager') || \Yii::$app->user->identity->hasRole('technician'))  {
             throw new \yii\web\ForbiddenHttpException('You can only view favourite products');
         }
     }

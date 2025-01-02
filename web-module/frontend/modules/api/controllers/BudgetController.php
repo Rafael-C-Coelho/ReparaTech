@@ -77,36 +77,6 @@ class BudgetController extends ActiveController
         }
     }
 
-    public function actionRequestBudget()
-    {
-        $request = Yii::$app->request;
-        $budgetModel = new Budget();
-        $budgetModel->client_id = Yii::$app->user->id;
-        $budgetModel->load($request->post(), '');
-
-        $budgetModel->status = 'Pending';
-        $budgetModel->date = date('Y-m-d');
-
-
-        $budgetModel->value = null;
-        $budgetModel->hours_estimated_working = null;
-        $budgetModel->repairman_id = null;
-        $budgetModel->repair_id = null;
-
-        if ($budgetModel->validate() && $budgetModel->save()) {
-            return [
-                'message' => 'Budget request created successfully.',
-                'budget' => $budgetModel,
-                'status' => 'success',
-            ];
-        }
-
-        return [
-            'message' => 'Failed to create budget request.',
-            'errors' => $budgetModel->errors,
-            'status' => 'error',
-        ];
-    }
 
     public function actionCount()
     {

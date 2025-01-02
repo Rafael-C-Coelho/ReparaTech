@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
@@ -35,6 +36,7 @@ public class ReparaTechSingleton {
 
     private LoginListener loginListener;
     private RegisterListener registerListener;
+    private BookingListener bookingListener;
     private UpdateProductsListener updateProductsListener;
 
     private ReparaTechSingleton(Context context){
@@ -70,6 +72,10 @@ public class ReparaTechSingleton {
 
     public void setRegisterListener(RegisterListener registerListener) {
         this.registerListener = registerListener;
+    }
+
+    public void setBookingListener(BookingListener bookingListener) {
+        this.bookingListener = bookingListener;
     }
 
     public void setUpdateProductsListener(UpdateProductsListener updateProductsListener) {
@@ -395,12 +401,12 @@ public class ReparaTechSingleton {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     products = dbHelper.getAllProductsDB();
-                    Toast.makeText(context, "Error loading products. Try again later", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getString(R.string.txt_error_loading_products_try_again_later), Toast.LENGTH_LONG).show();
                 }
             });
         } catch (NoConnectionError e) {
             products = dbHelper.getAllProductsDB();
-            Toast.makeText(context, "No internet connection. Try again later", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -408,6 +414,41 @@ public class ReparaTechSingleton {
         dbHelper.addProductToCartDB(product, quantity);
     }
 
-    // endregion
+    public void bookingRequest(String bookingDate, String bookingHour){
+        String url = "http://localhost/ReparaTech/web-module/frontend/web/api/booking/create";
 
+        JSONObject body = new JSONObject();
+
+        try{
+            body.put("bookingDate", bookingDate);
+            body.put("bookingHour", bookingHour);
+        }catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
+
+        try{
+            new ApiHelper(context).request(context, Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            if (response.optString("status").equals("success")) {
+                                if (bookingListener != null) {
+                                    bookingListener.onValidateBooking(true);
+                                }
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(com.android.volley.VolleyError error) {
+                            Toast.makeText(context, context.getString(R.string.txt_error_sending_repair_request), Toast.LENGTH_SHORT).show();
+                            System.out.println(context.getString(R.string.txt_error_sending_repair_request));
+                            error.printStackTrace();
+                        }
+                    });
+        } catch (NoConnectionError e) {
+                Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+        }
+    }
+    // endregion
 }
+

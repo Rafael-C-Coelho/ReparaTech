@@ -18,13 +18,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.Response;
+
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 public class RepairBookingActivity extends AppCompatActivity {
 
     private EditText etDate, etTime;
-    Button btnDatePicker, btnTimePicker, btnMyCalendar;
+    Button btnDatePicker, btnTimePicker, btnMyCalendar, btnSend;
 
 
     @Override
@@ -39,6 +45,8 @@ public class RepairBookingActivity extends AppCompatActivity {
         btnDatePicker = findViewById(R.id.btnDatePicker);
         btnTimePicker = findViewById(R.id.btnTimePicker);
         btnMyCalendar = findViewById(R.id.btnMyCalendar);
+        btnSend = findViewById(R.id.btnSend);
+
 
         etDate.setInputType(InputType.TYPE_NULL);
         etTime.setInputType(InputType.TYPE_NULL);
@@ -72,6 +80,25 @@ public class RepairBookingActivity extends AppCompatActivity {
                 transaction.commit();
             }
         });
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String repairDate = etDate.getText().toString();
+                String repairTime = etTime.getText().toString();
+
+                if(etDate.getText().toString().isEmpty() || etTime.getText().toString().isEmpty()){
+                    Toast.makeText(RepairBookingActivity.this, "Fill in all the fields", Toast.LENGTH_SHORT).show();
+                    System.out.println("Fill in all the fields");
+                } else {
+                    ReparaTechSingleton.getInstance(RepairBookingActivity.this).bookingRequest(repairDate, repairTime); //vamos buscar a instancia do ReparaTechSingleton e chamamos o metodo repairRequest
+                    Toast.makeText(RepairBookingActivity.this, "Repair request sent successfully", Toast.LENGTH_SHORT).show();
+                    System.out.println("Repair request sent successfully");
+                    finish();
+                }
+            }
+        });
     }
 
     public boolean onOptionItemSelected(MenuItem item){
@@ -81,8 +108,6 @@ public class RepairBookingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
     private void showTimeDialog(final EditText etTime){
         final Calendar calendar = Calendar.getInstance();
@@ -116,7 +141,7 @@ public class RepairBookingActivity extends AppCompatActivity {
 
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                    Toast.makeText(RepairBookingActivity.this, getString(R.string.please_choose_a_weekday), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RepairBookingActivity.this, "please_choose_a_weekday", Toast.LENGTH_SHORT).show();
                 } else {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     etDate.setText(simpleDateFormat.format(calendar.getTime()));

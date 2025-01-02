@@ -108,5 +108,10 @@
     <string name="txt_desktop_laptop">Desktop / Laptop:</string>
     <string name="txt_tablet">Tablet:</string>
     <string name="txt_mobile">Mobile:</string>
+    <string name="txt_send">Send</string>
+    <string name="txt_error_sending_repair_request">Error sending repair request</string>
+    <string name="txt_repair_request_sent_successfully">Repair request sent successfully</string>
+    <string name="txt_no_internet_connection_try_again_later">No internet connection. Try again later</string>
+    <string name="txt_error_loading_products_try_again_later">Error loading products. Try again later</string>
 
 </resources>

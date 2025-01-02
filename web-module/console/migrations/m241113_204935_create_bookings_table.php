@@ -20,7 +20,7 @@ class m241113_204935_create_bookings_table extends Migration
 
         $this->createTable('{{%bookings}}', [
             'id' => $this->primaryKey(),
-            'repair_id' => $this->integer()->notNull(),
+            'repair_id' => $this->integer(),
             'date' => $this->date()->notNull(),
             'time' => $this->time()->notNull(),
             'status' => "ENUM('Requested', 'Confirmed', 'Denied', 'Cancelled') NOT NULL DEFAULT 'Requested'",
