@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -58,6 +59,7 @@ public class ApiHelper {
         }
 
         String url = base_url + endpoint;
+        Log.d("ApiHelper", "Request URL: " + url);
         JsonObjectRequest request = new JsonObjectRequest(
                 requestType,
                 url,

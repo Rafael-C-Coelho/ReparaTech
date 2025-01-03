@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
@@ -415,7 +416,7 @@ public class ReparaTechSingleton {
     }
 
     public void bookingRequest(String bookingDate, String bookingHour){
-        String url = "http://localhost/ReparaTech/web-module/frontend/web/api/booking/create";
+        String url = "/api/booking/create";
 
         JSONObject body = new JSONObject();
 
