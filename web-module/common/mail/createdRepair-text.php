@@ -10,7 +10,7 @@ Hello <?= $user->username ?>,
 
 Follow the link below to verify your email:
 
-<?= Html::a(Html::encode(Yii::$app->params["frontendUrl"] . "site/repairs"), Yii::$app->params["frontendUrl"] . "site/repairs") ?>
+<?= Html::a(Html::encode(Yii::$app->params["frontend_url"] . "site/repairs"), Yii::$app->params["frontend_url"] . "site/repairs") ?>
 
 Best regards,
 The Repair Team

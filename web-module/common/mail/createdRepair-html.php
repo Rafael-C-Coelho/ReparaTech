@@ -11,7 +11,7 @@ use yii\helpers\Html;
 
     <p>Follow the link below to check the repair status:</p>
 
-    <p><?= Html::a(Html::encode(Yii::$app->params["frontendUrl"] . "site/repairs"), Yii::$app->params["frontendUrl"] . "site/repairs") ?></p>
+    <p><?= Html::a(Html::encode(Yii::$app->params["frontend_url"] . "site/repairs"), Yii::$app->params["frontend_url"] . "site/repairs") ?></p>
 
     <p>Best regards,</p>
     <p>The Repair Team</p>

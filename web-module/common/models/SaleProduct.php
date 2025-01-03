@@ -117,4 +117,14 @@ class SaleProduct extends \yii\db\ActiveRecord
     {
         return $this->hasMany(SaleProduct::className(), ['sale_id' => 'id']);
     }
+
+    public function save($runValidation = true, $attributeNames = null)
+    {
+        $product = Product::findOne($this->product_id);
+        if ($product) {
+            $product->stock -= $this->quantity;
+            $product->save();
+        }
+        return parent::save($runValidation, $attributeNames);
+    }
 }

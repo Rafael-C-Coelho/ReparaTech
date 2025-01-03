@@ -87,7 +87,7 @@ class Product extends \yii\db\ActiveRecord
 
     public function validatePrice($attribute, $params)
     {
-        if ($this->price !== null && $this->price <= 0) {
+        if ($this->price !== null && $this->price <= 0.0) {
             $this->addError($attribute, 'Price must be greater than zero');
         }
     }

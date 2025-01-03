@@ -90,7 +90,6 @@ class User extends ActiveRecord implements IdentityInterface
                 'message' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'],
             [['nif'], 'match', 'pattern' => '/^\d{9}$/', 'message' => 'NIF must be a 9-digit number.'],
             [['address'], 'string', 'min' => 5, 'message' => 'Address must be at least 5 characters long.'],
-            [['contact'], 'match', 'pattern' => '/^\d{9,15}$/', 'message' => 'Contact number must be between 9 and 15 digits.'],
             [['status'], 'in', 'range' => [self::STATUS_DELETED, self::STATUS_AWAITING_ACTIVATION, self::STATUS_INACTIVE, self::STATUS_ACTIVE],
                 'message' => 'Invalid status value.'],
             [['value'], function ($attribute, $params, $validator) {
@@ -382,9 +381,9 @@ class User extends ActiveRecord implements IdentityInterface
         $this->status = self::STATUS_DELETED;
         $this->name = "Deleted User";
         $this->email = random_int(1000000000, 9999999999) . "@deleted.com";
-        $this->username = random_int(1000000000, 9999999999);
+        $this->username = "" . random_int(1000000000, 9999999999);
         $this->password_hash = Yii::$app->security->generatePasswordHash(random_int(1000000000, 9999999999));
-        $this->auth_key = null;
+        $this->auth_key = "";
         $this->nif = "";
         $this->address = "";
         $this->refresh_token = "";

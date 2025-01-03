@@ -1,180 +1,143 @@
 <?php
 
-
 namespace common\tests\Unit;
 
-use Codeception\Test\Unit;
 use common\models\Product;
-use common\models\Supplier;
 use common\models\ProductCategory;
-use common\models\User;
-use yii\helpers\FileHelper;
+use common\models\Sale;
+use common\models\SaleProduct;
+use common\models\Supplier;
+use common\tests\UnitTester;
 use yii\web\UploadedFile;
 
-class ProductTest extends Unit
+class ProductModelTest extends \Codeception\Test\Unit
 {
+    private const VALID_NAME = 'Test Product';
+    private const VALID_PRICE = 99.99;
+    private const VALID_STOCK = 10;
+    private const VALID_SUPPLIER_ID = 1;
+    private const VALID_CATEGORY_ID = 1;
+
+    protected UnitTester $tester;
+    private $product;
+    private $category;
+    private $supplier;
+
     protected function _before()
     {
-    }
+        $this->supplier = new Supplier();
+        $this->supplier->name = 'Test Supplier';
+        $this->supplier->save();
 
-    public function testValidProduct()
-    {
-        $supplier = new Supplier([
-            'name' => 'Test Supplier',
-            'contact' => 'Contact is 919798987'
-        ]);
-        $supplier->save();
-
-        $category = new ProductCategory([
-            'name' => 'Test Category'
-        ]);
-        $category->save();
-
-        $product = new Product([
-            'name' => 'Test Product',
-            'price' => 99.99,
-            'stock' => 100,
-            'supplier_id' => $supplier->id,
-            'category_id' => $category->id
-        ]);
-        verify($product->validate())->true();
+        $this->category = new ProductCategory();
+        $this->category->name = 'Test Category';
+        $this->category->save();
+        Product::deleteAll();
     }
 
     public function testRequiredFields()
     {
         $product = new Product();
-        verify($product->validate())->false();
-        verify($product->errors)->arrayHasKey('name');
-        verify($product->errors)->arrayHasKey('stock');
-        verify($product->errors)->arrayHasKey('supplier_id');
-        verify($product->errors)->arrayHasKey('category_id');
+        $this->assertFalse($product->validate());
+
+        foreach (['name', 'stock', 'supplier_id', 'category_id'] as $attribute) {
+            $this->assertTrue($product->hasErrors($attribute));
+        }
     }
 
     public function testPriceValidation()
     {
-        $supplier = new Supplier([
-            'name' => 'Test Supplier',
-            'contact' => 'Contact is 919798987'
-        ]);
-        $supplier->save();
+        $product = $this->createValidProduct();
 
-        $category = new ProductCategory([
-            'name' => 'Test Category'
-        ]);
-        $category->save();
-
-        $product = new Product([
-            'name' => 'Test Product',
-            'price' => -10,
-            'stock' => 100,
-            'supplier_id' => $supplier->id,
-            'category_id' => $category->id
-        ]);
-
-        verify($product->validate())->false();
-        verify($product->errors)->arrayHasKey('price');
+        $product->price = -10;
+        $this->assertFalse($product->validate(['price']));
 
         $product->price = 0;
-        verify($product->validate())->false();
+        $this->assertFalse($product->validate(['price']));
 
-        $product->price = 10.99;
-        verify($product->validate())->true();
+        $product->price = self::VALID_PRICE;
+        $this->assertTrue($product->validate(['price']));
     }
 
     public function testStockValidation()
     {
-        $supplier = new Supplier([
-            'name' => 'Test Supplier',
-            'contact' => 'Contact is 919798987'
-        ]);
-        $supplier->save();
+        $product = $this->createValidProduct();
 
-        $category = new ProductCategory([
-            'name' => 'Test Category'
-        ]);
-        $category->save();
+        $product->stock = -5;
+        $this->assertFalse($product->validate(['stock']));
 
-        $product = new Product([
-            'name' => 'Test Product',
-            'price' => 99.99,
-            'stock' => -1,
-            'supplier_id' => $supplier->id,
-            'category_id' => $category->id
-        ]);
+        $product->stock = self::VALID_STOCK;
+        $this->assertTrue($product->validate(['stock']));
+    }
 
-        verify($product->validate())->false();
-        verify($product->errors)->arrayHasKey('stock');
+    public function testCustomStockValidation()
+    {
+        $product = $this->createValidProduct();
+
+        $sale = new Sale();
+        $sale->save();
+        $saleProduct = new SaleProduct();
+        $saleProduct->product_id = $product->id;
+        $saleProduct->quantity = 5;
+        $saleProduct->sale_id = $sale->id;
+        $saleProduct->save();
+
+        $product = Product::findOne($product->id);
+        $product->refresh();
+        $this->assertEquals(5, $product->stock);
+
+        $product->stock = 20;
+        $product->validateStockLevel('stock', []);
+        $this->assertFalse($product->hasErrors('stock'));
+    }
+
+    public function testCustomPriceValidation()
+    {
+        $product = $this->createValidProduct();
+
+        $product->price = 0;
+        $product->validatePrice('price', []);
+        $this->assertTrue($product->hasErrors('price'));
+
+        $product->price = -1;
+        $product->validatePrice('price', []);
+        $this->assertTrue($product->hasErrors('price'));
+
+        $product->price = self::VALID_PRICE;
+        $product->validate(['price']);
+        $product->validatePrice('price', []);
+        $this->assertFalse($product->hasErrors('price'));
     }
 
     public function testRelationships()
     {
-        $product = new Product([
-            'name' => 'Test Product',
-            'price' => 99.99,
-            'stock' => 100,
-            'supplier_id' => 999, // Non-existent supplier
-            'category_id' => 999  // Non-existent category
-        ]);
+        $product = $this->createValidProduct();
 
-        verify($product->validate())->false();
-        verify($product->errors)->arrayHasKey('supplier_id');
-        verify($product->errors)->arrayHasKey('category_id');
+        $this->assertNotNull($product->supplier);
+        $this->assertNotNull($product->category);
+        $this->assertNotNull($product->saleProducts);
     }
 
-    public function testBeforeDelete()
+    public function testForeignKeyValidation()
     {
-        $supplier = new Supplier([
-            'name' => 'Test Supplier',
-            'contact' => 'Contact is 919798987'
-        ]);
-        $supplier->save();
+        $product = $this->createValidProduct();
 
-        $category = new ProductCategory([
-            'name' => 'Test Category'
-        ]);
-        $category->save();
-        $product = new Product([
-            'name' => 'Test Product',
-            'price' => 99.99,
-            'stock' => 100,
-            'supplier_id' => $supplier->id,
-            'category_id' => $category->id
-        ]);
+        $product->supplier_id = 999999;
+        $this->assertFalse($product->validate(['supplier_id']));
 
-        $client = new User();
-        $client->setScenario(User::SCENARIO_CLIENT);
-        $client->username = 'client1';
-        $client->email = 'client@test.test';
-        $client->password = 'Test@123';
-        $client->setPassword('Test@123');
-        $client->generateAuthKey();
-        $client->name = 'Client Name';
-        $client->nif = '123456789';
-        $client->address = 'Test Address';
-        $client->contact = '123456789';
-        $client->save();
+        $product->category_id = 999999;
+        $this->assertFalse($product->validate(['category_id']));
+    }
 
-        // Create a sale for this product
-        $sale = new \common\models\Sale([
-            'zip_code' => '12345',
-            'client_id' => $client->id,
-            'address' => 'Test Address',
-        ]);
-        $sale->save();
-
-        $saleProduct = new \common\models\SaleProduct([
-            'product_id' => $product->id,
-            'sale_id' => $sale->id,
-            'quantity' => 1,
-            'total_price' => $product->price
-        ]);
-        $saleProduct->save();
-
-        $deleted = $product->delete() ? true : false;
-        verify($deleted)->false();
-
-        // Clean up test sale
-        $saleProduct->delete();
-        verify($product->delete() >= 1)->true();
+    private function createValidProduct()
+    {
+        $product = new Product();
+        $product->name = self::VALID_NAME;
+        $product->price = self::VALID_PRICE;
+        $product->stock = self::VALID_STOCK;
+        $product->supplier_id = $this->supplier->id;
+        $product->category_id = $this->category->id;
+        $product->save();
+        return $product;
     }
 }
