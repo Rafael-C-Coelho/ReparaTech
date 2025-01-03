@@ -353,6 +353,10 @@ public class ReparaTechSingleton {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(com.android.volley.VolleyError error) {
+                    if (error.networkResponse != null) {
+                        int statusCode = error.networkResponse.statusCode;
+                        String errorMessage = new String(error.networkResponse.data);
+                    }
                     Toast.makeText(context, context.getString(R.string.register_failed), Toast.LENGTH_SHORT).show();
                     System.out.println(context.getString(R.string.register_failed));
                     error.printStackTrace();
@@ -415,16 +419,18 @@ public class ReparaTechSingleton {
         dbHelper.addProductToCartDB(product, quantity);
     }
 
-    public void bookingRequest(String bookingDate, String bookingHour){
+    public void bookingRequest(String date, String time){
         String url = "/api/booking/create";
 
         JSONObject body = new JSONObject();
 
         try{
-            body.put("bookingDate", bookingDate);
-            body.put("bookingHour", bookingHour);
+            body.put("date", date); //os nomes têm de ser iguais aos que estão na base de dados
+            body.put("time", time);
+
         }catch (Exception e){
             e.printStackTrace();
+            System.out.println("Error creating booking request");
             return;
         }
 

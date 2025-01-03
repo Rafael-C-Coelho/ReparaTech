@@ -25,14 +25,14 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
-public class RepairBookingActivity extends AppCompatActivity {
+public class RepairBookingActivity extends AppCompatActivity implements BookingListener {
 
     private EditText etDate, etTime;
     Button btnDatePicker, btnTimePicker, btnMyCalendar, btnSend;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,5 +151,15 @@ public class RepairBookingActivity extends AppCompatActivity {
         };
         new DatePickerDialog(RepairBookingActivity.this,dateSetListener,calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    @Override
+    public void onValidateBooking(boolean isValid) {
+        if(isValid){
+            Toast.makeText(this, "repair_request_sent_successfully", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "error_sending_repair_request", Toast.LENGTH_SHORT).show();
+        }
     }
 }

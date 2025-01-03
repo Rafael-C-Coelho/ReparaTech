@@ -67,6 +67,13 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String DESKTOP_LAPTOP_SOLUTION = "desktop_laptop_solution";
     private static final String WEARABLES_SOLUTION = "wearables_solution";
 
+    private static final String TABLE_BOOKINGS = "bookings";
+    private static final String ID_BOOKING = "id";
+    private static final String DATE_BOOKING = "date";
+    private static final String TIME_BOOKING = "time";
+    private static final String ID_USER_BOOKING = "id_user";
+
+
 
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
