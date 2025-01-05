@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\models\Repair;
+use Yii;
 use yii\db\ActiveRecord;
 
 class Booking extends ActiveRecord
@@ -95,6 +96,26 @@ class Booking extends ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
+        if (isset(Yii::$app->params["supportEmail"])) {
+            if ($this->status === self::STATUS_CONFIRMED) {
+                // Send email notification to the client
+                Yii::$app->mailer->compose(['html' => 'bookingConfirmed-html', 'text' => 'bookingConfirmed-text'], ['booking' => $this, 'user' => $this->repair->client])
+                    ->setTo($this->repair->client->email)
+                    ->setSubject('Booking Confirmed')
+                    ->send();
+            } elseif ($this->status === self::STATUS_DENIED) {
+                // Send email notification to the client
+                Yii::$app->mailer->compose(['html' => 'bookingDenied-html', 'text' => 'bookingDenied-text'], ['booking' => $this, 'user' => $this->repair->client])
+                    ->setTo($this->repair->client->email)
+                    ->setSubject('Booking Denied')
+                    ->send();
+            } else {
+                Yii::$app->mailer->compose(['html' => 'bookingRequested-html', 'text' => 'bookingRequested-text'], ['booking' => $this, 'user' => $this->repair->client])
+                    ->setTo($this->repair->client->email)
+                    ->setSubject('Booking Requested')
+                    ->send();
+            }
+        }
         parent::afterSave($insert, $changedAttributes);
     }
 }

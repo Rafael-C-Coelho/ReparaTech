@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /** @var common\models\Sale $sale */
 
 ?>
-<div class="verify-email">
+<div>
     <p>Hello <?= Html::encode($user->username) ?>,</p>
 
     <p>The sale #<?= $sale->id ?> has been sent:</p>

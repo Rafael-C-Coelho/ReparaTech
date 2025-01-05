@@ -128,6 +128,8 @@ return [
                     'extraPatterns' => [
                         'GET {id}/zip-code' => 'zip-code',
                         'GET {id}/products' => 'products',
+                        'POST checkout' => 'checkout',
+                        'POST cart' => 'cart',
                     ],
                 ],
                 [
