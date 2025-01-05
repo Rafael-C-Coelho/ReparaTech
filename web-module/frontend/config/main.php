@@ -138,6 +138,14 @@ return [
                         'GET {id}/description' => 'description',
                     ]
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/booking',
+                    'pluralize' => true,
+                    'extraPatterns' => [
+                        'GET {id}/booking' => 'booking',
+                    ]
+                ],
             ],
         ],
     ],
