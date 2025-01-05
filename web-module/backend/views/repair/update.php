@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = 'Update';
             'time:time',
             [
                 'class' => ActionColumn::className(),
+                'template'=> '{view} {update}',
                 'urlCreator' => function ($action, Budget $budget, $key, $index, $column) {
                     return Url::toRoute(["budget/" . $action, 'id' => $budget->id]);
                 }
@@ -61,6 +62,7 @@ $this->params['breadcrumbs'][] = 'Update';
             'time:time',
             [
                 'class' => ActionColumn::className(),
+                'template'=> '{view}',
             ],
         ],
     ]); ?>

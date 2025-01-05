@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'client_id',
             [
                 'class' => ActionColumn::className(),
+                'template'=> '{view} {update}',
                 'urlCreator' => function ($action, Invoice $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

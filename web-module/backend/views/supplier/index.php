@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'contact:ntext',
             [
                 'class' => ActionColumn::className(),
+                'template'=> '{view} {update}',
                 'urlCreator' => function ($action, Supplier $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
