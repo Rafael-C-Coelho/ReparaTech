@@ -6,12 +6,17 @@ use common\models\Invoice;
 use common\models\Product;
 use common\models\Sale;
 use common\models\SaleProduct;
+use Dompdf\Dompdf;
 use frontend\modules\api\helpers\AuthBehavior;
 use PHPUnit\Exception;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 use yii\rest\ActiveController;
+use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class SaleController extends ActiveController
 {
@@ -67,62 +72,124 @@ class SaleController extends ActiveController
         return ['message' => 'Sale not found', "status" => "error"];
     }
 
+    public function actionCart(){
+        $request = Yii::$app->request;
+        $cart = $request['cart'];
+        $productId = $request->post('product_id');
+        $quantity = $request->post('quantity');
+
+        $product = Product::findOne($productId);
+        if(!$product){
+            throw new \Exception('Product not found');
+        }
+
+        if(!isset($cart[$productId])){
+            $cart[$productId] = 0;
+        }
+
+        $cart[$productId] += $quantity;
+
+        return ['cart' => $cart, "status" => "success"];
+    }
+
     public function actionCreate(){
-        $postData = \Yii::$app->request->post();
-        $user = \Yii::$app->user->identity;
-        $sale = new Sale();
-        $sale->client_id = $user->id;
-        $sale->address = $postData['address'];
-        $sale->zip_code = $postData['zip_code'];
+        $request = Yii::$app->request;
+        $cart = $request->post('cart', []);
+        if(empty($cart)){
+            return ['message' => 'Cart is empty', "status" => "error"];
+        }
 
-        if ($sale->save()) {
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+            $sale = new Sale();
+            $sale->client_id = Yii::$app->user->id;
+            $sale->address = $request->post('address');
+            $sale->zip_code = $request->post('zip_code');
             $total = 0;
-            $totalItems = [];
+            $items = [];
 
-            if(isset($postData['sale_products'])){
-                foreach ($postData['sale_products'] as $productData){
-                    $saleProduct = new SaleProduct();
-                    $product = Product::findOne($productData['product_id']);
-
-                    if($product === null){
-                        return ['message' => 'Product not found', 'status' => 'error'];
-                    }
-
-                    $saleProduct->sale_id = $sale->id;
-                    $saleProduct->product_id = $product->id;
-                    $saleProduct->quantity = $productData['quantity'];
-                    $saleProduct->total_price = $product->price * $productData['quantity'];
-
-                    $totalItems[] = [
-                        'name' => $product->name,
-                        'quantity' => $productData['quantity'],
-                        'total_price' => $product->price,
-                    ];
-                    if(!$saleProduct->save()){
-                        return ['message' => 'SaleProduct not created', 'errors' => $product->errors, "status" => "error"];
-                    }
-
-                    $total += $product->price * $productData['quantity'];
-                }
+            if(!$sale->save()){
+                throw new BadRequestHttpException('Error creating sale');
             }
+
+            foreach ($cart as $productDetails){
+                $product = Product::findOne($productDetails['product_id']);
+                if($product === null){
+                    throw new NotFoundHttpException('Product not found');
+                }
+                $saleProduct = new SaleProduct();
+                $saleProduct->sale_id = $sale->id;
+                $saleProduct->product_id = $product->id;
+                $saleProduct->quantity = $productDetails['quantity'];
+                $saleProduct->total_price = $product->price * $productDetails['quantity'];
+                $product->stock -= $productDetails['quantity'];
+
+                $items[] = [
+                    'name' => $product->name,
+                    'quantity' => $productDetails['quantity'],
+                    'price' => $product->price,
+                ];
+
+                if(!$saleProduct->save()){
+                    throw new BadRequestHttpException('Error creating sale product');
+                }
+
+                $product->save();
+                $total += $product->price * $productDetails['quantity'];
+            }
+            $items[] = [
+                'name' => "Shipping",
+                'quantity' => 1,
+                'price' => Yii::$app->params['defaultShipping'],
+            ];
+            $total += Yii::$app->params['defaultShipping'];
 
             $invoice = new Invoice();
-            $invoice->client_id = $user->id;
+            $invoice->client_id = Yii::$app->user->id;
             $invoice->total = $total;
-            $invoice->items = json_encode($totalItems);
+            $invoice->items = json_encode($items);
 
-            if($invoice->save()) {
-                $sale->invoice_id = $invoice->id;
-                if (!$sale->save()) {
-                    return ['message' => 'Sale not created', 'errors' => $sale->errors, "status" => "error"];
-                }
-                return ['sale' => $sale, 'invoice_id' => $invoice->id, "status" => "success"];
+            if(!$invoice->save()){
+                throw new BadRequestHttpException('Error creating invoice');
             }
+
+            $filePath = $this->generateInvoicePdf($sale, $invoice, $items);
+            $invoice->pdf_file = $filePath;
+            $invoice->save();
+
+            $sale->invoice_id = $invoice->id;
+            $sale->save();
+
+            $transaction->commit();
+
+            return ['status' => 'sucess', 'message' => 'Purchase completed', 'sale_id' => $sale->id, 'invoice_pdf' => Yii::$app->request->hostInfo . $filePath];
+        }catch (Exception $e){
+            $transaction->rollBack();
+            return ['message' => $e->getMessage(), "status" => "error"];
         }
-        if (!$sale->save()) {
-            return ['errors' => $sale->errors, 'status' => 'error', 'message' => 'Sale not created'];
-        }
-        return ['message' => 'Sale not created', "status" => "error"];
+    }
+
+    protected function generateInvoicePdf(Sale $sale, Invoice $invoice, array $items): string{
+        $content = $this->renderPartial('@app/views/invoice-sale', [
+            'model' => $sale,
+            'items' => $items,
+            'invoice' => $invoice,
+        ]);
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($content);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $path = \Yii::getAlias('@app/web/invoices/');
+        FileHelper::createDirectory($path);
+
+        $fileName = 'invoice_' . $invoice->id . '_' . $sale->client_id . '.pdf';
+        $filePath = $path . DIRECTORY_SEPARATOR . $fileName;
+
+        file_put_contents($filePath, $dompdf->output());
+
+        return '/uploads/invoices/' . $fileName;
     }
 
     public function actionZipCode($id){
