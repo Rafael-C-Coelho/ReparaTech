@@ -17,19 +17,34 @@ class SeedController extends Controller
         echo "Categories seeded successfully!\n";
         $this->seedProducts();
         echo "Products seeded successfully!\n";
-        $this->seedProducts();
-        echo "Products seeded successfully!\n";
         echo "Seeding completed successfully!\n";
     }
 
     protected function seedCategories()
     {
         $categories = ['Laptops', 'Desktops', 'Mobile Phones', 'Tablets', 'Accessories', 'Software', 'Printers', 'Monitors', 'Networking', 'Storage', 'Servers', 'Others'];
+        $faker = Factory::create();
+
+        $supplier = new Supplier([
+            'name' => 'At Tech Supplier',
+            'contact' => $faker->phoneNumber,
+        ]);
+        $supplier->save();
 
         foreach ($categories as $categoryName) {
             $category = new ProductCategory();
             $category->name = $categoryName;
             $category->save();
+
+            $product = new Product([
+                'name' => $faker->name,
+                'category_id' => $category->id,
+                'supplier_id' => $supplier->id,
+                'price' => $faker->randomFloat(2, 10, 500),
+                'stock' => $faker->numberBetween(0, 1000),
+                'image' => $faker->imageUrl(640, 480, 'tech', true),
+            ]);
+            $product->save();
         }
     }
 
