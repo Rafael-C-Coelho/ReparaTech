@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'status',
             [
                 'class' => ActionColumn::className(),
+                'template'=> '{view} {update}',
                 'urlCreator' => function ($action, Booking $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

@@ -10,16 +10,13 @@ use common\models\Supplier;
 use common\tests\UnitTester;
 use yii\web\UploadedFile;
 
-class ProductModelTest extends \Codeception\Test\Unit
+class ProductTest extends \Codeception\Test\Unit
 {
     private const VALID_NAME = 'Test Product';
     private const VALID_PRICE = 99.99;
     private const VALID_STOCK = 10;
-    private const VALID_SUPPLIER_ID = 1;
-    private const VALID_CATEGORY_ID = 1;
 
     protected UnitTester $tester;
-    private $product;
     private $category;
     private $supplier;
 

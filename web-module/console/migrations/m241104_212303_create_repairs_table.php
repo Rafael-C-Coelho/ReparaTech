@@ -27,7 +27,7 @@ class m241104_212303_create_repairs_table extends Migration
         $this->createTable('{{%repairs}}', [
             'id' => $this->primaryKey(),
             'device' => "ENUM('Computer', 'Phone', 'Tablet', 'Wearable') NOT NULL",
-            'progress' => "ENUM('Created','Pending Acceptance','Denied','In Progress','Completed') NOT NULL",
+            'progress' => "ENUM('Created','Pending Acceptance','Denied','In Progress','Completed') NOT NULL DEFAULT 'Created'",
             'repairman_id' => $this->integer()->notNull(),
             'client_id' => $this->integer()->notNull(),
             'invoice_id' => $this->integer(),

@@ -102,10 +102,10 @@ class Sale extends \yii\db\ActiveRecord
         return $fields;
     }
 
-    public function save($runValidation = true, $attributeNames = null)
+    public function save($runValidation = true, $attributeNames = null, $sendEmail = false)
     {
         $user = User::findOne($this->client_id);
-        if ($this->status == self::STATUS_PROCESSING) {
+        if ($this->status == self::STATUS_PROCESSING && $sendEmail) {
             \Yii::$app
                 ->mailer
                 ->compose(
@@ -114,18 +114,18 @@ class Sale extends \yii\db\ActiveRecord
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair has been created at ' . \Yii::$app->name)
+                ->setSubject('Your sale #' . $this->id . ' is being processed at ' . \Yii::$app->name)
                 ->send();
-        } elseif ($this->status == self::STATUS_SENT) {
+        } elseif ($this->status == self::STATUS_SENT && $sendEmail) {
             \Yii::$app
                 ->mailer
                 ->compose(
                     ['html' => 'sentSale-html', 'text' => 'sentSale-text'],
-                    ['user' => $user]
+                    ['user' => $user, 'sale' => $this]
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair has been sent at ' . \Yii::$app->name)
+                ->setSubject('Your sale #' . $this->id . ' has been sent at ' . \Yii::$app->name)
                 ->send();
         }
         return parent::save($runValidation, $attributeNames);

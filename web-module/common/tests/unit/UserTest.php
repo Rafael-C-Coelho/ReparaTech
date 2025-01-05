@@ -6,7 +6,7 @@ use common\models\User;
 use common\tests\UnitTester;
 use Yii;
 
-class UserModelTest extends \Codeception\Test\Unit
+class UserTest extends \Codeception\Test\Unit
 {
     private const VALID_USERNAME = 'testuser123';
     private const VALID_EMAIL = 'test@example.com';

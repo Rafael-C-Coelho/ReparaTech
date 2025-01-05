@@ -18,6 +18,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'zip_code')->textInput() ?>
 
+    <?= $form->field($model, 'status')->dropDownList(["Processing" => "Processing", "Sent" => "Sent"]) ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

@@ -8,9 +8,9 @@ use yii\helpers\Html;
 ?>
 Hello <?= $user->username ?>,
 
-Follow the link below to verify your email:
+Follow the link below to check your repair's status:
 
-<?= Html::a(Html::encode(Yii::$app->params["frontend_url"] . "site/repairs"), Yii::$app->params["frontend_url"] . "site/repairs") ?>
+<?= Html::a(Html::encode(Yii::$app->params["frontend_url"] . "repair/index"), Yii::$app->params["frontend_url"] . "repair/index") ?>
 
 Best regards,
 The Repair Team

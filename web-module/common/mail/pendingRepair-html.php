@@ -11,7 +11,7 @@ use yii\helpers\Html;
 
     <p>Follow the link below to accept or deny the repair budget:</p>
 
-    <p><?= Html::a(Html::encode(Yii::$app->params["frontend_url"] . "site/repairs/"), Yii::$app->params["frontend_url"] . "site/repairs") ?></p>
+    <p><?= Html::a(Html::encode(Yii::$app->params["frontend_url"] . "repair/index/"), Yii::$app->params["frontend_url"] . "repair/index") ?></p>
 
     <p>Best regards,</p>
     <p>The Repair Team</p>
