@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var common\models\User $user */
 
 ?>
-<div class="verify-email">
+<div>
     <p>Hello <?= Html::encode($user->username) ?>,</p>
 
     <p>Follow the link below to check the sale's status:</p>

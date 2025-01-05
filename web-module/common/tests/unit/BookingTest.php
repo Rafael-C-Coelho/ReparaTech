@@ -241,7 +241,7 @@ class BookingTest extends Unit
         $savedBooking = Booking::findOne($booking->id);
         $this->assertNotNull($savedBooking);
         $this->assertEquals(self::VALID_DATE, $savedBooking->date);
-        $this->assertEquals(self::VALID_TIME . ':00', $savedBooking->time);
+        $this->assertEquals(self::VALID_TIME, $savedBooking->time);
         $this->assertEquals(self::VALID_STATUS, $savedBooking->status);
     }
 

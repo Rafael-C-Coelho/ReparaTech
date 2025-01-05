@@ -6,12 +6,10 @@ use yii\helpers\Html;
 /** @var common\models\User $user */
 
 ?>
-<div>
+<div class="verify-email">
     <p>Hello <?= Html::encode($user->username) ?>,</p>
 
-    <p>We are letting you know that we've finished the repair. You can come get your device when desired.</p>
-
-    <p>Find the invoice attached.</p>
+    <p>Your booking request has been received. We will get back to you shortly with a confirmation or denial.</p>
 
     <p>Best regards,</p>
     <p>The Repair Team</p>
