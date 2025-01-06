@@ -18,7 +18,7 @@ class RepairController extends Controller
         return array_merge(parent::behaviors(), [
             'authenticator' => [
                 'class' => AuthBehavior::class,
-                'except' => ['index'],
+                'except' => [],
             ],
         ]);
     }
@@ -35,7 +35,7 @@ class RepairController extends Controller
 
     public function actionIndex()
     {
-        if (Yii::$app->user->hasRole('client') === false) {
+        if (Yii::$app->user->identity->hasRole('client') === false) {
             $repairs = Repair::find()->all();
         } else {
             $repairs = Repair::find()->where(['client_id' => Yii::$app->user->id])->all();
@@ -56,7 +56,7 @@ class RepairController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        if ($model->client_id !== Yii::$app->user->id && Yii::$app->user->hasRole('client') === true) {
+        if ($model->client_id !== Yii::$app->user->id && Yii::$app->user->identity->hasRole('client') === true) {
             throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
         }
         return $this->render('view', [
@@ -67,20 +67,9 @@ class RepairController extends Controller
         ]);
     }
 
-    public function actionChangeProgress($id, $progress)
-    {
-        $model = $this->findModel($id);
-        if (Yii::$app->user->hasRole('repairTechnician') === true) {
-            $model->progress = $progress;
-            $model->save();
-            return ['message' => 'Progress updated successfully', 'status' => 'success'];
-        }
-        throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
-    }
-
     public function actionDownloadInvoice($id)
     {
-        if (Yii::$app->user->hasRole('client') && Yii::$app->user->id !== Invoice::findOne($id)->repair->client_id) {
+        if (Yii::$app->user->identity->hasRole('client') && Yii::$app->user->id !== Invoice::findOne($id)->repair->client_id) {
             $invoice = Invoice::findOne($id);
         } else {
             throw new \yii\web\NotFoundHttpException('The requested page does not exist.');

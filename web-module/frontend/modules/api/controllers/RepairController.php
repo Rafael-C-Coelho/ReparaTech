@@ -41,6 +41,7 @@ class RepairController extends ActiveController
                 'device' => ['GET'],
                 'hours-spent-working' => ['GET'],
                 'description' => ['GET'],
+                'progress' => ['GET', 'PATCH'],
             ]
         );
     }
@@ -106,4 +107,22 @@ class RepairController extends ActiveController
         return $repairs;
     }
 
+    public function actionProgress($id)
+    {
+        if (\Yii::$app->user->identity->hasRole('repairTechnician') === false) {
+            throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
+        }
+        $model = new $this->modelClass;
+
+        if ($this->request->isPatch) {
+            $model = $model::find($id)->one();
+            $model->progress = $this->request->getBodyParam('progress');
+            $wasSaved = $model->save();
+            return ['message' => $wasSaved ? 'Progress updated successfully' : 'Progress not saved.', 'status' => 'success'];
+        } elseif ($this->request->isGet) {
+            return ['progress' => $model::find($id)->one()->progress, 'status' => 'success'];
+        } else {
+            throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 }

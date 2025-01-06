@@ -40,7 +40,6 @@ class BudgetController extends ActiveController
             'view' => ['GET'],
             'count' => ['GET'],
             'status' => ['GET'],
-            'request-budget' => ['POST'],
             'description' => ['GET'],
         ]);
     }

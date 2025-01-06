@@ -64,12 +64,12 @@ return [
                 'site/allRepairCategories' => 'site/all-repair-categories',
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/product',
+                    'controller' => ['api/product'],
                     'pluralize' => true,
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/dashboard',
+                    'controller' => ['api/dashboard'],
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET latest' => 'latest',
@@ -78,7 +78,7 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/auth',
+                    'controller' => ['api/auth'],
                     'pluralize' => false,
                     'extraPatterns' => [
                         'POST login' => 'login',
@@ -92,49 +92,48 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/repair',
+                    'controller' => ['api/repair'],
                     'pluralize' => true,
                     'extraPatterns' => [
                         'GET count' => 'count',
                         'GET {id}/device' => 'device',
                         'GET {id}/hours-spent-working' => 'hours-spent-working',
                         'GET {id}/description' => 'description',
+                        'GET {id}/download-invoice' => 'download-invoice',
+                        'GET {id}/progress' => 'progress',
+                        'PATCH {id}/progress' => 'progress',
                     ]
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/budget',
+                    'controller' => ['api/budget'],
                     'pluralize' => true,
                     'extraPatterns' => [
                         'GET {id}/value' => 'value',
                         'GET count' => 'count',
                         'GET {id}/status' => 'status',
                         'GET {id}/description' => 'description',
-                        'POST requestBudget' => 'requestBudget',
                     ],
                 ],
                 [
                   'class' => 'yii\rest\UrlRule',
-                  'controller' => 'api/favourite-product',
+                  'controller' => ['api/favourite-product'],
                   'pluralize' => true,
-
                   'extraPatterns' => [],
 
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/sale',
+                    'controller' => ['api/sale'],
                     'pluralize' => true,
                     'extraPatterns' => [
                         'GET {id}/zip-code' => 'zip-code',
                         'GET {id}/products' => 'products',
-                        'POST checkout' => 'checkout',
-                        'POST cart' => 'cart',
                     ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/comment',
+                    'controller' => ['api/comment'],
                     'pluralize' => true,
                     'extraPatterns' => [
                         'GET {id}/description' => 'description',
@@ -142,7 +141,7 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/booking',
+                    'controller' => ['api/booking'],
                     'pluralize' => true,
                     'extraPatterns' => [
                         'GET {id}/booking' => 'booking',
