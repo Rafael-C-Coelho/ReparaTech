@@ -34,7 +34,7 @@ class Booking extends ActiveRecord
             ['time', 'time', 'format' => 'php:H:i'],
             ['date', 'validateFutureDate'],
 
-            // Working hours validation (assuming 9 AM to 5 PM)
+            // Working hours validation (assuming 9 AM to 6 PM)
             ['time', 'validateWorkingHours'],
 
             // Status validation

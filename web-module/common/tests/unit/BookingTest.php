@@ -13,7 +13,7 @@ class BookingTest extends Unit
 {
     const VALID_DATE = '2026-01-10';
     const VALID_TIME = '14:00';
-    const VALID_STATUS = Booking::STATUS_CONFIRMED;
+    const VALID_STATUS = Booking::STATUS_REQUESTED;
 
     /**
      * @var \common\tests\UnitTester
@@ -62,7 +62,7 @@ class BookingTest extends Unit
             'client_id' => $this->client->id,
             'device' => Repair::DEVICE_PHONE,
             'description' => 'Test repair description',
-            'progress' => Repair::STATUS_IN_PROGRESS,
+            'progress' => Repair::STATUS_CREATED,
             'repairman_id' => $this->repairman->id,
         ]);
         $this->repair1->save();
@@ -71,7 +71,7 @@ class BookingTest extends Unit
             'client_id' => $this->client->id,
             'device' => Repair::DEVICE_PHONE,
             'description' => 'Test repair description',
-            'progress' => Repair::STATUS_IN_PROGRESS,
+            'progress' => Repair::STATUS_CREATED,
             'repairman_id' => $this->repairman->id,
         ]);
         $this->repair2->save();
@@ -218,6 +218,7 @@ class BookingTest extends Unit
             'status' => Booking::STATUS_REQUESTED
         ]);
 
+        $model->validate();
         $this->assertTrue($model->validate());
         $this->assertTrue($model->save());
     }
@@ -228,20 +229,21 @@ class BookingTest extends Unit
         $booking->date = self::VALID_DATE;
         $booking->time = self::VALID_TIME;
         $booking->repair_id = $this->repair1->id;
-        $booking->status = Booking::STATUS_CONFIRMED;
+        $booking->status = self::VALID_STATUS;
         return $booking;
     }
 
     public function testCreateBooking()
     {
         $booking = $this->createValidBooking();
+        $booking->validate();
         $this->assertTrue($booking->save());
 
         // Verify the booking was saved
         $savedBooking = Booking::findOne($booking->id);
         $this->assertNotNull($savedBooking);
         $this->assertEquals(self::VALID_DATE, $savedBooking->date);
-        $this->assertEquals(self::VALID_TIME, $savedBooking->time);
+        $this->assertEquals(self::VALID_TIME . ':00', $savedBooking->time);
         $this->assertEquals(self::VALID_STATUS, $savedBooking->status);
     }
 
@@ -262,6 +264,7 @@ class BookingTest extends Unit
     {
         $booking = $this->createValidBooking();
         $booking->save();
+        $booking->validate();
 
         // Test findOne
         $foundBooking = Booking::findOne($booking->id);
@@ -291,6 +294,7 @@ class BookingTest extends Unit
         $booking->date = $newDate;
         $booking->time = $newTime;
         $booking->status = $newStatus;
+        $booking->validate();
 
         $this->assertTrue($booking->save());
 
@@ -322,6 +326,7 @@ class BookingTest extends Unit
     {
         $booking = $this->createValidBooking();
         $booking->save();
+        $booking->validate();
 
         $bookingId = $booking->id;
         $this->assertTrue($booking->delete() > 0);

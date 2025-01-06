@@ -14,10 +14,7 @@ class BudgetTest extends \Codeception\Test\Unit
     private const VALID_DATE = '2027-02-05'; // Future date
     private const VALID_TIME = '14:30:00';
     private const VALID_DESCRIPTION = 'Test repair description for the budget';
-    private const VALID_REPAIR_ID = 1;
-    private const VALID_REPAIRMAN_ID = 1;
     private const VALID_HOURS = 2.5;
-    private const SendNotificationAndEmail = false;
 
     protected UnitTester $tester;
     private $budget;
@@ -62,7 +59,7 @@ class BudgetTest extends \Codeception\Test\Unit
         $this->repair = new Repair();
         $this->repair->description = 'Test repair description';
         $this->repair->device = Repair::DEVICE_PHONE;
-        $this->repair->progress = Repair::STATUS_IN_PROGRESS;
+        $this->repair->progress = Repair::STATUS_CREATED;
         $this->repair->client_id = $this->client->id;
         $this->repair->repairman_id = $this->repairman->id;
         $this->repair->save();
@@ -205,6 +202,7 @@ class BudgetTest extends \Codeception\Test\Unit
     public function testCreateBudget()
     {
         $this->budget = $this->createValidBudget();
+        $this->budget->validate();
         $this->assertTrue($this->budget->save());
         $savedBudget = Budget::findOne($this->budget->id);
         $this->assertNotNull($savedBudget);
@@ -226,6 +224,7 @@ class BudgetTest extends \Codeception\Test\Unit
     {
         $this->budget = $this->createValidBudget();
         $this->budget->save();
+        $this->budget->validate();
 
         $newValue = 200.00;
         $this->budget->value = $newValue;
