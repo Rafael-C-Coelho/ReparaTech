@@ -562,7 +562,7 @@ $this->title = 'Repara Tech';
             </a>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/brokenScreen.jpg'])?>">
+            <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/brokenScreen'])?>">
                 <div class="cat-item d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
                         <i class='fas fa-mobile' style='font-size:65px;color:#3D464D;'></i>
@@ -575,7 +575,7 @@ $this->title = 'Repara Tech';
         </div>
 
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="<//?=yii\helpers\Url::to(['site/connectivityIssue.jpg'])?>">
+            <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/connectivityIssue'])?>">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
                         <i class='fas fa-share-alt-square' style='font-size:65px;color:#3D464D;'></i>
@@ -588,7 +588,7 @@ $this->title = 'Repara Tech';
         </div>
 
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href=" <//?=yii\helpers\Url::to(['site/liquidDamage.jpg'])?>">
+            <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/liquidDamage'])?>">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
                         <i class='fas fa-wine-bottle' style='font-size:65px;color:#3D464D;'></i>
@@ -601,7 +601,7 @@ $this->title = 'Repara Tech';
         </div>
 
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-            <a class="text-decoration-none" href="<//?=yii\helpers\Url::to(['site/damageButton.jpg'])?>">
+            <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/damageButton'])?>">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
                         <i class='fas fa-power-off' style='font-size:65px;color:#3D464D;'></i>
@@ -614,7 +614,7 @@ $this->title = 'Repara Tech';
         </div>
 
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1" >
-            <a class="text-decoration-none" href="<//?=yii\helpers\Url::to(['site/dataRecovery.jpg'])?>">
+            <a class="text-decoration-none" href="<?=yii\helpers\Url::to(['site/dataRecovery'])?>">
                 <div class="cat-item img-zoom d-flex align-items-center mb-4">
                     <div class="overflow-hidden" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
                         <i class='fas fa-upload' style='font-size:65px;color:#3D464D;'></i>
