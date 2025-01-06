@@ -37,6 +37,8 @@ class SaleController extends ActiveController
         unset($actions['index']);
         unset($actions['view']);
         unset($actions['create']);
+        unset($actions['update']);
+        unset($actions['delete']);
         return $actions;
     }
 
@@ -48,18 +50,16 @@ class SaleController extends ActiveController
 
     public function checkAccess($action, $model = null, $params = []){
         if ($action === 'create' || $action === 'update' || $action === 'delete') {
-            if (\Yii::$app->user->identity->hasRole('admin' || 'manager' || 'technician')) {
+            if (!\Yii::$app->user->identity->hasRole('admin') || !\Yii::$app->user->identity->hasRole('manager')) {
                 throw new \yii\web\ForbiddenHttpException('You can only view sales.');
             }
         }
     }
 
     public function actionIndex(){
-
         $activeData = new ActiveDataProvider([
             'query' => Sale::find()->with('saleProducts'),
         ]);
-
 
         return ['sales' => $activeData, 'total' => $activeData->getTotalCount(), "status" => "success"];
     }
@@ -70,26 +70,6 @@ class SaleController extends ActiveController
             return ['sale' => $sale, "status" => "success"];
         }
         return ['message' => 'Sale not found', "status" => "error"];
-    }
-
-    public function actionCart(){
-        $request = Yii::$app->request;
-        $cart = $request['cart'];
-        $productId = $request->post('product_id');
-        $quantity = $request->post('quantity');
-
-        $product = Product::findOne($productId);
-        if(!$product){
-            throw new \Exception('Product not found');
-        }
-
-        if(!isset($cart[$productId])){
-            $cart[$productId] = 0;
-        }
-
-        $cart[$productId] += $quantity;
-
-        return ['cart' => $cart, "status" => "success"];
     }
 
     public function actionCreate(){
@@ -181,7 +161,7 @@ class SaleController extends ActiveController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $path = \Yii::getAlias('@app/web/invoices/');
+        $path = \Yii::getAlias('@app/web/uploads/invoices/');
         FileHelper::createDirectory($path);
 
         $fileName = 'invoice_' . $invoice->id . '_' . $sale->client_id . '.pdf';

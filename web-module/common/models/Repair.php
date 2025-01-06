@@ -3,7 +3,6 @@
 namespace common\models;
 
 use common\models\Budget;
-use common\models\RepairPart;
 use common\models\User;
 use Dompdf\Dompdf;
 use yii\helpers\FileHelper;
@@ -159,7 +158,18 @@ class Repair extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
+        if ($this->progress === Repair::STATUS_IN_PROGRESS) {
+            $acceptedBudget = $this->getLastAcceptedBudget()->one();
+            if ($acceptedBudget === null) {
+                return false;
+            }
+        }
         if ($this->progress === Repair::STATUS_COMPLETED) {
+            $acceptedBudget = $this->getLastAcceptedBudget()->one();
+            if ($acceptedBudget === null) {
+                return false;
+            }
+
             $path = \Yii::getAlias('@app/web/uploads/invoices');
             FileHelper::createDirectory($path);
 
@@ -229,7 +239,7 @@ class Repair extends \yii\db\ActiveRecord
                     ['user' => $user]
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
-                ->setTo($this->provider->email)
+                ->setTo($this->client->email)
                 ->setSubject('You have a repair request to accept/deny at ' . \Yii::$app->name)
                 ->send();
         } else if ($this->progress === self::STATUS_DENIED && isset(\Yii::$app->params['supportEmail'])) {

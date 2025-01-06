@@ -16,7 +16,13 @@ class AuthBehavior extends ActionFilter
         if ($authHeader && preg_match('/^Bearer\s+(.*)$/', $authHeader, $matches)) {
             $claims = JwtHelper::validateToken($matches[1]);
             if ($claims) {
-                Yii::$app->user->identity = User::findOne($claims->get('uid'));
+                try {
+                    Yii::$app->user->identity = User::findOne($claims->get('uid'));
+                } catch (\Exception $e) {
+                    Yii::$app->response->statusCode = 401;
+                    Yii::$app->response->data = ['status' => 'error', 'message' => 'Try logging in again.'];
+                    return false;
+                }
                 return true;
             }
         }

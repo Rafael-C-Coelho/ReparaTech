@@ -67,23 +67,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
-    <div class="d-flex my-2 justify-content-between align-items-center">
-        <h6>Related comments</h6>
-    </div>
-    <?= \yii\grid\GridView::widget([
-        'dataProvider' => $dataProviderComments,
-        'columns' => [
-            'id',
-            'description',
-            'status',
-            'date:date',
-            'time:time',
-            [
-                'class' => ActionColumn::className(),
-                'template'=> '{view}',
-            ],
-        ],
-    ]); ?>
-
 </div>
