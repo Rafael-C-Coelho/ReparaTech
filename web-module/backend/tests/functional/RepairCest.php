@@ -11,14 +11,13 @@ class RepairCest
     {
     }
 
-    // tests
     public function tryToTest(FunctionalTester $I)
     {
     }
 
     public function Repair(FunctionalTester $I)
     {
-        $I->amOnRoute('/site/login');
+        $I->amOnRoute('login');
         $I->see("Please fill out the following fields to login:");
         $I->click('Login');
         $I->see('Username cannot be blank.');
@@ -27,7 +26,8 @@ class RepairCest
         $I->fillField('Password', 'Test@123');
         $I->click('Login');
         $I->am('admin');
-        $I->amOnPage('web/index');
+        $I->amOnPage('index');
+        $I->seeElement('.nav-link.active');
         $I->click('Repairs');
         $I->see('Repairs');
         $I->click('Create Repair');

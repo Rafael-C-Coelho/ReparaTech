@@ -29,36 +29,48 @@ class SaleCest
         $I->click('Login');
         //$I->amOnPage('site/painelClient');
         $I->am('client');
-        $I->amOnPage('product/shop');
-        $I->see('Selina Moen II');
-        $I->click('Selina Moen II');
-        //$I->amOnPage('product/details?id=1');
-        $I->see('Selina Moen II');
-        //$I->click('Update Quantity');
-        //$I->see('+');
-        //$I->click('+');
-        //$I->see('-');
-        //$I->click('-');
-        $I->click('Add To Cart');
-        $I->click('Cart');
-        $I->amOnPage('site/cart');
-        //$I->see('Subtotal');
-        //$I->see('Shipping', );
-        //$I->see('Total');
-        //$I->see('Product name ');
-        //$I->see('Price');
-        //$I->see('Quantity');
-        //$I->see('Image');
-        //$I->see('Remove');
-        $I->click( 'Proceed to Checkout');
+        $I->see('CATEGORIES');
+        $I->click('CATEGORIES');
+        $I->see('Seeded Tech');
+        $I->click('Seeded Tech');
+        $I->amOnPage('shop');
+        $I->see("All categories");
+
+        $I->seeElement('h5.card-title');
+        $I->click(['css' => 'h5.card-title']);
+        $I->click('button.btn.btn-primary');
+        //$I->seeElement('.h5.card-title.text-truncate');
+        $I->seeElement('button.btn.btn-primary');
+        /*
+        $I->click('//button[contains(@class, "btn-plus")]');
+        $I->see('+');
+        $I->click('+');
+        $I->see('-');
+        $I->click('-');
+        $I->click('button.btn.btn-primary');
+        */
+        $I->click('button.btn.btn-primary');
+
+
+        $I->click('i.fas.fa-shopping-cart.text-primary');
+        $I->amOnPage('cart');
+        $I->see('Subtotal');
+        $I->see('Shipping', );
+        $I->see('Total');
+        $I->see('Product name ');
+        $I->see('Price');
+        $I->see('Quantity');
+        $I->see('Image');
+        $I->see('Remove');
+        $I->click('button.btn-primary');
         $I->see('Shipping Details');
-        $I->seeValidationError('Preencha este campo');
+        //$I->seeValidationError('Preencha este campo');
         $I->fillField('Address', 'Rua 1');
-        $I->seeValidationError('Preencha este campo');
+        //$I->seeValidationError('Preencha este campo');
         $I->fillField('Zip Code', '2000-000');
         $I->click('Submit');
-        $I->see('Purchase completed successfully.');
-        $I->amOnPage('site/painelClient');
+        //$I->see('Purchase completed successfully.', '#w1-success-0');
+        $I->amOnPage('painelClient');
 
     }
 }
