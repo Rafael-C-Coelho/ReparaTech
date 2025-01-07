@@ -25,7 +25,7 @@ class RepairCest
         $I->fillField('Username', 'repairman');
         $I->fillField('Password', 'Test@123');
         $I->click('Login');
-        $I->am('admin');
+        $I->am('repairman');
         $I->amOnPage('site/index');
         $I->click('Repairs');
         $I->click('Create Repair');
