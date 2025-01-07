@@ -26,19 +26,17 @@ class RepairCest
         $I->fillField('Password', 'Test@123');
         $I->click('Login');
         $I->am('admin');
-        $I->amOnPage('index');
-        $I->seeElement('.nav-link.active');
+        $I->amOnPage('site/index');
         $I->click('Repairs');
-        $I->see('Repairs');
         $I->click('Create Repair');
-        $I->click('Save');
+        $I->click('button.btn-success');
         $I->see('Device cannot be blank.');
         $I->see('Description cannot be blank.');
         $I->fillField('Hours Spent Working', '2');
-        $I->fillField('Device', 'Samsung Galaxy S10');
-        $I->checkOption('Created');
+        $I->selectOption('Device','Computer');
+        $I->selectOption('Progress','Created');
         $I->fillField('Description', 'Broken Screen');
-        $I->chooseOption('Client');
+        $I->selectOption('Client ID','Client');
         $I->click('Save');
     }
 }

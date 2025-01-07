@@ -69,7 +69,6 @@ class SaleCest
         //$I->seeValidationError('Preencha este campo');
         $I->fillField('Zip Code', '2000-000');
         $I->click('Submit');
-        //$I->see('Purchase completed successfully.', '#w1-success-0');
         $I->amOnPage('painelClient');
 
     }
