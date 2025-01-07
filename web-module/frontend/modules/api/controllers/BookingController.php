@@ -79,8 +79,8 @@ class BookingController extends ActiveController
 
         if ($bookingModel->validate() && $bookingModel->save()) {
             return ['booking' => $bookingModel, 'status'=> "success"];
-        } else
-            return ['message' => 'Failed to create booking', 'status'=> "error"];
+        } else {
+            return ['message' => 'Failed to create booking', 'status' => "error"];
+        }
     }
-
 }
