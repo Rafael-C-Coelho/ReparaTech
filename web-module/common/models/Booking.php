@@ -98,18 +98,18 @@ class Booking extends ActiveRecord
         if (isset(Yii::$app->params["supportEmail"])) {
             if ($this->status === self::STATUS_CONFIRMED) {
                 // Send email notification to the client
-                Yii::$app->mailer->compose(['html' => 'bookingConfirmed-html', 'text' => 'bookingConfirmed-text'], ['booking' => $this, 'user' => $this->repair->client])
+                Yii::$app->mailer->compose(['html' => 'bookingConfirmed-html', 'text' => 'bookingConfirmed-text'], ['booking' => $this, 'user' => $this->client])
                     ->setTo($this->client->email)
                     ->setSubject('Booking Confirmed')
                     ->send();
             } elseif ($this->status === self::STATUS_DENIED) {
                 // Send email notification to the client
-                Yii::$app->mailer->compose(['html' => 'bookingDenied-html', 'text' => 'bookingDenied-text'], ['booking' => $this, 'user' => $this->repair->client])
+                Yii::$app->mailer->compose(['html' => 'bookingDenied-html', 'text' => 'bookingDenied-text'], ['booking' => $this, 'user' => $this->client])
                     ->setTo($this->client->email)
                     ->setSubject('Booking Denied')
                     ->send();
             } else {
-                Yii::$app->mailer->compose(['html' => 'bookingRequested-html', 'text' => 'bookingRequested-text'], ['booking' => $this, 'user' => $this->repair->client])
+                Yii::$app->mailer->compose(['html' => 'bookingRequested-html', 'text' => 'bookingRequested-text'], ['booking' => $this, 'user' => $this->client])
                     ->setTo($this->client->email)
                     ->setSubject('Booking Requested')
                     ->send();
