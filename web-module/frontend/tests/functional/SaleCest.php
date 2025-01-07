@@ -9,12 +9,7 @@ class SaleCest
 {
     public function _before(FunctionalTester $I)
     {
-        $I->amOnPage('product/shop?category_id=14');
-    }
 
-    // tests
-    public function tryToTest(FunctionalTester $I)
-    {
     }
 
     public function createSale(FunctionalTester $I)
@@ -35,20 +30,10 @@ class SaleCest
         $I->click('Seeded Tech');
         $I->amOnPage('shop');
         $I->see("All categories");
-
         $I->seeElement('h5.card-title');
         $I->click(['css' => 'h5.card-title']);
         $I->click('button.btn.btn-primary');
-        //$I->seeElement('.h5.card-title.text-truncate');
         $I->seeElement('button.btn.btn-primary');
-        /*
-        $I->click('//button[contains(@class, "btn-plus")]');
-        $I->see('+');
-        $I->click('+');
-        $I->see('-');
-        $I->click('-');
-        $I->click('button.btn.btn-primary');
-        */
         $I->click('button.btn.btn-primary');
 
 
@@ -64,9 +49,7 @@ class SaleCest
         $I->see('Remove');
         $I->click('button.btn-primary');
         $I->see('Shipping Details');
-        //$I->seeValidationError('Preencha este campo');
         $I->fillField('Address', 'Rua 1');
-        //$I->seeValidationError('Preencha este campo');
         $I->fillField('Zip Code', '2000-000');
         $I->click('Submit');
         $I->amOnPage('painelClient');
