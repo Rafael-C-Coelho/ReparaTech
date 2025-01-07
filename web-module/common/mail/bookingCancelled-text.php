@@ -9,7 +9,7 @@ use yii\helpers\Html;
 ?>
 Hello <?= $user->username ?>,
 
-Your booking request has been denied for <?= date('d/m/y', $booking->date) ?> at <?= $booking->time ?>. We apologize for any inconvenience this may cause.
+Your booking request has been denied for <?= $booking->date ?> at <?= $booking->time ?>. We apologize for any inconvenience this may cause.
 
 Best regards,
 The Repair Team

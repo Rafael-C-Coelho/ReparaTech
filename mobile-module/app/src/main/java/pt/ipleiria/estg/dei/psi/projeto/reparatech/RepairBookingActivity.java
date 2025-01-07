@@ -86,15 +86,13 @@ public class RepairBookingActivity extends AppCompatActivity implements BookingL
             public void onClick(View view) {
 
                 String repairDate = etDate.getText().toString();
-                String repairTime = etTime.getText().toString();
+                String repairTime = etTime.getText().toString() + ":00";
 
                 if(etDate.getText().toString().isEmpty() || etTime.getText().toString().isEmpty()){
-                    Toast.makeText(RepairBookingActivity.this, "Fill in all the fields", Toast.LENGTH_SHORT).show();
-                    System.out.println("Fill in all the fields");
+                    Toast.makeText(RepairBookingActivity.this, getString(R.string.fill_in_all_the_fields), Toast.LENGTH_SHORT).show();
                 } else {
                     ReparaTechSingleton.getInstance(RepairBookingActivity.this).bookingRequest(repairDate, repairTime); //vamos buscar a instancia do ReparaTechSingleton e chamamos o metodo repairRequest
-                    Toast.makeText(RepairBookingActivity.this, "Repair request sent successfully", Toast.LENGTH_SHORT).show();
-                    System.out.println("Repair request sent successfully");
+                    Toast.makeText(RepairBookingActivity.this, R.string.repair_request_sent_successfully, Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -117,7 +115,7 @@ public class RepairBookingActivity extends AppCompatActivity implements BookingL
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
                 calendar.set(Calendar.MINUTE,minute);
-                if(hourOfDay < 9 || hourOfDay > 18){
+                if(hourOfDay < 9 || hourOfDay >= 18){
                     Toast.makeText(RepairBookingActivity.this, getString(R.string.choose_an_hour_between_9am_and_18pm), Toast.LENGTH_SHORT).show();
                 } else {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");

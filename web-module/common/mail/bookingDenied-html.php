@@ -10,7 +10,7 @@ use yii\helpers\Html;
 <div>
     <p>Hello <?= Html::encode($user->username) ?>,</p>
 
-    <p>Your booking request has been denied for <?= date('d/m/y', $booking->date) ?> at <?= $booking->time ?>. We apologize for any inconvenience this may cause.</p>
+    <p>Your booking request has been denied for <?= $booking->date ?> at <?= $booking->time ?>. We apologize for any inconvenience this may cause.</p>
 
     <p>Best regards,</p>
     <p>The Repair Team</p>

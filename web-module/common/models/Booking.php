@@ -30,7 +30,7 @@ class Booking extends ActiveRecord
 
             // Date and time validation
             ['date', 'date', 'format' => 'php:Y-m-d'],
-            ['time', 'time', 'format' => 'php:H:i'],
+            ['time', 'time', 'format' => 'php:H:i:s'],
             ['date', 'validateFutureDate'],
 
             // Working hours validation (assuming 9 AM to 6 PM)
@@ -100,17 +100,20 @@ class Booking extends ActiveRecord
                 // Send email notification to the client
                 Yii::$app->mailer->compose(['html' => 'bookingConfirmed-html', 'text' => 'bookingConfirmed-text'], ['booking' => $this, 'user' => $this->client])
                     ->setTo($this->client->email)
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                     ->setSubject('Booking Confirmed')
                     ->send();
             } elseif ($this->status === self::STATUS_DENIED) {
                 // Send email notification to the client
                 Yii::$app->mailer->compose(['html' => 'bookingDenied-html', 'text' => 'bookingDenied-text'], ['booking' => $this, 'user' => $this->client])
                     ->setTo($this->client->email)
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                     ->setSubject('Booking Denied')
                     ->send();
             } else {
                 Yii::$app->mailer->compose(['html' => 'bookingRequested-html', 'text' => 'bookingRequested-text'], ['booking' => $this, 'user' => $this->client])
                     ->setTo($this->client->email)
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                     ->setSubject('Booking Requested')
                     ->send();
             }
