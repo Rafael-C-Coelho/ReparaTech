@@ -76,13 +76,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
         if (Yii::$app->user->identity->hasRole('repairTechnician')) {
-            $totalRevenue = 0;
-            foreach (Repair::find()->where(['repairman_id' => Yii::$app->user->id])->all() as $repair) {
-                $totalRevenue += $repair->invoice->total ?? 0;
-            }
             return $this->render('index-repairman', [
                 'totalRepairs' => Repair::find()->where(['repairman_id' => Yii::$app->user->id])->count(),
-                'totalRevenue' => $totalRevenue,
             ]);
         }
         return $this->render('index', [

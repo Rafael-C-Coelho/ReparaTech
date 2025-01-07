@@ -23,7 +23,7 @@ class Booking extends ActiveRecord
     {
         return [
             // Required fields
-            [['date', 'time', 'repair_id', 'status'], 'required'],
+            [['date', 'time'], 'required'],
 
             // Data type rules
             [['repair_id'], 'integer'],

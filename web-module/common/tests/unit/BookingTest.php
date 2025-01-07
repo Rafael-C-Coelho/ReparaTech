@@ -100,8 +100,6 @@ class BookingTest extends Unit
         $this->assertFalse($model->validate());
         $this->assertArrayHasKey('date', $model->errors);
         $this->assertArrayHasKey('time', $model->errors);
-        $this->assertArrayHasKey('repair_id', $model->errors);
-        $this->assertArrayHasKey('status', $model->errors);
     }
 
     public function testValidateDateFormat()
@@ -251,12 +249,9 @@ class BookingTest extends Unit
     {
         $booking = new Booking();
         $this->assertFalse($booking->save());
-
         // Verify error messages for required fields
         $this->assertTrue($booking->hasErrors('date'));
         $this->assertTrue($booking->hasErrors('time'));
-        $this->assertTrue($booking->hasErrors('repair_id'));
-        $this->assertTrue($booking->hasErrors('status'));
     }
 
     // READ tests

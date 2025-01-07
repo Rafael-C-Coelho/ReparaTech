@@ -26,20 +26,8 @@
                 <!-- Small Box (Stat card) -->
                 <h5 class="mb-2 mt-4"><strong>Statistics</strong></h5>
                 <div class="row">
-                    <div class="col-lg-6 col-12">
-                        <!-- small card -->
-                        <div class="small-box bg-warning">
-                            <div class="inner">
-                                <h3><?= $totalRevenue ?? 0 ?></h3>
-                                <p>Total Revenue</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div>
-                        </div>
-                    </div>
                     <!-- ./col -->
-                    <div class="col-lg-6 col-12">
+                    <div class="col-12">
                         <!-- small card -->
                         <div class="small-box bg-danger">
                             <div class="inner">

@@ -75,6 +75,8 @@ class BookingController extends ActiveController
     {
         $bookingModel = new Booking();
         $bookingModel->load(\Yii::$app->request->post(), '');
+        $bookingModel->validate();
+        dd($bookingModel->errors);
 
         if ($bookingModel->validate() && $bookingModel->save()) {
             return ['booking' => $bookingModel, 'status'=> "success"];
