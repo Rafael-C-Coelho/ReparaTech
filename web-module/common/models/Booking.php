@@ -23,10 +23,9 @@ class Booking extends ActiveRecord
     {
         return [
             // Required fields
-            [['date', 'time'], 'required'],
+            [['date', 'time', 'client_id'], 'required'],
 
             // Data type rules
-            [['repair_id'], 'integer'],
             [['status'], 'string'],
 
             // Date and time validation
@@ -46,10 +45,10 @@ class Booking extends ActiveRecord
             ]],
 
             // Foreign key validation
-            [['repair_id'], 'exist',
+            [['client_id'], 'exist',
                 'skipOnError' => true,
-                'targetClass' => Repair::class,
-                'targetAttribute' => ['repair_id' => 'id']
+                'targetClass' => User::class,
+                'targetAttribute' => ['client_id' => 'id']
             ],
         ];
     }
@@ -78,16 +77,16 @@ class Booking extends ActiveRecord
         }
     }
 
-    public function getRepair()
+    public function getClient()
     {
-        return $this->hasOne(Repair::class, ['id' => 'repair_id']);
+        return $this->hasOne(User::class, ['id' => 'client_id']);
     }
 
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'repair_id' => 'Repair ID',
+            'client_id' => 'Client ID',
             'date' => 'Date',
             'time' => 'Time',
             'status' => 'Status',
@@ -100,18 +99,18 @@ class Booking extends ActiveRecord
             if ($this->status === self::STATUS_CONFIRMED) {
                 // Send email notification to the client
                 Yii::$app->mailer->compose(['html' => 'bookingConfirmed-html', 'text' => 'bookingConfirmed-text'], ['booking' => $this, 'user' => $this->repair->client])
-                    ->setTo($this->repair->client->email)
+                    ->setTo($this->client->email)
                     ->setSubject('Booking Confirmed')
                     ->send();
             } elseif ($this->status === self::STATUS_DENIED) {
                 // Send email notification to the client
                 Yii::$app->mailer->compose(['html' => 'bookingDenied-html', 'text' => 'bookingDenied-text'], ['booking' => $this, 'user' => $this->repair->client])
-                    ->setTo($this->repair->client->email)
+                    ->setTo($this->client->email)
                     ->setSubject('Booking Denied')
                     ->send();
             } else {
                 Yii::$app->mailer->compose(['html' => 'bookingRequested-html', 'text' => 'bookingRequested-text'], ['booking' => $this, 'user' => $this->repair->client])
-                    ->setTo($this->repair->client->email)
+                    ->setTo($this->client->email)
                     ->setSubject('Booking Requested')
                     ->send();
             }

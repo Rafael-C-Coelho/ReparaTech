@@ -12,8 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'repair_id')->textInput() ?>
-
     <?= $form->field($model, 'date')->textInput(['type' => 'date']) ?>
 
     <?= $form->field($model, 'time')->textInput(['type' => 'time']) ?>

@@ -58,35 +58,17 @@ class BookingTest extends Unit
         $this->repairman->generateAuthKey();
         $this->repairman->save();
 
-        $this->repair1 = new Repair([
-            'client_id' => $this->client->id,
-            'device' => Repair::DEVICE_PHONE,
-            'description' => 'Test repair description',
-            'progress' => Repair::STATUS_CREATED,
-            'repairman_id' => $this->repairman->id,
-        ]);
-        $this->repair1->save();
-
-        $this->repair2 = new Repair([
-            'client_id' => $this->client->id,
-            'device' => Repair::DEVICE_PHONE,
-            'description' => 'Test repair description',
-            'progress' => Repair::STATUS_CREATED,
-            'repairman_id' => $this->repairman->id,
-        ]);
-        $this->repair2->save();
-
         $this->booking1 = new Booking([
             'date' => '2026-01-10',
             'time' => '10:00',
-            'repair_id' => $this->repair1->id,
+            'client_id' => $this->client->id,
             'status' => Booking::STATUS_CONFIRMED
         ]);
         $this->booking1->save();
         $this->booking2 = new Booking([
             'date' => '2026-01-10',
             'time' => '12:00',
-            'repair_id' => $this->repair2->id,
+            'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
         $this->booking2->save();
@@ -107,7 +89,7 @@ class BookingTest extends Unit
         $model = new Booking([
             'date' => 'invalid-date',
             'time' => '14:00',
-            'repair_id' => $this->repair1->id,
+            'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
 
@@ -120,7 +102,7 @@ class BookingTest extends Unit
         $model = new Booking([
             'date' => '2025-01-10',
             'time' => 'invalid-time',
-            'repair_id' => $this->repair1->id,
+            'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
 
@@ -133,7 +115,7 @@ class BookingTest extends Unit
         $model = new Booking([
             'date' => '2020-01-01',
             'time' => '14:00',
-            'repair_id' => $this->repair1->id,
+            'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
 
@@ -148,7 +130,7 @@ class BookingTest extends Unit
         $model = new Booking([
             'date' => '2025-01-10',
             'time' => '08:00',
-            'repair_id' => $this->repair1->id,
+            'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
         $this->assertFalse($model->validate());
@@ -170,7 +152,7 @@ class BookingTest extends Unit
         $model = new Booking([
             'date' => '2025-01-10',
             'time' => '14:00',
-            'repair_id' => $this->repair1->id,
+            'client_id' => $this->client->id,
             'status' => 'invalid-status'
         ]);
 
@@ -190,21 +172,21 @@ class BookingTest extends Unit
         }
     }
 
-    public function testValidRepairRelation()
+    public function testValidClientRelation()
     {
         $model = new Booking([
             'date' => '2025-01-10',
             'time' => '14:00',
-            'repair_id' => $this->repair1->id,
+            'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
         $model->validate();
         $this->assertTrue($model->validate());
 
         // Test with non-existent repair_id
-        $model->repair_id = 99999;
+        $model->client_id = 9999999;
         $this->assertFalse($model->validate());
-        $this->assertArrayHasKey('repair_id', $model->errors);
+        $this->assertArrayHasKey('client_id', $model->errors);
     }
 
     public function testSuccessfulBooking()
@@ -212,7 +194,7 @@ class BookingTest extends Unit
         $model = new Booking([
             'date' => '2026-01-10',
             'time' => '14:00',
-            'repair_id' => $this->repair1->id,
+            'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
 
@@ -226,7 +208,7 @@ class BookingTest extends Unit
         $booking = new Booking();
         $booking->date = self::VALID_DATE;
         $booking->time = self::VALID_TIME;
-        $booking->repair_id = $this->repair1->id;
+        $booking->client_id = $this->client->id;
         $booking->status = self::VALID_STATUS;
         return $booking;
     }

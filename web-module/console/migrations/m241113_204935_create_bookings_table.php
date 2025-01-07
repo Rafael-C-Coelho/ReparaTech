@@ -20,7 +20,7 @@ class m241113_204935_create_bookings_table extends Migration
 
         $this->createTable('{{%bookings}}', [
             'id' => $this->primaryKey(),
-            'repair_id' => $this->integer(),
+            'client_id' => $this->integer(),
             'date' => $this->date()->notNull(),
             'time' => $this->time()->notNull(),
             'status' => "ENUM('Requested', 'Confirmed', 'Denied', 'Cancelled') NOT NULL DEFAULT 'Requested'",
@@ -29,17 +29,17 @@ class m241113_204935_create_bookings_table extends Migration
 
         // creates index for column `repair_id`
         $this->createIndex(
-            '{{%idx-bookings-repair_id}}',
+            '{{%idx-bookings-client_id}}',
             '{{%bookings}}',
-            'repair_id'
+            'client_id'
         );
 
         // add foreign key for table `{{%repairs}}`
         $this->addForeignKey(
             '{{%fk-bookings-repair_id}}',
             '{{%bookings}}',
-            'repair_id',
-            '{{%repairs}}',
+            'client_id',
+            '{{%user}}',
             'id',
             'RESTRICT'
         );
@@ -52,13 +52,13 @@ class m241113_204935_create_bookings_table extends Migration
     {
         // drops foreign key for table `{{%sales}}`
         $this->dropForeignKey(
-            '{{%fk-bookings-repair_id}}',
+            '{{%fk-bookings-client_id}}',
             '{{%bookings}}'
         );
 
         // drops index for column `repair_id`
         $this->dropIndex(
-            '{{%idx-bookings-repair_id}}',
+            '{{%idx-bookings-client_id}}',
             '{{%bookings}}'
         );
 
