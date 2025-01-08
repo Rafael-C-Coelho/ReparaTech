@@ -3,8 +3,10 @@
 namespace backend\controllers;
 
 use common\models\Comment;
+use common\models\User;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\rbac\Role;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -81,10 +83,6 @@ class CommentController extends Controller
             $dataProvider = new ActiveDataProvider([
                 'query' => Comment::find(),
             ]);
-        } else {
-            $dataProvider = new ActiveDataProvider([
-                'query' => Comment::find()->where(['recipient_id' => \Yii::$app->user->id])->orWhere(['sender_id' => \Yii::$app->user->id]),
-            ]);
         }
 
         return $this->render('index', [
@@ -105,47 +103,6 @@ class CommentController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Comment model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Comment();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Comment model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Deletes an existing Comment model.
