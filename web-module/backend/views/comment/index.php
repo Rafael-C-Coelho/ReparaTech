@@ -13,10 +13,6 @@ $this->title = 'Comments';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comment-index">
-    <p>
-        <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,14 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'sender_id',
-            'recipient_id',
-            'value',
+            'repair_id',
+            'description',
             'date',
-            //'time',
+            'time',
             [
                 'class' => ActionColumn::className(),
-                'template'=> '{view} {update}',
+                'template'=> '{view}',
                 'urlCreator' => function ($action, Comment $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

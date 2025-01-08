@@ -248,7 +248,6 @@ class RbacController extends Controller
         $entities = [
             'Budgets',
             'Clients',
-            'Comments',
             'FavoriteProducts',
             'Invoices',
             'Managers',
