@@ -1,5 +1,11 @@
 # ReparaTech
 
+## Creators
+
+- Diogo Gouveia, 2230240
+- Rafael Coelho, 2232357
+- Rafael Reis, 2231432
+
 ## About
 ReparaTech is a web-based application for managing products and sales. The system allows users to handle product inventory, process sales, and manage shopping cart functionality.
 
