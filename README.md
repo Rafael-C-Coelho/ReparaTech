@@ -22,7 +22,15 @@ ReparaTech is a web-based application for managing products and sales. The syste
 ## Database Structure
 The application uses the following main tables:
 
+## Pre-defined users (username : password)
 
+> admin : Test@123
+
+> manager : Test@123
+
+> repairman : Test@123
+
+> client : Test@123
 
 ## Installation
 
