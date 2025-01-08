@@ -36,6 +36,9 @@ android {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.15.0")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.0")
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0")
     implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
     implementation ("com.android.volley:volley:1.2.1")

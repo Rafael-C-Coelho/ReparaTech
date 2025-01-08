@@ -282,6 +282,14 @@ public class ReparaTechSingleton {
         return dbHelper.getAuthDB() != null;
     }
 
+    public String getRole() {
+        Auth auth = dbHelper.getAuthDB();
+        if (auth == null) {
+            return null;
+        }
+        return auth.getRole();
+    }
+
     // endregion
 
     // region # AUTH API METHODS #
@@ -310,7 +318,7 @@ public class ReparaTechSingleton {
                         ReparaTechSingleton.getInstance(context).setAuth(auth);
                         Toast.makeText(context, context.getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
                         if (loginListener != null) {
-                            loginListener.onValidateLogin(true);
+                            loginListener.onValidateLogin(true, ReparaTechSingleton.getInstance(context).getRole());
                         }
                     }
                 }

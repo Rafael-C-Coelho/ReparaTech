@@ -61,7 +61,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
         ReparaTechSingleton.getInstance(this).setLoginListener(this);
         ReparaTechSingleton.getInstance(this).setRegisterListener(this);
-        onValidateLogin(ReparaTechSingleton.getInstance(this).isLogged());
+        onValidateLogin(ReparaTechSingleton.getInstance(this).isLogged(), ReparaTechSingleton.getInstance(this).getRole());
 
         loadInitialFragment();
 
@@ -71,6 +71,11 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
         if(item.getItemId()==R.id.navHomepage){
+            if (ReparaTechSingleton.getInstance(this).getRole().equals("client")) {
+                fragment = new HomepageFragment();
+            } else {
+                fragment = new EmployeeHomepageFragment();
+            }
             fragment = new HomepageFragment();
             setTitle(item.getTitle());
 
@@ -98,7 +103,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             startActivity(intent);
         } else if (item.getItemId() == R.id.navSignOut) {
             ReparaTechSingleton.getInstance(this).removeAuth();
-            onValidateLogin(false);
+            onValidateLogin(false, null);
         }
 
 
@@ -118,10 +123,23 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     }
 
     @Override
-    public void onValidateLogin(boolean isValid) {
+    public void onValidateLogin(boolean isValid, String role) {
         Menu menu = navigationView.getMenu();
 
         // Hide/show login-related menu items based on login state
+        if (role != null && !role.equals("client")) {
+            menu.findItem(R.id.navHomepage).setVisible(false);
+            menu.findItem(R.id.navRepairBookings).setVisible(false);
+            menu.findItem(R.id.navListRepairCategories).setVisible(false);
+            menu.findItem(R.id.navProducts).setVisible(false);
+            menu.findItem(R.id.navCart).setVisible(false);
+        } else if (role != null && role.equals("client")) {
+            menu.findItem(R.id.navRepairBookings).setVisible(true);
+            menu.findItem(R.id.navListRepairCategories).setVisible(true);
+            menu.findItem(R.id.navProducts).setVisible(true);
+            menu.findItem(R.id.navCart).setVisible(true);
+        }
+
         menu.findItem(R.id.navLogin).setVisible(!isValid);
         menu.findItem(R.id.navSignUp).setVisible(!isValid);
         menu.findItem(R.id.navSignOut).setVisible(isValid);
