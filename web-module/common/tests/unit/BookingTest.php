@@ -12,7 +12,7 @@ use common\models\User;
 class BookingTest extends Unit
 {
     const VALID_DATE = '2026-01-10';
-    const VALID_TIME = '14:00';
+    const VALID_TIME = '14:00:00';
     const VALID_STATUS = Booking::STATUS_REQUESTED;
 
     /**
@@ -129,7 +129,7 @@ class BookingTest extends Unit
         // Test before working hours
         $model = new Booking([
             'date' => '2025-01-10',
-            'time' => '08:00',
+            'time' => '08:00:00',
             'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
@@ -137,12 +137,12 @@ class BookingTest extends Unit
         $this->assertArrayHasKey('time', $model->errors);
 
         // Test after working hours
-        $model->time = '18:01';
+        $model->time = '18:01:00';
         $this->assertFalse($model->validate());
         $this->assertArrayHasKey('time', $model->errors);
 
         // Test valid working hours
-        $model->time = '14:00';
+        $model->time = '14:00:00';
         $model->validate();
         $this->assertArrayNotHasKey('time', $model->errors);
     }
@@ -176,7 +176,7 @@ class BookingTest extends Unit
     {
         $model = new Booking([
             'date' => '2025-01-10',
-            'time' => '14:00',
+            'time' => '14:00:00',
             'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
@@ -193,7 +193,7 @@ class BookingTest extends Unit
     {
         $model = new Booking([
             'date' => '2026-01-10',
-            'time' => '14:00',
+            'time' => '14:00:00',
             'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
         ]);
@@ -223,7 +223,7 @@ class BookingTest extends Unit
         $savedBooking = Booking::findOne($booking->id);
         $this->assertNotNull($savedBooking);
         $this->assertEquals(self::VALID_DATE, $savedBooking->date);
-        $this->assertEquals(self::VALID_TIME . ':00', $savedBooking->time);
+        $this->assertEquals(self::VALID_TIME, $savedBooking->time);
         $this->assertEquals(self::VALID_STATUS, $savedBooking->status);
     }
 
@@ -247,7 +247,7 @@ class BookingTest extends Unit
         $foundBooking = Booking::findOne($booking->id);
         $this->assertNotNull($foundBooking);
         $this->assertEquals($booking->date, $foundBooking->date);
-        $this->assertEquals($booking->time . ':00', $foundBooking->time);
+        $this->assertEquals($booking->time, $foundBooking->time);
         $this->assertEquals($booking->status, $foundBooking->status);
     }
 
@@ -265,7 +265,7 @@ class BookingTest extends Unit
 
         // Update booking
         $newDate = '2025-01-15';
-        $newTime = '15:00';
+        $newTime = '15:00:00';
         $newStatus = Booking::STATUS_CONFIRMED;
 
         $booking->date = $newDate;
@@ -278,7 +278,7 @@ class BookingTest extends Unit
         // Verify updates
         $updatedBooking = Booking::findOne($booking->id);
         $this->assertEquals($newDate, $updatedBooking->date);
-        $this->assertEquals($newTime . ':00', $updatedBooking->time);
+        $this->assertEquals($newTime, $updatedBooking->time);
         $this->assertEquals($newStatus, $updatedBooking->status);
     }
 
