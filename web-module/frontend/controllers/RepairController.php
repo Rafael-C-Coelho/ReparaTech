@@ -8,6 +8,7 @@ use frontend\modules\api\helpers\AuthBehavior;
 use http\Url;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;
 
@@ -17,8 +18,8 @@ class RepairController extends Controller
     {
         return array_merge(parent::behaviors(), [
             'authenticator' => [
-                'class' => AuthBehavior::class,
-                'except' => [],
+                'class' => AccessControl::class,
+                'except' => ['index'],
             ],
         ]);
     }
@@ -36,9 +37,9 @@ class RepairController extends Controller
     public function actionIndex()
     {
         if (Yii::$app->user->identity->hasRole('client') === false) {
-            $repairs = Repair::find()->all();
+            $repairs = Repair::find();
         } else {
-            $repairs = Repair::find()->where(['client_id' => Yii::$app->user->id])->all();
+            $repairs = Repair::find()->where(['client_id' => Yii::$app->user->id]);
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $repairs,

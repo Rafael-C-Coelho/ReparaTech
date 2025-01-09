@@ -8,6 +8,7 @@ services:
       - ~/.composer-docker/cache:/root/.composer/cache:rw
       # Mount source-code for development
       - ./:/app:rw
+      - ./:/var/www/html:r
     depends_on:
       - mysql
 
@@ -20,6 +21,7 @@ services:
       - ~/.composer-docker/cache:/root/.composer/cache:rw
       # Mount source-code for development
       - ./:/app:rw
+      - ./:/var/www/html:r
     depends_on:
       - mysql
 
