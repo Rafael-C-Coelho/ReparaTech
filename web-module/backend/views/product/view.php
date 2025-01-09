@@ -14,13 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="product-view">
     <p>
         <?= Yii::$app->user->can("updateProducts") ? Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) : '' ?>
-        <?= Yii::$app->user->can("deleteProducts") ? Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) : '' ?>
     </p>
 
     <?= DetailView::widget([

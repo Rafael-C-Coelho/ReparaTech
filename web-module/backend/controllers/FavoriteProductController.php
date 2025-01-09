@@ -24,7 +24,7 @@ class FavoriteProductController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'only' => ['index', 'view', 'create', 'update'],
                     'rules' => [
                         [
                             'allow' => false,
@@ -44,20 +44,9 @@ class FavoriteProductController extends Controller
                             'allow' => true,
                             'roles' => ['updateFavoriteProducts'],
                             'actions' => ['update'],
-                        ],
-                        [
-                            'allow' => true,
-                            'roles' => ['deleteFavoriteProducts'],
-                            'actions' => ['delete'],
-                        ],
+                        ]
                     ],
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
+                ]
             ]
         );
     }
@@ -141,20 +130,6 @@ class FavoriteProductController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * Deletes an existing FavoriteProduct model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

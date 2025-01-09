@@ -26,7 +26,7 @@ class CommentController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'only' => ['index', 'view', 'create', 'update'],
                     'rules' => [
                         [
                             'allow' => false,
@@ -39,7 +39,7 @@ class CommentController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'actions' => ['index', 'view', 'create', 'update'],
                             'matchCallback' => function ($rule, $action) {
                                 return $action->controller->findModel(\Yii::$app->request->get('id'))->recipient_id === \Yii::$app->user->id || $action->controller->findModel(\Yii::$app->request->get('id'))->sender_id === \Yii::$app->user->id;
                             },
@@ -54,19 +54,8 @@ class CommentController extends Controller
                             'roles' => ['updateComments'],
                             'actions' => ['update'],
                         ],
-                        [
-                            'allow' => true,
-                            'roles' => ['deleteComments'],
-                            'actions' => ['delete'],
-                        ],
                     ],
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
+                ]
             ]
         );
     }
@@ -101,21 +90,6 @@ class CommentController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-
-    /**
-     * Deletes an existing Comment model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

@@ -27,7 +27,7 @@ class RepairController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'only' => ['index', 'view', 'create', 'update'],
                     'rules' => [
                         [
                             'allow' => false,
@@ -50,24 +50,13 @@ class RepairController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'roles' => ['deleteRepairs'],
-                            'actions' => ['delete'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'actions' => ['index', 'view', 'create', 'update'],
                             'matchCallback' => function ($rule, $action) {
                                 return $action->controller->findModel(\Yii::$app->request->get('id'))->repairman_id === \Yii::$app->user->id;
                             },
                         ],
                     ],
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
+                ]
             ]
         );
     }
@@ -174,20 +163,6 @@ class RepairController extends Controller
                 'query' => $this->findModel($id)->getComments(),
             ])
         ]);
-    }
-
-    /**
-     * Deletes an existing Repair model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

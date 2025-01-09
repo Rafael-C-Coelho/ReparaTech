@@ -27,7 +27,7 @@ class ClientController extends Controller
                     'class' => AccessControl::className(),
                     'rules' => [
                         [
-                            "actions" => ["index", "view", "create", "update", "delete", "toggle-status"],
+                            "actions" => ["index", "view", "create", "update", "toggle-status"],
                             "allow" => true,
                             "roles" => ["storeOwner", "manager"],
                         ],
@@ -36,13 +36,7 @@ class ClientController extends Controller
                             "roles" => ["?", "repairTechnician"],
                         ]
                     ]
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
+                ]
             ]
         );
     }
@@ -129,20 +123,6 @@ class ClientController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * Deletes an existing User model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-        Yii::$app->session->setFlash('success', 'User deleted successfully.');
-        return $this->redirect(['index']);
     }
 
     /**

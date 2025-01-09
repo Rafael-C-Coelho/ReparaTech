@@ -26,7 +26,7 @@ class BudgetController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'only' => ['index', 'view', 'create', 'update'],
                     'rules' => [
                         [
                             'allow' => true,
@@ -44,13 +44,8 @@ class BudgetController extends Controller
                             'actions' => ['update'],
                         ],
                         [
-                            'allow' => true,
-                            'roles' => ['deleteBudgets'],
-                            'actions' => ['delete'],
-                        ],
-                        [
                             "allow" => true,
-                            "actions" => ["index", "view", "create", "update", "delete"],
+                            "actions" => ["index", "view", "create", "update"],
                             "matchCallback" => function ($rule, $action) {
                                 return $action->controller->findModel(\Yii::$app->request->get('id'))->repairman_id === \Yii::$app->user->id;
                             },
@@ -59,12 +54,6 @@ class BudgetController extends Controller
                             'allow' => false,
                             'roles' => ['?', 'client'],
                         ],
-                    ],
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
                     ],
                 ],
             ]
@@ -174,20 +163,6 @@ class BudgetController extends Controller
             'repairs' => Repair::getRepairs(),
             'repairTechnicians' => User::getRepairTechnicians(),
         ]);
-    }
-
-    /**
-     * Deletes an existing Budget model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

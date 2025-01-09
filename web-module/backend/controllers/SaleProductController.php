@@ -24,7 +24,7 @@ class SaleProductController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'only' => ['index', 'view', 'create', 'update'],
                     'rules' => [
                         [
                             'allow' => false,
@@ -47,24 +47,13 @@ class SaleProductController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'roles' => ['deleteSaleProducts'],
-                            'actions' => ['delete'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'actions' => ['index', 'view', 'create', 'update'],
                             'matchCallback' => function ($rule, $action) {
                                 return $action->controller->findModel(\Yii::$app->request->get('id'))->client_id === \Yii::$app->user->id;
                             },
                         ],
                     ],
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
+                ]
             ]
         );
     }
@@ -148,20 +137,6 @@ class SaleProductController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * Deletes an existing SaleProduct model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

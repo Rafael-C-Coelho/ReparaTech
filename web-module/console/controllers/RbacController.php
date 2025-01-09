@@ -122,7 +122,6 @@ class RbacController extends Controller
         $operations = [
             'create' => 'Create new',
             'update' => 'Update existing',
-            'delete' => 'Delete existing',
             'view' => 'View details of',
             'list' => 'List all'
         ];
@@ -153,21 +152,18 @@ class RbacController extends Controller
         $auth->addChild($repairTechnician, $auth->getPermission('viewRepairs'));
         $auth->addChild($repairTechnician, $auth->getPermission('createRepairs'));
         $auth->addChild($repairTechnician, $auth->getPermission('updateRepairs'));
-        $auth->addChild($repairTechnician, $auth->getPermission('deleteRepairs'));
 
         // Budget permissions
         $auth->addChild($repairTechnician, $auth->getPermission('createBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('updateBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('viewBudgets'));
         $auth->addChild($repairTechnician, $auth->getPermission('listBudgets'));
-        $auth->addChild($repairTechnician, $auth->getPermission('deleteBudgets'));
 
         //Booking permissions
         $auth->addChild($repairTechnician, $auth->getPermission('listBookings'));
         $auth->addChild($repairTechnician, $auth->getPermission('viewBookings'));
         $auth->addChild($repairTechnician, $auth->getPermission('createBookings'));
         $auth->addChild($repairTechnician, $auth->getPermission('updateBookings'));
-        $auth->addChild($repairTechnician, $auth->getPermission('deleteBookings'));
 
         echo "RBAC configured for Repair Technician.\n";
     }
@@ -189,7 +185,6 @@ class RbacController extends Controller
         $auth->addChild($clientRole, $auth->getPermission('listFavoriteProducts'));
         $auth->addChild($clientRole, $auth->getPermission('viewFavoriteProducts'));
         $auth->addChild($clientRole, $auth->getPermission('createFavoriteProducts'));
-        $auth->addChild($clientRole, $auth->getPermission('deleteFavoriteProducts'));
 
         // Products permissions
         $auth->addChild($clientRole, $auth->getPermission('listSales'));
@@ -229,7 +224,7 @@ class RbacController extends Controller
         ];
 
         foreach ($entities as $entity) {
-            $operations = ['create', 'update', 'delete', 'view', 'list'];
+            $operations = ['create', 'update', 'view', 'list'];
             foreach ($operations as $operation) {
                 $permissionName = lcfirst($operation . $entity);
                 $auth->addChild($managerRole, $auth->getPermission($permissionName));
@@ -261,7 +256,7 @@ class RbacController extends Controller
         ];
 
         foreach ($entities as $entity) {
-            $operations = ['create', 'update', 'delete', 'view', 'list'];
+            $operations = ['create', 'update', 'view', 'list'];
             foreach ($operations as $operation) {
                 $permissionName = lcfirst($operation . $entity);
                 $auth->addChild($storeOwnerRole, $auth->getPermission($permissionName));

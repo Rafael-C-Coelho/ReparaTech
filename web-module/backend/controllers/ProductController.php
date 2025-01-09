@@ -26,7 +26,7 @@ class ProductController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::className(),
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'only' => ['index', 'view', 'create', 'update'],
                     'rules' => [
                         [
                             'allow' => false,
@@ -47,17 +47,6 @@ class ProductController extends Controller
                             'roles' => ['updateProducts'],
                             'actions' => ['update'],
                         ],
-                        [
-                            'allow' => true,
-                            'roles' => ['deleteProducts'],
-                            'actions' => ['delete'],
-                        ],
-                    ],
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
                     ],
                 ],
             ]
@@ -217,35 +206,6 @@ class ProductController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * Deletes an existing Product model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $model = $this->findModel($id);
-        
-        // Delete associated image file if exists from both locations
-        if ($model->image) {
-            $backendPath = \Yii::getAlias('@backend/web') . str_replace('@web', '', $model->image);
-            $frontendPath = \Yii::getAlias('@frontend/web') . str_replace('@web', '', $model->image);
-            
-            if (file_exists($backendPath)) {
-                unlink($backendPath);
-            }
-            if (file_exists($frontendPath)) {
-                unlink($frontendPath);
-            }
-        }
-        
-        $model->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

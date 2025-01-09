@@ -27,7 +27,7 @@ class ManagerController extends Controller
                     'class' => AccessControl::className(),
                     'rules' => [
                         [
-                            "actions" => ["index", "view", "create", "update", "delete", "toggle-status"],
+                            "actions" => ["index", "view", "create", "update", "toggle-status"],
                             "allow" => true,
                             "roles" => ["storeOwner"],
                         ],
@@ -44,13 +44,7 @@ class ManagerController extends Controller
                             "roles" => ["?"]
                         ]
                     ]
-                ],
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
+                ]
             ]
         );
     }
@@ -124,14 +118,6 @@ class ManagerController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
-
-    // Action to delete a user
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-        Yii::$app->session->setFlash('success', 'User deleted successfully.');
-        return $this->redirect(['index']);
     }
 
     // Method to find a user model by its primary key
