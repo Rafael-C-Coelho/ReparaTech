@@ -19,7 +19,7 @@ class RepairController extends Controller
         return array_merge(parent::behaviors(), [
             'authenticator' => [
                 'class' => AccessControl::class,
-                'except' => ['index'],
+                'except' => ['index', 'view', 'download-invoice'],
             ],
         ]);
     }
@@ -70,7 +70,7 @@ class RepairController extends Controller
 
     public function actionDownloadInvoice($id)
     {
-        if (Yii::$app->user->identity->hasRole('client') && Yii::$app->user->id !== Invoice::findOne($id)->repair->client_id) {
+        if (Yii::$app->user->identity->hasRole('client') && Yii::$app->user->id === Invoice::findOne($id)->repair->client_id) {
             $invoice = Invoice::findOne($id);
         } else {
             throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
