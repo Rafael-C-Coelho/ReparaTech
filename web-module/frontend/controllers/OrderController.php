@@ -7,10 +7,27 @@ use common\models\Sale;
 use common\models\SaleProduct;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 
 
 class OrderController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'download-invoice'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([

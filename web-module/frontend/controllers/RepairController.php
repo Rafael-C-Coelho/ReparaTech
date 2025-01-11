@@ -17,9 +17,15 @@ class RepairController extends Controller
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
-            'authenticator' => [
+            'access' => [
                 'class' => AccessControl::class,
-                'except' => ['index', 'view', 'download-invoice'],
+                'only' => ['index', 'view', 'download-invoice'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ]);
     }

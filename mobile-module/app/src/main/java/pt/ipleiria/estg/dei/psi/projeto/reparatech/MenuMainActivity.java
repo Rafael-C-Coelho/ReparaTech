@@ -64,30 +64,31 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         onValidateLogin(ReparaTechSingleton.getInstance(this).isLogged(), ReparaTechSingleton.getInstance(this).getRole());
 
         loadInitialFragment();
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
-        if(item.getItemId()==R.id.navHomepage){
+        if(item.getItemId() == R.id.navHomepage){
             if (ReparaTechSingleton.getInstance(this).getRole().equals("client")) {
                 fragment = new HomepageFragment();
             } else {
                 fragment = new EmployeeHomepageFragment();
             }
-            fragment = new HomepageFragment();
             setTitle(item.getTitle());
 
-        } else if (item.getItemId()==R.id.navProducts) {
+        } else if (item.getItemId() == R.id.navProducts) {
             fragment = new ProductsListFragment();
             setTitle(item.getTitle());
 
-        } else if (item.getItemId()==R.id.navRepairBookings) {
+        } else if (item.getItemId() == R.id.navRepairBookings) {
             Intent intent = new Intent(this, RepairBookingActivity.class);
+            if (!ReparaTechSingleton.getInstance(this).getRole().equals("client")) {
+                intent = new Intent(this, RepairBookingActivity.class);
+            }
             startActivity(intent);
 
-        } else if (item.getItemId()==R.id.navListRepairCategories) {
+        } else if (item.getItemId() == R.id.navListRepairCategories) {
             Intent intent = new Intent( this, RepairCategoriesListActivity.class);
             startActivity(intent);
 
@@ -103,7 +104,10 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             startActivity(intent);
         } else if (item.getItemId() == R.id.navSignOut) {
             ReparaTechSingleton.getInstance(this).removeAuth();
-            onValidateLogin(false, null);
+            onValidateLogin(false, "");
+        } else if (item.getItemId() == R.id.navCart) {
+            Intent intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
         }
 
 
@@ -127,13 +131,20 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         Menu menu = navigationView.getMenu();
 
         // Hide/show login-related menu items based on login state
-        if (role != null && !role.equals("client")) {
-            menu.findItem(R.id.navHomepage).setVisible(false);
+        if (role.isEmpty()) {
+            menu.findItem(R.id.navHomepage).setVisible(true);
             menu.findItem(R.id.navRepairBookings).setVisible(false);
+            menu.findItem(R.id.navListRepairCategories).setVisible(true);
+            menu.findItem(R.id.navProducts).setVisible(true);
+            menu.findItem(R.id.navCart).setVisible(false);
+        } else if (!role.equals("client")) {
+            menu.findItem(R.id.navHomepage).setVisible(true);
+            menu.findItem(R.id.navRepairBookings).setVisible(true);
+            menu.findItem(R.id.navListRepairs).setVisible(true);
             menu.findItem(R.id.navListRepairCategories).setVisible(false);
             menu.findItem(R.id.navProducts).setVisible(false);
             menu.findItem(R.id.navCart).setVisible(false);
-        } else if (role != null && role.equals("client")) {
+        } else if (role.equals("client")) {
             menu.findItem(R.id.navRepairBookings).setVisible(true);
             menu.findItem(R.id.navListRepairCategories).setVisible(true);
             menu.findItem(R.id.navProducts).setVisible(true);
@@ -149,6 +160,10 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onValidateRegister(boolean isValid) {
-        Toast.makeText(this, R.string.register_successful_verify_your_email, Toast.LENGTH_SHORT).show();
+        if (isValid) {
+            Toast.makeText(this, R.string.register_successful_verify_your_email, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.register_failed, Toast.LENGTH_SHORT).show();
+        }
     }
 }

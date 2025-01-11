@@ -803,5 +803,9 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         }
         return null;
     }
+
+    public void removeProductFromCartDB(Product product) {
+        this.db.delete(TABLE_CART_ITEMS, ID_PRODUCT_CART_ITEM + " = ?", new String[]{String.valueOf(product.getId())});
+    }
     // endregion
 }

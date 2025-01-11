@@ -285,7 +285,7 @@ public class ReparaTechSingleton {
     public String getRole() {
         Auth auth = dbHelper.getAuthDB();
         if (auth == null) {
-            return null;
+            return "";
         }
         return auth.getRole();
     }
@@ -425,6 +425,10 @@ public class ReparaTechSingleton {
 
     public void addProductToCart(Product product, int quantity) {
         dbHelper.addProductToCartDB(product, quantity);
+    }
+
+    public void removeProductFromCart(Product product) {
+        dbHelper.removeProductFromCartDB(product);
     }
 
     public void bookingRequest(String date, String time){

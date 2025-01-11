@@ -30,13 +30,13 @@ $this->title = 'Orders';
                     ],
                     [
                         'label' => 'Product Quantity',
-                        'value' => function ($model){
+                        'value' => function ($model) {
                             $quantity = 0;
                             foreach ($model->saleProducts as $saleProduct){
                                 $quantity += $saleProduct->quantity;
                             }
                             return $quantity;
-                        } 
+                        }
                     ],
                     ['class' => 'yii\grid\ActionColumn', 'template' => '{view}',
                         'buttons' => [

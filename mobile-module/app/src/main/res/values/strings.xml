@@ -115,5 +115,8 @@
     <string name="txt_error_loading_products_try_again_later">Error loading products. Try again later</string>
     <string name="repair_request_sent_successfully">Repair request sent successfully</string>
     <string name="fill_in_all_the_fields">Fill in all the fields</string>
+    <string name="repairs">Repairs</string>
+    <string name="welcome_to_the_employee_page_use_the_side_menu_to_navigate_to_the_desired_page">Welcome to the employee page! Use the side menu to navigate to the desired page.</string>
+    <string name="list_of_repairs">List of Repairs</string>
 
 </resources>
