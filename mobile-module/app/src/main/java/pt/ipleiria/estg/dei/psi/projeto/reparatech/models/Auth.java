@@ -53,7 +53,6 @@ public class Auth {
         return null; // Return null if roles are not found or decoding fails
     }
 
-
     public String getEmail() {
         return email;
     }

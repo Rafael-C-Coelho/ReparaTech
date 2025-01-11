@@ -27,8 +27,8 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 public class ReparaTechSingleton {
     private ArrayList<BestSellingProduct> bestSellingProducts;
     private ArrayList<RepairCategoriesList> repairCategoriesList;
-    private ArrayList<RepairCategoryDetail> repairCategoryDetails;
     private ArrayList<Product> products;
+    private ArrayList<MyBookingCalendar> myBookingCalendars;
     private static RequestQueue volleyQueue;
     private static ReparaTechSingleton INSTANCE = null;
     private Context context;
@@ -43,6 +43,7 @@ public class ReparaTechSingleton {
     private ReparaTechSingleton(Context context){
         products = new ArrayList<>();
         repairCategoriesList = new ArrayList<>();
+        myBookingCalendars = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
         settings = new Settings();
 
@@ -60,8 +61,6 @@ public class ReparaTechSingleton {
         }
         return INSTANCE;
     }
-
-
 
     public ReparaTechDBHelper getDbHelper() {
         return dbHelper;
@@ -88,22 +87,6 @@ public class ReparaTechSingleton {
     }
 
     /*
-    public ArrayList<RepairExample> getRepairExamples(){
-        ArrayList<RepairExample> repairExamples = new ArrayList<>();
-        for (int i = 1; i <= 8; i++) {
-            repairExamples.add(new RepairExample(
-                repairCategories.get(i - 1).getId(),
-                repairCategories.get(i - 1).getTitle(),
-                repairCategories.get(i - 1).getImg()
-            ));
-        }
-        repairExamples.add(new RepairExample(-1,"VIEW ALL",R.drawable.repairs));
-        return repairExamples;
-    }
-    */
-
-
-    /*
     private void generateDinamicBestSellingProducts() {
         bestSellingProducts = new ArrayList<>();
         bestSellingProducts.add(new BestSellingProduct(1,"Capa Iphone",20, R.drawable.iphone_capa));
@@ -113,72 +96,16 @@ public class ReparaTechSingleton {
         bestSellingProducts.add(new BestSellingProduct(5,"Mochila ASUS para Laptop ",55, R.drawable.iphone_capa));
         bestSellingProducts.add(new BestSellingProduct(6,"Rato Ergonómico Logitech",85, R.drawable.iphone_capa));
     }
-    */
 
-    /*
-    private void generateDinamicRepairCategories(){
-        repairCategories = new ArrayList<>();
-        repairCategories.add(new RepairCategoriesList(1,"Audio",
-                "If your device does not transmit sounds, our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.audio_issues));
-        repairCategories.add(new RepairCategoriesList(2,"Battery",
-                "If your device has battery damaged, our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.battery_issues));
-        repairCategories.add(new RepairCategoriesList(3,"Buttons",
-                "If your device has some button damaged, our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.buttons_iphone));
-        repairCategories.add(new RepairCategoriesList(4,"Camera",
-                "If your device has camera damaged, our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategoriesList(5,"Connectivity",
-                "If your device has connectivity issues, our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategoriesList(6,"Data Recovery",
-                "Have you lost important data that you'd like to recover? Our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategoriesList(7,"Hardware",
-                "Do you want to carry out routine maintenance? Our team is ready to do it with maximum efficiency.",
-                R.drawable.cleaning_computer));
-        repairCategories.add(new RepairCategoriesList(8,"Liquid Damage",
-                "Has your device fallen into the pool and won't switch on? Our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.iphone_capa));
-        repairCategories.add(new RepairCategoriesList(9,"Network",
-                "If your device has network issues, our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.network_issues));
-        repairCategories.add(new RepairCategoriesList(10,"Screen",
-                "If your device has a damaged screen, our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.broked_screen));
-        repairCategories.add(new RepairCategoriesList(12,"Software",
-                "If your device has malicious software, our team is ready to solve the problem with the utmost efficiency.",
-                R.drawable.software_issues));
-        repairCategories.add(new RepairCategoriesList(13,"Storage",
-                "If your device has storage issues, our team is ready to solve the problem with maximum efficiency.",
-                R.drawable.storage_issues));
-        repairCategories.add(new RepairCategoriesList(14, "Repair not Defined", "If the anomaly is not listed, please contact us!",R.drawable.repairs));
-    }
-    */
 
-    /*
     public ArrayList<BestSellingProduct> getbestSellingProductsExamples() {
         return new ArrayList<>(bestSellingProducts);
     }
-    */
-
-    /*
-    public RepairCategoriesList getRepairCategory(int id){
-        for (RepairCategoriesList l:repairCategories){
-            if (l.getId() == id) {
-                return l;
-            }
-        }
-        return null;
-    }
-    */
 
 
     // region # PRODUCTS METHODS #
 
-    /*private void generateDinamicProducts(){
+    private void generateDinamicProducts(){
         products = new ArrayList<>();
         products.add(new Product(1, "Capa Iphone",  10, R.drawable.iphone_capa));
         products.add(new Product(2, "Capa Samsung",  12, R.drawable.iphone_capa));
@@ -187,6 +114,8 @@ public class ReparaTechSingleton {
         products.add(new Product(5, "Mochila ASUS para Laptop",  55, R.drawable.iphone_capa));
         products.add(new Product(6, "Rato Ergonómico Logitech",  85, R.drawable.iphone_capa));
     }*/
+
+
 
     public ArrayList<Product> getProducts(){
         return new ArrayList<>(products);
@@ -218,6 +147,7 @@ public class ReparaTechSingleton {
     public ArrayList<RepairCategoryDetail> getAllRepairCategoriesDetailsListDB(){
         return new ArrayList<>(dbHelper.getAllRepairCategoriesDetailsListDB());
     }
+
 
     // endregion
 
@@ -427,7 +357,7 @@ public class ReparaTechSingleton {
         dbHelper.addProductToCartDB(product, quantity);
     }
 
-    public void bookingRequest(String date, String time){
+    public void bookingRequest(String date, String time) {
         String url = "/api/booking/create";
 
         JSONObject body = new JSONObject();

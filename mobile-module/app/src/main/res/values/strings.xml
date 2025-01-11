@@ -115,5 +115,9 @@
     <string name="txt_error_loading_products_try_again_later">Error loading products. Try again later</string>
     <string name="repair_request_sent_successfully">Repair request sent successfully</string>
     <string name="fill_in_all_the_fields">Fill in all the fields</string>
+    <string name="txt_item_my_calendar">My Calendar</string>
+    <string name="hint_date">Date</string>
+    <string name="hint_time">Time</string>
+    <string name="hint_status">Status</string>
 
 </resources>

@@ -516,6 +516,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         return repairCategoriesList;
     }
 
+
     public ArrayList<RepairCategoryDetail> getAllRepairCategoriesDetailsListDB() {
         ArrayList<RepairCategoryDetail> repairCategoriesDetailsList = new ArrayList<>();
 
@@ -529,6 +530,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return repairCategoriesDetailsList;
     }
+
 
     // endregion
 
@@ -762,21 +764,10 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
     }
 
-    /*
-    public ArrayList<RepairCategoryDetail> getAllRepairCategoryDetailDB(){
-        ArrayList<RepairCategoryDetail> repairCategoryDetail = new ArrayList<>();
 
-        Cursor cursor = this.db.query(TABLE_REPAIR_CATEGORY_DETAIL, new String[] {ID_REPAIR_CATEGORY, CATEGORIES_LIST_ID, MOBILE_SOLUTION, TABLET_SOLUTION, DESKTOP_LAPTOP_SOLUTION, WEARABLES_SOLUTION}, null, null, null,null, null);
-        if (cursor.moveToFirst()){
-            do {
-                RepairCategoryDetail repairCategory = new RepairCategoryDetail(cursor.getInt(0), cursor.getInt(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
-                repairCategoryDetail.add(repairCategory);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return repairCategoryDetail;
-    }
-    */
+
+
+
 
     public RepairCategoryDetail getRepairCategoryDetail(int idCategory) {
         SQLiteDatabase db = this.getReadableDatabase();

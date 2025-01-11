@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <FrameLayout
+        android:id="@+id/myBookingCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -30,8 +36,7 @@
         android:gravity="center"
         android:hint="@string/chosen_date"
         android:inputType="text"
-        tools:ignore="TextFields,VisualLintTextFieldSize"
-        />
+        tools:ignore="TextFields,VisualLintTextFieldSize" />
 
     <View
         android:layout_width="match_parent"

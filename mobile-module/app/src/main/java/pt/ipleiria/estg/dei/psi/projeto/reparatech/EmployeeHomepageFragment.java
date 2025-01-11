@@ -30,11 +30,11 @@ public class EmployeeHomepageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
         
-        LinearLayout gallery = view.findViewById(R.id.RepairCategories);
-        LinearLayout llBestSellingProducts = view.findViewById(R.id.BestSellingProducts);
+        //LinearLayout gallery = view.findViewById(R.id.RepairCategories);
+        //LinearLayout llBestSellingProducts = view.findViewById(R.id.BestSellingProducts);
 
-        hScrollViewRepairCategories = view.findViewById(R.id.hScrollViewRepairCategories);
-        hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
+        //hScrollViewRepairCategories = view.findViewById(R.id.hScrollViewRepairCategories);
+        //hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
         
         // repairExamples = ReparaTechSingleton.getInstance(getContext()).getRepairExamples();
         //bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getbestSellingProductsExamples();
