@@ -215,7 +215,7 @@ public class ReparaTechSingleton {
     public String getRole() {
         Auth auth = dbHelper.getAuthDB();
         if (auth == null) {
-            return null;
+            return "";
         }
         return auth.getRole();
     }
@@ -357,7 +357,11 @@ public class ReparaTechSingleton {
         dbHelper.addProductToCartDB(product, quantity);
     }
 
-    public void bookingRequest(String date, String time) {
+    public void removeProductFromCart(Product product) {
+        dbHelper.removeProductFromCartDB(product);
+    }
+
+    public void bookingRequest(String date, String time){
         String url = "/api/booking/create";
 
         JSONObject body = new JSONObject();

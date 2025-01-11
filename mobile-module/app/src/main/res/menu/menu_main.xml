@@ -20,6 +20,13 @@
         <item
             android:id="@+id/navRepairBookings"
             android:title="@string/txt_repair_bookings"
+            android:visible="false"
+            android:icon="@drawable/ic_action_listrepairs"/>
+
+        <item
+            android:id="@+id/navListRepairs"
+            android:title="@string/list_of_repairs"
+            android:visible="false"
             android:icon="@drawable/ic_action_listrepairs"/>
 
         <item

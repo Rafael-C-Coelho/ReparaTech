@@ -28,7 +28,7 @@ public class EmployeeHomepageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_homepage, container, false);
+        View view = inflater.inflate(R.layout.fragment_employee_homepage, container, false);
         
         //LinearLayout gallery = view.findViewById(R.id.RepairCategories);
         //LinearLayout llBestSellingProducts = view.findViewById(R.id.BestSellingProducts);
@@ -36,6 +36,7 @@ public class EmployeeHomepageFragment extends Fragment {
         //hScrollViewRepairCategories = view.findViewById(R.id.hScrollViewRepairCategories);
         //hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
         
+
         // repairExamples = ReparaTechSingleton.getInstance(getContext()).getRepairExamples();
         //bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getbestSellingProductsExamples();
         /*

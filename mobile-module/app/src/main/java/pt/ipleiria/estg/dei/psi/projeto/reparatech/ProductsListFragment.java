@@ -78,7 +78,6 @@ public class ProductsListFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (!isLoading && (firstVisibleItem + visibleItemCount >= totalItemCount) && totalItemCount > 0) {
-                    isLoading = true;
                     fetchMoreProducts();
                     lvProducts.refreshDrawableState();
                 }
@@ -115,24 +114,34 @@ public class ProductsListFragment extends Fragment {
 
     public void onRefresh() {
         // Refresh the list
-        page = 1;
+        isLoading = true;
         swipeRefreshLayout.setRefreshing(true);
+        page = 1;
         ReparaTechSingleton.getInstance(getContext()).clearProductsDB();
         ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
-        products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
-        adapter.notifyDataSetChanged();
+        products.clear();
         swipeRefreshLayout.setRefreshing(false);
+        products.addAll(ReparaTechSingleton.getInstance(getContext()).getProductsDB());
+        adapter.notifyDataSetChanged();
+        isLoading = false;
     }
 
     private void fetchMoreProducts() {
         // Simulate a Volley request here
         // Example:
-        swipeRefreshLayout.setRefreshing(true);
+        isLoading = true;
+        int prevProductsSize = products.size();
+        ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page + 1);
+        int currentProductsSize = ReparaTechSingleton.getInstance(getContext()).getProductsDB().size();
+        if (currentProductsSize == prevProductsSize) {
+            isLoading = false;
+            return;
+        }
         page++;
-        ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
-        isLoading = false;
+        products.clear();
+        products.addAll(ReparaTechSingleton.getInstance(getContext()).getProductsDB());
         adapter.notifyDataSetChanged();
         lvProducts.refreshDrawableState();
-        swipeRefreshLayout.setRefreshing(false);
+        isLoading = false;
     }
 }

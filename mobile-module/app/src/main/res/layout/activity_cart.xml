@@ -19,6 +19,7 @@
     <!-- Copy the LinearLayout structure above two more times for the other products -->
 
     <ListView
+        android:id="@+id/lvCart"
         android:layout_width="wrap_content"
         android:layout_height="551dp" />
 
