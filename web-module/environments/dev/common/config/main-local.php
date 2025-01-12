@@ -10,7 +10,7 @@ return [
             'charset' => 'utf8',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
+            'class' => 'yii\symfonymailer\Mailer',
             'viewPath' => '@common/mail',
             'useFileTransport' => false, // Set to false to send real emails
             'transport' => [
@@ -18,7 +18,7 @@ return [
                 'host' => 'smtp.zoho.eu', // Use 'smtp.zoho.eu' for EU-based accounts
                 'username' => 'info@drjgouveia.dev',
                 'password' => 'QGTECmB3HGUH',
-                'port' => '587', // or 587
+                'port' => 587, // or 587
                 'encryption' => 'tls', // or 'tls' if using port 587
             ],
             // You have to set
