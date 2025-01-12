@@ -4,7 +4,6 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MenuItem;
@@ -71,12 +70,11 @@ public class RepairBookingActivity extends AppCompatActivity implements BookingL
         btnMyCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                findViewById(R.id.myBookingCalendar).setVisibility(View.VISIBLE); // Torna o FrameLayout visível
+                findViewById(R.id.myBooking).setVisibility(View.VISIBLE); // Torna o FrameLayout visível
 
-                Fragment myBookingCalendarFragment = new MyBookingCalendarFragment();
+                Fragment myBookingCalendarFragment = new MyBookingFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-                transaction.replace(R.id.myBookingCalendar, myBookingCalendarFragment);
+                transaction.replace(R.id.myBooking, myBookingCalendarFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -85,7 +83,6 @@ public class RepairBookingActivity extends AppCompatActivity implements BookingL
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String repairDate = etDate.getText().toString();
                 String repairTime = etTime.getText().toString() + ":00";
 
