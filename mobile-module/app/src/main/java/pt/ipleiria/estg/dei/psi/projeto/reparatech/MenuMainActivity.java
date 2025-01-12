@@ -69,9 +69,8 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
-        if(item.getItemId()==R.id.navHomepage){
-            String role = ReparaTechSingleton.getInstance(this).getRole();
-            if ("client".equals(role)) {
+        if(item.getItemId() == R.id.navHomepage){
+            if (ReparaTechSingleton.getInstance(this).getRole().equals("client") || ReparaTechSingleton.getInstance(this).getRole().isEmpty()) {
                 fragment = new HomepageFragment();
             } else {
                 fragment = new EmployeeHomepageFragment();

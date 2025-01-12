@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CARRINHO DE COMPRAS"
+        android:text="@string/shopping_cart_caps"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_marginBottom="16dp"/>
@@ -32,19 +32,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TOTAL: "
+            android:text="@string/total_with_twodots"
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/tvTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="€0.00"/>
+            android:text="@string/euro_0_00" />
     </LinearLayout>
 
     <Button
+        android:id="@+id/btnCompleteCheckout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="COMPLETAR CHECKOUT"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/complete_checkout_caps" />
 
 </LinearLayout>

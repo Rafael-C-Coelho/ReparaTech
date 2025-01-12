@@ -56,6 +56,10 @@ public class ProductsListFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
         products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
+        if (products.isEmpty()) {
+            ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
+            products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
+        }
         adapter = new ProductsListAdapter(getContext(), products);
         lvProducts.setAdapter(adapter);
 

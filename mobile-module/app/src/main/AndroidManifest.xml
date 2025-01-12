@@ -20,6 +20,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".FinishCartActivity"
+            android:exported="false"
+            android:parentActivityName=".CartActivity" />
+        <activity
             android:name=".CartActivity"
             android:exported="false"
             android:parentActivityName=".MenuMainActivity" />

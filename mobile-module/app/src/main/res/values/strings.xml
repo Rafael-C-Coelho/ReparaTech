@@ -122,5 +122,13 @@
     <string name="repairs">Repairs</string>
     <string name="welcome_to_the_employee_page_use_the_side_menu_to_navigate_to_the_desired_page">Welcome to the employee page! Use the side menu to navigate to the desired page.</string>
     <string name="list_of_repairs">List of Repairs</string>
+    <string name="euro_symbol">€</string>
+    <string name="complete_checkout_caps">COMPLETE CHECKOUT</string>
+    <string name="total_with_twodots">TOTAL:</string>
+    <string name="shopping_cart_caps">SHOPPING CART</string>
+    <string name="euro_0_00">€0.00</string>
+    <string name="address">Address</string>
+    <string name="zip_code">Zip code</string>
+    <string name="finalize">Finalize</string>
 
 </resources>

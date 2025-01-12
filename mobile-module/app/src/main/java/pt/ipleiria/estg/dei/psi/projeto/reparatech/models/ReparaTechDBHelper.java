@@ -798,5 +798,16 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     public void removeProductFromCartDB(Product product) {
         this.db.delete(TABLE_CART_ITEMS, ID_PRODUCT_CART_ITEM + " = ?", new String[]{String.valueOf(product.getId())});
     }
+
+    public void updateCartItemDB(int id, int quantity) {
+        ContentValues values = new ContentValues();
+        values.put(QUANTITY_CART_ITEM, quantity);
+
+        this.db.update(TABLE_CART_ITEMS, values, ID_CART_ITEM + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void removeCartItemDB(int id) {
+        this.db.delete(TABLE_CART_ITEMS, ID_CART_ITEM + " = ?", new String[]{String.valueOf(id)});
+    }
     // endregion
 }

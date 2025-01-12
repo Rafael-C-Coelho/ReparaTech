@@ -398,6 +398,14 @@ public class ReparaTechSingleton {
                 Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
         }
     }
+
+    public void updateCartItem(int id, int quantity) {
+        dbHelper.updateCartItemDB(id, quantity);
+    }
+
+    public void removeCartItem(int id) {
+        dbHelper.removeCartItemDB(id);
+    }
     // endregion
 }
 
