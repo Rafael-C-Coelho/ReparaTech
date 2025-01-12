@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,8 +70,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String ID_BOOKING = "id";
     private static final String DATE_BOOKING = "date";
     private static final String TIME_BOOKING = "time";
-    private static final String ID_USER_BOOKING = "id_user";
-
+    private static final String STATUS_BOOKING = "status";
 
 
     public ReparaTechDBHelper(@Nullable Context context) {
@@ -150,18 +148,25 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 IMAGE_RECENTLYADDED_PRODUCT + " TEXT" + ");";
         sqLiteDatabase.execSQL(createRecentlyAddedProductTable);
 
+        String createBookingTable = "CREATE TABLE IF NOT EXISTS " + TABLE_BOOKINGS +
+                "(" + ID_BOOKING + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DATE_BOOKING + " TEXT NOT NULL, " +
+                TIME_BOOKING + " TEXT NOT NULL, " +
+                STATUS_BOOKING + " TEXT NOT NULL " + ");";
+        sqLiteDatabase.execSQL(createBookingTable);
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_AUTH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BESTSELLING_PRODUCT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECENTLYADDED_PRODUCT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORIES_LIST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
         onCreate(db);
     }
 
@@ -431,6 +436,22 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     public void removeCartItemsDB() {
         this.db.delete(TABLE_CART_ITEMS, null, null);
     }
+
+    public void removeProductFromCartDB(Product product) {
+        this.db.delete(TABLE_CART_ITEMS, ID_PRODUCT_CART_ITEM + " = ?", new String[]{String.valueOf(product.getId())});
+    }
+
+    public void updateCartItemDB(int id, int quantity) {
+        ContentValues values = new ContentValues();
+        values.put(QUANTITY_CART_ITEM, quantity);
+
+        this.db.update(TABLE_CART_ITEMS, values, ID_CART_ITEM + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void removeCartItemDB(int id) {
+        this.db.delete(TABLE_CART_ITEMS, ID_CART_ITEM + " = ?", new String[]{String.valueOf(id)});
+    }
+
     // endregion
 
     // region # REPAIR CATEGORIES LIST #
@@ -764,11 +785,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_REPAIR_CATEGORY_DETAIL, null, values);
     }
 
-
-
-
-
-
     public RepairCategoryDetail getRepairCategoryDetail(int idCategory) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_REPAIR_CATEGORY_DETAIL, null, ID_REPAIR_CATEGORY + " = ?", new String[]{String.valueOf(idCategory)}, null, null, null);
@@ -788,26 +804,38 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 return new RepairCategoryDetail(idCategory, mobileSolution, tabletSolution, desktopLaptopSolution, wearablesSolution);
             }
         }
-
         if (cursor != null) {
             cursor.close();
         }
         return null;
     }
 
-    public void removeProductFromCartDB(Product product) {
-        this.db.delete(TABLE_CART_ITEMS, ID_PRODUCT_CART_ITEM + " = ?", new String[]{String.valueOf(product.getId())});
-    }
-
-    public void updateCartItemDB(int id, int quantity) {
-        ContentValues values = new ContentValues();
-        values.put(QUANTITY_CART_ITEM, quantity);
-
-        this.db.update(TABLE_CART_ITEMS, values, ID_CART_ITEM + " = ?", new String[]{String.valueOf(id)});
-    }
-
-    public void removeCartItemDB(int id) {
-        this.db.delete(TABLE_CART_ITEMS, ID_CART_ITEM + " = ?", new String[]{String.valueOf(id)});
-    }
     // endregion
+
+    //region # BOOKINGS #
+
+    public ArrayList<MyBooking> getAllBookingsDB(){
+        ArrayList<MyBooking> myBookings = new ArrayList<>();
+        Cursor cursor = this.db.query(TABLE_BOOKINGS, new String[]{ID_BOOKING, DATE_BOOKING, TIME_BOOKING, STATUS_BOOKING}, null, null,null, null, null);
+        if (cursor.moveToFirst()){
+            do {
+                MyBooking myBooking = new MyBooking(cursor.getInt(0), cursor.getString(1), cursor.getString(2),cursor.getString(3));
+                myBookings.add(myBooking);
+            } while (cursor.moveToNext());
+        }
+        return myBookings;
+    }
+
+    public void addBookingsDB(ArrayList<MyBooking> myBookings){
+        for (MyBooking myBooking : myBookings) {
+            ContentValues values = new ContentValues();
+            values.put(ID_BOOKING, myBooking.getId());
+            values.put(DATE_BOOKING, myBooking.getDate().toString());
+            values.put(TIME_BOOKING, myBooking.getTime().toString());
+            values.put(STATUS_BOOKING, myBooking.getStatus());
+
+            this.db.insert(TABLE_BOOKINGS, null,values);
+        }
+    }
+
 }

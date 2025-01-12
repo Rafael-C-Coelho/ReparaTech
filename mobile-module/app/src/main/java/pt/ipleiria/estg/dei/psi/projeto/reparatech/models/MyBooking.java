@@ -1,16 +1,13 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
-import java.sql.Time;
-import java.util.Date;
 
-public class MyBookingCalendar {
+
+public class MyBooking {
 
     private int id;
-    private Time time;
-    private Date date;
-    private String status;
+    private String time, date, status;
 
-    public MyBookingCalendar(int id, Time time, Date date, String status) {
+    public MyBooking(int id, String time, String date, String status) {
         this.id = id;
         this.time = time;
         this.date = date;
@@ -21,11 +18,11 @@ public class MyBookingCalendar {
         return id;
     }
 
-    public Time getTime() {
+    public String getTime() {
         return time;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -33,11 +30,11 @@ public class MyBookingCalendar {
         return status;
     }
 
-    public void setTime(Time time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -45,3 +42,4 @@ public class MyBookingCalendar {
         this.status = status;
     }
 }
+

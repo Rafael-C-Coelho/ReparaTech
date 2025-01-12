@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
@@ -13,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,6 +21,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
@@ -28,7 +29,7 @@ public class ReparaTechSingleton {
     private ArrayList<BestSellingProduct> bestSellingProducts;
     private ArrayList<RepairCategoriesList> repairCategoriesList;
     private ArrayList<Product> products;
-    private ArrayList<MyBookingCalendar> myBookingCalendars;
+    private ArrayList<MyBooking> myBookings;
     private static RequestQueue volleyQueue;
     private static ReparaTechSingleton INSTANCE = null;
     private Context context;
@@ -43,7 +44,7 @@ public class ReparaTechSingleton {
     private ReparaTechSingleton(Context context){
         products = new ArrayList<>();
         repairCategoriesList = new ArrayList<>();
-        myBookingCalendars = new ArrayList<>();
+        myBookings = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
         settings = new Settings();
 
@@ -124,6 +125,11 @@ public class ReparaTechSingleton {
     public ArrayList<Product> getProductsDB(){
         products = dbHelper.getAllProductsDB();
         return new ArrayList<>(products);
+    }
+
+    public ArrayList<MyBooking> getMyBookingsDB(){
+        myBookings = dbHelper.getAllBookingsDB();
+        return new ArrayList<>(myBookings);
     }
 
     public void clearProductsDB(){
@@ -361,6 +367,16 @@ public class ReparaTechSingleton {
         dbHelper.removeProductFromCartDB(product);
     }
 
+    public void updateCartItem(int id, int quantity) {
+        dbHelper.updateCartItemDB(id, quantity);
+    }
+
+    public void removeCartItem(int id) {
+        dbHelper.removeCartItemDB(id);
+    }
+
+    // region # BOOKINGS API METHODS #
+
     public void bookingRequest(String date, String time){
         String url = "/api/booking/create";
 
@@ -399,12 +415,33 @@ public class ReparaTechSingleton {
         }
     }
 
-    public void updateCartItem(int id, int quantity) {
-        dbHelper.updateCartItemDB(id, quantity);
+    public void getBookingsFromApi (int page){
+        String url = "/api/booking" + "?page=" + page;
+        try{
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    myBookings = MyBookingJsonParser.parserJsonBookings(response);
+                    dbHelper.addBookingsDB(myBookings);
+                    if(bookingListener != null){
+                        bookingListener.onValidateBooking(true);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(com.android.volley.VolleyError error) {
+                    Toast.makeText(context,context.getString(R.string.txt_error_loading_bookings_try_again_later), Toast.LENGTH_SHORT).show();
+                    System.out.println(context.getString(R.string.txt_error_loading_bookings_try_again_later));
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            myBookings = dbHelper.getAllBookingsDB();
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later), Toast.LENGTH_SHORT).show();
+        }
     }
+    public void updateBooking(MyBooking booking){
 
-    public void removeCartItem(int id) {
-        dbHelper.removeCartItemDB(id);
     }
     // endregion
 }
