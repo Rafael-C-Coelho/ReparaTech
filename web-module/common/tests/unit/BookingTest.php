@@ -100,7 +100,7 @@ class BookingTest extends Unit
     public function testValidateTimeFormat()
     {
         $model = new Booking([
-            'date' => '2025-01-10',
+            'date' => '2026-01-10',
             'time' => 'invalid-time',
             'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
@@ -128,7 +128,7 @@ class BookingTest extends Unit
     {
         // Test before working hours
         $model = new Booking([
-            'date' => '2025-01-10',
+            'date' => '2026-01-10',
             'time' => '08:00:00',
             'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
@@ -150,7 +150,7 @@ class BookingTest extends Unit
     public function testValidateStatus()
     {
         $model = new Booking([
-            'date' => '2025-01-10',
+            'date' => '2026-01-10',
             'time' => '14:00',
             'client_id' => $this->client->id,
             'status' => 'invalid-status'
@@ -175,7 +175,7 @@ class BookingTest extends Unit
     public function testValidClientRelation()
     {
         $model = new Booking([
-            'date' => '2025-01-10',
+            'date' => '2026-01-10',
             'time' => '14:00:00',
             'client_id' => $this->client->id,
             'status' => Booking::STATUS_REQUESTED
@@ -264,7 +264,7 @@ class BookingTest extends Unit
         $booking->save();
 
         // Update booking
-        $newDate = '2025-01-15';
+        $newDate = '2026-01-15';
         $newTime = '15:00:00';
         $newStatus = Booking::STATUS_CONFIRMED;
 
