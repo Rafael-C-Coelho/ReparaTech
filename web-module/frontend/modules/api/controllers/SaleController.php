@@ -26,9 +26,10 @@ class SaleController extends ActiveController
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
-            $behaviors['sale'] = [
+            'authenticator' => [
                 'class' => AuthBehavior::class,
-            ],
+                'except' => [],
+            ]
         ]);
     }
 
