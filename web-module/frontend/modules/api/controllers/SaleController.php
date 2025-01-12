@@ -43,12 +43,6 @@ class SaleController extends ActiveController
         return $actions;
     }
 
-    protected function verbs(){
-        return array_merge(parent::verbs(), [
-            'latest' => ['GET'],
-        ]);
-    }
-
     public function checkAccess($action, $model = null, $params = []){
         if ($action === 'create' || $action === 'update' || $action === 'delete') {
             if (!\Yii::$app->user->identity->hasRole('admin') || !\Yii::$app->user->identity->hasRole('manager')) {

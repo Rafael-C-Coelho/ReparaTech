@@ -15,7 +15,7 @@ class AuthBehavior extends ActionFilter
 
         if ($authHeader && preg_match('/^Bearer\s+(.*)$/', $authHeader, $matches)) {
             $claims = JwtHelper::validateToken($matches[1]);
-            if ($claims) {
+            if ($claims && $claims !== 406) {
                 try {
                     Yii::$app->user->identity = User::findOne($claims->get('uid'));
                 } catch (\Exception $e) {
