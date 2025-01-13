@@ -63,7 +63,7 @@ class RepairController extends ActiveController
         }
 
         $activeDataProvider = new ActiveDataProvider([
-           'query' => Repair::find()->where(['repairman_id' => \Yii::$app->user->identity->id])->orderBy('id DESC'),
+           'query' => Repair::find()->where(['repairman_id' => \Yii::$app->user->identity->id]),
             'pagination' => [
                 'defaultPageSize' => $perPage,
                 'pageSizeLimit' => [1, 100],
@@ -76,6 +76,10 @@ class RepairController extends ActiveController
     public function actionView($id)
     {
         $repair = Repair::findOne($id);
+        if ($repair === null) {
+            throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
+        }
+
         if ($repair->repairman_id !== \Yii::$app->user->identity->id) {
             throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
         }
