@@ -5,11 +5,14 @@ namespace frontend\modules\api\helpers;
 use common\models\User;
 use Yii;
 use yii\base\ActionFilter;
+use yii\web\Response;
 
 class AuthBehavior extends ActionFilter
 {
     public function beforeAction($action)
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         $headers = Yii::$app->request->headers;
         $authHeader = $headers->get('Authorization');
 
