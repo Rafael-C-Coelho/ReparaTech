@@ -42,11 +42,9 @@ public class MyBookingAdapter extends BaseAdapter {
         if (inflater == null){
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-
         if (view == null) {
             view = inflater.inflate(R.layout.item_calendar, null);
         }
-
         ViewHolderList viewHolderList = (ViewHolderList) view.getTag();
         if (viewHolderList == null){
             viewHolderList = new ViewHolderList(view);
@@ -65,7 +63,6 @@ public class MyBookingAdapter extends BaseAdapter {
             tvTime = view.findViewById(R.id.tvTime);
             tvStatus = view.findViewById(R.id.tvStatus);
         }
-
         public void update(MyBooking myBooking) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -75,6 +72,5 @@ public class MyBookingAdapter extends BaseAdapter {
             tvStatus.setText(myBooking.getStatus());
         }
     }
-
 }
 

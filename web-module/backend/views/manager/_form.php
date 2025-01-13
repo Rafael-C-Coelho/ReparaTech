@@ -18,8 +18,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'type' => 'email']) ?>
-    <?= $form->field($model, 'password')->passwordInput() ?>
-
+    <?php if(!\Yii::$app->user->can('storeOwner')):?>
+        <?=$form->field($model, 'password')->passwordInput(); ?>
+    <?php endif; ?>
     <?php
     // Conditionally display fields based on the user's scenario (role)
     if ($model->scenario === User::SCENARIO_MANAGER): ?>

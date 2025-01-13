@@ -115,7 +115,7 @@
     <string name="txt_error_loading_products_try_again_later">Error loading products. Try again later</string>
     <string name="repair_request_sent_successfully">Repair request sent successfully</string>
     <string name="fill_in_all_the_fields">Fill in all the fields</string>
-    <string name="txt_item_my_calendar">My Calendar</string>
+    <string name="txt_item_my_booking">Booking</string>
     <string name="hint_date">Date</string>
     <string name="hint_time">Time</string>
     <string name="hint_status">Status</string>
@@ -133,6 +133,9 @@
     <string name="your_order_has_been_created">Your order has been created!</string>
     <string name="there_was_an_error_on_your_order">There was an error on your order</string>
     <string name="txt_error_loading_bookings_try_again_later">Error loading bookings, try again later</string>
+    <string name="txt_booking_date">Date:</string>
+    <string name="txt_time_booking">Time:</string>
+    <string name="txt_status_booking">Status:</string>
     <string name="repair_bookings">Repair bookings</string>
     <string name="failed_to_refresh_token_login_again">Failed to refresh token, login again</string>
     <string name="no_internet_connection">No internet connection</string>

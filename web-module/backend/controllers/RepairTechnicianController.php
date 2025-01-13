@@ -123,7 +123,9 @@ class RepairTechnicianController extends Controller
 
         $model->setScenarioBasedOnRole("repairTechnician");
         if ($this->request->isPost && $model->load($this->request->post())) {
-            $model->setPassword($model->password);
+            if (!empty($model->password)) {
+                $model->setPassword($model->password);
+            }
             $model->generateAuthKey();
             $model->generateEmailVerificationToken();
             $model->status = User::STATUS_ACTIVE;

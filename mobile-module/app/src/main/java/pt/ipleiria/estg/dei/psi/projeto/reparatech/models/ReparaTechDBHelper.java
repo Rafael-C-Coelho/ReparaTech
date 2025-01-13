@@ -848,5 +848,10 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void updateBookingDB(int id, String status){
+            ContentValues values = new ContentValues();
+            values.put(STATUS_BOOKING, status);
+            this.db.update(TABLE_BOOKINGS, values, ID_BOOKING + " = ?", new String[]{String.valueOf(id)});
+    }
     // endregion
 }

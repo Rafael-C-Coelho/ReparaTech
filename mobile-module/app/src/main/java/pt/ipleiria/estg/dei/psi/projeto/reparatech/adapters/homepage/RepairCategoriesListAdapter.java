@@ -81,5 +81,4 @@ public class RepairCategoriesListAdapter extends BaseAdapter {
            imgRepairCategoryList.setImageResource(repairCategory.getImg());
         }
     }
-
 }
