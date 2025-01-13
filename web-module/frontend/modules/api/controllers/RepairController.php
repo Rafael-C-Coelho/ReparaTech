@@ -58,8 +58,12 @@ class RepairController extends ActiveController
 
     public function actionIndex($page = 1, $perPage = 10)
     {
+        if (\Yii::$app->user->identity->hasRole('repairTechnician') === false) {
+            throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
+        }
+
         $activeDataProvider = new ActiveDataProvider([
-           'query' => Repair::find(),
+           'query' => Repair::find()->where(['repairman_id' => \Yii::$app->user->identity->id])->orderBy('id DESC'),
             'pagination' => [
                 'defaultPageSize' => $perPage,
                 'pageSizeLimit' => [1, 100],
@@ -72,6 +76,10 @@ class RepairController extends ActiveController
     public function actionView($id)
     {
         $repair = Repair::findOne($id);
+        if ($repair->repairman_id !== \Yii::$app->user->identity->id) {
+            throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
+        }
+
         if($repair){
             return ['repair' => $repair, "status" => "success"];
         } else {
@@ -82,7 +90,7 @@ class RepairController extends ActiveController
     public function actionCount()
     {
         $repairModel = new $this->modelClass;
-        $repairs = $repairModel::find()->all();
+        $repairs = $repairModel::find()->where(["repairman_id" => $repairModel->repairman_id])->all();
         return ['count' => count($repairs)];
     }
 

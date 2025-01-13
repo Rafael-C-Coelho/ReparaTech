@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 import static android.content.Intent.getIntent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,12 +50,15 @@ public class DetailsProductActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ReparaTechSingleton.getInstance(DetailsProductActivity.this).addProductToCart(product, Integer.parseInt(etQuantity.getText().toString()));
                 Toast.makeText(DetailsProductActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(DetailsProductActivity.this, MenuMainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
 
-        int productid = getIntent().getIntExtra(ID_PRODUCT, -1);
-        if(productid != -1){
-            product = ReparaTechSingleton.getInstance(this).getProduct(productid);
+        int productId = getIntent().getIntExtra(ID_PRODUCT, -1);
+        if(productId != -1){
+            product = ReparaTechSingleton.getInstance(this).getProduct(productId);
         }
 
         if (product != null) {
@@ -69,6 +73,6 @@ public class DetailsProductActivity extends AppCompatActivity {
                 .load(product.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgProduct);
-        tvPrice.setText(product.getPrice() + " €");
+        tvPrice.setText(product.getPrice() + getString(R.string.euro_symbol));
     }
 }

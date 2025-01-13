@@ -145,7 +145,7 @@ class SaleController extends ActiveController
     }
 
     protected function generateInvoicePdf(Sale $sale, Invoice $invoice, array $items): string{
-        $content = $this->renderPartial('@app/views/invoice-sale', [
+        $content = $this->renderPartial('@app/views/order/invoice-sale', [
             'model' => $sale,
             'items' => $items,
             'invoice' => $invoice,

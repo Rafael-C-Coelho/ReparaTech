@@ -9,18 +9,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.google.android.material.snackbar.Snackbar;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -41,7 +36,6 @@ public class ApiHelper {
     private static RequestQueue requestQueue;
 
     public ApiHelper(Context context) {
-        base_url = ReparaTechSingleton.getInstance(context).getSettings().getUrl();
         requestQueue = ReparaTechSingleton.getInstance(context).getVolleyQueue();
     }
 
@@ -58,7 +52,13 @@ public class ApiHelper {
             throw new NoConnectionError();
         }
 
-        String url = base_url + endpoint;
+        JSONObject requestBody406 = new JSONObject();
+        try {
+            requestBody406.put("refresh_token", ReparaTechSingleton.getInstance(context).getAuth().getRefreshToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String url = ReparaTechSingleton.getInstance(context).getSettings().getUrl() + endpoint;
         Log.d("ApiHelper", "Request URL: " + url);
         JsonObjectRequest request = new JsonObjectRequest(
                 requestType,
@@ -73,37 +73,47 @@ public class ApiHelper {
                             if (statusCode == 406) { // Triggered when the auth token is expired
                                 try {
                                     request(
-                                        context,
-                                        requestType,
-                                        "/api/auth/refresh-token",
-                                        ReparaTechSingleton.getInstance(context).getRefreshTokenBody(),
-                                        new Response.Listener<JSONObject>() {
-                                            @Override
-                                            public void onResponse(JSONObject response) {
-                                                System.out.println("Token refreshed: " + response.toString());
-                                                Auth auth = ReparaTechSingleton.getInstance(context).getAuth();
-                                                auth.setToken(response.optString("access_token"));
-                                                auth.setRefreshToken(response.optString("refresh_token"));
-                                                ReparaTechSingleton.getInstance(context).updateAuth(auth);
-                                                try {
-                                                    request(context, requestType, endpoint, body, responseListener, errorListener);
-                                                } catch (NoConnectionError e) {
-                                                    Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+                                            context,
+                                            Request.Method.POST,
+                                            "/api/auth/refresh-token",
+                                            requestBody406,
+                                            new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject response) {
+                                                    Log.d("ApiHelper", "Token refreshed: " + response.toString());
+                                                    if (response.has("access_token")) {
+                                                        Auth auth = ReparaTechSingleton.getInstance(context).getAuth();
+                                                        auth.setToken(response.optString("access_token"));
+                                                        auth.setRefreshToken(response.optString("refresh_token"));
+                                                        ReparaTechSingleton.getInstance(context).updateAuth(auth);
+
+                                                        // Retry the original request
+                                                        try {
+                                                            Log.d("ApiHelper", "Retrying original request: " + url);
+                                                            request(context, requestType, endpoint, body, responseListener, errorListener);
+                                                        } catch (NoConnectionError e) {
+                                                            Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Log.e("ApiHelper", "Failed to refresh token: " + error.getMessage());
+                                                    errorListener.onErrorResponse(error);
                                                 }
                                             }
-                                        },
-                                        new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                errorListener.onErrorResponse(error);
-                                            }
-                                        }
                                     );
                                 } catch (NoConnectionError e) {
                                     Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
                                 }
+                            } else {
+                                Log.e("ApiHelper", "Request error: " + error.toString());
+                                errorListener.onErrorResponse(error);
                             }
                         } else {
+                            Toast.makeText(context, "Unable to re-authenticate, please login again.", Toast.LENGTH_SHORT).show();
                             errorListener.onErrorResponse(error);
                         }
                     }
@@ -111,7 +121,7 @@ public class ApiHelper {
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return ReparaTechSingleton.getInstance(context).getHeaders();
+                return ReparaTechSingleton.getInstance(context).getAuthHeaders();
             }
         };
 

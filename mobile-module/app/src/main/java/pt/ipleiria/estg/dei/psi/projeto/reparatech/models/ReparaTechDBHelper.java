@@ -393,6 +393,12 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     // region # CART ITEMS #
     public void addProductToCartDB(Product product, int quantity) {
         ContentValues values = new ContentValues();
+        for (CartItem alreadyCartItem : getAllCartItemsDB()) {
+            if (alreadyCartItem.getIdProduct() == product.getId()) {
+                updateCartItemDB(alreadyCartItem.getId(), quantity);
+                return;
+            }
+        }
         values.put(ID_PRODUCT_CART_ITEM, product.getId());
         values.put(QUANTITY_CART_ITEM, quantity);
 
@@ -426,19 +432,16 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         for (CartItem cartItem : cartItems) {
             ContentValues values = new ContentValues();
             values.put(ID_CART_ITEM, cartItem.getId());
+            for (CartItem alreadyCartItem : getAllCartItemsDB()) {
+                if (alreadyCartItem.getIdProduct() == cartItem.getIdProduct()) {
+                    updateCartItemDB(alreadyCartItem.getId(), cartItem.getQuantity());
+                }
+            }
             values.put(ID_PRODUCT_CART_ITEM, cartItem.getIdProduct());
             values.put(QUANTITY_CART_ITEM, cartItem.getQuantity());
 
             this.db.insert(TABLE_CART_ITEMS, null, values);
         }
-    }
-
-    public void removeCartItemsDB() {
-        this.db.delete(TABLE_CART_ITEMS, null, null);
-    }
-
-    public void removeProductFromCartDB(Product product) {
-        this.db.delete(TABLE_CART_ITEMS, ID_PRODUCT_CART_ITEM + " = ?", new String[]{String.valueOf(product.getId())});
     }
 
     public void updateCartItemDB(int id, int quantity) {
@@ -450,6 +453,15 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     public void removeCartItemDB(int id) {
         this.db.delete(TABLE_CART_ITEMS, ID_CART_ITEM + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void removeCartItemsDB() {
+        this.db.delete(TABLE_CART_ITEMS, null, null);
+    }
+
+
+    public void removeProductFromCartDB(Product product) {
+        this.db.delete(TABLE_CART_ITEMS, ID_PRODUCT_CART_ITEM + " = ?", new String[]{String.valueOf(product.getId())});
     }
 
     // endregion
@@ -537,7 +549,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         return repairCategoriesList;
     }
 
-
     public ArrayList<RepairCategoryDetail> getAllRepairCategoriesDetailsListDB() {
         ArrayList<RepairCategoryDetail> repairCategoriesDetailsList = new ArrayList<>();
 
@@ -551,7 +562,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return repairCategoriesDetailsList;
     }
-
 
     // endregion
 
@@ -843,4 +853,5 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
             values.put(STATUS_BOOKING, status);
             this.db.update(TABLE_BOOKINGS, values, ID_BOOKING + " = ?", new String[]{String.valueOf(id)});
     }
+    // endregion
 }
