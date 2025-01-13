@@ -25,7 +25,7 @@ class AuthController extends Controller
         return array_merge(parent::behaviors(), [
             $behaviors['auth'] = [
                 'class' => AuthBehavior::class,
-                'except' => ['login', 'register', 'request-password-reset'],
+                'except' => ['login', 'register', 'request-password-reset', 'refresh-token'],
             ],
         ]);
     }
