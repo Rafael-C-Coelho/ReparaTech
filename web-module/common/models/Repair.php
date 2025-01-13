@@ -48,6 +48,20 @@ class Repair extends \yii\db\ActiveRecord
         return 'repairs';
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['repairman_id']); // Optionally hide repairman_id if you don't want it to appear
+        unset($fields['client_id']); // Optionally hide client_id if you don't want it to appear
+        $fields['client_name'] = function () {
+            return $this->client ? $this->client->name : null;
+        };
+        $fields['budgets'] = function () {
+            return $this->budgets;
+        };
+        return $fields;
+    }
+
     /**
      * {@inheritdoc}
      */

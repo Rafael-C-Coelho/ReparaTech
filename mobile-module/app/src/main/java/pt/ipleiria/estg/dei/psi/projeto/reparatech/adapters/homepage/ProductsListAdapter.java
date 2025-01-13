@@ -49,7 +49,7 @@ public class ProductsListAdapter extends BaseAdapter {
         }
 
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.item_list_product_test, null);
+            convertView = inflater.inflate(R.layout.item_list_product, null);
         }
 
         ViewHolderList viewHolderList = (ViewHolderList) convertView.getTag();
