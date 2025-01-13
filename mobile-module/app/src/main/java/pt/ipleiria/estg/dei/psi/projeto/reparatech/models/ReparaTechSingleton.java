@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLOutput;
@@ -20,6 +21,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
@@ -39,6 +41,7 @@ public class ReparaTechSingleton {
     private LoginListener loginListener;
     private RegisterListener registerListener;
     private BookingListener bookingListener;
+    private UpdateBookingListener updateBookingListener;
     private UpdateProductsListener updateProductsListener;
 
     private ReparaTechSingleton(Context context){
@@ -131,6 +134,8 @@ public class ReparaTechSingleton {
         myBookings = dbHelper.getAllBookingsDB();
         return new ArrayList<>(myBookings);
     }
+
+
 
     public void clearProductsDB(){
         dbHelper.removeProductsDB();
@@ -440,8 +445,47 @@ public class ReparaTechSingleton {
             Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later), Toast.LENGTH_SHORT).show();
         }
     }
-    public void updateBooking(MyBooking booking){
 
+    public void setUpdateBookingListener(UpdateBookingListener listener) {
+        this.updateBookingListener = listener;
+    }
+
+    public void updateBookings(MyBooking myBooking){
+        String url = "/api/booking" + myBooking.getId();
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        // Parse the updated status from the response
+                        String updatedStatus = response.getString("status");
+                        myBooking.setStatus(updatedStatus);
+
+                        // Update the local database with the new status
+                        dbHelper.updateBookingDB(myBooking.getId(), myBooking.getStatus());
+
+                        if (updateBookingListener != null) {
+                            updateBookingListener.updateBookings(myBooking);
+                            System.out.println("Booking Updated");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (updateBookingListener != null){
+                        updateBookingListener.updateBookings(myBooking);
+                        System.out.println("Booking update failed");
+                    }
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            dbHelper.updateBookingDB(myBooking.getId(), myBooking.getStatus());
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+        }
     }
     // endregion
 }

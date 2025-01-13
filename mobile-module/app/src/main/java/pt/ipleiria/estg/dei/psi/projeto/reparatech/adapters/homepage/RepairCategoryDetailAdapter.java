@@ -80,6 +80,5 @@ public class RepairCategoryDetailAdapter extends BaseAdapter {
             tvDesktopLaptopDescription.setText(repairCategoryDetail.getDesktop_laptop_solution());
             tvWearablesDescription.setText(repairCategoryDetail.getWearable_solution());
         }
-
     }
 }

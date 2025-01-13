@@ -15,7 +15,6 @@ public class MyBookingJsonParser {
             String date = response.getString("date");
             String time = response.getString("time");
             String status = response.getString("status");
-
             return new MyBooking(id,date,time, status);
         } catch (JSONException e){
             e.printStackTrace();

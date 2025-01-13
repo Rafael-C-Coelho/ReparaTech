@@ -115,7 +115,7 @@
     <string name="txt_error_loading_products_try_again_later">Error loading products. Try again later</string>
     <string name="repair_request_sent_successfully">Repair request sent successfully</string>
     <string name="fill_in_all_the_fields">Fill in all the fields</string>
-    <string name="txt_item_my_calendar">My Calendar</string>
+    <string name="txt_item_my_booking">Booking</string>
     <string name="hint_date">Date</string>
     <string name="hint_time">Time</string>
     <string name="hint_status">Status</string>
@@ -131,5 +131,7 @@
     <string name="zip_code">Zip code</string>
     <string name="finalize">Finalize</string>
     <string name="txt_error_loading_bookings_try_again_later">Error loading bookings, try again later</string>
-
+    <string name="txt_booking_date">Date:</string>
+    <string name="txt_time_booking">Time:</string>
+    <string name="txt_status_booking">Status:</string>
 </resources>
