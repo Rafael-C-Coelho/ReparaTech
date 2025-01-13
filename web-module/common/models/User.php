@@ -73,11 +73,11 @@ class User extends ActiveRecord implements IdentityInterface
             ]
         );
     }
-
     public function rules()
     {
         return [
-            [['username', 'email', 'password', 'name'], 'required'],
+            [['username', 'email','name'], 'required'],
+            ['password', 'required', 'on' => 'create'],
             [['nif', 'address', 'contact'], 'required', 'on' => self::SCENARIO_CLIENT],
             [['value'], 'required', 'on' => self::SCENARIO_REPAIR_TECHNICIAN],
             [['username', 'email', 'name', 'nif', 'address', 'contact'], 'string', 'max' => 255],
@@ -254,6 +254,9 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
+        if ($password === null) {
+            return;
+        }
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 
