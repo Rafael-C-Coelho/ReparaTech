@@ -130,6 +130,7 @@
     <string name="address">Address</string>
     <string name="zip_code">Zip code</string>
     <string name="finalize">Finalize</string>
+    <string name="your_order_has_been_created">Your order has been created!</string>
+    <string name="there_was_an_error_on_your_order">There was an error on your order</string>
     <string name="txt_error_loading_bookings_try_again_later">Error loading bookings, try again later</string>
-
 </resources>

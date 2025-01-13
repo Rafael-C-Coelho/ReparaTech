@@ -11,23 +11,10 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvAddress2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/address" />
-
-    <EditText
-        android:id="@+id/etAddress2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" />
-
-    <TextView
         android:id="@+id/tvAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/zip_code" />
+        android:text="@string/address" />
 
     <EditText
         android:id="@+id/etAddress"
@@ -36,8 +23,21 @@
         android:ems="10"
         android:inputType="text" />
 
+    <TextView
+        android:id="@+id/tvZipCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/zip_code" />
+
+    <EditText
+        android:id="@+id/etZipCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberSigned" />
+
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnFinalize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/finalize" />

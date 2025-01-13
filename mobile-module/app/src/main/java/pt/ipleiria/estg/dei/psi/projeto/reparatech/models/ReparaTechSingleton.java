@@ -10,9 +10,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -192,7 +192,7 @@ public class ReparaTechSingleton {
     }
 
 
-    public Map<String, String> getHeaders() {
+    public Map<String, String> getAuthHeaders() {
         Auth auth = dbHelper.getAuthDB();
         if (auth == null) {
             return Map.of("Dummy", "header");
@@ -363,16 +363,61 @@ public class ReparaTechSingleton {
         dbHelper.addProductToCartDB(product, quantity);
     }
 
-    public void removeProductFromCart(Product product) {
-        dbHelper.removeProductFromCartDB(product);
+    public void removeCartItem(int id) {
+        dbHelper.removeCartItemDB(id);
     }
 
     public void updateCartItem(int id, int quantity) {
         dbHelper.updateCartItemDB(id, quantity);
     }
 
-    public void removeCartItem(int id) {
-        dbHelper.removeCartItemDB(id);
+    public void createOrder(String address, String zipCode) {
+        String url = "/api/sales";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("address", address);
+            body.put("zip_code", zipCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JSONArray saleProducts = new JSONArray();
+        for (CartItem cartItem: dbHelper.getAllCartItemsDB()) {
+            JSONObject saleProduct = new JSONObject();
+            try {
+                saleProduct.put("product_id", cartItem.getIdProduct());
+                saleProduct.put("quantity", cartItem.getQuantity());
+                saleProducts.put(saleProduct);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            body.put("cart", saleProducts);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            new ApiHelper(context).request(context, Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if (response.optString("status").equals("success")) {
+                        Toast.makeText(context, context.getString(R.string.your_order_has_been_created), Toast.LENGTH_SHORT).show();
+                        ReparaTechSingleton.getInstance(context).getDbHelper().removeCartItemsDB();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, context.getString(R.string.there_was_an_error_on_your_order), Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+        }
     }
 
     // region # BOOKINGS API METHODS #
@@ -443,6 +488,7 @@ public class ReparaTechSingleton {
     public void updateBooking(MyBooking booking){
 
     }
+
     // endregion
 }
 

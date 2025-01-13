@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.databinding.ActivityServerSettingsBinding;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
@@ -19,6 +20,7 @@ public class ServerSettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         this.settings = ReparaTechSingleton.getInstance(this).getSettings();
         binding = ActivityServerSettingsBinding.inflate(getLayoutInflater());
 
