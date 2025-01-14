@@ -14,6 +14,10 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shop'), 'url' => ['i
         flex-wrap: wrap;
     }
 
+    .disabled {
+        display: none;
+    }
+
     /* Ensure each card takes equal height in its row */
     .product-item {
         display: flex;
@@ -77,7 +81,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shop'), 'url' => ['i
                         <a href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>" class="w-100">
                             <div class="card product-item bg-light mb-4 h-75">
                                 <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid" src="<?= $product->image ? $product->image : 'https://placehold.co/400' ?>" alt="">
+                                    <img class="img-fluid" src="<?= $product->image ? $product->image : 'https://placehold.co/400' ?>" alt="" onerror="this.src='https://placehold.co/600x500?text=No+image'">
                                 </div>
                                 <div class="card-body text-center">
                                     <h5 class="card-title text-truncate"><?= Html::encode($product->name) ?></h5>

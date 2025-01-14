@@ -86,6 +86,10 @@ public class ReparaTechSingleton {
         this.updateProductsListener = updateProductsListener;
     }
 
+    public void setUpdateBookingListener(UpdateBookingListener updateBookingListener) {
+        this.updateBookingListener = updateBookingListener;
+    }
+
     public RequestQueue getVolleyQueue(){
         return volleyQueue;
     }
@@ -285,22 +289,9 @@ public class ReparaTechSingleton {
 
     // region # PRODUCT METHODS #
 
-    public void setProducts(ArrayList<Product> products){
-        dbHelper.addProductsDB(products);
-    }
-
-    public void updateProducts(ArrayList<Product> products){
-        dbHelper.removeProductsDB();
-        dbHelper.addProductsDB(products);
-    }
-
-    public ArrayList<Product> getProducts(){
-        return new ArrayList<>(products);
-    }
-
     public ArrayList<Product> getProductsDB(){
         products = dbHelper.getAllProductsDB();
-        return new ArrayList<>(products);
+        return new ArrayList<Product>(products);
     }
 
     public void clearProductsDB(){
@@ -327,7 +318,16 @@ public class ReparaTechSingleton {
                 @Override
                 public void onResponse(JSONObject response) {
                     products = ProductJsonParser.parserJsonProducts(response);
+                    int i = 0;
+                    for (Product product : products) {
+                        if (getProduct(product.getId()) != null) {
+                            i++;
+                        }
+                    }
                     dbHelper.addProductsDB(products);
+                    if (updateProductsListener != null) {
+                        updateProductsListener.reloadListProducts(true, i);
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override

@@ -137,7 +137,7 @@ class SaleController extends ActiveController
 
             $transaction->commit();
 
-            return ['status' => 'sucess', 'message' => 'Purchase completed', 'sale_id' => $sale->id, 'invoice_pdf' => Yii::$app->request->hostInfo . $filePath];
+            return ['status' => 'success', 'message' => 'Purchase completed', 'sale_id' => $sale->id, 'invoice_pdf' => Yii::$app->request->hostInfo . $filePath];
         }catch (Exception $e){
             $transaction->rollBack();
             return ['message' => $e->getMessage(), "status" => "error"];

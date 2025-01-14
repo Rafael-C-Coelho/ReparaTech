@@ -25,11 +25,12 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.DetailsProductActivity;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
 
-public class ProductsListFragment extends Fragment {
+public class ProductsListFragment extends Fragment implements UpdateProductsListener {
     private ListView lvProducts;
     private ArrayList<Product> products;
 
@@ -55,13 +56,16 @@ public class ProductsListFragment extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
-        products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
-        if (products.isEmpty()) {
-            ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
-            products = ReparaTechSingleton.getInstance(getContext()).getProductsDB();
-        }
+        products = new ArrayList<>();
         adapter = new ProductsListAdapter(getContext(), products);
         lvProducts.setAdapter(adapter);
+
+        if (products.isEmpty()) {
+            ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
+            ReparaTechSingleton.getInstance(getContext()).setUpdateProductsListener(this);
+        }
+
+        loadProducts();
 
         // Set item click listener
         lvProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,7 +86,7 @@ public class ProductsListFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (!isLoading && (firstVisibleItem + visibleItemCount >= totalItemCount) && totalItemCount > 0) {
-                    fetchMoreProducts();
+                    loadProducts();
                     lvProducts.refreshDrawableState();
                 }
             }
@@ -116,36 +120,36 @@ public class ProductsListFragment extends Fragment {
         });
     }
 
+    private void loadProducts() {
+        if (isLoading) {
+            return;
+        }
+        isLoading = true;
+        ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
+        products.clear();
+        products.addAll(ReparaTechSingleton.getInstance(getContext()).getProductsDB());
+        adapter.notifyDataSetChanged();
+        ReparaTechSingleton.getInstance(getContext()).setUpdateProductsListener(this);
+    }
 
     public void onRefresh() {
-        isLoading = true;
         swipeRefreshLayout.setRefreshing(true);
         page = 1;
         ReparaTechSingleton.getInstance(getContext()).clearProductsDB();
-        ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page);
-        products.clear();
+        loadProducts();
         swipeRefreshLayout.setRefreshing(false);
-        products.addAll(ReparaTechSingleton.getInstance(getContext()).getProductsDB());
-        adapter.notifyDataSetChanged();
-        isLoading = false;
     }
 
-    private void fetchMoreProducts() {
-        // Simulate a Volley request here
-        // Example:
-        isLoading = true;
-        int prevProductsSize = products.size();
-        ReparaTechSingleton.getInstance(getContext()).getProductsFromAPI(page + 1);
-        int currentProductsSize = ReparaTechSingleton.getInstance(getContext()).getProductsDB().size();
-        if (currentProductsSize == prevProductsSize) {
+    @Override
+    public void reloadListProducts(boolean success, int i) {
+        if (success) {
+            products.clear();
+            products.addAll(ReparaTechSingleton.getInstance(getContext()).getProductsDB());
+            adapter.notifyDataSetChanged();
+            if (i == 10 && isLoading) {
+                page++;
+            }
             isLoading = false;
-            return;
         }
-        page++;
-        products.clear();
-        products.addAll(ReparaTechSingleton.getInstance(getContext()).getProductsDB());
-        adapter.notifyDataSetChanged();
-        lvProducts.refreshDrawableState();
-        isLoading = false;
     }
 }

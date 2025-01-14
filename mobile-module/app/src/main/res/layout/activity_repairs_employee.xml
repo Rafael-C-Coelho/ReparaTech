@@ -16,7 +16,7 @@
         android:text="@string/repair_bookings" />
 
     <ListView
-        android:id="@+id/lvBookings"
+        android:id="@+id/lvRepairs"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

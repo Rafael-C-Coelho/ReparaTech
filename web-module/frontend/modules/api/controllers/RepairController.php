@@ -63,7 +63,7 @@ class RepairController extends ActiveController
         }
 
         $activeDataProvider = new ActiveDataProvider([
-           'query' => Repair::find()->where(['repairman_id' => \Yii::$app->user->identity->id]),
+           'query' => Repair::find()->where(['repairman_id' => \Yii::$app->user->identity->id])->andWhere(['status' => Repair::STATUS_IN_PROGRESS]),
             'pagination' => [
                 'defaultPageSize' => $perPage,
                 'pageSizeLimit' => [1, 100],
