@@ -91,7 +91,6 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         } else if (item.getItemId() == R.id.navListRepairCategories) {
             Intent intent = new Intent( this, RepairCategoriesListActivity.class);
             startActivity(intent);
-
         } else if (item.getItemId() == R.id.navLogin) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -105,6 +104,11 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         } else if (item.getItemId() == R.id.navSignOut) {
             ReparaTechSingleton.getInstance(this).removeAuth();
             onValidateLogin(false, "");
+
+            Intent intent = new Intent(this, MenuMainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         } else if (item.getItemId() == R.id.navCart) {
             Intent intent = new Intent(this, CartActivity.class);
             startActivity(intent);
@@ -139,7 +143,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             menu.findItem(R.id.navCart).setVisible(false);
         } else if (!role.equals("client")) {
             menu.findItem(R.id.navHomepage).setVisible(true);
-            menu.findItem(R.id.navRepairBookings).setVisible(true);
+            menu.findItem(R.id.navRepairBookings).setVisible(false);
             menu.findItem(R.id.navListRepairs).setVisible(true);
             menu.findItem(R.id.navListRepairCategories).setVisible(false);
             menu.findItem(R.id.navProducts).setVisible(false);

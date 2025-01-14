@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
             ReparaTechSingleton.getInstance(LoginActivity.this).login(email, password);
 
             Intent intent = new Intent(LoginActivity.this, MenuMainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         });

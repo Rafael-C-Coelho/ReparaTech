@@ -136,4 +136,8 @@
     <string name="txt_booking_date">Date:</string>
     <string name="txt_time_booking">Time:</string>
     <string name="txt_status_booking">Status:</string>
+    <string name="repair_bookings">Repair bookings</string>
+    <string name="failed_to_refresh_token_login_again">Failed to refresh token, login again</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="unable_to_re_authenticate_please_login_again">Unable to re-authenticate, please login again.</string>
 </resources>

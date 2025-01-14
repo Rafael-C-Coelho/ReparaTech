@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Auth;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
@@ -100,21 +101,22 @@ public class ApiHelper {
                                             new Response.ErrorListener() {
                                                 @Override
                                                 public void onErrorResponse(VolleyError error) {
-                                                    Log.e("ApiHelper", "Failed to refresh token: " + error.getMessage());
+                                                    Log.e("ApiHelper", context.getString(R.string.failed_to_refresh_token_login_again));
                                                     errorListener.onErrorResponse(error);
+                                                    ReparaTechSingleton.getInstance(context).removeAuth();
                                                 }
                                             }
                                     );
                                 } catch (NoConnectionError e) {
-                                    Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Log.e("ApiHelper", "Request error: " + error.toString());
                                 errorListener.onErrorResponse(error);
                             }
                         } else {
-                            Toast.makeText(context, "Unable to re-authenticate, please login again.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.unable_to_re_authenticate_please_login_again, Toast.LENGTH_SHORT).show();
                             errorListener.onErrorResponse(error);
+                            ReparaTechSingleton.getInstance(context).removeAuth();
                         }
                     }
                 }

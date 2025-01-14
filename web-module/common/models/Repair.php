@@ -48,6 +48,27 @@ class Repair extends \yii\db\ActiveRecord
         return 'repairs';
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['repairman_id']); // Optionally hide repairman_id if you don't want it to appear
+        unset($fields['client_id']); // Optionally hide client_id if you don't want it to appear
+        unset($fields['invoice_id']); // Optionally hide client_id if you don't want it to appear
+        $fields['client_name'] = function () {
+            return $this->client ? $this->client->name : null;
+        };
+        $fields['budgets'] = function () {
+            return $this->budgets;
+        };
+        $fields['invoice'] = function () {
+            if ($this->invoice === null) {
+                return null;
+            }
+            return $this->invoice->pdf_file;
+        };
+        return $fields;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -112,7 +133,7 @@ class Repair extends \yii\db\ActiveRecord
      */
     public function getInvoice()
     {
-        return $this->hasOne(Invoice::class, ['invoice_id' => 'id']);
+        return $this->hasOne(Invoice::class, ['id' => 'invoice_id']);
     }
 
     /**
