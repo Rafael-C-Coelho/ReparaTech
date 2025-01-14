@@ -105,43 +105,7 @@ public class ReparaTechSingleton {
     public ArrayList<BestSellingProduct> getbestSellingProductsExamples() {
         return new ArrayList<>(bestSellingProducts);
     }
-
-
-    // region # PRODUCTS METHODS #
-
-    private void generateDinamicProducts(){
-        products = new ArrayList<>();
-        products.add(new Product(1, "Capa Iphone",  10, R.drawable.iphone_capa));
-        products.add(new Product(2, "Capa Samsung",  12, R.drawable.iphone_capa));
-        products.add(new Product(3, "Película de Ecrã Iphone 13",  15, R.drawable.iphone_capa));
-        products.add(new Product(4, "Película de Ecrã Xiaomi Redmi Note 13",  15, R.drawable.iphone_capa));
-        products.add(new Product(5, "Mochila ASUS para Laptop",  55, R.drawable.iphone_capa));
-        products.add(new Product(6, "Rato Ergonómico Logitech",  85, R.drawable.iphone_capa));
     }*/
-
-
-
-    public ArrayList<Product> getProducts(){
-        return new ArrayList<>(products);
-    }
-
-    public ArrayList<Product> getProductsDB(){
-        products = dbHelper.getAllProductsDB();
-        return new ArrayList<>(products);
-    }
-
-    public void clearProductsDB(){
-        dbHelper.removeProductsDB();
-    }
-
-    public Product getProduct(int id){
-        for (Product product:products){
-            if (product.getId() == id) {
-                return product;
-            }
-        }
-        return null;
-    }
 
     public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB(){
         repairCategoriesList = dbHelper.getAllRepairCategoriesListDB();
@@ -151,7 +115,6 @@ public class ReparaTechSingleton {
     public ArrayList<RepairCategoryDetail> getAllRepairCategoriesDetailsListDB(){
         return new ArrayList<>(dbHelper.getAllRepairCategoriesDetailsListDB());
     }
-
 
     // endregion
 
@@ -331,6 +294,28 @@ public class ReparaTechSingleton {
         dbHelper.addProductsDB(products);
     }
 
+    public ArrayList<Product> getProducts(){
+        return new ArrayList<>(products);
+    }
+
+    public ArrayList<Product> getProductsDB(){
+        products = dbHelper.getAllProductsDB();
+        return new ArrayList<>(products);
+    }
+
+    public void clearProductsDB(){
+        dbHelper.removeProductsDB();
+    }
+
+    public Product getProduct(int id){
+        for (Product product:products){
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
     // endregion
 
     // region # PRODUCT API METHODS #
@@ -418,8 +403,9 @@ public class ReparaTechSingleton {
         }
     }
 
-    // region # BOOKINGS API METHODS #
+    // endregion
 
+    // region # PRODUCT METHODS #
     public ArrayList<MyBooking> getMyBookingsDB(){
         myBookings = dbHelper.getAllBookingsDB();
         return new ArrayList<>(myBookings);
@@ -428,6 +414,9 @@ public class ReparaTechSingleton {
     public void clearBookingsDB(){
         dbHelper.removeBookingsDB();
     }
+    // endregion
+
+    // region # BOOKINGS API METHODS #
 
     public void bookingRequest(String date, String time){
         String url = "/api/booking/create";
@@ -492,10 +481,6 @@ public class ReparaTechSingleton {
             myBookings = dbHelper.getAllBookingsDB();
             Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void setUpdateBookingListener(UpdateBookingListener listener) {
-        this.updateBookingListener = listener;
     }
 
     public void updateBookings(MyBooking myBooking){

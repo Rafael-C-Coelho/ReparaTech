@@ -6,8 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Handler;
-import android.os.Looper;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,11 +22,8 @@ import java.util.ArrayList;
 
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.MyBookingAdapter;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.MyBooking;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoriesList;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 
@@ -60,10 +56,16 @@ public class MyBookingFragment extends Fragment implements UpdateBookingListener
         adapter = new MyBookingAdapter(getContext(), myBookings);
         lvMyBookingCalendar.setAdapter(adapter);
 
-        if (!myBookings.isEmpty()) {
-            for (MyBooking booking : myBookings) {
-                ReparaTechSingleton.getInstance(getContext()).updateBookings(booking);
-            }
+        if (myBookings.isEmpty()) {
+            ReparaTechSingleton.getInstance(getContext()).getBookingsFromApi(page);
+            ReparaTechSingleton.getInstance(getContext()).setBookingListener(success -> {
+                if (success) {
+                    myBookings.clear();
+                    myBookings.addAll(ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB());
+                    adapter.notifyDataSetChanged();
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            });
         }
 
         lvMyBookingCalendar.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -75,7 +77,6 @@ public class MyBookingFragment extends Fragment implements UpdateBookingListener
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (!isLoading && (firstVisibleItem + visibleItemCount >= totalItemCount) && totalItemCount > 0) {
                     fetchMoreBookings();
-                    lvMyBookingCalendar.refreshDrawableState();
                 }
             }
         });
@@ -109,17 +110,22 @@ public class MyBookingFragment extends Fragment implements UpdateBookingListener
         });
     }
 
-    public void onRefresh() {
+    private void onRefresh() {
         isLoading = true;
         swipeRefreshLayout.setRefreshing(true);
         page = 1;
+
         ReparaTechSingleton.getInstance(getContext()).clearBookingsDB();
         ReparaTechSingleton.getInstance(getContext()).getBookingsFromApi(page);
-        myBookings.clear();
-        swipeRefreshLayout.setRefreshing(false);
-        myBookings.addAll(ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB());
-        adapter.notifyDataSetChanged();
-        isLoading = false;
+        ReparaTechSingleton.getInstance(getContext()).setBookingListener(success -> {
+            if (success) {
+                myBookings.clear();
+                myBookings.addAll(ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB());
+                adapter.notifyDataSetChanged();
+            }
+            swipeRefreshLayout.setRefreshing(false);
+            isLoading = false;
+        });
     }
 
     public void updateBookings(MyBooking myBooking) {
@@ -133,21 +139,20 @@ public class MyBookingFragment extends Fragment implements UpdateBookingListener
     }
 
     private void fetchMoreBookings() {
-        // Simulate a Volley request here
-        // Example:
         isLoading = true;
-        int prevBooksSize = myBookings.size();
-        ReparaTechSingleton.getInstance(getContext()).getBookingsFromApi(page);
-        int currentBooksSize = ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB().size();
-        if (currentBooksSize ==prevBooksSize) {
+        int prevBookingsSize = myBookings.size();
+        ReparaTechSingleton.getInstance(getContext()).getBookingsFromApi(++page);
+        ReparaTechSingleton.getInstance(getContext()).setBookingListener(success -> {
+            if (success) {
+                int currentBookingsSize = ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB().size();
+                if (currentBookingsSize == prevBookingsSize) {
+                    isLoading = false;
+                    return;
+                }
+                myBookings.addAll(ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB());
+                adapter.notifyDataSetChanged();
+            }
             isLoading = false;
-            return;
-        }
-        page++;
-        myBookings.clear();
-        myBookings.addAll(ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB());
-        adapter.notifyDataSetChanged();
-        lvMyBookingCalendar.refreshDrawableState();
-        isLoading = false;
+        });
     }
 }
