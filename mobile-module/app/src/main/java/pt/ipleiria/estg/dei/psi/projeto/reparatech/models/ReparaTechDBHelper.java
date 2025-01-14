@@ -149,7 +149,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createRecentlyAddedProductTable);
 
         String createBookingTable = "CREATE TABLE IF NOT EXISTS " + TABLE_BOOKINGS +
-                "(" + ID_BOOKING + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "(" + ID_BOOKING + " INTEGER PRIMARY KEY, " +
                 DATE_BOOKING + " TEXT NOT NULL, " +
                 TIME_BOOKING + " TEXT NOT NULL, " +
                 STATUS_BOOKING + " TEXT NOT NULL " + ");";
@@ -839,6 +839,12 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     public void addBookingsDB(ArrayList<MyBooking> myBookings){
         for (MyBooking myBooking : myBookings) {
             ContentValues values = new ContentValues();
+            for (MyBooking alreadyBooked : getAllBookingsDB()) {
+                if (alreadyBooked.getId() == myBooking.getId()) {
+                    updateBookingDB(alreadyBooked.getId(), myBooking.getStatus());
+                    return;
+                }
+            }
             values.put(ID_BOOKING, myBooking.getId());
             values.put(DATE_BOOKING, myBooking.getDate().toString());
             values.put(TIME_BOOKING, myBooking.getTime().toString());
@@ -853,5 +859,10 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
             values.put(STATUS_BOOKING, status);
             this.db.update(TABLE_BOOKINGS, values, ID_BOOKING + " = ?", new String[]{String.valueOf(id)});
     }
+
+    public void removeBookingsDB() {
+        this.db.delete(TABLE_BOOKINGS, null, null);
+    }
+
     // endregion
 }

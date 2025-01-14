@@ -116,8 +116,8 @@ public class ProductsListFragment extends Fragment {
         });
     }
 
+
     public void onRefresh() {
-        // Refresh the list
         isLoading = true;
         swipeRefreshLayout.setRefreshing(true);
         page = 1;

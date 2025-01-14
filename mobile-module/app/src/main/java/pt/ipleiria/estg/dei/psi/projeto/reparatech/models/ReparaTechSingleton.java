@@ -130,13 +130,6 @@ public class ReparaTechSingleton {
         return new ArrayList<>(products);
     }
 
-    public ArrayList<MyBooking> getMyBookingsDB(){
-        myBookings = dbHelper.getAllBookingsDB();
-        return new ArrayList<>(myBookings);
-    }
-
-
-
     public void clearProductsDB(){
         dbHelper.removeProductsDB();
     }
@@ -427,6 +420,15 @@ public class ReparaTechSingleton {
 
     // region # BOOKINGS API METHODS #
 
+    public ArrayList<MyBooking> getMyBookingsDB(){
+        myBookings = dbHelper.getAllBookingsDB();
+        return new ArrayList<>(myBookings);
+    }
+
+    public void clearBookingsDB(){
+        dbHelper.removeBookingsDB();
+    }
+
     public void bookingRequest(String date, String time){
         String url = "/api/booking/create";
 
@@ -476,6 +478,7 @@ public class ReparaTechSingleton {
                     if(bookingListener != null){
                         bookingListener.onValidateBooking(true);
                     }
+
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -496,7 +499,7 @@ public class ReparaTechSingleton {
     }
 
     public void updateBookings(MyBooking myBooking){
-        String url = "/api/booking" + myBooking.getId();
+        String url = "/api/booking/" + myBooking.getId();
         try {
             new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
@@ -532,7 +535,6 @@ public class ReparaTechSingleton {
             Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
         }
     }
-
     // endregion
 }
 
