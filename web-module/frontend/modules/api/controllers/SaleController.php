@@ -142,6 +142,8 @@ class SaleController extends ActiveController
         }catch (Exception $e){
             $transaction->rollBack();
             return ['message' => $e->getMessage(), "status" => "error"];
+        } catch (\yii\db\Exception $e) {
+            Yii::error($e->getMessage());
         }
     }
 
