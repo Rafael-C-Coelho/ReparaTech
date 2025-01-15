@@ -98,7 +98,6 @@ class SaleController extends ActiveController
                 $saleProduct->product_id = $product->id;
                 $saleProduct->quantity = $productDetails['quantity'];
                 $saleProduct->total_price = $product->price * $productDetails['quantity'];
-                $product->stock -= $productDetails['quantity'];
 
                 $items[] = [
                     'name' => $product->name,
@@ -108,9 +107,10 @@ class SaleController extends ActiveController
                 $saleProduct->save();
                 Yii::error($saleProduct->errors);
                 if(!$saleProduct->save()){
-                    throw new BadRequestHttpException('Error creating sale product');
+                    throw new BadRequestHttpException('Error creating sale product. ' . VarDumper::dumpAsString($saleProduct->errors));
                 }
 
+                $product->stock -= $productDetails['quantity'];
                 $product->save();
                 $total += $product->price * $productDetails['quantity'];
             }
