@@ -24,6 +24,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListene
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateRepairsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
@@ -45,6 +46,7 @@ public class ReparaTechSingleton {
     private UpdateBookingListener updateBookingListener;
     private UpdateProductsListener updateProductsListener;
     private ProductStockListener productStockListener;
+    private UpdateRepairsListener updateRepairsListener;
 
     private ReparaTechSingleton(Context context){
         products = new ArrayList<>();
@@ -74,6 +76,10 @@ public class ReparaTechSingleton {
 
     public void setLoginListener(LoginListener loginListener) {
         this.loginListener = loginListener;
+    }
+
+    public void setUpdateRepairsListener(UpdateRepairsListener updateRepairsListener) {
+        this.updateRepairsListener = updateRepairsListener;
     }
 
     public void setProductStockListener(ProductStockListener productStockListener) {
@@ -596,6 +602,47 @@ public class ReparaTechSingleton {
         return new ArrayList<>(dbHelper.getAllRepairEmployeeDB());
     }
 
+    public void getRepairs(int page) {
+        String url = "/api/repairs?page=" + page;
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        JSONArray repairs = response.getJSONArray("repairs");
+                        for (int i = 0; i < repairs.length(); i++) {
+                            JSONObject repair = repairs.getJSONObject(i);
+                            RepairEmployee repairEmployee = new RepairEmployee(
+                                    repair.getInt("id"),
+                                    repair.getString("progress"),
+                                    repair.getString("client_name"),
+                                    repair.getString("description"),
+                                    repair.getString("device")
+                            );
+                            dbHelper.addRepairEmployeeDB(repairEmployee);
+                        }
+
+                        if (updateRepairsListener != null) {
+                            updateRepairsListener.onUpdateRepairs();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (updateRepairsListener != null) {
+                        updateRepairsListener.onUpdateRepairs();
+                    }
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+        }
+    }
+
     public RepairEmployee getRepairEmployeeByID(int id){
         String url = "/api/repair/" + id;
         try {
@@ -611,10 +658,10 @@ public class ReparaTechSingleton {
                                 response.getString("device")
                         );
                         dbHelper.addRepairEmployeeDB(repairEmployee);
-                        /* if (updateBookingListener != null) {
-                            updateBookingListener.updateBookings(repairEmployee);
-                            System.out.println("Booking Updated");
-                        } */
+
+                        if (updateRepairsListener != null) {
+                            updateRepairsListener.onUpdateRepairs();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -622,10 +669,9 @@ public class ReparaTechSingleton {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    /* if (updateBookingListener != null){
-                        updateBookingListener.updateBookings(myBooking);
-                        System.out.println("Booking update failed");
-                    } */
+                    if (updateRepairsListener != null) {
+                        updateRepairsListener.onUpdateRepairs();
+                    }
                     error.printStackTrace();
                 }
             });

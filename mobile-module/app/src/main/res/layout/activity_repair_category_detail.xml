@@ -116,17 +116,6 @@
                 android:lineSpacingExtra="5dp"
                 android:lineSpacingMultiplier="1"
                 android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/btnRequestQuote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:text="@string/txt_btn_request_quote"
-                android:textColor="@color/blue"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:ignore="VisualLintButtonSize" />
         </LinearLayout>
     </ScrollView>
 

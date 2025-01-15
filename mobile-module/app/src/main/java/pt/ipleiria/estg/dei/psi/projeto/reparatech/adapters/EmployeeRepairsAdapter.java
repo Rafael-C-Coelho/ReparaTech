@@ -5,21 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.CartItem;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairEmployee;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechDBHelper;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 public class EmployeeRepairsAdapter extends BaseAdapter
 {
@@ -77,13 +69,14 @@ public class EmployeeRepairsAdapter extends BaseAdapter
     }
 
     private class ViewHolderList {
-        private TextView tvId, tvProgress, tvClientName, tvDescription;
+        private TextView tvId, tvProgress, tvClientName, tvDescription, tvDevice;
 
         public ViewHolderList(View view) {
             tvId = view.findViewById(R.id.tvId);
             tvProgress = view.findViewById(R.id.tvStatus);
             tvClientName = view.findViewById(R.id.tvClientName);
             tvDescription = view.findViewById(R.id.tvDescription);
+            tvDevice = view.findViewById(R.id.tvDevice);
         }
 
         private int getPositionById(int id) {
@@ -96,11 +89,11 @@ public class EmployeeRepairsAdapter extends BaseAdapter
         }
 
         public void update(RepairEmployee repair) {
-            ReparaTechDBHelper dbHelper = new ReparaTechDBHelper(context);
             tvId.setText(String.valueOf(repair.getId()));
             tvProgress.setText(repair.getProgress());
             tvClientName.setText(repair.getClientName());
             tvDescription.setText(repair.getDescription());
+            tvDevice.setText(repair.getDevice());
         }
     }
 }

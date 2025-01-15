@@ -147,4 +147,12 @@
     <string name="comments">Comments</string>
     <string name="progress_status">Progress status</string>
     <string name="quantity_must_be_greater_than_0">Quantity must be greater than 0</string>
+    <string name="product_out_of_stock">Product out of stock</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="logo">Logo</string>
+    <string name="product_name">Product name</string>
+    <string name="minus">-</string>
+    <string name="_1">1</string>
+    <string name="plus">+</string>
+    <string name="broken_screen">Broken Screen</string>
 </resources>

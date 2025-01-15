@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.Button;
 
@@ -39,8 +40,13 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(LoginActivity.this, MenuMainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(intent);
+                    finish();
+                }
+            }, 1000);
         });
 
         getWindow().getDecorView().setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.gray));

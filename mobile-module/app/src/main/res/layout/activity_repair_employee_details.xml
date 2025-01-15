@@ -42,7 +42,7 @@
         android:text="@string/description" />
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tvDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""

@@ -37,12 +37,21 @@
         android:background="@android:drawable/edit_text" />
 
     <TextView
+        android:id="@+id/tvDevice"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:drawable/edit_text"
+        android:gravity="center_vertical"
+        android:padding="4dp"
+        android:text="Device" />
+
+    <TextView
         android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Description"
+        android:background="@android:drawable/edit_text"
         android:gravity="center_vertical"
         android:padding="4dp"
-        android:background="@android:drawable/edit_text" />
+        android:text="Description" />
 
 </LinearLayout>
