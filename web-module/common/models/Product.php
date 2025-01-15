@@ -75,14 +75,6 @@ class Product extends \yii\db\ActiveRecord
             $this->addError($attribute, 'Stock level cannot be negative');
             return;
         }
-
-        $pendingOrders = SaleProduct::find()
-            ->where(['product_id' => $this->id])
-            ->sum('quantity') ?? 0;
-
-        if ($this->stock < $pendingOrders) {
-            $this->addError($attribute, 'Stock cannot be less than pending orders');
-        }
     }
 
     public function validatePrice($attribute, $params)

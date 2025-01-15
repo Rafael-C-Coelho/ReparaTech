@@ -122,7 +122,7 @@
     <string name="repairs">Repairs</string>
     <string name="welcome_to_the_employee_page_use_the_side_menu_to_navigate_to_the_desired_page">Welcome to the employee page! Use the side menu to navigate to the desired page.</string>
     <string name="list_of_repairs">List of Repairs</string>
-    <string name="euro_symbol">€</string>
+    <string name="euro_symbol"> €</string>
     <string name="complete_checkout_caps">COMPLETE CHECKOUT</string>
     <string name="total_with_twodots">TOTAL:</string>
     <string name="shopping_cart_caps">SHOPPING CART</string>
@@ -140,4 +140,19 @@
     <string name="failed_to_refresh_token_login_again">Failed to refresh token, login again</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="unable_to_re_authenticate_please_login_again">Unable to re-authenticate, please login again.</string>
+    <string name="you_need_to_be_logged_in_to_add_products_to_the_cart">You need to be logged in to add products to the cart</string>
+    <string name="shipping_with_two_dots">SHIPPING:</string>
+    <string name="_20_00_euros">20.00 €</string>
+    <string name="set_repair_as_done">Set repair as done</string>
+    <string name="comments">Comments</string>
+    <string name="progress_status">Progress status</string>
+    <string name="quantity_must_be_greater_than_0">Quantity must be greater than 0</string>
+    <string name="product_out_of_stock">Product out of stock</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="logo">Logo</string>
+    <string name="product_name">Product name</string>
+    <string name="minus">-</string>
+    <string name="_1">1</string>
+    <string name="plus">+</string>
+    <string name="broken_screen">Broken Screen</string>
 </resources>

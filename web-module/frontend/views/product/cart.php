@@ -121,6 +121,15 @@ $this->title = 'Cart';
 <script>
     function manageCart(productId, quantity) {
         event.preventDefault();
+        if (quantity < 0) {
+            return;
+        }
+
+        if (quantity == 0) {
+            if (!confirm("Are you sure you want to remove this product from the cart?")) {
+                return;
+            }
+        }
         jQuery.ajax({
             url: '<?= \yii\helpers\Url::to(["product/manage-cart"])?>',
             type: 'POST',

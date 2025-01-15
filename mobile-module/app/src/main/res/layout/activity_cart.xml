@@ -41,6 +41,24 @@
             android:layout_height="wrap_content"
             android:text="@string/euro_0_00" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shipping_with_two_dots"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_20_00_euros"
+            />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnCompleteCheckout"

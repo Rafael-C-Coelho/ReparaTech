@@ -5,6 +5,7 @@ import static android.content.Intent.getIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,16 +23,18 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.MinMaxFilter;
 
-public class DetailsProductActivity extends AppCompatActivity {
+public class DetailsProductActivity extends AppCompatActivity implements ProductStockListener {
 
     public static final String ID_PRODUCT = "id_Product";
     private Product product;
 
     private EditText etQuantity;
-    private TextView tvName, tvPrice;
+    private TextView tvName, tvPrice, tvOutStock;
     private ImageView imgProduct;
     private Button btnBuyNow;
 
@@ -40,14 +43,22 @@ public class DetailsProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_product);
 
+        ReparaTechSingleton.getInstance(this).setProductStockListener(this);
         tvName = findViewById(R.id.tvNameProductDetails);
         imgProduct = findViewById(R.id.imgProductDetails);
+        tvOutStock = findViewById(R.id.tvOutOfStock);
         etQuantity = findViewById(R.id.etQuantity);
         tvPrice = findViewById(R.id.tvPriceProductDetails);
         btnBuyNow = findViewById(R.id.btnBuyProduct);
         btnBuyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!ReparaTechSingleton.getInstance(DetailsProductActivity.this).isLogged()) {
+                    Toast.makeText(DetailsProductActivity.this, getString(R.string.you_need_to_be_logged_in_to_add_products_to_the_cart), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(DetailsProductActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
                 ReparaTechSingleton.getInstance(DetailsProductActivity.this).addProductToCart(product, Integer.parseInt(etQuantity.getText().toString()));
                 Toast.makeText(DetailsProductActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(DetailsProductActivity.this, MenuMainActivity.class);
@@ -74,5 +85,21 @@ public class DetailsProductActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgProduct);
         tvPrice.setText(product.getPrice() + getString(R.string.euro_symbol));
+    }
+
+    @Override
+    public void onProductStockChanged(int stock) {
+        ReparaTechSingleton.getInstance(this).getDbHelper().updateProductStock(product.getId(), stock);
+        if (stock <= 0) {
+            tvOutStock.setVisibility(View.VISIBLE);
+            etQuantity.setText("0");
+            etQuantity.setEnabled(false);
+            btnBuyNow.setEnabled(false);
+        } else {
+            tvOutStock.setVisibility(View.GONE);
+            etQuantity.setEnabled(true);
+            etQuantity.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , String.valueOf(stock))});
+            btnBuyNow.setEnabled(true);
+        }
     }
 }

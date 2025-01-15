@@ -112,13 +112,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Buy Now"
+                android:text="@string/buy_now"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:padding="12dp"
                 android:layout_marginBottom="16dp"
                 android:drawableLeft="@drawable/ic_shopping_cart" />
+
+            <TextView
+                android:id="@+id/tvOutOfStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/product_out_of_stock"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

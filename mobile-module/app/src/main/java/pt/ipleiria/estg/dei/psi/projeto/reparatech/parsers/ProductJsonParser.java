@@ -12,11 +12,12 @@ public class ProductJsonParser {
     public static Product parserJsonProduct(JSONObject response) {
         try {
             int id = response.getInt("id");
+            int stock = response.getInt("stock");
             String name = response.getString("name");
             double price = response.getDouble("price");
             String image = response.getString("image");
 
-            return new Product(id, name, price, image);
+            return new Product(id, name, price, image, stock);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

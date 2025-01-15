@@ -11,6 +11,7 @@ use frontend\modules\api\helpers\AuthBehavior;
 use PHPUnit\Exception;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\debug\models\search\Log;
 use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 use yii\rest\ActiveController;
@@ -97,18 +98,19 @@ class SaleController extends ActiveController
                 $saleProduct->product_id = $product->id;
                 $saleProduct->quantity = $productDetails['quantity'];
                 $saleProduct->total_price = $product->price * $productDetails['quantity'];
-                $product->stock -= $productDetails['quantity'];
 
                 $items[] = [
                     'name' => $product->name,
                     'quantity' => $productDetails['quantity'],
                     'price' => $product->price,
                 ];
-
+                $saleProduct->save();
+                Yii::error($saleProduct->errors);
                 if(!$saleProduct->save()){
-                    throw new BadRequestHttpException('Error creating sale product');
+                    throw new BadRequestHttpException('Error creating sale product. ' . VarDumper::dumpAsString($saleProduct->errors));
                 }
 
+                $product->stock -= $productDetails['quantity'];
                 $product->save();
                 $total += $product->price * $productDetails['quantity'];
             }
@@ -137,10 +139,12 @@ class SaleController extends ActiveController
 
             $transaction->commit();
 
-            return ['status' => 'sucess', 'message' => 'Purchase completed', 'sale_id' => $sale->id, 'invoice_pdf' => Yii::$app->request->hostInfo . $filePath];
+            return ['status' => 'success', 'message' => 'Purchase completed', 'sale_id' => $sale->id, 'invoice_pdf' => Yii::$app->request->hostInfo . $filePath];
         }catch (Exception $e){
             $transaction->rollBack();
             return ['message' => $e->getMessage(), "status" => "error"];
+        } catch (\yii\db\Exception $e) {
+            Yii::error($e->getMessage());
         }
     }
 

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="20sp"
-            android:text="Broken Screen"
+            android:text="@string/broken_screen"
             android:textStyle="bold" />
 
     </LinearLayout>

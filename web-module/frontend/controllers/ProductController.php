@@ -77,7 +77,7 @@ class ProductController extends \yii\web\Controller
         if (sizeof($cart) > 0) {
             for ($i = 0; $i < sizeof($cart); $i++) {
                 if ($cart[$i]['product_id'] === $product->id) {
-                    if ($quantity === 0)
+                    if ($quantity == 0 || $quantity < 0)
                         unset($cart[$i]);
                     else
                         $cart[$i]['quantity'] = (int)$quantity;
@@ -86,6 +86,9 @@ class ProductController extends \yii\web\Controller
                 }
             }
             if (!$found) {
+                if ($quantity <= 0) {
+                    return $this->redirect(['product/cart']);
+                }
                 \Yii::$app->session->set('cart', array_merge(
                     $cart, [[
                         'product_id' => $productId,
@@ -96,12 +99,14 @@ class ProductController extends \yii\web\Controller
                 \Yii::$app->session->set('cart', $cart);
             }
         } else {
-            \Yii::$app->session->set('cart', [
-                [
-                    'product_id' => $productId,
-                    'quantity' => $quantity,
-                ]
-            ]);
+            if ($quantity > 0) {
+                \Yii::$app->session->set('cart', [
+                    [
+                        'product_id' => $productId,
+                        'quantity' => $quantity,
+                    ]
+                ]);
+            }
         }
 
         if (\Yii::$app->request->isAjax) {

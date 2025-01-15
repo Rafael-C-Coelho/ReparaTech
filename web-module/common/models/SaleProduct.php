@@ -63,7 +63,7 @@ class SaleProduct extends \yii\db\ActiveRecord
     public function validateProductStock($attribute, $params)
     {
         $product = Product::findOne($this->product_id);
-        if ($product && $this->quantity > $product->stock) {
+        if ($product && $product->stock < $this->quantity) {
             $this->addError($attribute, 'Insufficient stock available');
         }
     }
@@ -116,15 +116,5 @@ class SaleProduct extends \yii\db\ActiveRecord
     public function getSaleProducts()
     {
         return $this->hasMany(SaleProduct::className(), ['sale_id' => 'id']);
-    }
-
-    public function save($runValidation = true, $attributeNames = null)
-    {
-        $product = Product::findOne($this->product_id);
-        if ($product) {
-            $product->stock -= $this->quantity;
-            $product->save();
-        }
-        return parent::save($runValidation, $attributeNames);
     }
 }

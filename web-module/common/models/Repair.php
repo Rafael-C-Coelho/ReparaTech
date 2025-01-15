@@ -66,6 +66,9 @@ class Repair extends \yii\db\ActiveRecord
             }
             return $this->invoice->pdf_file;
         };
+        $fields["comments"] = function () {
+            return $this->comments;
+        };
         return $fields;
     }
 
@@ -113,7 +116,7 @@ class Repair extends \yii\db\ActiveRecord
 
     public function getComments()
     {
-        return $this->hasMany(Comment::class, ['id' => 'repair_id']);
+        return $this->hasMany(Comment::class, ['repair_id' => 'id']);
     }
 
     /**

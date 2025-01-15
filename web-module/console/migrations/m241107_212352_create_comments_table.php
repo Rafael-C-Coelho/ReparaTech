@@ -25,7 +25,6 @@ class m241107_212352_create_comments_table extends Migration
             'id' => $this->primaryKey(),
             'repair_id' => $this->integer()->notNull(),
             'description' => $this->text()->notNull(),
-            'photo' => $this->text(),
             'date' => $this->date()->notNull(),
             'time' => $this->time()->notNull(),
         ]);
