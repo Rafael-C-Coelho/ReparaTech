@@ -63,7 +63,9 @@ class SaleProduct extends \yii\db\ActiveRecord
     public function validateProductStock($attribute, $params)
     {
         $product = Product::findOne($this->product_id);
-        if ($product && $this->quantity > $product->stock) {
+        \Yii::error($product);
+        \Yii::error($this);
+        if ($product && $product->stock < $this->quantity) {
             $this->addError($attribute, 'Insufficient stock available');
         }
     }
