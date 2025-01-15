@@ -11,6 +11,7 @@ use frontend\modules\api\helpers\AuthBehavior;
 use PHPUnit\Exception;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\debug\models\search\Log;
 use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 use yii\rest\ActiveController;
@@ -104,7 +105,7 @@ class SaleController extends ActiveController
                     'quantity' => $productDetails['quantity'],
                     'price' => $product->price,
                 ];
-
+                Yii::error($saleProduct->validate());
                 if(!$saleProduct->save()){
                     throw new BadRequestHttpException('Error creating sale product');
                 }

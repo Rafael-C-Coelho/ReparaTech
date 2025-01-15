@@ -5,6 +5,7 @@ import static android.content.Intent.getIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.MinMaxFilter;
 
 public class DetailsProductActivity extends AppCompatActivity implements ProductStockListener {
 
@@ -32,7 +34,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
     private Product product;
 
     private EditText etQuantity;
-    private TextView tvName, tvPrice;
+    private TextView tvName, tvPrice, tvOutStock;
     private ImageView imgProduct;
     private Button btnBuyNow;
 
@@ -44,6 +46,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
         ReparaTechSingleton.getInstance(this).setProductStockListener(this);
         tvName = findViewById(R.id.tvNameProductDetails);
         imgProduct = findViewById(R.id.imgProductDetails);
+        tvOutStock = findViewById(R.id.tvOutOfStock);
         etQuantity = findViewById(R.id.etQuantity);
         tvPrice = findViewById(R.id.tvPriceProductDetails);
         btnBuyNow = findViewById(R.id.btnBuyProduct);
@@ -87,11 +90,14 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
     @Override
     public void onProductStockChanged(int stock) {
         if (stock <= 0) {
+            tvOutStock.setVisibility(View.VISIBLE);
             etQuantity.setText("0");
             etQuantity.setEnabled(false);
             btnBuyNow.setEnabled(false);
         } else {
+            tvOutStock.setVisibility(View.GONE);
             etQuantity.setEnabled(true);
+            etQuantity.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , String.valueOf(stock))});
             btnBuyNow.setEnabled(true);
         }
     }

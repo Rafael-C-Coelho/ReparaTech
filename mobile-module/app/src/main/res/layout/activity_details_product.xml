@@ -119,6 +119,17 @@
                 android:padding="12dp"
                 android:layout_marginBottom="16dp"
                 android:drawableLeft="@drawable/ic_shopping_cart" />
+
+            <TextView
+                android:id="@+id/tvOutOfStock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Product out of stock"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

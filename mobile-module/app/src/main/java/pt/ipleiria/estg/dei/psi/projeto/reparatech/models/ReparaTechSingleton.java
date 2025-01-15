@@ -324,22 +324,34 @@ public class ReparaTechSingleton {
                         dbHelper.addProductDB(product);
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        if (productStockListener != null) {
+                            productStockListener.onProductStockChanged(0);
+                        }
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
+                    if (productStockListener != null) {
+                        productStockListener.onProductStockChanged(0);
+                    }
                 }
             });
             for (Product product:products){
                 if (product.getId() == id) {
                     return product;
                 }
+                if (productStockListener != null) {
+                    productStockListener.onProductStockChanged(0);
+                }
             }
             return null;
         } catch (Exception e) {
             e.printStackTrace();
+            if (productStockListener != null) {
+                productStockListener.onProductStockChanged(0);
+            }
         }
         return null;
     }
@@ -380,6 +392,10 @@ public class ReparaTechSingleton {
     }
 
     public void addProductToCart(Product product, int quantity) {
+        if (quantity <= 0) {
+            Toast.makeText(context, R.string.quantity_must_be_greater_than_0, Toast.LENGTH_SHORT).show();
+            return;
+        }
         dbHelper.addProductToCartDB(product, quantity);
     }
 

@@ -16,7 +16,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "reparatech.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
 
     private SQLiteDatabase db;
 
@@ -25,6 +25,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String NAME_PRODUCT = "name";
     private static final String PRICE_PRODUCT = "price";
     private static final String IMAGE_PRODUCT = "image";
+    private static final String STOCK_PRODUCT = "stock";
 
     private static final String TABLE_CART_ITEMS = "cart_items";
     private static final String ID_CART_ITEM = "id";
@@ -36,12 +37,14 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String NAME_RECENTLYADDED_PRODUCT = "name";
     private static final String PRICE_RECENTLYADDED_PRODUCT = "price";
     private static final String IMAGE_RECENTLYADDED_PRODUCT = "image";
+    private static final String STOCK_RECENTLYADDED_PRODUCT = "stock";
 
     private static final String TABLE_BESTSELLING_PRODUCT = "best_selling_products";
     private static final String ID_BESTSELLING_PRODUCT = "id";
     private static final String NAME_BESTSELLING_PRODUCT = "name";
     private static final String PRICE_BESTSELLING_PRODUCT = "price";
     private static final String IMAGE_BESTSELLING_PRODUCT = "image";
+    private static final String STOCK_BESTSELLING_PRODUCT = "stock";
 
     private static final String TABLE_SETTINGS = "settings";
     private static final String URL = "url";
@@ -135,6 +138,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "(" + ID_PRODUCT + " INTEGER PRIMARY KEY, " +
                 NAME_PRODUCT + " TEXT NOT NULL, " +
                 PRICE_PRODUCT + " DECIMAL NOT NULL, " +
+                STOCK_PRODUCT + " INTEGER NOT NULL, " +
                 IMAGE_PRODUCT + " TEXT" + ");";
         sqLiteDatabase.execSQL(createProductTable);
         // insertInitialProducts(sqLiteDatabase);
@@ -151,6 +155,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "(" + ID_BESTSELLING_PRODUCT + " INTEGER PRIMARY KEY, " +
                 NAME_BESTSELLING_PRODUCT + " TEXT NOT NULL, " +
                 PRICE_BESTSELLING_PRODUCT + " DECIMAL NOT NULL, " +
+                STOCK_BESTSELLING_PRODUCT + " INTEGER NOT NULL, " +
                 IMAGE_BESTSELLING_PRODUCT + " TEXT" + ");";
         sqLiteDatabase.execSQL(createBestSellingProductTable);
 
@@ -158,6 +163,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "(" + ID_RECENTLYADDED_PRODUCT + " INTEGER PRIMARY KEY, " +
                 NAME_RECENTLYADDED_PRODUCT + " TEXT NOT NULL, " +
                 PRICE_RECENTLYADDED_PRODUCT + " DECIMAL NOT NULL, " +
+                STOCK_RECENTLYADDED_PRODUCT + " INTEGER NOT NULL, " +
                 IMAGE_RECENTLYADDED_PRODUCT + " TEXT" + ");";
         sqLiteDatabase.execSQL(createRecentlyAddedProductTable);
 
@@ -197,6 +203,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORIES_LIST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_EMPLOYEE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENT);
@@ -334,11 +341,11 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     public ArrayList<Product> getAllProductsDB() {
         ArrayList<Product> products = new ArrayList<>();
 
-        Cursor cursor = this.db.query(TABLE_PRODUCTS, new String[]{ID_PRODUCT, NAME_PRODUCT, PRICE_PRODUCT, IMAGE_PRODUCT}, null, null, null, null, null);
+        Cursor cursor = this.db.query(TABLE_PRODUCTS, new String[]{ID_PRODUCT, NAME_PRODUCT, PRICE_PRODUCT, IMAGE_PRODUCT, STOCK_PRODUCT}, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3));
+                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3), cursor.getInt(4));
                 products.add(product);
             } while (cursor.moveToNext());
         }
@@ -352,6 +359,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
             values.put(NAME_PRODUCT, product.getName());
             values.put(PRICE_PRODUCT, product.getPrice());
             values.put(IMAGE_PRODUCT, product.getImage());
+            values.put(STOCK_PRODUCT, product.getStock());
 
             this.db.insert(TABLE_PRODUCTS, null, values);
         }
@@ -364,11 +372,11 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     public ArrayList<Product> getAllRecentlyAddedProductsDB() {
         ArrayList<Product> products = new ArrayList<>();
 
-        Cursor cursor = this.db.query(TABLE_RECENTLYADDED_PRODUCT, new String[]{ID_RECENTLYADDED_PRODUCT, NAME_RECENTLYADDED_PRODUCT, PRICE_RECENTLYADDED_PRODUCT, IMAGE_RECENTLYADDED_PRODUCT}, null, null, null, null, null);
+        Cursor cursor = this.db.query(TABLE_RECENTLYADDED_PRODUCT, new String[]{ID_RECENTLYADDED_PRODUCT, NAME_RECENTLYADDED_PRODUCT, PRICE_RECENTLYADDED_PRODUCT, IMAGE_RECENTLYADDED_PRODUCT, STOCK_RECENTLYADDED_PRODUCT}, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3));
+                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3), cursor.getInt(4));
                 products.add(product);
             } while (cursor.moveToNext());
         }
@@ -382,6 +390,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
             values.put(NAME_RECENTLYADDED_PRODUCT, product.getName());
             values.put(PRICE_RECENTLYADDED_PRODUCT, product.getPrice());
             values.put(IMAGE_RECENTLYADDED_PRODUCT, product.getImage());
+            values.put(STOCK_RECENTLYADDED_PRODUCT, product.getStock());
 
             this.db.insert(TABLE_RECENTLYADDED_PRODUCT, null, values);
         }
@@ -394,11 +403,11 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     public ArrayList<Product> getAllBestSellingProductsDB() {
         ArrayList<Product> products = new ArrayList<>();
 
-        Cursor cursor = this.db.query(TABLE_BESTSELLING_PRODUCT, new String[]{ID_BESTSELLING_PRODUCT, NAME_BESTSELLING_PRODUCT, PRICE_BESTSELLING_PRODUCT, IMAGE_BESTSELLING_PRODUCT}, null, null, null, null, null);
+        Cursor cursor = this.db.query(TABLE_BESTSELLING_PRODUCT, new String[]{ID_BESTSELLING_PRODUCT, NAME_BESTSELLING_PRODUCT, PRICE_BESTSELLING_PRODUCT, IMAGE_BESTSELLING_PRODUCT, STOCK_BESTSELLING_PRODUCT}, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3));
+                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3), cursor.getInt(4));
                 products.add(product);
             } while (cursor.moveToNext());
         }
@@ -1000,13 +1009,29 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     }
 
     public void addProductDB(Product product) {
+        for (Product alreadyProduct : getAllProductsDB()) {
+            if (alreadyProduct.getId() == product.getId()) {
+                updateProductDB(product);
+                return;
+            }
+        }
         ContentValues values = new ContentValues();
         values.put(ID_PRODUCT, product.getId());
         values.put(NAME_PRODUCT, product.getName());
         values.put(PRICE_PRODUCT, product.getPrice());
         values.put(IMAGE_PRODUCT, product.getImage());
+        values.put(STOCK_PRODUCT, product.getImage());
 
         this.db.insert(TABLE_PRODUCTS, null, values);
+    }
+
+    private void updateProductDB(Product product) {
+        ContentValues values = new ContentValues();
+        values.put(NAME_PRODUCT, product.getName());
+        values.put(PRICE_PRODUCT, product.getPrice());
+        values.put(IMAGE_PRODUCT, product.getImage());
+
+        this.db.update(TABLE_PRODUCTS, values, ID_PRODUCT + " = ?", new String[]{String.valueOf(product.getId())});
     }
 
     // endregion

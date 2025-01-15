@@ -92,7 +92,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent( this, RepairCategoriesListActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.navLogin) {
-            Intent intent = new Intent( this, RepairCategoriesListActivity.class);
+            Intent intent = new Intent( this, LoginActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.navListRepairs) {
             Intent intent = new Intent(this, RepairsEmployeeActivity.class);

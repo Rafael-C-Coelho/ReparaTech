@@ -146,4 +146,5 @@
     <string name="set_repair_as_done">Set repair as done</string>
     <string name="comments">Comments</string>
     <string name="progress_status">Progress status</string>
+    <string name="quantity_must_be_greater_than_0">Quantity must be greater than 0</string>
 </resources>

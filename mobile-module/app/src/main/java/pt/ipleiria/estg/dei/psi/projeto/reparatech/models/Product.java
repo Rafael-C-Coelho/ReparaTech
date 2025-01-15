@@ -1,13 +1,14 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 public class Product {
-    private int id;
+    private int id, stock;
     private String name;
     private double price;
     private String image;
 
-    public Product(int id, String name,  double price, String image) {
+    public Product(int id, String name,  double price, String image, int stock) {
         this.id = id;
+        this.stock = stock;
         this.name = name;
         this.price = price;
         this.image = image;
@@ -39,6 +40,10 @@ public class Product {
 
     public String getImage() {
         return image;
+    }
+
+    public int getStock() {
+        return stock;
     }
 
     public void setImage(String image) {
