@@ -96,7 +96,7 @@ public class CartAdapter extends BaseAdapter {
                 public void onClick(View view) {
                     int id = Integer.parseInt(tvId.getText().toString());
                     int quantity = Integer.parseInt(tvQuantity.getText().toString());
-                    Product product = ReparaTechSingleton.getInstance(context).getDbHelper().getAllProductsDB().get(id);
+                    Product product = ReparaTechSingleton.getInstance(context).getProductFromDB(id);
                     if (quantity > 1) {
                         quantity--;
                         tvQuantity.setText(String.valueOf(quantity));
@@ -123,6 +123,10 @@ public class CartAdapter extends BaseAdapter {
                     int id = Integer.parseInt(tvId.getText().toString());
                     int quantity = Integer.parseInt(tvQuantity.getText().toString());
                     quantity++;
+                    Product product = ReparaTechSingleton.getInstance(context).getProductFromDB(Integer.parseInt(tvProductId.getText().toString()));
+                    if (product.getStock() < quantity) {
+                        return;
+                    }
                     tvQuantity.setText(String.valueOf(quantity));
                     ReparaTechSingleton.getInstance(context).updateCartItem(id, quantity);
                     notifyDataSetChanged();
@@ -146,8 +150,7 @@ public class CartAdapter extends BaseAdapter {
         }
 
         public void update(CartItem cartItem) {
-            ReparaTechDBHelper dbHelper = new ReparaTechDBHelper(context);
-            Product product = dbHelper.getAllProductsDB().get(cartItem.getIdProduct());
+            Product product = ReparaTechSingleton.getInstance(context).getProductFromDB(cartItem.getIdProduct());
             tvId.setText(String.valueOf(cartItem.getId()));
             tvProductId.setText(String.valueOf(cartItem.getIdProduct()));
             tvProductName.setText(product.getName());

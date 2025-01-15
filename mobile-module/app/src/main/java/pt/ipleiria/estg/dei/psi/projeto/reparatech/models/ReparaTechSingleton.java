@@ -304,6 +304,19 @@ public class ReparaTechSingleton {
         dbHelper.removeProductsDB();
     }
 
+    public Product getProductFromDB(int id) {
+        for (Product product: getProductsDB()){
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public void updateProductStockDB(int id, int stock) {
+        dbHelper.updateProductStock(id, stock);
+    }
+
     public Product getProduct(int id) {
         try {
             new ApiHelper(context).request(context, Request.Method.GET, "/api/products/" + id, null, new Response.Listener<JSONObject>() {

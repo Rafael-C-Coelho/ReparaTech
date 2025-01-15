@@ -1034,5 +1034,12 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         this.db.update(TABLE_PRODUCTS, values, ID_PRODUCT + " = ?", new String[]{String.valueOf(product.getId())});
     }
 
+    public void updateProductStock(int id, int stock) {
+        ContentValues values = new ContentValues();
+        values.put(STOCK_PRODUCT, stock);
+
+        this.db.update(TABLE_PRODUCTS, values, ID_PRODUCT + " = ?", new String[]{String.valueOf(id)});
+    }
+
     // endregion
 }
