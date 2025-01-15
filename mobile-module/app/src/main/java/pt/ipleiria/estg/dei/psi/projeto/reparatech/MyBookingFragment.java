@@ -49,6 +49,7 @@ public class MyBookingFragment extends Fragment implements UpdateBookingListener
         swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
         myBookings = ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB();
+
         if (myBookings.isEmpty()){
             ReparaTechSingleton.getInstance(getContext()).getBookingsFromApi(page);
             myBookings = ReparaTechSingleton.getInstance(getContext()).getMyBookingsDB();

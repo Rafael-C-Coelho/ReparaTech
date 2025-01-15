@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 
-
 public class MyBooking {
 
     private int id;

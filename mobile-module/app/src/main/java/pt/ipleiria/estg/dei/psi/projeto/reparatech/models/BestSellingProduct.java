@@ -1,42 +1,42 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 public class BestSellingProduct {
+    private int id;
+    private String name,image;
+    private double price;
 
-    private int id, img, price;
-    private String title;
-
-    public BestSellingProduct(int id, String title, int price, int img) {
+    public BestSellingProduct(int id, String name, String image, double price) {
         this.id = id;
-        this.title = title;
+        this.name = name;
+        this.image = image;
         this.price = price;
-        this.img = img;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public int getPrice() {
+    public String getImage() {
+        return image;
+    }
+
+    public double getPrice() {
         return price;
     }
 
-    public int getImg() {
-        return img;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
-    }
-
-    public void setImg(int img) {
-        this.img = img;
     }
 }

@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
@@ -18,25 +19,29 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.BestSellingProductParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
 public class ReparaTechSingleton {
-    private ArrayList<BestSellingProduct> bestSellingProducts;
+
     private ArrayList<RepairCategoriesList> repairCategoriesList;
     private ArrayList<Product> products;
     private ArrayList<MyBooking> myBookings;
+    private ArrayList<BestSellingProduct> bestSellingProducts;
     private static RequestQueue volleyQueue;
     private static ReparaTechSingleton INSTANCE = null;
     private Context context;
     private ReparaTechDBHelper dbHelper;
     private Settings settings;
+
 
     private LoginListener loginListener;
     private RegisterListener registerListener;
@@ -46,16 +51,13 @@ public class ReparaTechSingleton {
 
     private ReparaTechSingleton(Context context){
         products = new ArrayList<>();
+        bestSellingProducts = new ArrayList<>();
         repairCategoriesList = new ArrayList<>();
         myBookings = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
         settings = new Settings();
 
         this.context = context;
-        // generateDinamicRepairCategories();
-        // generateDinamicBestSellingProducts();
-        // generateDinamicProducts();
-
     }
 
     public static synchronized ReparaTechSingleton getInstance(Context context){
@@ -90,22 +92,16 @@ public class ReparaTechSingleton {
         return volleyQueue;
     }
 
-    /*
-    private void generateDinamicBestSellingProducts() {
-        bestSellingProducts = new ArrayList<>();
-        bestSellingProducts.add(new BestSellingProduct(1,"Capa Iphone",20, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(2,"Cabo USB-C",10, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(3,"Película de Ecrã Iphone 13",12, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(4,"Película de Ecrã Xiaomi Redmi Note 13",12, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(5,"Mochila ASUS para Laptop ",55, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(6,"Rato Ergonómico Logitech",85, R.drawable.iphone_capa));
-    }
+
+    // region # BEST SELLING PRODUCTS METHODS #
 
 
-    public ArrayList<BestSellingProduct> getbestSellingProductsExamples() {
-        return new ArrayList<>(bestSellingProducts);
-    }
-    }*/
+    // endregion
+
+    // region # BEST SELLING PRODUCTS API METHODS #
+
+
+    // endregion
 
     public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB(){
         repairCategoriesList = dbHelper.getAllRepairCategoriesListDB();
@@ -117,6 +113,8 @@ public class ReparaTechSingleton {
     }
 
     // endregion
+
+
 
     // region # Settings METHODS #
 
@@ -411,6 +409,11 @@ public class ReparaTechSingleton {
         return new ArrayList<>(myBookings);
     }
 
+    public ArrayList<BestSellingProduct> bestSellingProductsBD(){
+        bestSellingProducts = dbHelper.getAllBestSellingProductsDB();
+        return new ArrayList<>(bestSellingProducts);
+    }
+
     public void clearBookingsDB(){
         dbHelper.removeBookingsDB();
     }
@@ -521,5 +524,31 @@ public class ReparaTechSingleton {
         }
     }
     // endregion
+
+    public void getBestSellingProductFromApi (){
+        String url = "api/dashboard/most-sold";
+        try{
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    bestSellingProducts = BestSellingProductParser.parserJsonBestSellingProducts(response);
+                    for (BestSellingProduct product : bestSellingProducts) {
+                        dbHelper.addBestSellingProductDB(product);
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(com.android.volley.VolleyError error) {
+                    Toast.makeText(context,context.getString(R.string.txt_error_loading_bookings_try_again_later), Toast.LENGTH_SHORT).show();
+                    System.out.println(context.getString(R.string.txt_error_loading_bookings_try_again_later));
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+           bestSellingProducts = dbHelper.getAllBestSellingProductsDB();
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later), Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 
