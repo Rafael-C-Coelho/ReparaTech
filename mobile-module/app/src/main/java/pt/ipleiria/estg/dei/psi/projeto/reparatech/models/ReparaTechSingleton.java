@@ -315,7 +315,8 @@ public class ReparaTechSingleton {
                                 productObject.getInt("id"),
                                 productObject.getString("name"),
                                 productObject.getDouble("price"),
-                                productObject.getString("image")
+                                productObject.getString("image"),
+                                productObject.getInt("stock")
                         );
 
                         if (productStockListener != null) {

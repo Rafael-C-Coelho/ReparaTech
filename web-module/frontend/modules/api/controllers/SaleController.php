@@ -105,7 +105,7 @@ class SaleController extends ActiveController
                     'quantity' => $productDetails['quantity'],
                     'price' => $product->price,
                 ];
-                Yii::error($saleProduct->validate());
+                Yii::error($saleProduct->errors);
                 if(!$saleProduct->save()){
                     throw new BadRequestHttpException('Error creating sale product');
                 }
