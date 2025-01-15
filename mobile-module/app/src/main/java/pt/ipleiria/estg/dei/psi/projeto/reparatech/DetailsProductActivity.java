@@ -22,10 +22,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
-public class DetailsProductActivity extends AppCompatActivity {
+public class DetailsProductActivity extends AppCompatActivity implements ProductStockListener {
 
     public static final String ID_PRODUCT = "id_Product";
     private Product product;
@@ -40,6 +41,7 @@ public class DetailsProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_product);
 
+        ReparaTechSingleton.getInstance(this).setProductStockListener(this);
         tvName = findViewById(R.id.tvNameProductDetails);
         imgProduct = findViewById(R.id.imgProductDetails);
         etQuantity = findViewById(R.id.etQuantity);
@@ -80,5 +82,17 @@ public class DetailsProductActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgProduct);
         tvPrice.setText(product.getPrice() + getString(R.string.euro_symbol));
+    }
+
+    @Override
+    public void onProductStockChanged(int stock) {
+        if (stock <= 0) {
+            etQuantity.setText("0");
+            etQuantity.setEnabled(false);
+            btnBuyNow.setEnabled(false);
+        } else {
+            etQuantity.setEnabled(true);
+            btnBuyNow.setEnabled(true);
+        }
     }
 }

@@ -20,6 +20,7 @@ import java.util.Map;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
@@ -43,6 +44,7 @@ public class ReparaTechSingleton {
     private BookingListener bookingListener;
     private UpdateBookingListener updateBookingListener;
     private UpdateProductsListener updateProductsListener;
+    private ProductStockListener productStockListener;
 
     private ReparaTechSingleton(Context context){
         products = new ArrayList<>();
@@ -72,6 +74,10 @@ public class ReparaTechSingleton {
 
     public void setLoginListener(LoginListener loginListener) {
         this.loginListener = loginListener;
+    }
+
+    public void setProductStockListener(ProductStockListener productStockListener) {
+        this.productStockListener = productStockListener;
     }
 
     public void setRegisterListener(RegisterListener registerListener) {
@@ -298,11 +304,42 @@ public class ReparaTechSingleton {
         dbHelper.removeProductsDB();
     }
 
-    public Product getProduct(int id){
-        for (Product product:products){
-            if (product.getId() == id) {
-                return product;
+    public Product getProduct(int id) {
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, "/api/products/" + id, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        JSONObject productObject = response.getJSONObject("product");
+                        Product product = new Product(
+                                productObject.getInt("id"),
+                                productObject.getString("name"),
+                                productObject.getDouble("price"),
+                                productObject.getString("image")
+                        );
+
+                        if (productStockListener != null) {
+                            productStockListener.onProductStockChanged(productObject.getInt("stock"));
+                        }
+                        dbHelper.addProductDB(product);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            for (Product product:products){
+                if (product.getId() == id) {
+                    return product;
+                }
             }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -520,6 +557,64 @@ public class ReparaTechSingleton {
             Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
         }
     }
+
     // endregion
+
+    // region # Repairs METHODS #
+
+    public ArrayList<RepairEmployee> getRepairsDB(){
+        return new ArrayList<>(dbHelper.getAllRepairEmployeeDB());
+    }
+
+    public RepairEmployee getRepairEmployeeByID(int id){
+        String url = "/api/repair/" + id;
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        RepairEmployee repairEmployee = new RepairEmployee(
+                                response.getInt("id"),
+                                response.getString("progress"),
+                                response.getString("client_name"),
+                                response.getString("description"),
+                                response.getString("device")
+                        );
+                        dbHelper.addRepairEmployeeDB(repairEmployee);
+                        /* if (updateBookingListener != null) {
+                            updateBookingListener.updateBookings(repairEmployee);
+                            System.out.println("Booking Updated");
+                        } */
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    /* if (updateBookingListener != null){
+                        updateBookingListener.updateBookings(myBooking);
+                        System.out.println("Booking update failed");
+                    } */
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+        }
+        for (RepairEmployee repairEmployee:dbHelper.getAllRepairEmployeeDB()){
+            if (repairEmployee.getId() == id) {
+                return repairEmployee;
+            }
+        }
+        return null;
+    }
+
+    public void clearRepairsDB(){
+        dbHelper.removeAllRepairEmployeeDB();
+    }
+
+    // endregion
+
 }
 

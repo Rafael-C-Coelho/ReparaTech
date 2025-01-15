@@ -72,6 +72,19 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String TIME_BOOKING = "time";
     private static final String STATUS_BOOKING = "status";
 
+    private static final String TABLE_REPAIR_EMPLOYEE = "repairs_employee";
+    private static final String ID_REPAIR_EMPLOYEE = "id";
+    private static final String CLIENT_NAME_REPAIR_EMPLOYEE = "client_name";
+    private static final String PROGRESS_REPAIR_EMPLOYEE = "progress";
+    private static final String DESCRIPTION_REPAIR_EMPLOYEE = "description";
+    private static final String DEVICE_REPAIR_EMPLOYEE = "device";
+
+    private static final String TABLE_COMMENT = "comments";
+    private static final String ID_COMMENT = "id";
+    private static final String DESCRIPTION_COMMENT = "description";
+    private static final String DATE_COMMENT = "date";
+    private static final String TIME_COMMENT = "time";
+    private static final String ID_REPAIR_COMMENT = "id_repair";
 
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -154,6 +167,24 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 TIME_BOOKING + " TEXT NOT NULL, " +
                 STATUS_BOOKING + " TEXT NOT NULL " + ");";
         sqLiteDatabase.execSQL(createBookingTable);
+
+        String createRepairEmployee = "CREATE TABLE IF NOT EXISTS " + TABLE_REPAIR_EMPLOYEE +
+                "(" + ID_REPAIR_EMPLOYEE + " INTEGER PRIMARY KEY, " +
+                CLIENT_NAME_REPAIR_EMPLOYEE + " TEXT NOT NULL, " +
+                PROGRESS_REPAIR_EMPLOYEE + " TEXT NOT NULL, " +
+                DEVICE_REPAIR_EMPLOYEE + " TEXT NOT NULL, " +
+                DESCRIPTION_REPAIR_EMPLOYEE + " TEXT NOT NULL " + ");";
+        sqLiteDatabase.execSQL(createRepairEmployee);
+
+        String createCommentTable = "CREATE TABLE IF NOT EXISTS " + TABLE_COMMENT +
+                "(" + ID_COMMENT + " INTEGER PRIMARY KEY, " +
+                DESCRIPTION_COMMENT + " TEXT NOT NULL, " +
+                DATE_COMMENT + " TEXT NOT NULL, " +
+                TIME_COMMENT + " TEXT NOT NULL, " +
+                ID_REPAIR_COMMENT + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ID_REPAIR_COMMENT + ") REFERENCES " + TABLE_REPAIR_EMPLOYEE + "(" + ID_REPAIR_EMPLOYEE + ")" +
+                ");";
+        sqLiteDatabase.execSQL(createCommentTable);
     }
 
 
@@ -167,6 +198,8 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORIES_LIST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_EMPLOYEE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENT);
         onCreate(db);
     }
 
@@ -862,6 +895,118 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     public void removeBookingsDB() {
         this.db.delete(TABLE_BOOKINGS, null, null);
+    }
+
+    // endregion
+
+    // region # Repair Employee #
+
+    public ArrayList<RepairEmployee> getAllRepairEmployeeDB(){
+        ArrayList<RepairEmployee> repairEmployees = new ArrayList<>();
+        Cursor cursor = this.db.query(TABLE_REPAIR_EMPLOYEE, new String[]{ID_REPAIR_EMPLOYEE, CLIENT_NAME_REPAIR_EMPLOYEE, PROGRESS_REPAIR_EMPLOYEE, DESCRIPTION_REPAIR_EMPLOYEE, DEVICE_REPAIR_EMPLOYEE}, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do {
+                RepairEmployee repairEmployee = new RepairEmployee(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+                repairEmployees.add(repairEmployee);
+            } while (cursor.moveToNext());
+        }
+        return repairEmployees;
+    }
+
+    public void addRepairsEmployeeDB(ArrayList<RepairEmployee> repairEmployees){
+        for (RepairEmployee repairEmployee : repairEmployees) {
+            ContentValues values = new ContentValues();
+            for (RepairEmployee alreadyRepairEmployee : getAllRepairEmployeeDB()) {
+                if (alreadyRepairEmployee.getId() == repairEmployee.getId()) {
+                    updateRepairEmployeeDB(alreadyRepairEmployee.getId(), repairEmployee.getProgress());
+                    return;
+                }
+            }
+            addRepairEmployeeDB(repairEmployee);
+        }
+    }
+
+    public void addRepairEmployeeDB(RepairEmployee repairEmployee){
+        ContentValues values = new ContentValues();
+        for (RepairEmployee alreadyRepairEmployee : getAllRepairEmployeeDB()) {
+            if (alreadyRepairEmployee.getId() == repairEmployee.getId()) {
+                updateRepairEmployeeDB(alreadyRepairEmployee.getId(), repairEmployee.getProgress());
+                return;
+            }
+        }
+        values.put(ID_REPAIR_EMPLOYEE, repairEmployee.getId());
+        values.put(CLIENT_NAME_REPAIR_EMPLOYEE, repairEmployee.getClientName());
+        values.put(PROGRESS_REPAIR_EMPLOYEE, repairEmployee.getProgress());
+        values.put(DESCRIPTION_REPAIR_EMPLOYEE, repairEmployee.getDescription());
+        values.put(DEVICE_REPAIR_EMPLOYEE, repairEmployee.getDevice());
+
+        this.db.insert(TABLE_REPAIR_EMPLOYEE, null, values);
+    }
+
+    public void updateRepairEmployeeDB(int id, String progress){
+        ContentValues values = new ContentValues();
+        values.put(PROGRESS_REPAIR_EMPLOYEE, progress);
+        this.db.update(TABLE_REPAIR_EMPLOYEE, values, ID_REPAIR_EMPLOYEE + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void removeAllRepairEmployeeDB(){
+        this.db.delete(TABLE_REPAIR_EMPLOYEE, null, null);
+    }
+
+    // endregion
+
+    // region # Comments #
+
+    public ArrayList<Comment> getAllCommentsDB(){
+        ArrayList<Comment> comments = new ArrayList<>();
+        Cursor cursor = this.db.query(TABLE_COMMENT, new String[]{ID_COMMENT, DESCRIPTION_COMMENT, DATE_COMMENT, TIME_COMMENT, ID_REPAIR_COMMENT}, null, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do {
+                Comment comment = new Comment(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4));
+                comments.add(comment);
+            } while (cursor.moveToNext());
+        }
+        return comments;
+    }
+
+    public void addCommentsDB(ArrayList<Comment> comments){
+        for (Comment comment : comments) {
+            ContentValues values = new ContentValues();
+            values.put(ID_COMMENT, comment.getId());
+            values.put(DESCRIPTION_COMMENT, comment.getDescription());
+            values.put(DATE_COMMENT, comment.getDate());
+            values.put(TIME_COMMENT, comment.getTime());
+            values.put(ID_REPAIR_COMMENT, comment.getIdRepair());
+
+            this.db.insert(TABLE_COMMENT, null, values);
+        }
+    }
+
+    public Comment getCommentById(int id){
+        Cursor cursor = this.db.query(TABLE_COMMENT, new String[]{ID_COMMENT, DESCRIPTION_COMMENT, DATE_COMMENT, TIME_COMMENT, ID_REPAIR_COMMENT}, ID_COMMENT + " = ?", new String[]{String.valueOf(id)}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()){
+            Comment comment = new Comment(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4));
+            cursor.close();
+            return comment;
+        }
+        if (cursor != null){
+            cursor.close();
+        }
+        return null;
+    }
+
+    public void removeCommentsDB(){
+        this.db.delete(TABLE_COMMENT, null, null);
+    }
+
+    public void addProductDB(Product product) {
+        ContentValues values = new ContentValues();
+        values.put(ID_PRODUCT, product.getId());
+        values.put(NAME_PRODUCT, product.getName());
+        values.put(PRICE_PRODUCT, product.getPrice());
+        values.put(IMAGE_PRODUCT, product.getImage());
+
+        this.db.insert(TABLE_PRODUCTS, null, values);
     }
 
     // endregion

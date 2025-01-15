@@ -143,4 +143,7 @@
     <string name="you_need_to_be_logged_in_to_add_products_to_the_cart">You need to be logged in to add products to the cart</string>
     <string name="shipping_with_two_dots">SHIPPING:</string>
     <string name="_20_00_euros">20.00 €</string>
+    <string name="set_repair_as_done">Set repair as done</string>
+    <string name="comments">Comments</string>
+    <string name="progress_status">Progress status</string>
 </resources>
