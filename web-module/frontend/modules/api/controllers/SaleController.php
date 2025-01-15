@@ -110,8 +110,6 @@ class SaleController extends ActiveController
                     throw new BadRequestHttpException('Error creating sale product. ' . VarDumper::dumpAsString($saleProduct->errors));
                 }
 
-                $product->stock -= $productDetails['quantity'];
-                $product->save();
                 $total += $product->price * $productDetails['quantity'];
             }
             $items[] = [
