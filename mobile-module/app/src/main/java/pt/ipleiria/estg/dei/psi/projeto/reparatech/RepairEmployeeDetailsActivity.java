@@ -9,10 +9,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateRepairsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairEmployee;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
-public class RepairEmployeeDetailsActivity extends AppCompatActivity {
+public class RepairEmployeeDetailsActivity extends AppCompatActivity implements UpdateRepairsListener {
 
     public static final String ID_REPAIR = "id_repair";
     private RepairEmployee repair;
@@ -21,6 +22,7 @@ public class RepairEmployeeDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_employee_details);
+        ReparaTechSingleton.getInstance(this).setUpdateRepairsListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -37,5 +39,10 @@ public class RepairEmployeeDetailsActivity extends AppCompatActivity {
         }
 
         
+    }
+
+    @Override
+    public void onUpdateRepairs() {
+
     }
 }

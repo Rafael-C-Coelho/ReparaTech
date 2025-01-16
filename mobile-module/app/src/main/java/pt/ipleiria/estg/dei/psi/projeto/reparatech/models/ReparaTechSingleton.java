@@ -339,13 +339,13 @@ public class ReparaTechSingleton {
                         );
 
                         if (productStockListener != null) {
-                            productStockListener.onProductStockChanged(productObject.getInt("stock"));
+                            productStockListener.onProductStockChanged(productObject.getInt("id"), productObject.getInt("stock"));
                         }
                         dbHelper.addProductDB(product);
                     } catch (JSONException e) {
                         e.printStackTrace();
                         if (productStockListener != null) {
-                            productStockListener.onProductStockChanged(0);
+                            productStockListener.onProductStockChanged(id, 0);
                         }
                     }
                 }
@@ -354,7 +354,7 @@ public class ReparaTechSingleton {
                 public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
                     if (productStockListener != null) {
-                        productStockListener.onProductStockChanged(0);
+                        productStockListener.onProductStockChanged(id, 0);
                     }
                 }
             });
@@ -363,14 +363,14 @@ public class ReparaTechSingleton {
                     return product;
                 }
                 if (productStockListener != null) {
-                    productStockListener.onProductStockChanged(0);
+                    productStockListener.onProductStockChanged(id, 0);
                 }
             }
             return null;
         } catch (Exception e) {
             e.printStackTrace();
             if (productStockListener != null) {
-                productStockListener.onProductStockChanged(0);
+                productStockListener.onProductStockChanged(id, 0);
             }
         }
         return null;

@@ -27,6 +27,7 @@ public class RepairsEmployeeActivity extends AppCompatActivity implements Update
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repairs_employee);
+        ReparaTechSingleton.getInstance(this).setUpdateRepairsListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
