@@ -33,6 +33,11 @@
             android:id="@+id/navCart"
             android:title="@string/txt_cart"
             android:icon="@drawable/ic_shopping_cart"/>
+
+        <item
+            android:id="@+id/navOrders"
+            android:title="@string/orders"
+            android:icon="@drawable/ic_action_order"/>
     </group>
 
     <group android:checkableBehavior="single">

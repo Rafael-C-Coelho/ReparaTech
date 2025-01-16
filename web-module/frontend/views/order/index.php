@@ -19,12 +19,24 @@ $this->title = 'Orders';
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'columns' => [
-                    'client_id',
+                    'id',
+                    //'client_id',
                     'status',
                     [
                         'label' => 'Total Order', //serve para ir buscar o preço total às faturas
                         'value' => function ($model) {
                             return Yii::$app->formatter->asCurrency($model->invoice->total, 'EUR'); //serve para formatar o valor para euro
+                        },
+                        'format' => 'raw',
+                    ],
+                    [
+                        'label' => 'Products',
+                        'value' => function ($model) {
+                            $productNames = array_map(function ($saleProduct){
+                                return $saleProduct->product->name;
+                            }, $model->saleProducts);
+
+                            return implode('<br>', $productNames);
                         },
                         'format' => 'raw',
                     ],

@@ -115,6 +115,9 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         } else if (item.getItemId() == R.id.navCart) {
             Intent intent = new Intent(this, CartActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.navOrders) {
+            fragment = new OrderListFragment();
+            setTitle(item.getTitle());
         }
 
 
@@ -144,6 +147,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             menu.findItem(R.id.navListRepairCategories).setVisible(true);
             menu.findItem(R.id.navProducts).setVisible(true);
             menu.findItem(R.id.navCart).setVisible(false);
+            menu.findItem(R.id.navOrders).setVisible(false);
         } else if (!role.equals("client")) {
             menu.findItem(R.id.navHomepage).setVisible(true);
             menu.findItem(R.id.navRepairBookings).setVisible(false);
@@ -151,11 +155,13 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             menu.findItem(R.id.navListRepairCategories).setVisible(false);
             menu.findItem(R.id.navProducts).setVisible(false);
             menu.findItem(R.id.navCart).setVisible(false);
+            menu.findItem(R.id.navOrders).setVisible(false);
         } else if (role.equals("client")) {
             menu.findItem(R.id.navRepairBookings).setVisible(true);
             menu.findItem(R.id.navListRepairCategories).setVisible(true);
             menu.findItem(R.id.navProducts).setVisible(true);
             menu.findItem(R.id.navCart).setVisible(true);
+            menu.findItem(R.id.navOrders).setVisible(true);
         }
 
         menu.findItem(R.id.navLogin).setVisible(!isValid);
