@@ -463,6 +463,10 @@ public class ReparaTechSingleton {
                                 Toast.makeText(context, context.getString(R.string.your_order_has_been_created),
                                         Toast.LENGTH_SHORT).show();
                                 ReparaTechSingleton.getInstance(context).getDbHelper().removeCartItemsDB();
+                            } else {
+                                Toast.makeText(context, context.getString(R.string.there_was_an_error_on_your_order),
+                                        Toast.LENGTH_SHORT).show();
+                                System.out.println(response);
                             }
                         }
                     }, new Response.ErrorListener() {
