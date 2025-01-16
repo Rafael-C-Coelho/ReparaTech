@@ -95,6 +95,9 @@ public class ApiHelper {
                                                         } catch (NoConnectionError e) {
                                                             Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
                                                         }
+                                                    } else {
+                                                        Log.e("ApiHelper", context.getString(R.string.failed_to_refresh_token_login_again));
+                                                        ReparaTechSingleton.getInstance(context).removeAuth();
                                                     }
                                                 }
                                             },
@@ -109,6 +112,11 @@ public class ApiHelper {
                                     );
                                 } catch (NoConnectionError e) {
                                     Toast.makeText(context, context.getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Log.e("ApiHelper", context.getString(R.string.failed_to_refresh_token_login_again));
+                                    errorListener.onErrorResponse(error);
+                                    ReparaTechSingleton.getInstance(context).removeAuth();
+                                    e.printStackTrace();
                                 }
                             } else {
                                 errorListener.onErrorResponse(error);

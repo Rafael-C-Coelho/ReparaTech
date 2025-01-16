@@ -26,7 +26,6 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListene
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.BestSellingProductParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateRepairsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
@@ -337,13 +336,13 @@ public class ReparaTechSingleton {
                                         productObject.getInt("stock"));
 
                                 if (productStockListener != null) {
-                                    productStockListener.onProductStockChanged(productObject.getInt("stock"));
+                                    productStockListener.onProductStockChanged(productObject.getInt("id"), productObject.getInt("stock"));
                                 }
                                 dbHelper.addProductDB(product);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 if (productStockListener != null) {
-                                    productStockListener.onProductStockChanged(0);
+                                    productStockListener.onProductStockChanged(id, 0);
                                 }
                             }
                         }
@@ -352,7 +351,7 @@ public class ReparaTechSingleton {
                         public void onErrorResponse(VolleyError error) {
                             error.printStackTrace();
                             if (productStockListener != null) {
-                                productStockListener.onProductStockChanged(0);
+                                productStockListener.onProductStockChanged(id, 0);
                             }
                         }
                     });
@@ -361,14 +360,14 @@ public class ReparaTechSingleton {
                     return product;
                 }
                 if (productStockListener != null) {
-                    productStockListener.onProductStockChanged(0);
+                    productStockListener.onProductStockChanged(id, 0);
                 }
             }
             return null;
         } catch (Exception e) {
             e.printStackTrace();
             if (productStockListener != null) {
-                productStockListener.onProductStockChanged(0);
+                productStockListener.onProductStockChanged(id, 0);
             }
         }
         return null;
@@ -464,6 +463,10 @@ public class ReparaTechSingleton {
                                 Toast.makeText(context, context.getString(R.string.your_order_has_been_created),
                                         Toast.LENGTH_SHORT).show();
                                 ReparaTechSingleton.getInstance(context).getDbHelper().removeCartItemsDB();
+                            } else {
+                                Toast.makeText(context, context.getString(R.string.there_was_an_error_on_your_order),
+                                        Toast.LENGTH_SHORT).show();
+                                System.out.println(response);
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -489,7 +492,6 @@ public class ReparaTechSingleton {
     }
 
     public ArrayList<BestSellingProduct> bestSellingProductsBD() {
-        bestSellingProducts = dbHelper.getAllBestSellingProductsDB();
         return new ArrayList<>(bestSellingProducts);
     }
 
@@ -653,7 +655,6 @@ public class ReparaTechSingleton {
                 }
             });
         } catch (NoConnectionError e) {
-            bestSellingProducts = dbHelper.getAllBestSellingProductsDB();
             Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
                     Toast.LENGTH_SHORT).show();
         }
