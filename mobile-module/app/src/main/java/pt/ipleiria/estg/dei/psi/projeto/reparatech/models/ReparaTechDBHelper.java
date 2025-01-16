@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,6 +77,17 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String TIME_BOOKING = "time";
     private static final String STATUS_BOOKING = "status";
 
+    private static final String TABLE_BEST_SELLING_PRODUCTS = "best_selling_product_table";
+    private static final String ID_BEST_SELLING_PRODUCT = "id";
+    private static final String NAME_BEST_SELLING_PRODUCT = "name";
+    private static final String PRICE_BEST_SELLING_PRODUCT = "price";
+    private static final String IMAGE_BEST_SELLING_PRODUCT = "image";
+
+    private static final String TABLE_SALES_PRODUCTS = "sales_product_table";
+    private static final String ID_SALES_PRODUCT = "id";
+    private static final String PRODUCT_ID = "product_id";
+    private static final String QUANTITY = "quantity";
+    private static final String CREATED_AT_SALES = "created_at";
     private static final String TABLE_REPAIR_EMPLOYEE = "repairs_employee";
     private static final String ID_REPAIR_EMPLOYEE = "id";
     private static final String CLIENT_NAME_REPAIR_EMPLOYEE = "client_name";
@@ -191,20 +204,27 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + ID_REPAIR_COMMENT + ") REFERENCES " + TABLE_REPAIR_EMPLOYEE + "(" + ID_REPAIR_EMPLOYEE + ")" +
                 ");";
         sqLiteDatabase.execSQL(createCommentTable);
-    }
 
+        String createSalesProductTable = "CREATE TABLE " + TABLE_SALES_PRODUCTS +
+                " (" + ID_SALES_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                PRODUCT_ID + " INTEGER NOT NULL, " +
+                QUANTITY + " INTEGER NOT NULL, " +
+                CREATED_AT_SALES + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" + ");";
+        sqLiteDatabase.execSQL(createSalesProductTable);
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_AUTH);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BESTSELLING_PRODUCT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECENTLYADDED_PRODUCT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORIES_LIST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BEST_SELLING_PRODUCTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SALES_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_EMPLOYEE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENT);
         onCreate(db);
@@ -282,61 +302,8 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     // endregion
 
-    // region # AUTH METHODS #
-
-    // endregion
 
     // region # PRODUCTS METHODS #
-    /*
-    private void insertInitialProducts(SQLiteDatabase db) {
-        ContentValues values = new ContentValues();
-
-        values.put(NAME_PRODUCT, "Capa Iphone");
-        values.put(PRICE_PRODUCT, 10);
-        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        this.db.insert(TABLE_PRODUCTS, null, values);
-
-        values.put(NAME_PRODUCT, "Capa Samsung");
-        values.put(PRICE_PRODUCT, 12);
-        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        this.db.insert(TABLE_PRODUCTS, null, values);
-
-        values.put(NAME_PRODUCT, "Película de Ecrã Iphone 13");
-        values.put(PRICE_PRODUCT, 15);
-        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        this.db.insert(TABLE_PRODUCTS, null, values);
-
-        values.put(NAME_PRODUCT, "Película de Ecrã Xiaomi Redmi Note 13");
-        values.put(PRICE_PRODUCT, 15);
-        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        this.db.insert(TABLE_PRODUCTS, null, values);
-
-        values.put(NAME_PRODUCT, "Mochila ASUS para Laptop");
-        values.put(PRICE_PRODUCT, 55);
-        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        this.db.insert(TABLE_PRODUCTS, null, values);
-
-        values.put(NAME_PRODUCT, "Rato Ergonómico Logitech");
-        values.put(PRICE_PRODUCT, 85);
-        values.put(IMAGE_PRODUCT, R.drawable.iphone_capa);
-        this.db.insert(TABLE_PRODUCTS, null, values);
-    }
-
-    public ArrayList<Product> getAllProductsDB(){
-        ArrayList<Product> products = new ArrayList<>();
-
-        Cursor cursor = this.db.query(TABLE_PRODUCTS, new String[]{ID_PRODUCT ,NAME_PRODUCT, PRICE_PRODUCT, IMAGE_PRODUCT}, null, null, null, null, null);
-
-        if(cursor.moveToFirst()){
-            do{
-                Product product = new Product(cursor.getInt(0),cursor.getString(1), cursor.getDouble(2), cursor.getString(3));
-                products.add(product);
-            }while (cursor.moveToNext());
-        }
-        return products;
-    }
-    */
-
 
     public ArrayList<Product> getAllProductsDB() {
         ArrayList<Product> products = new ArrayList<>();
@@ -383,6 +350,10 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         return products;
     }
 
+    // endregion
+
+    // region # RECENTLY ADDED PRODUCTS METHODS #
+
     public void addRecentlyAddedProductsDB(ArrayList<Product> products) {
         for (Product product : products) {
             ContentValues values = new ContentValues();
@@ -400,19 +371,9 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         this.db.delete(TABLE_RECENTLYADDED_PRODUCT, null, null);
     }
 
-    public ArrayList<Product> getAllBestSellingProductsDB() {
-        ArrayList<Product> products = new ArrayList<>();
+    // endregion
 
-        Cursor cursor = this.db.query(TABLE_BESTSELLING_PRODUCT, new String[]{ID_BESTSELLING_PRODUCT, NAME_BESTSELLING_PRODUCT, PRICE_BESTSELLING_PRODUCT, IMAGE_BESTSELLING_PRODUCT, STOCK_BESTSELLING_PRODUCT}, null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3), cursor.getInt(4));
-                products.add(product);
-            } while (cursor.moveToNext());
-        }
-        return products;
-    }
+    // region # BEST SELLING PRODUCTS METHODS #
 
     public void addBestSellingProductsDB(ArrayList<Product> products) {
         for (Product product : products) {
@@ -454,7 +415,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         Cursor cursor = this.db.query(TABLE_CART_ITEMS,
                 new String[]{ID_CART_ITEM, ID_PRODUCT_CART_ITEM, QUANTITY_CART_ITEM},
                 null, null, null, null, null);
-
         if (cursor.moveToFirst()) {
             do {
                 CartItem cartItem = new CartItem(
@@ -878,6 +838,25 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         return myBookings;
     }
 
+    public ArrayList<BestSellingProduct> getAllBestSellingProductsDB() {
+        ArrayList<BestSellingProduct> bestSellingProducts = new ArrayList<>();
+        Cursor cursor = this.db.query(TABLE_BEST_SELLING_PRODUCTS,
+                new String[]{ID_BEST_SELLING_PRODUCT, NAME_BEST_SELLING_PRODUCT, IMAGE_BEST_SELLING_PRODUCT,PRICE_BEST_SELLING_PRODUCT,},
+                null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                BestSellingProduct bestSellingProduct = new BestSellingProduct(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getDouble(3));
+                bestSellingProducts.add(bestSellingProduct);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return bestSellingProducts;
+    }
+
     public void addBookingsDB(ArrayList<MyBooking> myBookings){
         for (MyBooking myBooking : myBookings) {
             ContentValues values = new ContentValues();
@@ -908,6 +887,49 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     // endregion
 
+
+    public void addBestSellingProductDB(BestSellingProduct bestSellingProduct) {
+        ContentValues values = new ContentValues();
+        values.put(ID_BEST_SELLING_PRODUCT, bestSellingProduct.getId());
+        values.put(NAME_BEST_SELLING_PRODUCT, bestSellingProduct.getName());
+        values.put(PRICE_BEST_SELLING_PRODUCT, bestSellingProduct.getPrice());
+        values.put(IMAGE_BEST_SELLING_PRODUCT, bestSellingProduct.getImage());
+
+        this.db.insert(TABLE_BEST_SELLING_PRODUCTS, null, values);
+    }
+
+    public ArrayList<BestSellingProduct> getBestSellingProducts(){
+        ArrayList<BestSellingProduct> bestSellingProducts = new ArrayList<>();
+        String query = "SELECT p.id, p.name, p.price, p.image " +
+                "FROM " + TABLE_SALES_PRODUCTS + " s " +
+                "JOIN " + TABLE_PRODUCTS + " p ON s.product_id = p.id " +
+                "GROUP BY s.product_id " +
+                "ORDER BY SUM(s.quantity) DESC " +
+                "LIMIT 4";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idIndex = cursor.getColumnIndex("id");
+                int nameIndex = cursor.getColumnIndex("name");
+                int priceIndex = cursor.getColumnIndex("price");
+                int imageIndex = cursor.getColumnIndex("image");
+
+                if (nameIndex >= 0 && priceIndex >= 0 && imageIndex >= 0) {
+                    int id = cursor.getInt(idIndex);
+                    String name = cursor.getString(nameIndex);
+                    double price = cursor.getDouble(priceIndex);
+                    String image = cursor.getString(imageIndex);
+
+                    BestSellingProduct product = new BestSellingProduct(id,name, image, price);
+                    bestSellingProducts.add(product);
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return bestSellingProducts;
+    }
     // region # Repair Employee #
 
     public ArrayList<RepairEmployee> getAllRepairEmployeeDB(){

@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
@@ -30,10 +32,11 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
 public class ReparaTechSingleton {
-    private ArrayList<BestSellingProduct> bestSellingProducts;
+
     private ArrayList<RepairCategoriesList> repairCategoriesList;
     private ArrayList<Product> products;
     private ArrayList<MyBooking> myBookings;
+    private ArrayList<BestSellingProduct> bestSellingProducts;
     private static RequestQueue volleyQueue;
     private static ReparaTechSingleton INSTANCE = null;
     private Context context;
@@ -48,22 +51,19 @@ public class ReparaTechSingleton {
     private ProductStockListener productStockListener;
     private UpdateRepairsListener updateRepairsListener;
 
-    private ReparaTechSingleton(Context context){
+    private ReparaTechSingleton(Context context) {
         products = new ArrayList<>();
+        bestSellingProducts = new ArrayList<>();
         repairCategoriesList = new ArrayList<>();
         myBookings = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
         settings = new Settings();
 
         this.context = context;
-        // generateDinamicRepairCategories();
-        // generateDinamicBestSellingProducts();
-        // generateDinamicProducts();
-
     }
 
-    public static synchronized ReparaTechSingleton getInstance(Context context){
-        if(INSTANCE==null) {
+    public static synchronized ReparaTechSingleton getInstance(Context context) {
+        if (INSTANCE == null) {
             INSTANCE = new ReparaTechSingleton(context);
             volleyQueue = Volley.newRequestQueue(context);
         }
@@ -102,33 +102,24 @@ public class ReparaTechSingleton {
         this.updateBookingListener = updateBookingListener;
     }
 
-    public RequestQueue getVolleyQueue(){
+    public RequestQueue getVolleyQueue() {
         return volleyQueue;
     }
 
-    /*
-    private void generateDinamicBestSellingProducts() {
-        bestSellingProducts = new ArrayList<>();
-        bestSellingProducts.add(new BestSellingProduct(1,"Capa Iphone",20, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(2,"Cabo USB-C",10, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(3,"Película de Ecrã Iphone 13",12, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(4,"Película de Ecrã Xiaomi Redmi Note 13",12, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(5,"Mochila ASUS para Laptop ",55, R.drawable.iphone_capa));
-        bestSellingProducts.add(new BestSellingProduct(6,"Rato Ergonómico Logitech",85, R.drawable.iphone_capa));
-    }
+    // region # BEST SELLING PRODUCTS METHODS #
 
+    // endregion
 
-    public ArrayList<BestSellingProduct> getbestSellingProductsExamples() {
-        return new ArrayList<>(bestSellingProducts);
-    }
-    }*/
+    // region # BEST SELLING PRODUCTS API METHODS #
 
-    public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB(){
+    // endregion
+
+    public ArrayList<RepairCategoriesList> getAllRepairCategoriesListDB() {
         repairCategoriesList = dbHelper.getAllRepairCategoriesListDB();
         return new ArrayList<>(repairCategoriesList);
     }
 
-    public ArrayList<RepairCategoryDetail> getAllRepairCategoriesDetailsListDB(){
+    public ArrayList<RepairCategoryDetail> getAllRepairCategoriesDetailsListDB() {
         return new ArrayList<>(dbHelper.getAllRepairCategoriesDetailsListDB());
     }
 
@@ -136,15 +127,15 @@ public class ReparaTechSingleton {
 
     // region # Settings METHODS #
 
-    public void setSettings(Settings settings){
+    public void setSettings(Settings settings) {
         dbHelper.addSettingsDB(settings);
     }
 
-    public Settings getSettings(){
+    public Settings getSettings() {
         return dbHelper.getSettingsDB();
     }
 
-    public void updateSettings(Settings settings){
+    public void updateSettings(Settings settings) {
         dbHelper.updateSettingsDB(settings);
     }
 
@@ -152,22 +143,21 @@ public class ReparaTechSingleton {
 
     // region # AUTH METHODS #
 
-    public void setAuth(Auth auth){
+    public void setAuth(Auth auth) {
         dbHelper.addAuthDB(auth);
     }
 
-    public Auth getAuth(){
+    public Auth getAuth() {
         return dbHelper.getAuthDB();
     }
 
-    public void updateAuth(Auth auth){
+    public void updateAuth(Auth auth) {
         dbHelper.updateAuthDB(auth);
     }
 
-    public void removeAuth(){
+    public void removeAuth() {
         dbHelper.removeAllAuthDB();
     }
-
 
     public Map<String, String> getAuthHeaders() {
         Auth auth = dbHelper.getAuthDB();
@@ -219,32 +209,36 @@ public class ReparaTechSingleton {
         }
 
         try {
-            new ApiHelper(context).request(context, Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    if (response.optString("status").equals("success")) {
-                        Auth auth = new Auth(
-                                email,
-                                response.optString("access_token"),
-                                response.optString("refresh_token")
-                        );
-                        ReparaTechSingleton.getInstance(context).setAuth(auth);
-                        Toast.makeText(context, context.getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
-                        if (loginListener != null) {
-                            loginListener.onValidateLogin(true, ReparaTechSingleton.getInstance(context).getRole());
+            new ApiHelper(context).request(context, Request.Method.POST, url, body,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            if (response.optString("status").equals("success")) {
+                                Auth auth = new Auth(
+                                        email,
+                                        response.optString("access_token"),
+                                        response.optString("refresh_token"));
+                                ReparaTechSingleton.getInstance(context).setAuth(auth);
+                                Toast.makeText(context, context.getString(R.string.login_successful),
+                                        Toast.LENGTH_SHORT).show();
+                                if (loginListener != null) {
+                                    loginListener.onValidateLogin(true,
+                                            ReparaTechSingleton.getInstance(context).getRole());
+                                }
+                            }
                         }
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(com.android.volley.VolleyError error) {
-                    Toast.makeText(context, context.getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
-                    System.out.println(context.getString(R.string.login_failed));
-                    error.printStackTrace();
-                }
-            });
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(com.android.volley.VolleyError error) {
+                            Toast.makeText(context, context.getString(R.string.login_failed), Toast.LENGTH_SHORT)
+                                    .show();
+                            System.out.println(context.getString(R.string.login_failed));
+                            error.printStackTrace();
+                        }
+                    });
         } catch (NoConnectionError e) {
-            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -262,29 +256,32 @@ public class ReparaTechSingleton {
         }
 
         try {
-            new ApiHelper(context).request(context, Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    if (response.optString("status").equals("success")) {
-                        if (registerListener != null) {
-                            registerListener.onValidateRegister(true);
+            new ApiHelper(context).request(context, Request.Method.POST, url, body,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            if (response.optString("status").equals("success")) {
+                                if (registerListener != null) {
+                                    registerListener.onValidateRegister(true);
+                                }
+                            }
                         }
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(com.android.volley.VolleyError error) {
-                    if (error.networkResponse != null) {
-                        int statusCode = error.networkResponse.statusCode;
-                        String errorMessage = new String(error.networkResponse.data);
-                    }
-                    Toast.makeText(context, context.getString(R.string.register_failed), Toast.LENGTH_SHORT).show();
-                    System.out.println(context.getString(R.string.register_failed));
-                    error.printStackTrace();
-                }
-            });
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(com.android.volley.VolleyError error) {
+                            if (error.networkResponse != null) {
+                                int statusCode = error.networkResponse.statusCode;
+                                String errorMessage = new String(error.networkResponse.data);
+                            }
+                            Toast.makeText(context, context.getString(R.string.register_failed), Toast.LENGTH_SHORT)
+                                    .show();
+                            System.out.println(context.getString(R.string.register_failed));
+                            error.printStackTrace();
+                        }
+                    });
         } catch (NoConnectionError e) {
-            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -301,17 +298,17 @@ public class ReparaTechSingleton {
 
     // region # PRODUCT METHODS #
 
-    public ArrayList<Product> getProductsDB(){
+    public ArrayList<Product> getProductsDB() {
         products = dbHelper.getAllProductsDB();
         return new ArrayList<Product>(products);
     }
 
-    public void clearProductsDB(){
+    public void clearProductsDB() {
         dbHelper.removeProductsDB();
     }
 
     public Product getProductFromDB(int id) {
-        for (Product product: getProductsDB()){
+        for (Product product : getProductsDB()) {
             if (product.getId() == id) {
                 return product;
             }
@@ -325,40 +322,40 @@ public class ReparaTechSingleton {
 
     public Product getProduct(int id) {
         try {
-            new ApiHelper(context).request(context, Request.Method.GET, "/api/products/" + id, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        JSONObject productObject = response.getJSONObject("product");
-                        Product product = new Product(
-                                productObject.getInt("id"),
-                                productObject.getString("name"),
-                                productObject.getDouble("price"),
-                                productObject.getString("image"),
-                                productObject.getInt("stock")
-                        );
+            new ApiHelper(context).request(context, Request.Method.GET, "/api/products/" + id, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONObject productObject = response.getJSONObject("product");
+                                Product product = new Product(
+                                        productObject.getInt("id"),
+                                        productObject.getString("name"),
+                                        productObject.getDouble("price"),
+                                        productObject.getString("image"),
+                                        productObject.getInt("stock"));
 
-                        if (productStockListener != null) {
-                            productStockListener.onProductStockChanged(productObject.getInt("id"), productObject.getInt("stock"));
+                                if (productStockListener != null) {
+                                    productStockListener.onProductStockChanged(productObject.getInt("id"), productObject.getInt("stock"));
+                                }
+                                dbHelper.addProductDB(product);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                if (productStockListener != null) {
+                                    productStockListener.onProductStockChanged(id, 0);
+                                }
+                            }
                         }
-                        dbHelper.addProductDB(product);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        if (productStockListener != null) {
-                            productStockListener.onProductStockChanged(id, 0);
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                            if (productStockListener != null) {
+                                productStockListener.onProductStockChanged(id, 0);
+                            }
                         }
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                    if (productStockListener != null) {
-                        productStockListener.onProductStockChanged(id, 0);
-                    }
-                }
-            });
-            for (Product product:products){
+                    });
+            for (Product product : products) {
                 if (product.getId() == id) {
                     return product;
                 }
@@ -402,12 +399,14 @@ public class ReparaTechSingleton {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     products = dbHelper.getAllProductsDB();
-                    Toast.makeText(context, context.getString(R.string.txt_error_loading_products_try_again_later), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getString(R.string.txt_error_loading_products_try_again_later),
+                            Toast.LENGTH_LONG).show();
                 }
             });
         } catch (NoConnectionError e) {
             products = dbHelper.getAllProductsDB();
-            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -438,7 +437,7 @@ public class ReparaTechSingleton {
         }
 
         JSONArray saleProducts = new JSONArray();
-        for (CartItem cartItem: dbHelper.getAllCartItemsDB()) {
+        for (CartItem cartItem : dbHelper.getAllCartItemsDB()) {
             JSONObject saleProduct = new JSONObject();
             try {
                 saleProduct.put("product_id", cartItem.getIdProduct());
@@ -456,58 +455,67 @@ public class ReparaTechSingleton {
         }
 
         try {
-            new ApiHelper(context).request(context, Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    if (response.optString("status").equals("success")) {
-                        Toast.makeText(context, context.getString(R.string.your_order_has_been_created), Toast.LENGTH_SHORT).show();
-                        ReparaTechSingleton.getInstance(context).getDbHelper().removeCartItemsDB();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, context.getString(R.string.there_was_an_error_on_your_order), Toast.LENGTH_SHORT).show();
-                    error.printStackTrace();
-                }
-            });
+            new ApiHelper(context).request(context, Request.Method.POST, url, body,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            if (response.optString("status").equals("success")) {
+                                Toast.makeText(context, context.getString(R.string.your_order_has_been_created),
+                                        Toast.LENGTH_SHORT).show();
+                                ReparaTechSingleton.getInstance(context).getDbHelper().removeCartItemsDB();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context, context.getString(R.string.there_was_an_error_on_your_order),
+                                    Toast.LENGTH_SHORT).show();
+                            error.printStackTrace();
+                        }
+                    });
         } catch (NoConnectionError e) {
-            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
     // endregion
 
     // region # PRODUCT METHODS #
-    public ArrayList<MyBooking> getMyBookingsDB(){
+    public ArrayList<MyBooking> getMyBookingsDB() {
         myBookings = dbHelper.getAllBookingsDB();
         return new ArrayList<>(myBookings);
     }
 
-    public void clearBookingsDB(){
+    public ArrayList<BestSellingProduct> bestSellingProductsBD() {
+        return new ArrayList<>(bestSellingProducts);
+    }
+
+    public void clearBookingsDB() {
         dbHelper.removeBookingsDB();
     }
     // endregion
 
     // region # BOOKINGS API METHODS #
 
-    public void bookingRequest(String date, String time){
+    public void bookingRequest(String date, String time) {
         String url = "/api/booking/create";
 
         JSONObject body = new JSONObject();
 
-        try{
-            body.put("date", date); //os nomes têm de ser iguais aos que estão na base de dados
+        try {
+            body.put("date", date); // os nomes têm de ser iguais aos que estão na base de dados
             body.put("time", time);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error creating booking request");
             return;
         }
 
-        try{
-            new ApiHelper(context).request(context, Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
+        try {
+            new ApiHelper(context).request(context, Request.Method.POST, url, body,
+                    new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             if (response.optString("status").equals("success")) {
@@ -519,25 +527,27 @@ public class ReparaTechSingleton {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(com.android.volley.VolleyError error) {
-                            Toast.makeText(context, context.getString(R.string.txt_error_sending_repair_request), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.txt_error_sending_repair_request),
+                                    Toast.LENGTH_SHORT).show();
                             System.out.println(context.getString(R.string.txt_error_sending_repair_request));
                             error.printStackTrace();
                         }
                     });
         } catch (NoConnectionError e) {
-                Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
-    public void getBookingsFromApi (int page){
+    public void getBookingsFromApi(int page) {
         String url = "/api/booking" + "?page=" + page;
-        try{
+        try {
             new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     myBookings = MyBookingJsonParser.parserJsonBookings(response);
                     dbHelper.addBookingsDB(myBookings);
-                    if(bookingListener != null){
+                    if (bookingListener != null) {
                         bookingListener.onValidateBooking(true);
                     }
 
@@ -545,18 +555,20 @@ public class ReparaTechSingleton {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(com.android.volley.VolleyError error) {
-                    Toast.makeText(context,context.getString(R.string.txt_error_loading_bookings_try_again_later), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.txt_error_loading_bookings_try_again_later),
+                            Toast.LENGTH_SHORT).show();
                     System.out.println(context.getString(R.string.txt_error_loading_bookings_try_again_later));
                     error.printStackTrace();
                 }
             });
         } catch (NoConnectionError e) {
             myBookings = dbHelper.getAllBookingsDB();
-            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void updateBookings(MyBooking myBooking){
+    public void updateBookings(MyBooking myBooking) {
         String url = "/api/booking/" + myBooking.getId();
         try {
             new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -581,7 +593,7 @@ public class ReparaTechSingleton {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if (updateBookingListener != null){
+                    if (updateBookingListener != null) {
                         updateBookingListener.updateBookings(myBooking);
                         System.out.println("Booking update failed");
                     }
@@ -590,7 +602,8 @@ public class ReparaTechSingleton {
             });
         } catch (NoConnectionError e) {
             dbHelper.updateBookingDB(myBooking.getId(), myBooking.getStatus());
-            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -598,7 +611,7 @@ public class ReparaTechSingleton {
 
     // region # Repairs METHODS #
 
-    public ArrayList<RepairEmployee> getRepairsDB(){
+    public ArrayList<RepairEmployee> getRepairsDB() {
         return new ArrayList<>(dbHelper.getAllRepairEmployeeDB());
     }
 
@@ -617,8 +630,7 @@ public class ReparaTechSingleton {
                                     repair.getString("progress"),
                                     repair.getString("client_name"),
                                     repair.getString("description"),
-                                    repair.getString("device")
-                            );
+                                    repair.getString("device"));
                             dbHelper.addRepairEmployeeDB(repairEmployee);
                         }
 
@@ -639,11 +651,12 @@ public class ReparaTechSingleton {
                 }
             });
         } catch (NoConnectionError e) {
-            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
-    public RepairEmployee getRepairEmployeeByID(int id){
+    public RepairEmployee getRepairEmployeeByID(int id) {
         String url = "/api/repair/" + id;
         try {
             new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -655,8 +668,7 @@ public class ReparaTechSingleton {
                                 response.getString("progress"),
                                 response.getString("client_name"),
                                 response.getString("description"),
-                                response.getString("device")
-                        );
+                                response.getString("device"));
                         dbHelper.addRepairEmployeeDB(repairEmployee);
 
                         if (updateRepairsListener != null) {
@@ -676,9 +688,10 @@ public class ReparaTechSingleton {
                 }
             });
         } catch (NoConnectionError e) {
-            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.no_internet_connection_try_again_later),
+                    Toast.LENGTH_LONG).show();
         }
-        for (RepairEmployee repairEmployee:dbHelper.getAllRepairEmployeeDB()){
+        for (RepairEmployee repairEmployee : dbHelper.getAllRepairEmployeeDB()) {
             if (repairEmployee.getId() == id) {
                 return repairEmployee;
             }
@@ -686,11 +699,10 @@ public class ReparaTechSingleton {
         return null;
     }
 
-    public void clearRepairsDB(){
+    public void clearRepairsDB() {
         dbHelper.removeAllRepairEmployeeDB();
     }
 
     // endregion
 
 }
-

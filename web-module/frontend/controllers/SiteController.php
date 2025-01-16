@@ -110,7 +110,7 @@ class SiteController extends Controller
     /**
      * Logs in a user.
      *
-     * @return mixed
+     * @return mixed 
      */
     public function actionLogin()
     {
