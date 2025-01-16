@@ -97,7 +97,6 @@ public class ApiHelper {
                                                         }
                                                     } else {
                                                         Log.e("ApiHelper", context.getString(R.string.failed_to_refresh_token_login_again));
-                                                        errorListener.onErrorResponse(error);
                                                         ReparaTechSingleton.getInstance(context).removeAuth();
                                                     }
                                                 }
