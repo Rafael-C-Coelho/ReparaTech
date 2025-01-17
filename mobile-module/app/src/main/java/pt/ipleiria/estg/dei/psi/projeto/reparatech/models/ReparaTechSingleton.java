@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -765,7 +766,7 @@ public class ReparaTechSingleton {
             new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    bestSellingProducts = BestSellingProductParser.parserJsonBestSellingProducts(response);
+                   bestSellingProducts = ProductJsonParser.parserJsonBestSellingProducts(response);
                     if (bestSellingProducts != null) {
                         dbHelper.removeBestSellingProductsDB();
                         dbHelper.addBestSellingProductsDB(bestSellingProducts); // Add new data
