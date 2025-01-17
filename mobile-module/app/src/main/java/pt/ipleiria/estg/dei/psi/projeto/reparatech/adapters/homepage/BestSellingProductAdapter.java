@@ -43,22 +43,20 @@ public class BestSellingProductAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View convertView, ViewGroup parent) {
+        ViewHolderList viewHolderList;
 
-        if (inflater == null){
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-        if (view == null){
-            view = inflater.inflate(R.layout.item_best_selling_product, null);
-        }
-        ViewHolderList viewHolderList = (ViewHolderList) view.getTag();
-        if(viewHolderList == null){
-            viewHolderList = new ViewHolderList(view);
-            view.setTag(viewHolderList);
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.item_best_selling_product, parent, false);
+            viewHolderList = new ViewHolderList(convertView);
+            convertView.setTag(viewHolderList);
+        } else {
+            viewHolderList = (ViewHolderList) convertView.getTag();
         }
 
         viewHolderList.update(bestSellingProducts.get(i));
-        return view;
+        return convertView;
     }
 
     private class ViewHolderList {
