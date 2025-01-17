@@ -209,8 +209,8 @@ class Repair extends \yii\db\ActiveRecord
                 ],
                 [
                     'name' => "Hours worked",
-                    'description' => $this->hours_spent_working . " hours spent working",
-                    'price' => $this->hours_spent_working * $this->getRepairman()->one()->value,
+                    'description' => $this->hours_spent_working ? $this->hours_spent_working : $acceptedBudget->hours_estimated_working . " hours spent working",
+                    'price' => ($this->hours_spent_working ? $this->hours_spent_working : $acceptedBudget->hours_estimated_working) * $this->getRepairman()->one()->value,
                 ]
             ];
             $invoice->total = $this->hours_spent_working * $this->getRepairman()->one()->value + $acceptedBudget->value;

@@ -149,6 +149,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             menu.findItem(R.id.navCart).setVisible(false);
             menu.findItem(R.id.navOrders).setVisible(false);
         } else if (!role.equals("client")) {
+            ReparaTechSingleton.getInstance(this).clearRepairsDB();
             menu.findItem(R.id.navHomepage).setVisible(true);
             menu.findItem(R.id.navRepairBookings).setVisible(false);
             menu.findItem(R.id.navListRepairs).setVisible(true);

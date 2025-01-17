@@ -73,7 +73,7 @@ public class EmployeeRepairsAdapter extends BaseAdapter
 
         public ViewHolderList(View view) {
             tvId = view.findViewById(R.id.tvId);
-            tvProgress = view.findViewById(R.id.tvStatus);
+            tvProgress = view.findViewById(R.id.tvProgress);
             tvClientName = view.findViewById(R.id.tvClientName);
             tvDescription = view.findViewById(R.id.tvDescription);
             tvDevice = view.findViewById(R.id.tvDevice);
@@ -90,7 +90,7 @@ public class EmployeeRepairsAdapter extends BaseAdapter
 
         public void update(RepairEmployee repair) {
             tvId.setText(String.valueOf(repair.getId()));
-            tvProgress.setText(repair.getProgress());
+            tvProgress.setText("#" + repair.getId() + " - " + repair.getProgress());
             tvClientName.setText(repair.getClientName());
             tvDescription.setText(repair.getDescription());
             tvDevice.setText(repair.getDevice());

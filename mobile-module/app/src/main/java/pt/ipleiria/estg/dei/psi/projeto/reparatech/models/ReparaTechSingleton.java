@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import java.util.Map;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
@@ -29,6 +31,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListe
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateRepairsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.RepairEmployeeJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
 public class ReparaTechSingleton {
@@ -50,6 +53,7 @@ public class ReparaTechSingleton {
     private UpdateProductsListener updateProductsListener;
     private ProductStockListener productStockListener;
     private UpdateRepairsListener updateRepairsListener;
+    private BestSellingProductListener updateBestSellingProductsListener;
 
     private ReparaTechSingleton(Context context) {
         products = new ArrayList<>();
@@ -475,6 +479,7 @@ public class ReparaTechSingleton {
                             Toast.makeText(context, context.getString(R.string.there_was_an_error_on_your_order),
                                     Toast.LENGTH_SHORT).show();
                             error.printStackTrace();
+                            ReparaTechSingleton.getInstance(context).getDbHelper().removeCartItemsDB();
                         }
                     });
         } catch (NoConnectionError e) {
@@ -491,7 +496,8 @@ public class ReparaTechSingleton {
         return new ArrayList<>(myBookings);
     }
 
-    public ArrayList<BestSellingProduct> bestSellingProductsBD() {
+    public ArrayList<BestSellingProduct> getBestSellingProductsBD() {
+        bestSellingProducts = dbHelper.getAllBestSellingProductsDB();
         return new ArrayList<>(bestSellingProducts);
     }
 
@@ -631,10 +637,10 @@ public class ReparaTechSingleton {
                             JSONObject repair = repairs.getJSONObject(i);
                             RepairEmployee repairEmployee = new RepairEmployee(
                                     repair.getInt("id"),
-                                    repair.getString("progress"),
-                                    repair.getString("client_name"),
+                                    repair.getString("device"),
                                     repair.getString("description"),
-                                    repair.getString("device"));
+                                    repair.getString("progress"),
+                                    repair.getString("client_name"));
                             dbHelper.addRepairEmployeeDB(repairEmployee);
                         }
 
@@ -661,19 +667,23 @@ public class ReparaTechSingleton {
     }
 
     public RepairEmployee getRepairEmployeeByID(int id) {
-        String url = "/api/repair/" + id;
+        String url = "/api/repairs/" + id;
         try {
             new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
+                        response = response.getJSONObject("repair");
                         RepairEmployee repairEmployee = new RepairEmployee(
                                 response.getInt("id"),
-                                response.getString("progress"),
-                                response.getString("client_name"),
+                                response.getString("device"),
                                 response.getString("description"),
-                                response.getString("device"));
+                                response.getString("progress"),
+                                response.getString("client_name"));
                         dbHelper.addRepairEmployeeDB(repairEmployee);
+                        dbHelper.addCommentsDB(
+                                RepairEmployeeJsonParser.parseComments(response.getJSONArray("comments"))
+                        );
 
                         if (updateRepairsListener != null) {
                             updateRepairsListener.onUpdateRepairs();
@@ -703,10 +713,94 @@ public class ReparaTechSingleton {
         return null;
     }
 
+    public void setBestSellingProductsListener(BestSellingProductListener listener) {
+        this.updateBestSellingProductsListener = listener;
+    }
+
     public void clearRepairsDB() {
         dbHelper.removeAllRepairEmployeeDB();
     }
 
+    public void setRepairAsCompleted(int repairId) {
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("progress", "Completed");
+            new ApiHelper(context).request(
+                    context,
+                    Request.Method.PATCH,
+                    "/api/repairs/" + repairId + "/progress",
+                    requestBody,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            if (response.optString("status").equals("success")) {
+                                // Update local database
+                                RepairEmployee repair = getRepairEmployeeByID(repairId);
+                                if (repair != null) {
+                                    repair.setProgress("Completed");
+                                    dbHelper.updateRepairEmployeeDB(repairId, "Completed");
+                                    if (updateRepairsListener != null) {
+                                        updateRepairsListener.onUpdateRepairs();
+                                    }
+                                    Toast.makeText(context, context.getString(R.string.repair_set_as_done), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context, R.string.error_setting_repair_as_done,
+                                    Toast.LENGTH_SHORT).show();
+                            Log.e("ReparaTechSingleton", "Error setting repair as done: " + error.toString());
+                        }
+                    }
+            );
+        } catch (JSONException e) {
+            Log.e("ReparaTechSingleton", "Error creating request body: " + e.toString());
+        } catch (NoConnectionError e) {
+            Toast.makeText(context, R.string.no_internet_connection_try_again_later,
+                    Toast.LENGTH_LONG).show();
+            Log.e("ReparaTechSingleton", "No internet connection");
+        }
+    }
+
+    public ArrayList<Comment> getCommentsByRepair(int id) {
+        return new ArrayList<>(dbHelper.getCommentsByRepairDB(id));
+    }
+
     // endregion
+
+    public void getBestSellingProductsFromApi(int page) {
+        String url = "/api/dashboard/most-sold" + "?page=" + page;
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                   bestSellingProducts = ProductJsonParser.parserJsonBestSellingProducts(response);
+                    if (bestSellingProducts != null) {
+                        dbHelper.removeBestSellingProductsDB();
+                        dbHelper.addBestSellingProductsDB(bestSellingProducts); // Add new data
+                        if (updateBestSellingProductsListener != null) {
+                            updateBestSellingProductsListener.onProductsFetched(bestSellingProducts);
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, context.getString(R.string.txt_error_loading_bookings_try_again_later),
+                            Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            bestSellingProducts = dbHelper.getAllBestSellingProductsDB();
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 }
