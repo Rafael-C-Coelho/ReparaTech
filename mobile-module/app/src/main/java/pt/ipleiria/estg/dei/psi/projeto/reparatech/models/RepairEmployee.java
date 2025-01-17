@@ -1,47 +1,37 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
+import java.util.ArrayList;
+
 public class RepairEmployee {
-
     private int id;
-    private String clientName, progress, description, device;
+    private String device;
+    private String description;
+    private String progress;
+    private String clientName;
+    private ArrayList<Comment> comments;
 
-    public RepairEmployee(int id, String clientName, String progress, String description, String device) {
+    public RepairEmployee(int id, String device, String description, String progress, String clientName) {
         this.id = id;
-        this.clientName = clientName;
-        this.progress = progress;
-        this.description = description;
         this.device = device;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getDevice() {
-        return device;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public String getProgress() {
-        return progress;
-    }
-
-    public void setClientName(String clientName) {
+        this.description = description;
+        this.progress = progress;
         this.clientName = clientName;
+        this.comments = new ArrayList<>();
     }
 
+    // Getters
+    public int getId() { return id; }
+    public String getDevice() { return device; }
+    public String getDescription() { return description; }
+    public String getProgress() { return progress; }
+    public String getClientName() { return clientName; }
+    public ArrayList<Comment> getComments() { return comments; }
+
+    // Setters
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
     public void setProgress(String progress) {
         this.progress = progress;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

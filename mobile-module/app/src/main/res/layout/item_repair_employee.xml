@@ -6,41 +6,37 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/tvClientName"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="4dp"
-        android:text="Client name"
-        android:gravity="center_vertical"
-        android:padding="4dp"
-        android:background="@android:drawable/edit_text" />
-
-    <TextView
-        android:id="@+id/tvId"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="4dp"
-        android:background="@android:drawable/edit_text"
-        android:gravity="center_vertical"
-        android:padding="4dp"
-        android:text="Client name"
-        android:visibility="gone" />
-
-    <TextView
         android:id="@+id/tvProgress"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginBottom="4dp"
         android:text="Progress"
         android:gravity="center_vertical"
+        android:padding="4dp" />
+
+    <TextView
+        android:id="@+id/tvClientName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="4dp"
+        android:text="Client name"
+        android:gravity="center_vertical"
+        android:padding="4dp" />
+
+    <TextView
+        android:id="@+id/tvId"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_vertical"
         android:padding="4dp"
-        android:background="@android:drawable/edit_text" />
+        android:text="Client name"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvDevice"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@android:drawable/edit_text"
         android:gravity="center_vertical"
         android:padding="4dp"
         android:text="Device" />
@@ -49,7 +45,6 @@
         android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@android:drawable/edit_text"
         android:gravity="center_vertical"
         android:padding="4dp"
         android:text="Description" />

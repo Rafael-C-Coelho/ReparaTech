@@ -5,13 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 
@@ -895,7 +894,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         // region # Repair Employee #
 
 
-    public ArrayList<RepairEmployee> getAllRepairEmployeeDB(){
+    public ArrayList<? extends RepairEmployee> getAllRepairEmployeeDB(){
         ArrayList<RepairEmployee> repairEmployees = new ArrayList<>();
         Cursor cursor = this.db.query(TABLE_REPAIR_EMPLOYEE, new String[]{ID_REPAIR_EMPLOYEE, CLIENT_NAME_REPAIR_EMPLOYEE, PROGRESS_REPAIR_EMPLOYEE, DESCRIPTION_REPAIR_EMPLOYEE, DEVICE_REPAIR_EMPLOYEE}, null, null, null, null, null);
         if (cursor.moveToFirst()){
@@ -904,6 +903,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 repairEmployees.add(repairEmployee);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return repairEmployees;
     }
 

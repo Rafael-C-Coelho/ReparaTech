@@ -88,8 +88,8 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
     }
 
     @Override
-    public void onProductStockChanged(int stock) {
-        ReparaTechSingleton.getInstance(this).getDbHelper().updateProductStock(product.getId(), stock);
+    public void onProductStockChanged(int prodId, int stock) {
+        ReparaTechSingleton.getInstance(this).getDbHelper().updateProductStock(prodId, stock);
         if (stock <= 0) {
             tvOutStock.setVisibility(View.VISIBLE);
             etQuantity.setText("0");
