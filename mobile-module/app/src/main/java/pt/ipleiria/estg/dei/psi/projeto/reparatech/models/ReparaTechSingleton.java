@@ -778,7 +778,7 @@ public class ReparaTechSingleton {
             new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    bestSellingProducts = BestSellingProductParser.parserJsonBestSellingProducts(response);
+                   bestSellingProducts = ProductJsonParser.parserJsonBestSellingProducts(response);
                     if (bestSellingProducts != null) {
                         dbHelper.removeBestSellingProductsDB();
                         dbHelper.addBestSellingProductsDB(bestSellingProducts); // Add new data
