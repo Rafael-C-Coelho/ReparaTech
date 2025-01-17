@@ -50,6 +50,13 @@ public class RepairEmployeeDetailsActivity extends AppCompatActivity implements 
         lvComments = findViewById(R.id.lvComments);
         ReparaTechSingleton.getInstance(this).setUpdateRepairsListener(this);
 
+        btnSetDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReparaTechSingleton.getInstance(getApplicationContext()).setRepairAsCompleted(repair.getId());
+            }
+        });
+
         int idRepair = getIntent().getIntExtra(ID_REPAIR, 0);
         if (idRepair != 0) {
             repair = ReparaTechSingleton.getInstance(getApplicationContext()).getRepairEmployeeByID(idRepair);
@@ -60,12 +67,13 @@ public class RepairEmployeeDetailsActivity extends AppCompatActivity implements 
     }
 
     private void updateUI() {
+        repair = ReparaTechSingleton.getInstance(this).getRepairEmployeeByID(repair.getId());
         tvClientName.setText(repair.getClientName());
         tvProgress.setText(repair.getProgress());
         tvDevice.setText(repair.getDevice() + " - " + repair.getDescription());
 
         // Setup comments adapter
-        commentsAdapter = new CommentsAdapter(this, repair.getComments());
+        commentsAdapter = new CommentsAdapter(this, ReparaTechSingleton.getInstance(this).getCommentsByRepair(repair.getId()));
         lvComments.setAdapter(commentsAdapter);
 
         // Update button visibility based on repair status
@@ -78,6 +86,6 @@ public class RepairEmployeeDetailsActivity extends AppCompatActivity implements 
 
     @Override
     public void onUpdateRepairs() {
-
+        updateUI();
     }
 }

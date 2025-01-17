@@ -109,7 +109,7 @@ public class MqttManager implements MqttCallback{
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             context.getMainExecutor().execute(() -> // executado de forma assíncrona no thread principal
-                    Toast.makeText(context, "Your product is now stocked", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, message.toString(), Toast.LENGTH_LONG).show()
             );
         }
     }

@@ -155,4 +155,6 @@
     <string name="_1">1</string>
     <string name="plus">+</string>
     <string name="broken_screen">Broken Screen</string>
+    <string name="error_setting_repair_as_done">Error setting repair as done</string>
+    <string name="repair_set_as_done">Repair set as done</string>
 </resources>

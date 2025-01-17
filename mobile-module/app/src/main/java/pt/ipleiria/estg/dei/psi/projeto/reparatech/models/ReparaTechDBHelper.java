@@ -933,7 +933,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     public ArrayList<? extends RepairEmployee> getAllRepairEmployeeDB(){
         ArrayList<RepairEmployee> repairEmployees = new ArrayList<>();
-        Cursor cursor = this.db.query(TABLE_REPAIR_EMPLOYEE, new String[]{ID_REPAIR_EMPLOYEE, CLIENT_NAME_REPAIR_EMPLOYEE, PROGRESS_REPAIR_EMPLOYEE, DESCRIPTION_REPAIR_EMPLOYEE, DEVICE_REPAIR_EMPLOYEE}, null, null, null, null, null);
+        Cursor cursor = this.db.query(TABLE_REPAIR_EMPLOYEE, new String[]{ID_REPAIR_EMPLOYEE, DEVICE_REPAIR_EMPLOYEE, DESCRIPTION_REPAIR_EMPLOYEE, PROGRESS_REPAIR_EMPLOYEE, CLIENT_NAME_REPAIR_EMPLOYEE}, null, null, null, null, null);
         if (cursor.moveToFirst()){
             do {
                 RepairEmployee repairEmployee = new RepairEmployee(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
@@ -1061,6 +1061,23 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(STOCK_PRODUCT, stock);
 
         this.db.update(TABLE_PRODUCTS, values, ID_PRODUCT + " = ?", new String[]{String.valueOf(id)});
+    }
+
+    public ArrayList<Comment> getCommentsByRepairDB(int id) {
+        ArrayList<Comment> comments = new ArrayList<Comment>();
+        Cursor cursor = this.db.query(TABLE_COMMENT, new String[]{ID_COMMENT, DESCRIPTION_COMMENT, DATE_COMMENT, TIME_COMMENT, ID_REPAIR_COMMENT}, ID_REPAIR_COMMENT + " = ?", new String[]{String.valueOf(id)}, null, null, null);
+        if (cursor.moveToFirst()){
+            do {
+                Comment comment = new Comment(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4));
+                comments.add(comment);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return comments;
+    }
+
+    public void removeAllCommentDB() {
+        this.db.delete(TABLE_COMMENT, null, null);
     }
 
     // endregion

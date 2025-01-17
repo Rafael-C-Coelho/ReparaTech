@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListe
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateRepairsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.RepairEmployeeJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
 
 public class ReparaTechSingleton {
@@ -632,10 +634,10 @@ public class ReparaTechSingleton {
                             JSONObject repair = repairs.getJSONObject(i);
                             RepairEmployee repairEmployee = new RepairEmployee(
                                     repair.getInt("id"),
-                                    repair.getString("progress"),
-                                    repair.getString("client_name"),
+                                    repair.getString("device"),
                                     repair.getString("description"),
-                                    repair.getString("device"));
+                                    repair.getString("progress"),
+                                    repair.getString("client_name"));
                             dbHelper.addRepairEmployeeDB(repairEmployee);
                         }
 
@@ -662,19 +664,23 @@ public class ReparaTechSingleton {
     }
 
     public RepairEmployee getRepairEmployeeByID(int id) {
-        String url = "/api/repair/" + id;
+        String url = "/api/repairs/" + id;
         try {
             new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
+                        response = response.getJSONObject("repair");
                         RepairEmployee repairEmployee = new RepairEmployee(
                                 response.getInt("id"),
-                                response.getString("progress"),
-                                response.getString("client_name"),
+                                response.getString("device"),
                                 response.getString("description"),
-                                response.getString("device"));
+                                response.getString("progress"),
+                                response.getString("client_name"));
                         dbHelper.addRepairEmployeeDB(repairEmployee);
+                        dbHelper.addCommentsDB(
+                                RepairEmployeeJsonParser.parseComments(response.getJSONArray("comments"))
+                        );
 
                         if (updateRepairsListener != null) {
                             updateRepairsListener.onUpdateRepairs();
@@ -708,7 +714,7 @@ public class ReparaTechSingleton {
         dbHelper.removeAllRepairEmployeeDB();
     }
 
-    public void setRepairAsDone(int repairId) {
+    public void setRepairAsCompleted(int repairId) {
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("progress", "Completed");
@@ -724,30 +730,36 @@ public class ReparaTechSingleton {
                                 // Update local database
                                 RepairEmployee repair = getRepairEmployeeByID(repairId);
                                 if (repair != null) {
-                                    repair.setProgress("Done");
-                                    dbHelper.updateRepairEmployee(repair);
+                                    repair.setProgress("Completed");
+                                    dbHelper.updateRepairEmployeeDB(repairId, "Completed");
+                                    if (updateRepairsListener != null) {
+                                        updateRepairsListener.onUpdateRepairs();
+                                    }
+                                    Toast.makeText(context, context.getString(R.string.repair_set_as_done), Toast.LENGTH_SHORT).show();
                                 }
-                                callback.onSuccess();
-                            } else {
-                                callback.onError();
                             }
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context, R.string.error_setting_repair_as_done,
+                                    Toast.LENGTH_SHORT).show();
                             Log.e("ReparaTechSingleton", "Error setting repair as done: " + error.toString());
-                            callback.onError();
                         }
                     }
             );
         } catch (JSONException e) {
             Log.e("ReparaTechSingleton", "Error creating request body: " + e.toString());
-            callback.onError();
         } catch (NoConnectionError e) {
+            Toast.makeText(context, R.string.no_internet_connection_try_again_later,
+                    Toast.LENGTH_LONG).show();
             Log.e("ReparaTechSingleton", "No internet connection");
-            callback.onError();
         }
+    }
+
+    public ArrayList<Comment> getCommentsByRepair(int id) {
+        return new ArrayList<>(dbHelper.getCommentsByRepairDB(id));
     }
 
     // endregion
