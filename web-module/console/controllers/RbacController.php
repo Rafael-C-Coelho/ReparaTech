@@ -69,6 +69,7 @@ class RbacController extends Controller
         $user->password = 'Test@123';
         $user->generateAuthKey();
         $user->status = User::STATUS_ACTIVE;
+        $user->value = 10.5;
         $user->save();
         if ($user->errors) {
             echo json_encode($user->errors);
