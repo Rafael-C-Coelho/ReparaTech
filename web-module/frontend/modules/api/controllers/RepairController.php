@@ -127,12 +127,12 @@ class RepairController extends ActiveController
         $model = new $this->modelClass;
 
         if ($this->request->isPatch) {
-            $model = $model::find($id)->one();
+            $model = $model::findOne($id);
             $model->progress = $this->request->getBodyParam('progress');
             $wasSaved = $model->save();
             return ['message' => $wasSaved ? 'Progress updated successfully' : 'Progress not saved.', 'status' => 'success'];
         } elseif ($this->request->isGet) {
-            return ['progress' => $model::find($id)->one()->progress, 'status' => 'success'];
+            return ['progress' => $model::findOne($id)->progress, 'status' => 'success'];
         } else {
             throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
         }

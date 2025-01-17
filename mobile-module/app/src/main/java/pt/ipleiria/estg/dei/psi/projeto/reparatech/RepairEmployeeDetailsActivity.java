@@ -50,13 +50,6 @@ public class RepairEmployeeDetailsActivity extends AppCompatActivity implements 
         lvComments = findViewById(R.id.lvComments);
         ReparaTechSingleton.getInstance(this).setUpdateRepairsListener(this);
 
-        btnSetDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ReparaTechSingleton.getInstance(getApplicationContext()).setRepairAsCompleted(repair.getId());
-            }
-        });
-
         int idRepair = getIntent().getIntExtra(ID_REPAIR, 0);
         if (idRepair != 0) {
             repair = ReparaTechSingleton.getInstance(getApplicationContext()).getRepairEmployeeByID(idRepair);
@@ -75,6 +68,13 @@ public class RepairEmployeeDetailsActivity extends AppCompatActivity implements 
         // Setup comments adapter
         commentsAdapter = new CommentsAdapter(this, ReparaTechSingleton.getInstance(this).getCommentsByRepair(repair.getId()));
         lvComments.setAdapter(commentsAdapter);
+
+        btnSetDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReparaTechSingleton.getInstance(getApplicationContext()).setRepairAsCompleted(repair.getId());
+            }
+        });
 
         // Update button visibility based on repair status
         if ("In Progress".equals(repair.getProgress())) {
