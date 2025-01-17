@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.EmployeeRepairsAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateRepairsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairEmployee;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechDBHelper;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 public class RepairsEmployeeActivity extends AppCompatActivity implements UpdateRepairsListener {
@@ -109,6 +110,7 @@ public class RepairsEmployeeActivity extends AppCompatActivity implements Update
 
         // Clear database cache if needed
         ReparaTechSingleton.getInstance(this).getDbHelper().removeAllRepairEmployeeDB();
+        ReparaTechSingleton.getInstance(this).getDbHelper().removeAllCommentDB();
 
         // Load fresh data
         loadRepairs();
