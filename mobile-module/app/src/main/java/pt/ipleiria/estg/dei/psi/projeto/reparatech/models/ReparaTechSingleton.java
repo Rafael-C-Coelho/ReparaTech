@@ -20,6 +20,7 @@ import java.util.Map;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
@@ -51,6 +52,7 @@ public class ReparaTechSingleton {
     private UpdateProductsListener updateProductsListener;
     private ProductStockListener productStockListener;
     private UpdateRepairsListener updateRepairsListener;
+    private BestSellingProductListener updateBestSellingProductsListener;
 
     private ReparaTechSingleton(Context context) {
         products = new ArrayList<>();
@@ -488,7 +490,7 @@ public class ReparaTechSingleton {
         return new ArrayList<>(myBookings);
     }
 
-    public ArrayList<BestSellingProduct> bestSellingProductsBD() {
+    public ArrayList<BestSellingProduct> getBestSellingProductsBD() {
         bestSellingProducts = dbHelper.getAllBestSellingProductsDB();
         return new ArrayList<>(bestSellingProducts);
     }
@@ -702,10 +704,46 @@ public class ReparaTechSingleton {
         return null;
     }
 
+    public void setBestSellingProductsListener(BestSellingProductListener listener) {
+        this.updateBestSellingProductsListener = listener;
+    }
+
     public void clearRepairsDB() {
         dbHelper.removeAllRepairEmployeeDB();
     }
 
     // endregion
+
+    public void getBestSellingProductsFromApi(int page) {
+        String url = "/api/dashboard/most-sold" + "?page=" + page;
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    bestSellingProducts = BestSellingProductParser.parserJsonBestSellingProducts(response);
+                    if (bestSellingProducts != null) {
+                        dbHelper.removeBestSellingProductsDB();
+                        dbHelper.addBestSellingProductsDB(bestSellingProducts); // Add new data
+                        if (updateBestSellingProductsListener != null) {
+                            updateBestSellingProductsListener.onProductsFetched(bestSellingProducts);
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, context.getString(R.string.txt_error_loading_bookings_try_again_later),
+                            Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            bestSellingProducts = dbHelper.getAllBestSellingProductsDB();
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 }
