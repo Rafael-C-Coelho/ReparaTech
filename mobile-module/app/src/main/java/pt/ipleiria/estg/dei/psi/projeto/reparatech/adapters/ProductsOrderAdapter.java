@@ -68,7 +68,7 @@ public class ProductsOrderAdapter extends BaseAdapter {
         }
 
         public void update(SaleProduct product) {
-            productIdText.setText("Product ID: " + product.getId());
+            productIdText.setText("Product name: " + product.getProduct().getName());
             quantityText.setText("Quantity: " + product.getQuantity());
             totalPriceText.setText("Total: " + product.getTotalPrice() + "€");
         }

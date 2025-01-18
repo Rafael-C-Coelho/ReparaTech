@@ -29,8 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="my-1 mx-0 text-center" style="color:#999;">
                     If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
                     <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
-                    <br>
                     Sign up? <?= Html::a('Click here', ['site/signup']) ?>
                 </div>
 

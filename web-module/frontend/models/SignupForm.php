@@ -85,6 +85,9 @@ class SignupForm extends Model
     protected
     function sendEmail($user)
     {
+        if (!isset(\Yii::$app->params['supportEmail'])) {
+            return true;
+        }
         return Yii::$app
             ->mailer
             ->compose(
