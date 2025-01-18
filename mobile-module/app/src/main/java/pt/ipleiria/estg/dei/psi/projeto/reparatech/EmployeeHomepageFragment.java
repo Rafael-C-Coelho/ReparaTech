@@ -11,16 +11,15 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairExample;
 
 
 public class EmployeeHomepageFragment extends Fragment {
 
-    private HorizontalScrollView hScrollViewRepairCategories;
-    private HorizontalScrollView hScrollBestSellingProducts;
-    private ArrayList<RepairExample> repairExamples;
-    private ArrayList<BestSellingProduct> bestSellingProducts;
-    private RepairExample repairExample;
+    //private HorizontalScrollView hScrollViewRepairCategories;
+    //private HorizontalScrollView hScrollBestSellingProducts;
+    //private ArrayList<RepairExample> repairExamples;
+    //private ArrayList<BestSellingProduct> bestSellingProducts;
+    //private RepairExample repairExample;
 
 
 
