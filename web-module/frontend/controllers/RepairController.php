@@ -86,6 +86,7 @@ class RepairController extends Controller
         $budget = \common\models\Budget::findOne($budget_id);
 
         // Verify ownership and permissions
+        dd($model->client_id, Yii::$app->user->id, Yii::$app->user->identity->hasRole('client'));
         if ($model->client_id !== Yii::$app->user->id || !Yii::$app->user->identity->hasRole('client')) {
             throw new \yii\web\ForbiddenHttpException('You are not allowed to perform this action.');
         }
