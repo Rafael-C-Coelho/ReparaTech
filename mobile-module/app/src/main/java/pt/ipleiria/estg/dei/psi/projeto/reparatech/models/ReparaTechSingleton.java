@@ -29,6 +29,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateRepairsListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.BestSellingProductParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.RepairEmployeeJsonParser;
