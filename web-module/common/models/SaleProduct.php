@@ -31,11 +31,18 @@ class SaleProduct extends \yii\db\ActiveRecord
     {
         $fields = parent::fields();
         unset($fields['product_id']); // Optionally hide repairman_id if you don't want it to appear
+        unset($fields['invoice_id']); // Optionally hide repairman_id if you don't want it to appear
         $fields['product'] = function () {
             if ($this->product === null) {
                 return null;
             }
             return $this->product;
+        };
+        $fields['invoice'] = function () {
+            if ($this->invoice === null) {
+                return null;
+            }
+            return $this->invoice->pdf_file;
         };
         return $fields;
     }
