@@ -80,9 +80,11 @@ public class HomepageFragment extends Fragment implements BestSellingProductList
         gvHomePageRepairCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HomePageRepairCategory selectedCategory = homePageRepairCategories.get(position);
-                Intent intent = new Intent(getActivity(), RepairCategoriesListActivity.class);
-                startActivity(intent);
+                if (!homePageRepairCategories.get(position).getRepairCategoryName().equals("Repair Not Listed")) {
+                    HomePageRepairCategory selectedCategory = homePageRepairCategories.get(position);
+                    Intent intent = new Intent(getActivity(), RepairCategoriesListActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
