@@ -52,7 +52,12 @@ foreach ($model->budgets as $budget) {
                 <?= DetailView::widget([
                     'model' => $pendingBudget,
                     'attributes' => [
-                        'value:currency',
+                        [
+                            'label' => 'Parts value',
+                            'value' => function($model) {
+                                return Yii::$app->formatter->asCurrency($model->value, "EUR");
+                            }
+                        ],
                         'date',
                         'time',
                         'description',
