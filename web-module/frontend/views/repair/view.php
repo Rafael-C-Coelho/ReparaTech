@@ -60,13 +60,13 @@ foreach ($model->budgets as $budget) {
                         [
                             'label' => 'Total Labor Cost',
                             'value' => function($model) {
-                                return Yii::$app->formatter->asCurrency($model->hours_estimated_working * $model->repairman->value);
+                                return Yii::$app->formatter->asCurrency($model->hours_estimated_working * $model->repairman->value, "EUR");
                             }
                         ],
                         [
                             'label' => 'Total Cost',
                             'value' => function($model) {
-                                return Yii::$app->formatter->asCurrency($model->value + ($model->hours_estimated_working * $model->repairman->value));
+                                return Yii::$app->formatter->asCurrency($model->value + ($model->hours_estimated_working * $model->repairman->value), "EUR");
                             }
                         ],
                     ],
