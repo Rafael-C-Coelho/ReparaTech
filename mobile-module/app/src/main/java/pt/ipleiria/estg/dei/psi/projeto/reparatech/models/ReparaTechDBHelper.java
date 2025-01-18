@@ -1082,7 +1082,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
             TOTAL_PRICE,
             PRODUCT_ID,
         };
-        String selection = ID_SALE_PRODUCT + " = ?";
+        String selection = SALE_ID + " = ?";
         String[] selectionArgs = {String.valueOf(orderId)};
 
         Cursor cursor = this.db.query(

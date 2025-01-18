@@ -69,6 +69,12 @@ public class OrderDetailsActivity extends AppCompatActivity implements UpdateOrd
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void reloadListOrders(boolean success) {
         if (success) {
             loadOrderDetails(getIntent().getIntExtra("order_id", -1));
