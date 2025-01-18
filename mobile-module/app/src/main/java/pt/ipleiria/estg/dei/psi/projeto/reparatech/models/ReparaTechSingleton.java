@@ -20,7 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.HomepageFragment;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductClickListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
@@ -60,6 +63,7 @@ public class ReparaTechSingleton {
     private BestSellingProductListener updateBestSellingProductsListener;
     private OrderListener orderListener;
     private UpdateOrdersListener updateOrdersListener;
+    private BestSellingProductClickListener bestSellingProductClickListener;
 
     private ReparaTechSingleton(Context context) {
         products = new ArrayList<>();
@@ -87,6 +91,14 @@ public class ReparaTechSingleton {
 
     public void setLoginListener(LoginListener loginListener) {
         this.loginListener = loginListener;
+    }
+
+    public void setBestSellingProductClickListener(BestSellingProductClickListener listener) {
+        this.bestSellingProductClickListener = listener;
+    }
+
+    public BestSellingProductClickListener getBestSellingProductClickListener() {
+        return bestSellingProductClickListener;
     }
 
     public void setUpdateRepairsListener(UpdateRepairsListener updateRepairsListener) {
@@ -903,9 +915,4 @@ public class ReparaTechSingleton {
                     Toast.LENGTH_SHORT).show();
         }
     }
-
- */
-
-
-
 }

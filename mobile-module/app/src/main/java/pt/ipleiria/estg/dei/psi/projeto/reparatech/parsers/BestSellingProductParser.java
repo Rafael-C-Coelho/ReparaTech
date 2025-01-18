@@ -22,7 +22,7 @@ public class BestSellingProductParser {
             return null;
         }
     }
-    public static ArrayList<BestSellingProduct>  parserJsonBestSellingProducts(JSONObject response){
+    public static ArrayList<BestSellingProduct> parserJsonBestSellingProducts(JSONObject response){
         try {
             ArrayList<BestSellingProduct> bestSellingProducts = new ArrayList<>();
             JSONArray jsonArray = response.getJSONArray("bestSellingProducts");

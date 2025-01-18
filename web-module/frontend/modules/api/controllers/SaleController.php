@@ -53,14 +53,11 @@ class SaleController extends ActiveController
     }
 
     public function actionIndex(){
-        // Obtenha o ID do cliente autenticado (via JWT)
         $clientId = Yii::$app->user->id;
 
         if (!$clientId) {
             throw new BadRequestHttpException("Client not identified.");
         }
-
-        // Filtre as vendas pelo ID do cliente
         $activeData = new ActiveDataProvider([
             'query' => Sale::find()
                 ->where(['client_id' => $clientId])

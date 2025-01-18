@@ -78,11 +78,15 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
     }
 
     private void carregarProduct(){
+        if (product == null) {
+            return;
+        }
         setTitle(getString(R.string.details_with_2_dots) + product.getName());
         tvName.setText(product.getName());
         Glide.with(getApplicationContext())
                 .load(product.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.placeholder)
                 .into(imgProduct);
         tvPrice.setText(product.getPrice() + getString(R.string.euro_symbol));
     }
@@ -90,6 +94,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
     @Override
     public void onProductStockChanged(int prodId, int stock) {
         ReparaTechSingleton.getInstance(this).getDbHelper().updateProductStock(prodId, stock);
+        product = ReparaTechSingleton.getInstance(this).getProductFromDB(prodId);
         if (stock <= 0) {
             tvOutStock.setVisibility(View.VISIBLE);
             etQuantity.setText("0");
@@ -101,5 +106,6 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
             etQuantity.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , String.valueOf(stock))});
             btnBuyNow.setEnabled(true);
         }
+        carregarProduct();
     }
 }

@@ -80,6 +80,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String PRODUCT_ID = "product_id";
     private static final String QUANTITY = "quantity";
     private static final String CREATED_AT_SALES = "created_at";
+
     private static final String TABLE_REPAIR_EMPLOYEE = "repairs_employee";
     private static final String ID_REPAIR_EMPLOYEE = "id";
     private static final String CLIENT_NAME_REPAIR_EMPLOYEE = "client_name";
@@ -494,22 +495,22 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(NAME_REPAIR_CATEGORIES, "Audio");
         values.put(DESCRIPTION, "If your device does not transmit sounds, our team is ready to solve the problem with maximum efficiency.");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.audio_issues);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Battery");
         values.put(DESCRIPTION, "If your device has battery damaged, our team is ready to solve the problem with maximum efficiency.");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.battery_issues);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Buttons");
         values.put(DESCRIPTION, "If your device has some button damaged, our team is ready to solve the problem with maximum efficiency.");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.buttons_iphone);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Broken Screen");
         values.put(DESCRIPTION, "If your device has a damaged screen, our team is ready to solve the problem with maximum efficiency.");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.broked_screen);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Camera");
@@ -529,7 +530,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
         values.put(NAME_REPAIR_CATEGORIES, "Hardware Cleaning");
         values.put(DESCRIPTION, "Do you want to carry out routine maintenance? Our team is ready to do it with maximum efficiency.");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.cleaning_computer);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Liquid Damage");
@@ -539,22 +540,22 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
         values.put(NAME_REPAIR_CATEGORIES, "Network");
         values.put(DESCRIPTION, "If your device has network issues, our team is ready to solve the problem with maximum efficiency.");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.network_issues);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Software");
         values.put(DESCRIPTION, "If your device has malicious software, our team is ready to solve the problem with the utmost efficiency.");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.software_issues);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Storage");
         values.put(DESCRIPTION, "If your device has storage issues, our team is ready to solve the problem with maximum efficiency.");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.storage_issues);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
 
         values.put(NAME_REPAIR_CATEGORIES, "Repair Not Listed");
         values.put(DESCRIPTION, "If the anomaly is not listed, please contact us!");
-        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.iphone_capa);
+        values.put(IMAGE_REPAIR_CATEGORIES, R.drawable.repairs);
         db.insert(TABLE_REPAIR_CATEGORIES_LIST, null, values);
     }
 

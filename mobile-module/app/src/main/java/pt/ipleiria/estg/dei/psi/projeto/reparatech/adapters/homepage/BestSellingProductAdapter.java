@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -15,8 +18,9 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
-public class BestSellingProductAdapter extends BaseAdapter {
+public class BestSellingProductAdapter extends RecyclerView.Adapter<BestSellingProductAdapter.ViewHolderList> {
 
     private Context context;
     private LayoutInflater inflater;
@@ -27,42 +31,35 @@ public class BestSellingProductAdapter extends BaseAdapter {
         this.bestSellingProducts = bestSellingProducts;
     }
 
+    @NonNull
     @Override
-    public int getCount() {
+    public BestSellingProductAdapter.ViewHolderList onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (inflater == null) {
+            inflater = LayoutInflater.from(parent.getContext());
+        }
+        View view = inflater.inflate(R.layout.item_best_selling_product, parent, false);
+        return new ViewHolderList(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BestSellingProductAdapter.ViewHolderList holder, int position) {
+        BestSellingProduct bestSellingProduct = bestSellingProducts.get(position);
+        holder.update(bestSellingProduct);
+        if (ReparaTechSingleton.getInstance(context).getBestSellingProductClickListener() != null) {
+            holder.itemView.setOnClickListener(v -> ReparaTechSingleton.getInstance(context).getBestSellingProductClickListener().onProductClicked(bestSellingProduct.getId()));
+        }
+    }
+
+    @Override
+    public int getItemCount() {
         return bestSellingProducts.size();
     }
 
-    @Override
-    public Object getItem(int i) {
-        return bestSellingProducts.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return bestSellingProducts.get(i).getId();
-    }
-
-    @Override
-    public View getView(int i, View convertView, ViewGroup parent) {
-        ViewHolderList viewHolderList;
-
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_best_selling_product, parent, false);
-            viewHolderList = new ViewHolderList(convertView);
-            convertView.setTag(viewHolderList);
-        } else {
-            viewHolderList = (ViewHolderList) convertView.getTag();
-        }
-
-        viewHolderList.update(bestSellingProducts.get(i));
-        return convertView;
-    }
-
-    private class ViewHolderList {
+    public class ViewHolderList extends RecyclerView.ViewHolder {
         private TextView tvBestSellingProductName,tvBestSellingProductPrice;
         private ImageView imgBestSellingProduct;
         public ViewHolderList(View view){
+            super(view);
             tvBestSellingProductName = view.findViewById(R.id.tvBestSellingProductName);
             tvBestSellingProductPrice = view.findViewById(R.id.tvBestSellingProductPrice);
             imgBestSellingProduct = view.findViewById(R.id.imgBestSellingProduct);
@@ -73,6 +70,7 @@ public class BestSellingProductAdapter extends BaseAdapter {
             Glide.with(context)
                     .load(bestSellingProduct.getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.placeholder)
                     .into(imgBestSellingProduct);
         }
     }

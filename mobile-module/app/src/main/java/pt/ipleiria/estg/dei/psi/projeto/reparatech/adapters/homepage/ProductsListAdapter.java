@@ -79,6 +79,7 @@ public class ProductsListAdapter extends BaseAdapter {
             Glide.with(context)
                     .load(product.getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.placeholder)
                     .into(imgProduct);
         }
     }

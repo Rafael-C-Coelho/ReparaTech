@@ -46,7 +46,7 @@ public class CartActivity extends AppCompatActivity implements CartItemChangeLis
         ArrayList<CartItem> allCartItemsDB = ReparaTechSingleton.getInstance(this).getDbHelper().getAllCartItemsDB();
         CartAdapter cartAdapter = new CartAdapter(this, allCartItemsDB, this);
         for (CartItem cartItem : allCartItemsDB) {
-            Product product = ReparaTechSingleton.getInstance(this).getDbHelper().getAllProductsDB().get(cartItem.getIdProduct());
+            Product product = ReparaTechSingleton.getInstance(this).getProductFromDB(cartItem.getIdProduct());
             total +=  product.getPrice() * cartItem.getQuantity();
         }
         listView.setAdapter(cartAdapter);
@@ -72,7 +72,7 @@ public class CartActivity extends AppCompatActivity implements CartItemChangeLis
         double total = 0;
         ArrayList<CartItem> allCartItemsDB = ReparaTechSingleton.getInstance(this).getDbHelper().getAllCartItemsDB();
         for (CartItem cartItem : allCartItemsDB) {
-            Product product = ReparaTechSingleton.getInstance(this).getDbHelper().getAllProductsDB().get(cartItem.getIdProduct());
+            Product product = ReparaTechSingleton.getInstance(this).getProductFromDB(cartItem.getIdProduct());
             total +=  product.getPrice() * cartItem.getQuantity();
         }
         TextView tvTotal = findViewById(R.id.tvTotal);

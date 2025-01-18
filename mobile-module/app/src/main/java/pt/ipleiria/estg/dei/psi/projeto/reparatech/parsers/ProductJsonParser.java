@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
 
 public class ProductJsonParser {
@@ -33,6 +34,26 @@ public class ProductJsonParser {
                 products.add(parserJsonProduct(product));
             }
             return products;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<BestSellingProduct> parserJsonBestSellingProducts(JSONObject response) {
+        try {
+            ArrayList<BestSellingProduct> bestSellingProducts = new ArrayList<>();
+            JSONArray jsonArray = response.getJSONArray("sales");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject bestSellingProduct = jsonArray.getJSONObject(i);
+                int id = bestSellingProduct.getInt("id");
+                String name = bestSellingProduct.getString("name");
+                double price = Double.parseDouble(bestSellingProduct.getString("price"));
+                String image = bestSellingProduct.getString("image");
+
+                bestSellingProducts.add(new BestSellingProduct(id, name, image, price));
+            }
+            return bestSellingProducts;
         } catch (JSONException e) {
             e.printStackTrace();
         }

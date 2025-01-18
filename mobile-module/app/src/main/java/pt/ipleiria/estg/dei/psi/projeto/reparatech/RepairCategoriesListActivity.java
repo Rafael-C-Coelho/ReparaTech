@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -44,9 +45,11 @@ public class RepairCategoriesListActivity extends AppCompatActivity {
         lvRepairCategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(RepairCategoriesListActivity.this, RepairCategoryDetailActivity.class);
-                intent.putExtra(RepairCategoryDetailActivity.ID_CATEGORIES_LIST, repairCategoriesList.get(position).getId());
-                startActivity(intent);
+                if (!repairCategoriesList.get(position).getTitle().equals("Repair Not Listed")) {
+                    Intent intent = new Intent(RepairCategoriesListActivity.this, RepairCategoryDetailActivity.class);
+                    intent.putExtra(RepairCategoryDetailActivity.ID_CATEGORIES_LIST, repairCategoriesList.get(position).getId());
+                    startActivity(intent);
+                }
             }
         });
 
