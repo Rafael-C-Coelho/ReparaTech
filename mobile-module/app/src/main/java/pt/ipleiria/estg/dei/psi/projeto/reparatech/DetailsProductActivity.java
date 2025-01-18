@@ -78,6 +78,9 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
     }
 
     private void carregarProduct(){
+        if (product == null) {
+            return;
+        }
         setTitle(getString(R.string.details_with_2_dots) + product.getName());
         tvName.setText(product.getName());
         Glide.with(getApplicationContext())
