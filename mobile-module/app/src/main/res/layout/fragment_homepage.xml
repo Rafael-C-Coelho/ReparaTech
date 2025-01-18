@@ -32,13 +32,7 @@
             <HorizontalScrollView
                 android:id="@+id/hScrollViewRecentlyAddedProducts"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" />
-            </HorizontalScrollView>
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
         <LinearLayout
@@ -59,18 +53,14 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <HorizontalScrollView
-                android:id="@+id/hScrollBestSellingProducts"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
 
-                <LinearLayout
-                    android:id="@+id/BestSellingProducts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
-            </HorizontalScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBestSellingProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
 

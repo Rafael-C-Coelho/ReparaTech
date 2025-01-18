@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.HomepageFragment;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductListener;
@@ -772,7 +773,6 @@ public class ReparaTechSingleton {
 
     // endregion
 
-    /*
     public void getBestSellingProductsFromApi(int page) {
         String url = "/api/dashboard/most-sold" + "?page=" + page;
         try {
@@ -802,8 +802,4 @@ public class ReparaTechSingleton {
                     Toast.LENGTH_SHORT).show();
         }
     }
-     */
-
-
-
 }
