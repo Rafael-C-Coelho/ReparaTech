@@ -80,6 +80,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String PRODUCT_ID = "product_id";
     private static final String QUANTITY = "quantity";
     private static final String CREATED_AT_SALES = "created_at";
+
     private static final String TABLE_REPAIR_EMPLOYEE = "repairs_employee";
     private static final String ID_REPAIR_EMPLOYEE = "id";
     private static final String CLIENT_NAME_REPAIR_EMPLOYEE = "client_name";
