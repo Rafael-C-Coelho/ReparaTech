@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.BestSellingProductAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.HomePageRepairCategoryAdapter;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductClickListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.HomePageRepairCategory;
@@ -29,7 +30,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.RepairCategoriesList;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 
-public class HomepageFragment extends Fragment implements BestSellingProductListener {
+public class HomepageFragment extends Fragment implements BestSellingProductListener, BestSellingProductClickListener {
 
     private ArrayList<HomePageRepairCategory> homePageRepairCategories;
     private ArrayList<RepairCategoriesList> repairCategoriesLists;
@@ -46,6 +47,8 @@ public class HomepageFragment extends Fragment implements BestSellingProductList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
+
+        ReparaTechSingleton.getInstance(getContext()).setBestSellingProductClickListener(this);
 
         rvBestSellingProducts = view.findViewById(R.id.rvBestSellingProducts);
 
@@ -96,5 +99,12 @@ public class HomepageFragment extends Fragment implements BestSellingProductList
         bestSellingProducts.clear();
         bestSellingProducts.addAll(products);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onProductClicked(int productId) {
+        Intent intent = new Intent(getActivity(), DetailsProductActivity.class);
+        intent.putExtra(DetailsProductActivity.ID_PRODUCT, productId);
+        startActivity(intent);
     }
 }

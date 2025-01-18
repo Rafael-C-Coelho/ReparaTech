@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.BestSellingProduct;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 public class BestSellingProductAdapter extends RecyclerView.Adapter<BestSellingProductAdapter.ViewHolderList> {
 
@@ -44,6 +45,9 @@ public class BestSellingProductAdapter extends RecyclerView.Adapter<BestSellingP
     public void onBindViewHolder(@NonNull BestSellingProductAdapter.ViewHolderList holder, int position) {
         BestSellingProduct bestSellingProduct = bestSellingProducts.get(position);
         holder.update(bestSellingProduct);
+        if (ReparaTechSingleton.getInstance(context).getBestSellingProductClickListener() != null) {
+            holder.itemView.setOnClickListener(v -> ReparaTechSingleton.getInstance(context).getBestSellingProductClickListener().onProductClicked(bestSellingProduct.getId()));
+        }
     }
 
     @Override

@@ -90,6 +90,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
     @Override
     public void onProductStockChanged(int prodId, int stock) {
         ReparaTechSingleton.getInstance(this).getDbHelper().updateProductStock(prodId, stock);
+        product = ReparaTechSingleton.getInstance(this).getProductFromDB(prodId);
         if (stock <= 0) {
             tvOutStock.setVisibility(View.VISIBLE);
             etQuantity.setText("0");
@@ -101,5 +102,6 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
             etQuantity.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , String.valueOf(stock))});
             btnBuyNow.setEnabled(true);
         }
+        carregarProduct();
     }
 }

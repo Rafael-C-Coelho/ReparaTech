@@ -80,6 +80,7 @@ public class CartAdapter extends BaseAdapter {
         private final TextView tvProductName, tvProductPrice, tvProductId, tvQuantity, tvId;
         private final ImageView ivProductImage;
         private final Button btnMinus, btnPlus;
+        private Product product;
 
         public ViewHolderList(View view) {
             tvId = view.findViewById(R.id.tvId);
@@ -95,8 +96,11 @@ public class CartAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     int id = Integer.parseInt(tvId.getText().toString());
+                    int prodId = Integer.parseInt(tvProductId.getText().toString());
                     int quantity = Integer.parseInt(tvQuantity.getText().toString());
-                    Product product = ReparaTechSingleton.getInstance(context).getProductFromDB(id);
+                    if (product == null) {
+                        product = ReparaTechSingleton.getInstance(context).getProductFromDB(prodId);
+                    }
                     if (quantity > 1) {
                         quantity--;
                         tvQuantity.setText(String.valueOf(quantity));
@@ -121,9 +125,12 @@ public class CartAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     int id = Integer.parseInt(tvId.getText().toString());
+                    int prodId = Integer.parseInt(tvProductId.getText().toString());
                     int quantity = Integer.parseInt(tvQuantity.getText().toString());
                     quantity++;
-                    Product product = ReparaTechSingleton.getInstance(context).getProductFromDB(Integer.parseInt(tvProductId.getText().toString()));
+                    if (product == null) {
+                        product = ReparaTechSingleton.getInstance(context).getProductFromDB(prodId);
+                    }
                     if (product.getStock() < quantity) {
                         return;
                     }
