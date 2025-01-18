@@ -1,11 +1,15 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
+import android.Manifest;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,12 +36,40 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
     private ActivityMenuMainBinding binding;
     private FragmentManager fragmentManager;
     MqttManager mqttManager;
+    private static final int NOTIFICATION_PERMISSION_CODE = 123; // You can use any unique integer
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can show notifications
+            } else {
+                // Permission denied, handle accordingly
+                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMenuMainBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_menu_main);
+
+        requestNotificationPermission();
 
         if (ReparaTechSingleton.getInstance(this).getAuth() != null) {
             Auth auth = ReparaTechSingleton.getInstance(this).getAuth();

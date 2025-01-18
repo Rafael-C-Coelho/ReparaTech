@@ -105,6 +105,7 @@ public class HomepageFragment extends Fragment implements BestSellingProductList
     public void onProductClicked(int productId) {
         Intent intent = new Intent(getActivity(), DetailsProductActivity.class);
         intent.putExtra(DetailsProductActivity.ID_PRODUCT, productId);
+        intent.putExtra(DetailsProductActivity.IS_COMING_FROM_BESTSELLER, true);
         startActivity(intent);
     }
 }

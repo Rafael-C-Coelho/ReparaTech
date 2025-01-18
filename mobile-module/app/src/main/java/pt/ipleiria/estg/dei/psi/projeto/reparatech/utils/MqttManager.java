@@ -21,6 +21,8 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +33,7 @@ import java.util.logging.LogRecord;
 public class MqttManager implements MqttCallback{
     MqttClient mqttClient;;
     private Context context = null;
+    private NotificationHelper notificationHelper;
 
 
     public static String md5Base64(String input) {
@@ -80,6 +83,7 @@ public class MqttManager implements MqttCallback{
             Toast.makeText(context, "Successfully connected to the broker", Toast.LENGTH_SHORT).show();
 
             mqttClient.setCallback(this);
+            this.notificationHelper = new NotificationHelper(context, this.getClass());
             subscribeToTopic("reparatech/client_" + md5Base64(email));
         } catch (MqttException ex) {
             ex.printStackTrace();
@@ -105,11 +109,22 @@ public class MqttManager implements MqttCallback{
         }
     }
 
-    @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
+        String messageContent = new String(message.getPayload());
+        JSONObject messageObj = new JSONObject(messageContent);
+        // Show notification instead of Toast
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            context.getMainExecutor().execute(() -> // executado de forma assíncrona no thread principal
-                    Toast.makeText(context, message.toString(), Toast.LENGTH_LONG).show()
+            context.getMainExecutor().execute(() ->
+                    {
+                        try {
+                            notificationHelper.showNotification(
+                                    "ReparaTech Message",
+                                    messageObj.getString("description")
+                            );
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
             );
         }
     }

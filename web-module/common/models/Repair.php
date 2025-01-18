@@ -241,7 +241,7 @@ class Repair extends \yii\db\ActiveRecord
         $comment = new Comment();
         $comment->repair_id = $this->id;
         if ($this->progress === self::STATUS_CREATED && isset(\Yii::$app->params['supportEmail'])) {
-            $comment->description = "Your repair request has been created";
+            $comment->description = "Your repair (#" . $this->id . ") request has been created";
             $comment->save(false);
             \Yii::$app
                 ->mailer
@@ -251,10 +251,10 @@ class Repair extends \yii\db\ActiveRecord
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair request has been created at ' . \Yii::$app->name)
+                ->setSubject('Your repair (#" . $this->id . ") request has been created at ' . \Yii::$app->name)
                 ->send();
         } else if ($this->progress === self::STATUS_PENDING_ACCEPTANCE && isset(\Yii::$app->params['supportEmail'])) {
-            $comment->description = "Your repair request is pending acceptance";
+            $comment->description = "Your repair (#" . $this->id . ") request is pending acceptance";
             $comment->save(false);
             \Yii::$app
                 ->mailer
@@ -264,10 +264,10 @@ class Repair extends \yii\db\ActiveRecord
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('You have a repair request to accept/deny at ' . \Yii::$app->name)
+                ->setSubject('You have a repair (#' . $this->id . ') request to accept/deny at ' . \Yii::$app->name)
                 ->send();
         } else if ($this->progress === self::STATUS_DENIED && isset(\Yii::$app->params['supportEmail'])) {
-            $comment->description = "Your repair request has been denied";
+            $comment->description = "Your repair (#" . $this->id . ") request has been denied";
             $comment->save(false);
             \Yii::$app
                 ->mailer
@@ -277,10 +277,10 @@ class Repair extends \yii\db\ActiveRecord
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair request has been denied at ' . \Yii::$app->name)
+                ->setSubject('Your repair (#' . $this->id . ') request has been denied at ' . \Yii::$app->name)
                 ->send();
         } else if ($this->progress === self::STATUS_IN_PROGRESS && isset(\Yii::$app->params['supportEmail'])) {
-            $comment->description = "Your repair request is in progress";
+            $comment->description = "Your repair (#" . $this->id . ") request is in progress";
             $comment->save(false);
             \Yii::$app
                 ->mailer
@@ -290,10 +290,10 @@ class Repair extends \yii\db\ActiveRecord
                 )
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair request is in progress at ' . \Yii::$app->name)
+                ->setSubject('Your repair (#' . $this->id . ') request is in progress at ' . \Yii::$app->name)
                 ->send();
         } else if ($this->progress === self::STATUS_COMPLETED && isset(\Yii::$app->params['supportEmail'])) {
-            $comment->description = "Your repair request has been completed";
+            $comment->description = "Your repair (#" . $this->id . ") request has been completed";
             $comment->save(false);
             \Yii::$app
                 ->mailer
@@ -304,7 +304,7 @@ class Repair extends \yii\db\ActiveRecord
                 ->attach(\Yii::getAlias('@app/web') . Invoice::find()->where(['id' => $this->invoice_id])->one()->pdf_file, ['fileName' => 'invoice.pdf', 'contentType' => 'application/pdf'])
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setTo($this->client->email)
-                ->setSubject('Your repair request has been completed at ' . \Yii::$app->name)
+                ->setSubject('Your repair (#' . $this->id . ') request has been completed at ' . \Yii::$app->name)
                 ->send();
         }
         parent::afterSave($insert, $changedAttributes);

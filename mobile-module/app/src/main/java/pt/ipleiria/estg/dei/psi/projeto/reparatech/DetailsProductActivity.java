@@ -31,6 +31,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.MinMaxFilter;
 public class DetailsProductActivity extends AppCompatActivity implements ProductStockListener {
 
     public static final String ID_PRODUCT = "id_Product";
+    public static final String IS_COMING_FROM_BESTSELLER = "is_bestseller";
     private Product product;
 
     private EditText etQuantity;
@@ -42,6 +43,12 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_product);
+
+        boolean isComingFromBestSeller = getIntent().getBooleanExtra(IS_COMING_FROM_BESTSELLER, false);
+        int productId = getIntent().getIntExtra(ID_PRODUCT, -1);
+        if (isComingFromBestSeller) {
+            product = ReparaTechSingleton.getInstance(this).getProduct(productId);
+        }
 
         ReparaTechSingleton.getInstance(this).setProductStockListener(this);
         tvName = findViewById(R.id.tvNameProductDetails);
@@ -67,7 +74,6 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
             }
         });
 
-        int productId = getIntent().getIntExtra(ID_PRODUCT, -1);
         if(productId != -1){
             product = ReparaTechSingleton.getInstance(this).getProduct(productId);
         }
