@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 // Get the latest pending budget
 $pendingBudget = null;
-foreach ($model->budgets->orderBy(['id' => SORT_DESC]) as $budget) {
+foreach ($model->budgets as $budget) {
     if ($budget->status === \common\models\Budget::STATUS_PENDING) {
         $pendingBudget = $budget;
         break;
