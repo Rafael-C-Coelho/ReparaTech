@@ -49,19 +49,6 @@ class Sale extends \yii\db\ActiveRecord
         ];
     }
 
-    public function fields()
-    {
-        $fields = parent::fields();
-        unset($fields['invoice_id']);
-        $fields['invoice'] = function () {
-            if ($this->invoice === null) {
-                return null;
-            }
-            return $this->invoice->pdf_file;
-        };
-        return $fields;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -111,6 +98,14 @@ class Sale extends \yii\db\ActiveRecord
         $fields = parent::fields();
 
         $fields['sale_products'] = 'saleProducts';
+
+        unset($fields['invoice_id']);
+        $fields['invoice'] = function () {
+            if ($this->invoice === null) {
+                return null;
+            }
+            return $this->invoice->pdf_file;
+        };
 
         return $fields;
     }
