@@ -166,6 +166,7 @@ public class CartAdapter extends BaseAdapter {
             Glide.with(context)
                     .load(product.getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.placeholder)
                     .into(ivProductImage);
         }
     }

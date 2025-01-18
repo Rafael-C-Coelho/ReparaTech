@@ -86,6 +86,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
         Glide.with(getApplicationContext())
                 .load(product.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.placeholder)
                 .into(imgProduct);
         tvPrice.setText(product.getPrice() + getString(R.string.euro_symbol));
     }

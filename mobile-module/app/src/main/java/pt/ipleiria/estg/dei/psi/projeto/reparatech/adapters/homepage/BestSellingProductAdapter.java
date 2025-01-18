@@ -70,6 +70,7 @@ public class BestSellingProductAdapter extends RecyclerView.Adapter<BestSellingP
             Glide.with(context)
                     .load(bestSellingProduct.getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.placeholder)
                     .into(imgBestSellingProduct);
         }
     }

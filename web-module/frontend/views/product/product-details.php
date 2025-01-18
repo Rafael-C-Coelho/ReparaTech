@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
                     <div class="carousel-item active">
-                        <img class="w-100 h-100" src="<?= $model->image ? (str_contains($model->image, "http") ? $model->image : '/assets/products/' . basename($model->image)) : 'https://placehold.co/600x400' ?>"
+                        <img class="w-100 h-100" src="<?= $model->image ? (str_contains($model->image, "http") ? $model->image : '/assets/products/' . basename($model->image)) : 'https://placehold.co/600x400?text=No+image' ?>"
                              alt="Image" onerror="this.src='https://placehold.co/600x400?text=No+image'">
                     </div>
                 </div>
