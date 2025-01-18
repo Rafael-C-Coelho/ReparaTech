@@ -136,16 +136,6 @@ class Budget extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[BudgetsHasParts]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBudgetsHasParts()
-    {
-        return $this->hasMany(BudgetPart::class, ['budget_id' => 'id']);
-    }
-
-    /**
      * Gets query for [[Repairs]].
      *
      * @return \yii\db\ActiveQuery
@@ -153,6 +143,11 @@ class Budget extends \yii\db\ActiveRecord
     public function getRepairs()
     {
         return $this->hasMany(Repair::class, ['budget_id' => 'id']);
+    }
+
+    public function getRepairman()
+    {
+        return $this->hasOne(User::class, ['id' => 'repairman_id']);
     }
 
     public function beforeSave($insert)
