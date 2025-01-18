@@ -59,4 +59,24 @@ public class ProductJsonParser {
         }
         return null;
     }
+
+    public static ArrayList<Product> parseJsonProducts(JSONArray productsArray) {
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            for (int i = 0; i < productsArray.length(); i++) {
+                JSONObject productObject = productsArray.getJSONObject(i);
+                Product product = new Product(
+                        productObject.getInt("id"),
+                        productObject.getString("name"),
+                        productObject.getDouble("price"),
+                        productObject.getString("image"),
+                        productObject.getInt("stock")
+                );
+                products.add(product);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
 }

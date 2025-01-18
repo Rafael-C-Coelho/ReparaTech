@@ -1,8 +1,8 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.NoConnectionError;
@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.HomepageFragment;
@@ -26,13 +27,15 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductC
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.OrderListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateOrdersListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateProductsListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateRepairsListener;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.BestSellingProductParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.MyBookingJsonParser;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.OrderJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.ProductJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.parsers.RepairEmployeeJsonParser;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.utils.ApiHelper;
@@ -43,6 +46,7 @@ public class ReparaTechSingleton {
     private ArrayList<Product> products;
     private ArrayList<MyBooking> myBookings;
     private ArrayList<BestSellingProduct> bestSellingProducts;
+    private ArrayList<Order> orders;
     private static RequestQueue volleyQueue;
     private static ReparaTechSingleton INSTANCE = null;
     private Context context;
@@ -57,6 +61,8 @@ public class ReparaTechSingleton {
     private ProductStockListener productStockListener;
     private UpdateRepairsListener updateRepairsListener;
     private BestSellingProductListener updateBestSellingProductsListener;
+    private OrderListener orderListener;
+    private UpdateOrdersListener updateOrdersListener;
     private BestSellingProductClickListener bestSellingProductClickListener;
 
     private ReparaTechSingleton(Context context) {
@@ -64,6 +70,7 @@ public class ReparaTechSingleton {
         bestSellingProducts = new ArrayList<>();
         repairCategoriesList = new ArrayList<>();
         myBookings = new ArrayList<>();
+        orders = new ArrayList<>();
         dbHelper = new ReparaTechDBHelper(context);
         settings = new Settings();
 
@@ -116,6 +123,14 @@ public class ReparaTechSingleton {
 
     public void setUpdateBookingListener(UpdateBookingListener updateBookingListener) {
         this.updateBookingListener = updateBookingListener;
+    }
+
+    public void setOrderListener(OrderListener orderListener) {
+        this.orderListener = orderListener;
+    }
+
+    public void setUpdateOrdersListener(UpdateOrdersListener updateOrdersListener) {
+        this.updateOrdersListener = updateOrdersListener;
     }
 
     public RequestQueue getVolleyQueue() {
@@ -783,6 +798,94 @@ public class ReparaTechSingleton {
 
     // endregion
 
+    // region # ORDER METHODS #
+
+    public Order getOrder(int id) {
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, "/api/orders/" + id, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONObject orderObject = response.getJSONObject("order");
+                                Order order = new Order(
+                                        orderObject.getInt("id"),
+                                        orderObject.getString("status"),
+                                        orderObject.getDouble("total_order"),
+                                        orderObject.getInt("product_quantity"),
+                                        ProductJsonParser.parseJsonProducts(orderObject.getJSONArray("products")));
+                                dbHelper.addOrder(new ArrayList<>(List.of(order)));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+            for (Order order : orders) {
+                if (order.getId() == id) {
+                    return order;
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void getOrders() {
+        String url = "/api/sales";
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                        orders = OrderJsonParser.parserJsonOrders(response);
+                        if(orders == null) {
+                            orders = new ArrayList<>();
+                        }
+                        int i = 0;
+                        for (Order order : orders) {
+                            if (getOrder(order.getId()) != null) {
+                                i++;
+                            }
+                        }
+                        dbHelper.addOrder(orders);
+                        if (updateOrdersListener != null) {
+                            updateOrdersListener.reloadListOrders(true);
+                        }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (updateRepairsListener != null) {
+                        updateRepairsListener.onUpdateRepairs();
+                    }
+                    error.printStackTrace();
+                }
+            });
+        } catch (NoConnectionError e) {
+            Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public ArrayList<Order> getOrdersDB() {
+        orders = dbHelper.getAllOrdersDB();
+        return new ArrayList<Order>(orders);
+    }
+
+    public void clearOrdersDB() {
+        dbHelper.removeAllOrdersDB();
+    }
+
+    // endregion
+
+
+/*
     public void getBestSellingProductsFromApi(int page) {
         String url = "/api/dashboard/most-sold" + "?page=" + page;
         try {
@@ -812,4 +915,6 @@ public class ReparaTechSingleton {
                     Toast.LENGTH_SHORT).show();
         }
     }
+    /*
+ */
 }

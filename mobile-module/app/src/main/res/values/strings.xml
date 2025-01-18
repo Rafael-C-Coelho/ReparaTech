@@ -158,4 +158,5 @@
     <string name="txt_item_repair_category_homepage">Repair Category Homepage</string>
     <string name="error_setting_repair_as_done">Error setting repair as done</string>
     <string name="repair_set_as_done">Repair set as done</string>
+    <string name="orders">Orders</string>
 </resources>
