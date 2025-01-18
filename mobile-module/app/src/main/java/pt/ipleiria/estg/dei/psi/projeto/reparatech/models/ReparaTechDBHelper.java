@@ -1006,50 +1006,62 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     public ArrayList<Order> getAllOrdersDB(){
         ArrayList<Order> orders = new ArrayList<>();
-        Cursor cursor = db.query(TABLE_ORDERS, null, null, null, null, null, null);
-        if(cursor != null && cursor.moveToFirst()){
-            do{
-                int idIndex = cursor.getColumnIndex(ID_ORDER);
-                int statusIndex = cursor.getColumnIndex(STATUS_ORDER);
-                int totalOrderIndex = cursor.getColumnIndex(TOTAL_ORDER);
+        Cursor cursor = null;
+        try{
+            cursor = db.query(TABLE_ORDERS, null, null, null, null, null, null);
+            if(cursor.moveToFirst()){
+                do{
+                    int idIndex = cursor.getColumnIndex(ID_ORDER);
+                    int statusIndex = cursor.getColumnIndex(STATUS_ORDER);
+                    int totalOrderIndex = cursor.getColumnIndex(TOTAL_ORDER);
 
-                if(idIndex >= 0 && statusIndex >= 0 && totalOrderIndex >= 0){
-                    int id = cursor.getInt(idIndex);
-                    String status = cursor.getString(statusIndex);
-                    double totalOrder = cursor.getDouble(totalOrderIndex);
-                    int someIntValue = 0;
-                    ArrayList<Product> someProductList = new ArrayList<>();
-                    orders.add(new Order(id, status, totalOrder, someIntValue, someProductList));
-                }
+                    if(idIndex >= 0 && statusIndex >= 0 && totalOrderIndex >= 0){
+                        int id = cursor.getInt(idIndex);
+                        String status = cursor.getString(statusIndex);
+                        double totalOrder = cursor.getDouble(totalOrderIndex);
+                        int someIntValue = 0;
+                        ArrayList<Product> someProductList = new ArrayList<>();
+                        orders.add(new Order(id, status, totalOrder, someIntValue, someProductList));
+                    }
 
-            }while (cursor.moveToNext());
+                }while (cursor.moveToNext());
+            }
+        } finally {
+            if(cursor != null){
+                cursor.close();
+            }
         }
-        cursor.close();
         return orders;
     }
 
     public ArrayList<SalesHasProduct> getProductsByOrderId(int id){
         ArrayList<SalesHasProduct> products = new ArrayList<>();
-        Cursor cursor = db.query(TABLE_SALES_HAS_PRODUCTS, null, ID_SALES + " = ?", new String[]{String.valueOf(id)}, null, null, null);
-        if(cursor.moveToFirst()){
-            do {
-                int productOrderIdIndex = cursor.getColumnIndex(ID_PRODUCT_ORDER);
-                int salesIdIndex = cursor.getColumnIndex(ID_SALES);
-                int productSaleIdIndex = cursor.getColumnIndex(ID_PRODUCT_SALE);
-                int quantitySaleIndex = cursor.getColumnIndex(QUANTITY_SALE);
-                int totalPriceIndex = cursor.getColumnIndex(TOTAL_PRICE);
+        Cursor cursor = null;
+        try{
+            cursor = db.query(TABLE_SALES_HAS_PRODUCTS, null, ID_SALES + " = ?", new String[]{String.valueOf(id)}, null, null, null);
+            if(cursor.moveToFirst()){
+                do {
+                    int productOrderIdIndex = cursor.getColumnIndex(ID_PRODUCT_ORDER);
+                    int salesIdIndex = cursor.getColumnIndex(ID_SALES);
+                    int productSaleIdIndex = cursor.getColumnIndex(ID_PRODUCT_SALE);
+                    int quantitySaleIndex = cursor.getColumnIndex(QUANTITY_SALE);
+                    int totalPriceIndex = cursor.getColumnIndex(TOTAL_PRICE);
 
-                if (productOrderIdIndex >= 0 && salesIdIndex >= 0 && productSaleIdIndex >= 0 && quantitySaleIndex >= 0 && totalPriceIndex >= 0) {
-                    int productOrderId = cursor.getInt(productOrderIdIndex);
-                    int orderId = cursor.getInt(salesIdIndex);
-                    int productId = cursor.getInt(productSaleIdIndex);
-                    int quantity = cursor.getInt(quantitySaleIndex);
-                    double totalPrice = cursor.getDouble(totalPriceIndex);
-                    products.add(new SalesHasProduct(productOrderId, orderId, productId, quantity, totalPrice));
-                }
-            }while (cursor.moveToNext());
+                    if (productOrderIdIndex >= 0 && salesIdIndex >= 0 && productSaleIdIndex >= 0 && quantitySaleIndex >= 0 && totalPriceIndex >= 0) {
+                        int productOrderId = cursor.getInt(productOrderIdIndex);
+                        int orderId = cursor.getInt(salesIdIndex);
+                        int productId = cursor.getInt(productSaleIdIndex);
+                        int quantity = cursor.getInt(quantitySaleIndex);
+                        double totalPrice = cursor.getDouble(totalPriceIndex);
+                        products.add(new SalesHasProduct(productOrderId, orderId, productId, quantity, totalPrice));
+                    }
+                }while (cursor.moveToNext());
+            }
+        }finally {
+            if(cursor != null){
+                cursor.close();
+            }
         }
-        cursor.close();
         return products;
     }
 

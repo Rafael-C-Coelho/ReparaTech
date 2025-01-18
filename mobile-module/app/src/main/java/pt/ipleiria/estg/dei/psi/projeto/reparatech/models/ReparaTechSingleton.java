@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
@@ -787,6 +788,43 @@ public class ReparaTechSingleton {
 
     // region # ORDER METHODS #
 
+    public Order getOrder(int id) {
+        try {
+            new ApiHelper(context).request(context, Request.Method.GET, "/api/orders/" + id, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONObject orderObject = response.getJSONObject("order");
+                                Order order = new Order(
+                                        orderObject.getInt("id"),
+                                        orderObject.getString("status"),
+                                        orderObject.getDouble("total_order"),
+                                        orderObject.getInt("product_quantity"),
+                                        ProductJsonParser.parseJsonProducts(orderObject.getJSONArray("products")));
+                                dbHelper.addOrder(new ArrayList<>(List.of(order)));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+            for (Order order : orders) {
+                if (order.getId() == id) {
+                    return order;
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void getOrders() {
         String url = "/api/sales";
         try {
@@ -794,9 +832,12 @@ public class ReparaTechSingleton {
                 @Override
                 public void onResponse(JSONObject response) {
                         orders = OrderJsonParser.parserJsonOrders(response);
+                        if(orders == null) {
+                            orders = new ArrayList<>();
+                        }
                         int i = 0;
                         for (Order order : orders) {
-                            if (getProduct(order.getId()) != null) {
+                            if (getOrder(order.getId()) != null) {
                                 i++;
                             }
                         }
@@ -821,7 +862,7 @@ public class ReparaTechSingleton {
     }
 
     public ArrayList<Order> getOrdersDB() {
-        products = dbHelper.getAllProductsDB();
+        orders = dbHelper.getAllOrdersDB();
         return new ArrayList<Order>(orders);
     }
 
