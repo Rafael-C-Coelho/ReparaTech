@@ -24,7 +24,7 @@
             android:exported="false"
             android:parentActivityName=".RepairsEmployeeActivity" />
         <activity
-            android:name=".OrderDetailActivity"
+            android:name=".OrderDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".RepairsEmployeeActivity"

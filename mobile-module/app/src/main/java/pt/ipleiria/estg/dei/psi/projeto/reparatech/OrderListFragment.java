@@ -13,132 +13,87 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.OrderListAdapter;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.MyBookingAdapter;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.homepage.ProductsListAdapter;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.MyBooking;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.OrdersAdapter;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateOrdersListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Order;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.OrderDisplay;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechDBHelper;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
-import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.SalesHasProduct;
 
 
-public class OrderListFragment extends Fragment {
+public class OrderListFragment extends Fragment implements UpdateOrdersListener {
 
-    private ListView lvOrders;
+    private ListView listView;
+    private OrdersAdapter adapter;
     private ArrayList<Order> orders;
-    private ArrayList<OrderDisplay> orderDisplays;
-
-    private SearchView searchView;
-    private OrderListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean isLoading = false;
-
-    public OrderListFragment() {
-        // Required empty public constructor
-    }
+    private int page = 1;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_orders_list, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_order_list, container, false);
+        ReparaTechSingleton.getInstance(getContext()).setUpdateOrdersListener(this);
 
-        setHasOptionsMenu(true);
-
-        lvOrders = view.findViewById(R.id.LvOrders);
-
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        listView = view.findViewById(R.id.lvOrders);
+        swipeRefreshLayout = view.findViewById(R.id.srOrders);
+        orders = new ArrayList<>();
+        adapter = new OrdersAdapter(getContext(), orders);
+        listView.setAdapter(adapter);
         swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
-        ArrayList<Order> orders = new ReparaTechDBHelper(getContext()).getAllOrdersDB();
-        ArrayList<OrderDisplay> orderDisplays = new ArrayList<>();
-
-        for (Order order : orders) {
-            ArrayList<SalesHasProduct> products = new ReparaTechDBHelper(getContext()).getProductsByOrderId(order.getId());
-            StringBuilder productNames = new StringBuilder();
-            int totalQuantity = 0;
-            for (SalesHasProduct product : products) {
-                productNames.append(product.getProductName()).append(", ");
-                totalQuantity += product.getQuantity();
-            }
-            orderDisplays.add(new OrderDisplay(order.getId(), order.getStatus(), order.getTotalOrder(), productNames.toString(), totalQuantity));
-        }
-
-        OrderListAdapter adapter = new OrderListAdapter(getContext(), orderDisplays);
-        lvOrders.setAdapter(adapter);
-
-        lvOrders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), OrderDetailActivity.class);
-                intent.putExtra(OrderDetailActivity.ID_ORDER, (int) id);
-                startActivity(intent);
-            }
-        });
-
-        return view;
-    }
-
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.search_item);
-        searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search Orders");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                ArrayList<Order> orders = new ArrayList<>();
-                for (Order order : orders) {
-                    if (order.getStatus().toLowerCase().contains(newText.toLowerCase())) {
-                        orders.add(order);
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    if (listView.getLastVisiblePosition() >= listView.getCount() - 1 && !isLoading) {
+                        isLoading = true;
+                        page++;
+                        ReparaTechSingleton.getInstance(getContext()).getOrders(page);
                     }
                 }
-                orderDisplays = new ArrayList<>();
-                lvOrders.setAdapter(new OrderListAdapter(getContext(), orderDisplays));
-                return true;
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             }
         });
+
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            Order order = orders.get(position);
+            Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
+            intent.putExtra("order_id", order.getId());
+            startActivity(intent);
+        });
+
+        loadOrders();
+        return view;
     }
 
     private void onRefresh() {
         isLoading = true;
         swipeRefreshLayout.setRefreshing(true);
+        page = 1;
 
-        ReparaTechSingleton.getInstance(getContext()).clearOrdersDB();
-        ReparaTechSingleton.getInstance(getContext()).getOrders();
-        ReparaTechSingleton.getInstance(getContext()).setOrderListener(success -> {
-            if (success) {
-                orders.clear();
-                orders.addAll(ReparaTechSingleton.getInstance(getContext()).getOrdersDB());
-                adapter.notifyDataSetChanged();
-            }
-            swipeRefreshLayout.setRefreshing(false);
-            isLoading = false;
-        });
+        ReparaTechSingleton.getInstance(getContext()).clearBookingsDB();
+        ReparaTechSingleton.getInstance(getContext()).getOrders(page);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
+    private void loadOrders() {
+        orders.clear();
+        orders.addAll(ReparaTechSingleton.getInstance(getContext()).getOrdersDB());
+        adapter.notifyDataSetChanged();
+    }
 
-    public void reloadListOrders(boolean success, int i) {
-        if (success) {
-            orders.clear();
-            orders.addAll(ReparaTechSingleton.getInstance(getContext()).getOrdersDB());
-            adapter.notifyDataSetChanged();
-            isLoading = false;
-        }
+    @Override
+    public void reloadListOrders(boolean success) {
+        loadOrders();
     }
 }

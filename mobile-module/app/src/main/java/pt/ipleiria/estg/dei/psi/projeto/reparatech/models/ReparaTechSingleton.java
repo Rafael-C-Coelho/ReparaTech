@@ -28,6 +28,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BestSellingProductL
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.BookingListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.LoginListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.OrderListener;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.OrdersLoadedListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.ProductStockListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.RegisterListener;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.listeners.UpdateBookingListener;
@@ -61,7 +62,6 @@ public class ReparaTechSingleton {
     private ProductStockListener productStockListener;
     private UpdateRepairsListener updateRepairsListener;
     private BestSellingProductListener updateBestSellingProductsListener;
-    private OrderListener orderListener;
     private UpdateOrdersListener updateOrdersListener;
     private BestSellingProductClickListener bestSellingProductClickListener;
 
@@ -123,10 +123,6 @@ public class ReparaTechSingleton {
 
     public void setUpdateBookingListener(UpdateBookingListener updateBookingListener) {
         this.updateBookingListener = updateBookingListener;
-    }
-
-    public void setOrderListener(OrderListener orderListener) {
-        this.orderListener = orderListener;
     }
 
     public void setUpdateOrdersListener(UpdateOrdersListener updateOrdersListener) {
@@ -256,6 +252,7 @@ public class ReparaTechSingleton {
                                     loginListener.onValidateLogin(true,
                                             ReparaTechSingleton.getInstance(context).getRole());
                                 }
+                                getDbHelper().removeAllOrdersDB();
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -802,80 +799,128 @@ public class ReparaTechSingleton {
 
     public Order getOrder(int id) {
         try {
-            new ApiHelper(context).request(context, Request.Method.GET, "/api/orders/" + id, null,
+            new ApiHelper(context).request(context, Request.Method.GET, "/api/sales/" + id, null,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            try {
-                                JSONObject orderObject = response.getJSONObject("order");
-                                Order order = new Order(
-                                        orderObject.getInt("id"),
-                                        orderObject.getString("status"),
-                                        orderObject.getDouble("total_order"),
-                                        orderObject.getInt("product_quantity"),
-                                        ProductJsonParser.parseJsonProducts(orderObject.getJSONArray("products")));
-                                dbHelper.addOrder(new ArrayList<>(List.of(order)));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            Order order = OrderJsonParser.parserJsonOrder(response);
+                            if (order != null) {
+                                ArrayList<Order> orderList = new ArrayList<>();
+                                orderList.add(order);
+                                for (Order orderToAdd : orderList) {
+                                    dbHelper.addOrderDB(orderToAdd);
+                                }
+
+                                // Add sale products
+                                for (SaleProduct saleProduct : order.getSaleProducts()) {
+                                    dbHelper.addSaleProductDB(new SaleProduct(
+                                            saleProduct.getId(),
+                                            order.getId(),
+                                            saleProduct.getQuantity(),
+                                            saleProduct.getTotalPrice(),
+                                            saleProduct.getProduct()
+                                    ));
+                                }
+                            }
+
+                            if (updateOrdersListener != null) {
+                                updateOrdersListener.reloadListOrders(true);
                             }
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             error.printStackTrace();
+                            if (updateOrdersListener != null) {
+                                updateOrdersListener.reloadListOrders(true);
+                            }
                         }
                     });
-            for (Order order : orders) {
-                if (order.getId() == id) {
-                    return order;
-                }
-            }
-            return null;
+
+            // Return from local database while waiting for API
+            return getOrderById(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public void getOrders() {
-        String url = "/api/sales";
+    public void getOrders(int page) {
+        String url = "/api/sales?page=" + page;
         try {
-            new ApiHelper(context).request(context, Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                        orders = OrderJsonParser.parserJsonOrders(response);
-                        if(orders == null) {
-                            orders = new ArrayList<>();
-                        }
-                        int i = 0;
-                        for (Order order : orders) {
-                            if (getOrder(order.getId()) != null) {
-                                i++;
+            new ApiHelper(context).request(context, Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            ArrayList<Order> orders = OrderJsonParser.parserJsonOrders(response);
+                            if (orders != null) {
+                                // Clear existing orders
+                                dbHelper.removeAllOrdersDB();
+
+                                // Add new orders
+                                for (Order order : orders) {
+                                    dbHelper.addOrderDB(order);
+                                }
+
+                                // Add sales products for each order
+                                for (Order order : orders) {
+                                    for (SaleProduct saleProduct : order.getSaleProducts()) {
+                                        dbHelper.addSaleProductDB(new SaleProduct(
+                                                saleProduct.getId(),
+                                                order.getId(),
+                                                saleProduct.getQuantity(),
+                                                saleProduct.getTotalPrice(),
+                                                saleProduct.getProduct()
+                                        ));
+                                    }
+                                }
+                            }
+
+                            if (updateOrdersListener != null) {
+                                updateOrdersListener.reloadListOrders(true);
                             }
                         }
-                        dbHelper.addOrder(orders);
-                        if (updateOrdersListener != null) {
-                            updateOrdersListener.reloadListOrders(true);
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (updateOrdersListener != null) {
+                                updateOrdersListener.reloadListOrders(false);
+                            }
+                            error.printStackTrace();
                         }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (updateRepairsListener != null) {
-                        updateRepairsListener.onUpdateRepairs();
-                    }
-                    error.printStackTrace();
-                }
-            });
+                    });
         } catch (NoConnectionError e) {
             Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
                     Toast.LENGTH_SHORT).show();
+            if (updateOrdersListener != null) {
+                updateOrdersListener.reloadListOrders(false);
+            }
         }
     }
 
     public ArrayList<Order> getOrdersDB() {
-        orders = dbHelper.getAllOrdersDB();
-        return new ArrayList<Order>(orders);
+        ArrayList<Order> orders = dbHelper.getAllOrdersDB();
+        // For each order, get its products
+        for (Order order : orders) {
+            ArrayList<SaleProduct> saleProducts = new ArrayList<>();
+            ArrayList<SaleProduct> salesProducts = dbHelper.getProductsByOrderId(order.getId());
+
+            for (SaleProduct salesHasProduct : salesProducts) {
+                Product product = salesHasProduct.getProduct();
+                if (product != null) {
+                    SaleProduct saleProduct = new SaleProduct(
+                            salesHasProduct.getId(),
+                            order.getId(),
+                            salesHasProduct.getQuantity(),
+                            salesHasProduct.getTotalPrice(),
+                            product
+                    );
+                    saleProducts.add(saleProduct);
+                }
+            }
+            order.setSaleProducts(saleProducts);
+        }
+        return orders;
     }
 
     public void clearOrdersDB() {
@@ -913,5 +958,22 @@ public class ReparaTechSingleton {
             Toast.makeText(context, context.getString(R.string.txt_no_internet_connection_try_again_later),
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public Order getOrderById(int orderId) {
+        Order order = null;
+        for (Order orderDb : getOrdersDB()) {
+            if (orderDb.getId() == orderId) {
+                order = orderDb;
+                break;
+            }
+        }
+        if (order == null) {
+            return null;
+        }
+        ArrayList<SaleProduct> saleProducts = new ArrayList<>(dbHelper.getProductsByOrderId(orderId));
+        order.setSaleProducts(saleProducts);
+
+        return order;
     }
 }

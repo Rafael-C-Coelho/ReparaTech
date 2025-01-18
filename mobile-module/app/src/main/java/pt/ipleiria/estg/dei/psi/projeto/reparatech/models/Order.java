@@ -1,58 +1,46 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
-import org.json.JSONArray;
+import java.util.ArrayList;
 
-import java.sql.Timestamp;
-import java.util.List;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.SaleProduct;
 
 public class Order {
     private int id;
+    private int clientId;
+    private String createdAt;
     private String status;
-    private double totalOrder;
-    private int productQuantity;
-    private JSONArray products;
+    private String address;
+    private String zipCode;
+    private ArrayList<SaleProduct> saleProducts;
+    private String invoice;
 
-    public Order(int id, String status, double totalOrder, int productQuantity, JSONArray products) {
+    public Order(int id, int clientId, String createdAt, String status, String address,
+                 String zipCode, String invoice, ArrayList<SaleProduct> saleProducts) {
         this.id = id;
+        this.clientId = clientId;
+        this.createdAt = createdAt;
         this.status = status;
-        this.totalOrder = totalOrder;
-        this.productQuantity = productQuantity;
-        this.products = products;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.invoice = invoice;
+        this.saleProducts = saleProducts;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public double getTotalOrder() {
-        return totalOrder;
-    }
-
-    public void setTotalOrder(double totalOrder) {
-        this.totalOrder = totalOrder;
-    }
-
-    public int getProductQuantity() {
-        return productQuantity;
-    }
-
-    public void setProductQuantity(int productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
+    // Getters and setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    public int getClientId() { return clientId; }
+    public void setClientId(int clientId) { this.clientId = clientId; }
+    public String getCreatedAt() { return createdAt; }
+    public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+    public String getZipCode() { return zipCode; }
+    public void setZipCode(String zipCode) { this.zipCode = zipCode; }
+    public ArrayList<SaleProduct> getSaleProducts() { return saleProducts; }
+    public void setSaleProducts(ArrayList<SaleProduct> saleProducts) { this.saleProducts = saleProducts; }
+    public String getInvoice() { return invoice; }
+    public void setInvoice(String invoice) { this.invoice = invoice; }
 }

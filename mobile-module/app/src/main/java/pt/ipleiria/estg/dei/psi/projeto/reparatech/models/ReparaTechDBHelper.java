@@ -17,7 +17,7 @@ import pt.ipleiria.estg.dei.psi.projeto.reparatech.R;
 public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "reparatech.db";
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
 
     private SQLiteDatabase db;
 
@@ -32,13 +32,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String ID_CART_ITEM = "id";
     private static final String ID_PRODUCT_CART_ITEM = "id_product";
     private static final String QUANTITY_CART_ITEM = "quantity";
-
-    private static final String TABLE_RECENTLYADDED_PRODUCT = "recently_added_products";
-    private static final String ID_RECENTLYADDED_PRODUCT = "id";
-    private static final String NAME_RECENTLYADDED_PRODUCT = "name";
-    private static final String PRICE_RECENTLYADDED_PRODUCT = "price";
-    private static final String IMAGE_RECENTLYADDED_PRODUCT = "image";
-    private static final String STOCK_RECENTLYADDED_PRODUCT = "stock";
 
     private static final String TABLE_SETTINGS = "settings";
     private static final String URL = "url";
@@ -75,12 +68,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String PRICE_BEST_SELLING_PRODUCT = "price";
     private static final String IMAGE_BEST_SELLING_PRODUCT = "image";
 
-    private static final String TABLE_SALES_PRODUCTS = "sales_product_table";
-    private static final String ID_SALES_PRODUCT = "id";
-    private static final String PRODUCT_ID = "product_id";
-    private static final String QUANTITY = "quantity";
-    private static final String CREATED_AT_SALES = "created_at";
-
     private static final String TABLE_REPAIR_EMPLOYEE = "repairs_employee";
     private static final String ID_REPAIR_EMPLOYEE = "id";
     private static final String CLIENT_NAME_REPAIR_EMPLOYEE = "client_name";
@@ -97,15 +84,19 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_ORDERS = "orders";
     private static final String ID_ORDER = "id";
+    private static final String CLIENT_ID_ORDER = "client_id";
+    private static final String CREATED_AT_ORDER = "created_at";
     private static final String STATUS_ORDER = "status";
-    private static final String TOTAL_ORDER = "total_order";
+    private static final String ADDRESS_ORDER = "address";
+    private static final String ZIPCODE_ORDER = "zip_code";
+    private static final String INVOICE_ORDER = "invoice";
 
-    private static final String TABLE_SALES_HAS_PRODUCTS = "sales_has_products";
-    private static final String ID_PRODUCT_ORDER = "id";
-    private static final String ID_SALES = "id_sales";
-    private static final String ID_PRODUCT_SALE = "id_product";
-    private static final String QUANTITY_SALE = "quantity";
+    private static final String TABLE_SALES_PRODUCTS = "sale_products";
+    private static final String ID_SALE_PRODUCT = "id";
+    private static final String SALE_ID = "sale_id";
+    private static final String QUANTITY = "quantity";
     private static final String TOTAL_PRICE = "total_price";
+    private static final String PRODUCT_ID = "product_id";
 
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -177,14 +168,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createBestSellingProductTable);
         //insertInitialBestSellingProducts(sqLiteDatabase);
 
-        String createRecentlyAddedProductTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECENTLYADDED_PRODUCT +
-                "(" + ID_RECENTLYADDED_PRODUCT + " INTEGER PRIMARY KEY, " +
-                NAME_RECENTLYADDED_PRODUCT + " TEXT NOT NULL, " +
-                PRICE_RECENTLYADDED_PRODUCT + " DECIMAL NOT NULL, " +
-                STOCK_RECENTLYADDED_PRODUCT + " INTEGER NOT NULL, " +
-                IMAGE_RECENTLYADDED_PRODUCT + " TEXT" + ");";
-        sqLiteDatabase.execSQL(createRecentlyAddedProductTable);
-
         String createBookingTable = "CREATE TABLE IF NOT EXISTS " + TABLE_BOOKINGS +
                 "(" + ID_BOOKING + " INTEGER PRIMARY KEY, " +
                 DATE_BOOKING + " TEXT NOT NULL, " +
@@ -210,35 +193,33 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 ");";
         sqLiteDatabase.execSQL(createCommentTable);
 
-        String createSalesProductTable = "CREATE TABLE " + TABLE_SALES_PRODUCTS +
-                " (" + ID_SALES_PRODUCT + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                PRODUCT_ID + " INTEGER NOT NULL, " +
-                QUANTITY + " INTEGER NOT NULL, " +
-                CREATED_AT_SALES + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" + ");";
-        sqLiteDatabase.execSQL(createSalesProductTable);
-
-        String createOrdersTable = "CREATE TABLE IF NOT EXISTS " + TABLE_ORDERS +
-                " (" + ID_ORDER + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String createOrdersTable = "CREATE TABLE IF NOT EXISTS " + TABLE_ORDERS + " (" +
+                ID_ORDER + " INTEGER PRIMARY KEY, " +
+                CLIENT_ID_ORDER + " INTEGER NOT NULL, " +
+                CREATED_AT_ORDER + " TEXT NOT NULL, " +
                 STATUS_ORDER + " TEXT NOT NULL, " +
-                TOTAL_ORDER + " REAL NOT NULL" +
+                ADDRESS_ORDER + " TEXT NOT NULL, " +
+                ZIPCODE_ORDER + " TEXT NOT NULL, " +
+                INVOICE_ORDER + " TEXT" +
                 ");";
         sqLiteDatabase.execSQL(createOrdersTable);
 
-        String createSalesHasProductsTable = "CREATE TABLE IF NOT EXISTS " + TABLE_SALES_HAS_PRODUCTS +
-                " (" + ID_PRODUCT_ORDER + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                ID_SALES + " INTEGER NOT NULL, " +
-                ID_PRODUCT_SALE + " INTEGER NOT NULL, " +
-                QUANTITY_SALE + " INTEGER NOT NULL, " +
-                TOTAL_PRICE + " REAL NOT NULL" +
+        String createSaleProductsTable = "CREATE TABLE IF NOT EXISTS " + TABLE_SALES_PRODUCTS + " (" +
+                ID_SALE_PRODUCT + " INTEGER PRIMARY KEY, " +
+                SALE_ID + " INTEGER NOT NULL, " +
+                QUANTITY + " INTEGER NOT NULL, " +
+                TOTAL_PRICE + " DECIMAL NOT NULL, " +
+                PRODUCT_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + SALE_ID + ") REFERENCES " + TABLE_ORDERS + "(" + ID_ORDER + "), " +
+                "FOREIGN KEY(" + PRODUCT_ID + ") REFERENCES " + TABLE_PRODUCTS + "(" + ID_PRODUCT + ")" +
                 ");";
-        sqLiteDatabase.execSQL(createSalesHasProductsTable);
+        sqLiteDatabase.execSQL(createSaleProductsTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_AUTH);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECENTLYADDED_PRODUCT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORIES_LIST);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_CATEGORY_DETAIL);
@@ -359,42 +340,6 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     public void removeProductsDB() {
         this.db.delete(TABLE_PRODUCTS, null, null);
-    }
-
-    public ArrayList<Product> getAllRecentlyAddedProductsDB() {
-        ArrayList<Product> products = new ArrayList<>();
-
-        Cursor cursor = this.db.query(TABLE_RECENTLYADDED_PRODUCT, new String[]{ID_RECENTLYADDED_PRODUCT, NAME_RECENTLYADDED_PRODUCT, PRICE_RECENTLYADDED_PRODUCT, IMAGE_RECENTLYADDED_PRODUCT, STOCK_RECENTLYADDED_PRODUCT}, null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Product product = new Product(cursor.getInt(0), cursor.getString(1), cursor.getDouble(2), cursor.getString(3), cursor.getInt(4));
-                products.add(product);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return products;
-    }
-
-    // endregion
-
-    // region # RECENTLY ADDED PRODUCTS METHODS #
-
-    public void addRecentlyAddedProductsDB(ArrayList<Product> products) {
-        for (Product product : products) {
-            ContentValues values = new ContentValues();
-            values.put(ID_RECENTLYADDED_PRODUCT, product.getId());
-            values.put(NAME_RECENTLYADDED_PRODUCT, product.getName());
-            values.put(PRICE_RECENTLYADDED_PRODUCT, product.getPrice());
-            values.put(IMAGE_RECENTLYADDED_PRODUCT, product.getImage());
-            values.put(STOCK_RECENTLYADDED_PRODUCT, product.getStock());
-
-            this.db.insert(TABLE_RECENTLYADDED_PRODUCT, null, values);
-        }
-    }
-
-    public void removeRecentlyAddedProductsDB() {
-        this.db.delete(TABLE_RECENTLYADDED_PRODUCT, null, null);
     }
 
     // endregion
@@ -990,91 +935,181 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     // region # Orders #
 
-    public void addOrder(ArrayList<Order> orders){
-        for (Order order : orders) {
-            ContentValues values = new ContentValues();
-            values.put(ID_ORDER, order.getId());
-            values.put(STATUS_ORDER, order.getStatus());
-            values.put(TOTAL_ORDER, order.getTotalOrder());
-            db.insert(TABLE_ORDERS, null, values);
-        }
-    }
-
-    public void addSalesHasProduct(SalesHasProduct salesHasProduct){
+    public void addOrderDB(Order order) {
         ContentValues values = new ContentValues();
-        values.put(ID_PRODUCT_ORDER, salesHasProduct.getId());
-        values.put(ID_SALES, salesHasProduct.getIdOrder());
-        values.put(ID_SALES_PRODUCT, salesHasProduct.getIdProduct());
-        values.put(QUANTITY_SALE, salesHasProduct.getQuantity());
-        values.put(TOTAL_PRICE, salesHasProduct.getTotalPrice());
-        db.insert(TABLE_SALES_HAS_PRODUCTS, null, values);
+        values.put(ID_ORDER, order.getId());
+        values.put(CLIENT_ID_ORDER, order.getClientId());
+        values.put(CREATED_AT_ORDER, order.getCreatedAt());
+        values.put(STATUS_ORDER, order.getStatus());
+        values.put(ADDRESS_ORDER, order.getAddress());
+        values.put(ZIPCODE_ORDER, order.getZipCode());
+        values.put(INVOICE_ORDER, order.getInvoice());
+
+        this.db.insert(TABLE_ORDERS, null, values);
+
+        // Add associated sale products
+        for (SaleProduct saleProduct : order.getSaleProducts()) {
+            addSaleProductDB(saleProduct);
+        }
     }
 
-    public ArrayList<Order> getAllOrdersDB(){
+    public void addSaleProductDB(SaleProduct saleProduct) {
+        ContentValues values = new ContentValues();
+        values.put(ID_SALE_PRODUCT, saleProduct.getId());
+        values.put(SALE_ID, saleProduct.getSaleId());
+        values.put(QUANTITY, saleProduct.getQuantity());
+        values.put(TOTAL_PRICE, saleProduct.getTotalPrice());
+        values.put(PRODUCT_ID, saleProduct.getProduct().getId());
+
+        this.db.insert(TABLE_SALES_PRODUCTS, null, values);
+        // Add associated product
+        addProductDB(saleProduct.getProduct());
+    }
+
+    public ArrayList<Order> getAllOrdersDB() {
         ArrayList<Order> orders = new ArrayList<>();
-        Cursor cursor = null;
-        try{
-            cursor = db.query(TABLE_ORDERS, null, null, null, null, null, null);
-            if(cursor.moveToFirst()){
-                do{
-                    int idIndex = cursor.getColumnIndex(ID_ORDER);
-                    int statusIndex = cursor.getColumnIndex(STATUS_ORDER);
-                    int totalOrderIndex = cursor.getColumnIndex(TOTAL_ORDER);
 
-                    if(idIndex >= 0 && statusIndex >= 0 && totalOrderIndex >= 0){
-                        int id = cursor.getInt(idIndex);
-                        String status = cursor.getString(statusIndex);
-                        double totalOrder = cursor.getDouble(totalOrderIndex);
-                        int someIntValue = 0;
-                        ArrayList<Product> someProductList = new ArrayList<>();
-                        orders.add(new Order(id, status, totalOrder, someIntValue, someProductList));
-                    }
+        Cursor cursor = this.db.query(TABLE_ORDERS,
+                new String[]{ID_ORDER, CLIENT_ID_ORDER, CREATED_AT_ORDER, STATUS_ORDER, ADDRESS_ORDER, ZIPCODE_ORDER, INVOICE_ORDER},
+                null, null, null, null, null);
 
-                }while (cursor.moveToNext());
-            }
-        } finally {
-            if(cursor != null){
-                cursor.close();
-            }
+        if (cursor.moveToFirst()) {
+            do {
+                Order order = new Order(
+                        cursor.getInt(0),      // id
+                        cursor.getInt(1),      // client_id
+                        cursor.getString(2),   // created_at
+                        cursor.getString(3),   // status
+                        cursor.getString(4),   // address
+                        cursor.getString(5),   // zip_code
+                        cursor.getString(6),   // invoice
+                        getSaleProductsForOrder(cursor.getInt(0)) // sale_products
+                );
+                orders.add(order);
+            } while (cursor.moveToNext());
         }
+        cursor.close();
         return orders;
     }
 
-    public ArrayList<SalesHasProduct> getProductsByOrderId(int id){
-        ArrayList<SalesHasProduct> products = new ArrayList<>();
-        Cursor cursor = null;
-        try{
-            cursor = db.query(TABLE_SALES_HAS_PRODUCTS, null, ID_SALES + " = ?", new String[]{String.valueOf(id)}, null, null, null);
-            if(cursor.moveToFirst()){
-                do {
-                    int productOrderIdIndex = cursor.getColumnIndex(ID_PRODUCT_ORDER);
-                    int salesIdIndex = cursor.getColumnIndex(ID_SALES);
-                    int productSaleIdIndex = cursor.getColumnIndex(ID_PRODUCT_SALE);
-                    int quantitySaleIndex = cursor.getColumnIndex(QUANTITY_SALE);
-                    int totalPriceIndex = cursor.getColumnIndex(TOTAL_PRICE);
+    public ArrayList<SaleProduct> getSaleProductsForOrder(int orderId) {
+        ArrayList<SaleProduct> saleProducts = new ArrayList<>();
 
-                    if (productOrderIdIndex >= 0 && salesIdIndex >= 0 && productSaleIdIndex >= 0 && quantitySaleIndex >= 0 && totalPriceIndex >= 0) {
-                        int productOrderId = cursor.getInt(productOrderIdIndex);
-                        int orderId = cursor.getInt(salesIdIndex);
-                        int productId = cursor.getInt(productSaleIdIndex);
-                        int quantity = cursor.getInt(quantitySaleIndex);
-                        double totalPrice = cursor.getDouble(totalPriceIndex);
-                        products.add(new SalesHasProduct(productOrderId, orderId, productId, quantity, totalPrice));
-                    }
-                }while (cursor.moveToNext());
-            }
-        }finally {
-            if(cursor != null){
-                cursor.close();
-            }
+        Cursor cursor = this.db.query(TABLE_SALES_PRODUCTS,
+                new String[]{ID_SALE_PRODUCT, QUANTITY, TOTAL_PRICE, PRODUCT_ID},
+                SALE_ID + " = ?",
+                new String[]{String.valueOf(orderId)},
+                null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = getProductById(cursor.getInt(3));
+                SaleProduct saleProduct = new SaleProduct(
+                        cursor.getInt(0),    // id
+                        orderId,             // sale_id
+                        cursor.getInt(1),    // quantity
+                        cursor.getDouble(2), // total_price
+                        product             // product
+                );
+                saleProducts.add(saleProduct);
+            } while (cursor.moveToNext());
         }
-        return products;
+        cursor.close();
+        return saleProducts;
+    }
+
+    public Product getProductById(int productId) {
+        Cursor cursor = this.db.query(TABLE_PRODUCTS,
+                new String[]{ID_PRODUCT, NAME_PRODUCT, PRICE_PRODUCT, IMAGE_PRODUCT, STOCK_PRODUCT},
+                ID_PRODUCT + " = ?",
+                new String[]{String.valueOf(productId)},
+                null, null, null);
+
+        if (cursor.moveToFirst()) {
+            Product product = new Product(
+                    cursor.getInt(0),    // id
+                    cursor.getString(1), // name
+                    cursor.getDouble(2), // price
+                    cursor.getString(3), // image
+                    cursor.getInt(4)     // stock
+            );
+            cursor.close();
+            return product;
+        }
+        cursor.close();
+        return null;
     }
 
     public void removeAllOrdersDB() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("orders", null, null);
-        db.close();
+        // First remove all sale products
+        this.db.delete(TABLE_SALES_PRODUCTS, null, null);
+        // Then remove all orders
+        this.db.delete(TABLE_ORDERS, null, null);
+    }
+
+    public Order getOrderById(int orderId) {
+        Cursor cursor = this.db.query(TABLE_ORDERS,
+                new String[]{ID_ORDER, CLIENT_ID_ORDER, CREATED_AT_ORDER, STATUS_ORDER, ADDRESS_ORDER, ZIPCODE_ORDER, INVOICE_ORDER},
+                ID_ORDER + " = ?",
+                new String[]{String.valueOf(orderId)},
+                null, null, null);
+
+        if (cursor.moveToFirst()) {
+            Order order = new Order(
+                    cursor.getInt(0),      // id
+                    cursor.getInt(1),      // client_id
+                    cursor.getString(2),   // created_at
+                    cursor.getString(3),   // status
+                    cursor.getString(4),   // address
+                    cursor.getString(5),   // zip_code
+                    cursor.getString(6),   // invoice
+                    getSaleProductsForOrder(cursor.getInt(0)) // sale_products
+            );
+            cursor.close();
+            return order;
+        }
+        cursor.close();
+        return null;
+    }
+
+    public ArrayList<SaleProduct> getProductsByOrderId(int orderId) {
+        ArrayList<SaleProduct> products = new ArrayList<>();
+
+        String[] columns = {
+            ID_SALE_PRODUCT,
+            SALE_ID,
+            QUANTITY,
+            TOTAL_PRICE,
+            PRODUCT_ID,
+        };
+        String selection = ID_SALE_PRODUCT + " = ?";
+        String[] selectionArgs = {String.valueOf(orderId)};
+
+        Cursor cursor = this.db.query(
+                TABLE_SALES_PRODUCTS,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                SaleProduct product = new SaleProduct(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getInt(2),
+                        cursor.getDouble(3),
+                        getProductById(cursor.getInt(4))
+                );
+                products.add(product);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return products;
     }
 
     // endregion
@@ -1177,26 +1212,5 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     // endregion
 
-    /*
-    public void insertInitialBestSellingProducts(SQLiteDatabase db) {
-        ContentValues values = new ContentValues();
-        values.put(ID_BEST_SELLING_PRODUCT, 1);
-        values.put(NAME_BEST_SELLING_PRODUCT, "Product 1");
-        values.put(PRICE_BEST_SELLING_PRODUCT, 19.99);
-        values.put(IMAGE_BEST_SELLING_PRODUCT, "image1.png");
-        db.insert(TABLE_BEST_SELLING_PRODUCTS, null, values);
 
-        values.put(ID_BEST_SELLING_PRODUCT, 2);
-        values.put(NAME_BEST_SELLING_PRODUCT, "Product 2");
-        values.put(PRICE_BEST_SELLING_PRODUCT, 29.99);
-        values.put(IMAGE_BEST_SELLING_PRODUCT, "image2.png");
-        db.insert(TABLE_BEST_SELLING_PRODUCTS, null, values);
-
-        values.put(ID_BEST_SELLING_PRODUCT, 3);
-        values.put(NAME_BEST_SELLING_PRODUCT, "Product 3");
-        values.put(PRICE_BEST_SELLING_PRODUCT, 39.99);
-        values.put(IMAGE_BEST_SELLING_PRODUCT, "image3.png");
-        db.insert(TABLE_BEST_SELLING_PRODUCTS, null, values);
-    }
-     */
 }

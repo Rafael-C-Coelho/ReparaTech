@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class Auth {
             // Extract roles
             Object rolesObject = claims.get("roles");
             if (rolesObject instanceof List) {
-                List<?> roles = (List<?>) rolesObject;
+                ArrayList<?> roles = (ArrayList<?>) rolesObject;
                 if (!roles.isEmpty() && roles.get(0) instanceof String) {
                     return (String) roles.get(0); // Return the first role
                 }
