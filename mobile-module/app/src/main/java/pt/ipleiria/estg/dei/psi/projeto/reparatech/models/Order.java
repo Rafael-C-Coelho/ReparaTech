@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.psi.projeto.reparatech.models;
 
+import org.json.JSONArray;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -8,9 +10,9 @@ public class Order {
     private String status;
     private double totalOrder;
     private int productQuantity;
-    private List<Product> products;
+    private JSONArray products;
 
-    public Order(int id, String status, double totalOrder, int productQuantity, List<Product> products) {
+    public Order(int id, String status, double totalOrder, int productQuantity, JSONArray products) {
         this.id = id;
         this.status = status;
         this.totalOrder = totalOrder;

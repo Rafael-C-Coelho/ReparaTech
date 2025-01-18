@@ -272,6 +272,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         if (cursor.moveToLast()) {
             return new Settings(cursor.getString(0));
         }
+        cursor.close();
         return null;
     }
 
@@ -306,6 +307,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         if (cursor.moveToLast()) {
             return new Auth(cursor.getString(0), cursor.getString(1), cursor.getString(2));
         }
+        cursor.close();
         return null;
     }
 
@@ -338,6 +340,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 products.add(product);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return products;
     }
 
@@ -369,6 +372,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 products.add(product);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return products;
     }
 
@@ -857,6 +861,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 myBookings.add(myBooking);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return myBookings;
     }
 
@@ -1086,6 +1091,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 comments.add(comment);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return comments;
     }
 

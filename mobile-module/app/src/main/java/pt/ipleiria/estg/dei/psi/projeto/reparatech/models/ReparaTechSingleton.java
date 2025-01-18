@@ -885,7 +885,6 @@ public class ReparaTechSingleton {
     // endregion
 
 
-/*
     public void getBestSellingProductsFromApi(int page) {
         String url = "/api/dashboard/most-sold" + "?page=" + page;
         try {
@@ -915,6 +914,4 @@ public class ReparaTechSingleton {
                     Toast.LENGTH_SHORT).show();
         }
     }
-    /*
- */
 }

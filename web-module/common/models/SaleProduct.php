@@ -27,6 +27,19 @@ class SaleProduct extends \yii\db\ActiveRecord
         return '{{%sales_has_products}}';
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['product_id']); // Optionally hide repairman_id if you don't want it to appear
+        $fields['product'] = function () {
+            if ($this->product === null) {
+                return null;
+            }
+            return $this->product;
+        };
+        return $fields;
+    }
+
     /**
      * {@inheritdoc}
      */
