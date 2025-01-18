@@ -19,7 +19,14 @@ class RepairController extends Controller
         return array_merge(parent::behaviors(), [
             'authenticator' => [
                 'class' => AccessControl::class,
-                'except' => ['index', 'view', 'download-invoice'],
+                'except' => [],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'download-invoice', 'accept-budget', 'reject-budget'],
+                        'roles' => ['@'],
+                    ],
+                ],
             ],
         ]);
     }
@@ -60,7 +67,6 @@ class RepairController extends Controller
         $budget = \common\models\Budget::findOne($budget_id);
 
         // Verify ownership and permissions
-        dd($model->client_id, Yii::$app->user->id, Yii::$app->user->identity->hasRole('client'));
         if ($model->client_id !== Yii::$app->user->id || !Yii::$app->user->identity->hasRole('client')) {
             throw new \yii\web\ForbiddenHttpException('You are not allowed to perform this action.');
         }
@@ -86,7 +92,6 @@ class RepairController extends Controller
         $budget = \common\models\Budget::findOne($budget_id);
 
         // Verify ownership and permissions
-        dd($model->client_id, Yii::$app->user->id, Yii::$app->user->identity->hasRole('client'));
         if ($model->client_id !== Yii::$app->user->id || !Yii::$app->user->identity->hasRole('client')) {
             throw new \yii\web\ForbiddenHttpException('You are not allowed to perform this action.');
         }
