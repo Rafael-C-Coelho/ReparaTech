@@ -34,7 +34,7 @@ public class HomepageFragment extends Fragment {
         hScrollBestSellingProducts = view.findViewById(R.id.hScrollBestSellingProducts);
         llBestSellingProducts = view.findViewById(R.id.BestSellingProducts);
 
-
+/*
         bestSellingProducts = ReparaTechSingleton.getInstance(getContext()).getBestSellingProductsBD();
         if (bestSellingProducts.isEmpty()) {
             ReparaTechSingleton.getInstance(getContext()).getBestSellingProductsFromApi(page);
@@ -42,6 +42,8 @@ public class HomepageFragment extends Fragment {
         }
         adapter = new BestSellingProductAdapter(getContext(), bestSellingProducts);
 
+
+ */
         return view;
     }
 

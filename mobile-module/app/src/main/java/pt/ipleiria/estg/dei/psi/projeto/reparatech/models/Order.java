@@ -7,15 +7,13 @@ public class Order {
     private int id;
     private String status;
     private double totalOrder;
-    private String totalProducts;
     private int productQuantity;
     private List<Product> products;
 
-    public Order(int id, String status, double totalOrder, String totalProducts, int productQuantity, List<Product> products) {
+    public Order(int id, String status, double totalOrder, int productQuantity, List<Product> products) {
         this.id = id;
         this.status = status;
         this.totalOrder = totalOrder;
-        this.totalProducts = totalProducts;
         this.productQuantity = productQuantity;
         this.products = products;
     }
@@ -38,14 +36,6 @@ public class Order {
 
     public void setTotalOrder(double totalOrder) {
         this.totalOrder = totalOrder;
-    }
-
-    public String getTotalProducts() {
-        return totalProducts;
-    }
-
-    public void setTotalProducts(String totalProducts) {
-        this.totalProducts = totalProducts;
     }
 
     public int getProductQuantity() {

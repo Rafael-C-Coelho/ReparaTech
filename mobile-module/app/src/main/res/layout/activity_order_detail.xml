@@ -6,85 +6,6 @@
     android:padding="16dp">
 
     <!-- Order Info Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F5F5F5"
-            android:padding="8dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Status"
-                android:textColor="#666666"
-                android:layout_weight="1" />
-            <TextView
-                android:id="@+id/tvStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Processing" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Order"
-                android:textColor="#666666"
-                android:layout_weight="1" />
-            <TextView
-                android:id="@+id/tvTotalOrder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="€436.00" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F5F5F5"
-            android:padding="8dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Product Quantity"
-                android:textColor="#666666"
-                android:layout_weight="1" />
-            <TextView
-                android:id="@+id/tvProductQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Invoice"
-                android:textColor="#666666"
-                android:layout_weight="1" />
-            <Button
-                android:id="@+id/btnInvoice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Invoice"
-                android:backgroundTint="#FFC107"
-                android:textColor="#000000"
-                android:minHeight="36dp"
-                android:padding="8dp" />
-        </LinearLayout>
-    </LinearLayout>
 
     <!-- Sale Products Section -->
     <TextView
@@ -94,14 +15,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Showing 1-2 of 2 items."
-        android:textSize="12sp"
-        android:textColor="#666666"
         android:layout_marginBottom="8dp" />
 
     <!-- Products Header -->
@@ -135,12 +48,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Product Quantity" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="Invoice" />
     </LinearLayout>
 
-    <!-- RecyclerView for products -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProducts"
+    <ListView
+        android:id="@+id/lvProducts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
+
+    <!-- RecyclerView for products -->
 
 </LinearLayout>

@@ -53,11 +53,25 @@ class SaleController extends ActiveController
     }
 
     public function actionIndex(){
+        // Obtenha o ID do cliente autenticado (via JWT)
+        $clientId = Yii::$app->user->id;
+
+        if (!$clientId) {
+            throw new BadRequestHttpException("Client not identified.");
+        }
+
+        // Filtre as vendas pelo ID do cliente
         $activeData = new ActiveDataProvider([
-            'query' => Sale::find()->with('saleProducts'),
+            'query' => Sale::find()
+                ->where(['client_id' => $clientId])
+                ->with('saleProducts'),
         ]);
 
-        return ['sales' => $activeData, 'total' => $activeData->getTotalCount(), "status" => "success"];
+        return [
+            'sales' => $activeData->getModels(), // Retorna as vendas no formato de array
+            'total' => $activeData->getTotalCount(),
+            'status' => 'success',
+        ];
     }
 
     public function actionView($id){

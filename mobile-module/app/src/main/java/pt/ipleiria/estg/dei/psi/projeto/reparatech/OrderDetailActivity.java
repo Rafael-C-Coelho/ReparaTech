@@ -10,7 +10,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.adapters.OrderListAdapter;
 import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Order;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.Product;
+import pt.ipleiria.estg.dei.psi.projeto.reparatech.models.ReparaTechSingleton;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
@@ -24,5 +30,6 @@ public class OrderDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+
     }
 }

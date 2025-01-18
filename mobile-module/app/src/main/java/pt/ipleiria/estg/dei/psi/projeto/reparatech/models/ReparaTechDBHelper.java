@@ -94,6 +94,18 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String TIME_COMMENT = "time";
     private static final String ID_REPAIR_COMMENT = "id_repair";
 
+    private static final String TABLE_ORDERS = "orders";
+    private static final String ID_ORDER = "id";
+    private static final String STATUS_ORDER = "status";
+    private static final String TOTAL_ORDER = "total_order";
+
+    private static final String TABLE_SALES_HAS_PRODUCTS = "sales_has_products";
+    private static final String ID_PRODUCT_ORDER = "id";
+    private static final String ID_SALES = "id_sales";
+    private static final String ID_PRODUCT_SALE = "id_product";
+    private static final String QUANTITY_SALE = "quantity";
+    private static final String TOTAL_PRICE = "total_price";
+
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.db = getWritableDatabase();
@@ -203,6 +215,22 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 QUANTITY + " INTEGER NOT NULL, " +
                 CREATED_AT_SALES + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" + ");";
         sqLiteDatabase.execSQL(createSalesProductTable);
+
+        String createOrdersTable = "CREATE TABLE IF NOT EXISTS " + TABLE_ORDERS +
+                " (" + ID_ORDER + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                STATUS_ORDER + " TEXT NOT NULL, " +
+                TOTAL_ORDER + " REAL NOT NULL" +
+                ");";
+        sqLiteDatabase.execSQL(createOrdersTable);
+
+        String createSalesHasProductsTable = "CREATE TABLE IF NOT EXISTS " + TABLE_SALES_HAS_PRODUCTS +
+                " (" + ID_PRODUCT_ORDER + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ID_SALES + " INTEGER NOT NULL, " +
+                ID_PRODUCT_SALE + " INTEGER NOT NULL, " +
+                QUANTITY_SALE + " INTEGER NOT NULL, " +
+                TOTAL_PRICE + " REAL NOT NULL" +
+                ");";
+        sqLiteDatabase.execSQL(createSalesHasProductsTable);
     }
 
     @Override
@@ -219,6 +247,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SALES_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REPAIR_EMPLOYEE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
         onCreate(db);
     }
 
@@ -860,6 +889,7 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
 
     // endregion
 
+    // region # BEST SELLING PRODUCTS METHODS #
 
     public void addBestSellingProductDB(ArrayList<BestSellingProduct> products) {
         for (BestSellingProduct product : products) {
@@ -891,6 +921,9 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         cursor.close();
         return bestSellingProducts;
     }
+
+    // endregion
+
         // region # Repair Employee #
 
 
@@ -948,6 +981,86 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     }
 
     // endregion
+
+    // region # Orders #
+
+    public void addOrder(ArrayList<Order> orders){
+        for (Order order : orders) {
+            ContentValues values = new ContentValues();
+            values.put(ID_ORDER, order.getId());
+            values.put(STATUS_ORDER, order.getStatus());
+            values.put(TOTAL_ORDER, order.getTotalOrder());
+            db.insert(TABLE_ORDERS, null, values);
+        }
+    }
+
+    public void addSalesHasProduct(SalesHasProduct salesHasProduct){
+        ContentValues values = new ContentValues();
+        values.put(ID_PRODUCT_ORDER, salesHasProduct.getId());
+        values.put(ID_SALES, salesHasProduct.getIdOrder());
+        values.put(ID_SALES_PRODUCT, salesHasProduct.getIdProduct());
+        values.put(QUANTITY_SALE, salesHasProduct.getQuantity());
+        values.put(TOTAL_PRICE, salesHasProduct.getTotalPrice());
+        db.insert(TABLE_SALES_HAS_PRODUCTS, null, values);
+    }
+
+    public ArrayList<Order> getAllOrdersDB(){
+        ArrayList<Order> orders = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_ORDERS, null, null, null, null, null, null);
+        if(cursor != null && cursor.moveToFirst()){
+            do{
+                int idIndex = cursor.getColumnIndex(ID_ORDER);
+                int statusIndex = cursor.getColumnIndex(STATUS_ORDER);
+                int totalOrderIndex = cursor.getColumnIndex(TOTAL_ORDER);
+
+                if(idIndex >= 0 && statusIndex >= 0 && totalOrderIndex >= 0){
+                    int id = cursor.getInt(idIndex);
+                    String status = cursor.getString(statusIndex);
+                    double totalOrder = cursor.getDouble(totalOrderIndex);
+                    int someIntValue = 0;
+                    ArrayList<Product> someProductList = new ArrayList<>();
+                    orders.add(new Order(id, status, totalOrder, someIntValue, someProductList));
+                }
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return orders;
+    }
+
+    public ArrayList<SalesHasProduct> getProductsByOrderId(int id){
+        ArrayList<SalesHasProduct> products = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_SALES_HAS_PRODUCTS, null, ID_SALES + " = ?", new String[]{String.valueOf(id)}, null, null, null);
+        if(cursor.moveToFirst()){
+            do {
+                int productOrderIdIndex = cursor.getColumnIndex(ID_PRODUCT_ORDER);
+                int salesIdIndex = cursor.getColumnIndex(ID_SALES);
+                int productSaleIdIndex = cursor.getColumnIndex(ID_PRODUCT_SALE);
+                int quantitySaleIndex = cursor.getColumnIndex(QUANTITY_SALE);
+                int totalPriceIndex = cursor.getColumnIndex(TOTAL_PRICE);
+
+                if (productOrderIdIndex >= 0 && salesIdIndex >= 0 && productSaleIdIndex >= 0 && quantitySaleIndex >= 0 && totalPriceIndex >= 0) {
+                    int productOrderId = cursor.getInt(productOrderIdIndex);
+                    int orderId = cursor.getInt(salesIdIndex);
+                    int productId = cursor.getInt(productSaleIdIndex);
+                    int quantity = cursor.getInt(quantitySaleIndex);
+                    double totalPrice = cursor.getDouble(totalPriceIndex);
+                    products.add(new SalesHasProduct(productOrderId, orderId, productId, quantity, totalPrice));
+                }
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return products;
+    }
+
+    public void removeAllOrdersDB() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("orders", null, null);
+        db.close();
+    }
+
+    // endregion
+
 
     // region # Comments #
 
