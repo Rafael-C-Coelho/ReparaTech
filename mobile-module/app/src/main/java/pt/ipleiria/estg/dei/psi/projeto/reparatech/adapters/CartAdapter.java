@@ -79,7 +79,7 @@ public class CartAdapter extends BaseAdapter {
     private class ViewHolderList {
         private final TextView tvProductName, tvProductPrice, tvProductId, tvQuantity, tvId;
         private final ImageView ivProductImage;
-        private final Button btnMinus, btnPlus;
+        private final Button btnMinus, btnPlus, btnRemove;
         private Product product;
 
         public ViewHolderList(View view) {
@@ -91,6 +91,7 @@ public class CartAdapter extends BaseAdapter {
             ivProductImage = view.findViewById(R.id.ivProductImage);
             btnMinus = view.findViewById(R.id.btnMinus);
             btnPlus = view.findViewById(R.id.btnPlus);
+            btnRemove = view.findViewById(R.id.btnRemove);
 
             btnMinus.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,6 +139,25 @@ public class CartAdapter extends BaseAdapter {
                     ReparaTechSingleton.getInstance(context).updateCartItem(id, quantity);
                     notifyDataSetChanged();
                     updateItem(getPositionById(id), new CartItem(id, Integer.parseInt(tvProductId.getText().toString()), quantity));
+
+                    if (listener != null) {
+                        listener.onCartItemChanged();
+                    }
+                }
+            });
+
+            btnRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int id = Integer.parseInt(tvId.getText().toString());
+                    int prodId = Integer.parseInt(tvProductId.getText().toString());
+                    if (product == null) {
+                        product = ReparaTechSingleton.getInstance(context).getProductFromDB(prodId);
+                    }
+                    ReparaTechSingleton.getInstance(context).removeCartItem(id);
+                    cartItems.clear();
+                    cartItems.addAll(ReparaTechSingleton.getInstance(context).getDbHelper().getAllCartItemsDB());
+                    notifyDataSetChanged();
 
                     if (listener != null) {
                         listener.onCartItemChanged();

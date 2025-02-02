@@ -60,14 +60,14 @@ public class DetailsProductActivity extends AppCompatActivity implements Product
         btnBuyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ReparaTechSingleton.getInstance(DetailsProductActivity.this).addProductToCart(product, Integer.parseInt(etQuantity.getText().toString()));
+                Toast.makeText(DetailsProductActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
                 if (!ReparaTechSingleton.getInstance(DetailsProductActivity.this).isLogged()) {
                     Toast.makeText(DetailsProductActivity.this, getString(R.string.you_need_to_be_logged_in_to_add_products_to_the_cart), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(DetailsProductActivity.this, LoginActivity.class);
                     startActivity(intent);
                     return;
                 }
-                ReparaTechSingleton.getInstance(DetailsProductActivity.this).addProductToCart(product, Integer.parseInt(etQuantity.getText().toString()));
-                Toast.makeText(DetailsProductActivity.this, "Product added to cart", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(DetailsProductActivity.this, MenuMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

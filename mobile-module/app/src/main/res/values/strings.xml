@@ -159,4 +159,11 @@
     <string name="error_setting_repair_as_done">Error setting repair as done</string>
     <string name="repair_set_as_done">Repair set as done</string>
     <string name="orders">Orders</string>
+    <string name="prova_oral_ipl">Prova Oral IPL</string>
+    <string name="n_2230240_apelido_gouveia">Nº 2230240, Apelido Gouveia</string>
+    <string name="existem">"Existem "</string>
+    <string name="produtos_o_mais_barato_custa">" produtos, o mais barato custa "</string>
+    <string name="euro">€</string>
+    <string name="a_carregar_os_produtos">A carregar os produtos.</string>
+    <string name="carregue_no_bot_o_para_popular_esta_textview">Carregue no botão para popular esta TextView</string>
 </resources>
