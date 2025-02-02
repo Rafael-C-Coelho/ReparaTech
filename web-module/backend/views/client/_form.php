@@ -16,9 +16,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?php if(!\Yii::$app->user->can('storeOwner') && (!\Yii::$app->user->can('manager'))): ?>
+    <?php if(\Yii::$app->user->can('storeOwner') || (\Yii::$app->user->can('manager')) && \Yii::$app->controller->action->id === "create") { ?>
         <?= $form->field($model, 'password')->passwordInput(); ?>
-    <?php endif; ?>
+    <?php } ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
