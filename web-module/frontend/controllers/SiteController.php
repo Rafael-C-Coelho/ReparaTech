@@ -191,6 +191,7 @@ class SiteController extends Controller
                 'quantity' => 1,
                 'price' => Yii::$app->params['defaultShipping'],
             ];
+            $total += Yii::$app->params['defaultShipping'];
 
             if (!$sale->save()) {
                 throw new \Exception('Failed to update sale total.');
