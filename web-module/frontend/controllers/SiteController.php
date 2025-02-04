@@ -206,6 +206,7 @@ class SiteController extends Controller
             $invoice->total = $total;
             $invoice->items = json_encode($items);
             $invoice->save();
+
             $fileName = 'invoice_' . $invoice->id . Yii::$app->user->identity->id . Yii::$app->user->identity->username . $invoice->id . '.pdf';
             $filePath = $path . DIRECTORY_SEPARATOR . $fileName;
             $sale->invoice_id = $invoice->id;
@@ -428,7 +429,4 @@ class SiteController extends Controller
     public function actionAllRepairCategories(){
         return $this->render('repairCategory/allRepairCategories');
     }
-
-
-
 }

@@ -98,6 +98,10 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
     private static final String TOTAL_PRICE = "total_price";
     private static final String PRODUCT_ID = "product_id";
 
+    private static final String TABLE_SHIPPING_DETAILS = "shipping_details";
+    private static final String ADDRESS_SHIPPING_DETAILS = "address";
+    private static final String ZIPCODE_SHIPPING_DETAILS = "zip_code";
+
     public ReparaTechDBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.db = getWritableDatabase();
@@ -114,6 +118,12 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
                 "(" + URL + " TEXT NOT NULL" +
                 ");";
         sqLiteDatabase.execSQL(createSettingsTable);
+
+        String createShippingTable = "CREATE TABLE IF NOT EXISTS " + TABLE_SHIPPING_DETAILS +
+                "(" + ADDRESS_SHIPPING_DETAILS + " TEXT NOT NULL, " +
+                ZIPCODE_SHIPPING_DETAILS + " TEXT NOT NULL" +
+                ");";
+        sqLiteDatabase.execSQL(createShippingTable);
 
         String createAuthTable = "CREATE TABLE " + TABLE_AUTH +
                 "(" + ID_AUTH + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -262,6 +272,41 @@ public class ReparaTechDBHelper extends SQLiteOpenHelper {
         values.put(URL, settings.getUrl());
 
         this.db.update(TABLE_SETTINGS, values, null, null);
+    }
+
+    // endregion
+
+    // region # SHIPPING METHODS #
+
+    public void addShippingDB(Shipping shipping) {
+        ContentValues values = new ContentValues();
+        values.put(ADDRESS_SHIPPING_DETAILS, shipping.getAddress());
+        values.put(ZIPCODE_SHIPPING_DETAILS, shipping.getZipcode());
+
+        this.db.insert(TABLE_SHIPPING_DETAILS, null, values);
+    }
+
+    public Shipping getShippingDetailsDB() {
+        Cursor cursor = this.db.query(TABLE_SHIPPING_DETAILS, new String[]{ADDRESS_SHIPPING_DETAILS, ZIPCODE_SHIPPING_DETAILS},
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor.moveToLast()) {
+            return new Shipping(cursor.getString(0), cursor.getString(1));
+        }
+        cursor.close();
+        return null;
+    }
+
+    public void updateShippingDetailsDB(Shipping shipping) {
+        ContentValues values = new ContentValues();
+        values.put(ADDRESS_SHIPPING_DETAILS, shipping.getAddress());
+        values.put(ZIPCODE_SHIPPING_DETAILS, shipping.getZipcode());
+
+        this.db.update(TABLE_SHIPPING_DETAILS, values, null, null);
     }
 
     // endregion
