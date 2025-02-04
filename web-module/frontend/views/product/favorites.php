@@ -26,7 +26,7 @@ $this->title = 'Favorites';
                 <?php } ?>
                 <?php foreach ($favorites as $product) { ?>
                     <tr>
-                        <td class="align-middle"><?= $product->name ?></td>
+                        <td class="align-middle"><a href="<?= \yii\helpers\Url::to(['product/details', 'id' => $product->id]) ?>"><?= $product->name ?></a></td>
                         <td class="align-middle"><?= number_format($product->price, 2)?> €</td>
                         <td class="align-middle"><img src="<?= $product->image ?>" alt="" style="width: 50px;"></td>
                         <td class="align-middle">

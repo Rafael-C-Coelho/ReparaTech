@@ -28,7 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'label' => 'Product Quantity',
                     'value' => function ($model){
-                        return count($model->saleProducts);
+                        $quantity = 0;
+                        foreach ($model->saleProducts as $saleProduct){
+                            $quantity += $saleProduct->quantity;
+                        }
+                        return $quantity;
+                    }
+                ],
+                [
+                    'label' => 'Shipping',
+                    'value' => function ($model){
+                        return Yii::$app->formatter->asCurrency(Yii::$app->params["defaultShipping"], "EUR");
                     }
                 ],
                 [
