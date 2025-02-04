@@ -115,8 +115,8 @@ class Budget extends \yii\db\ActiveRecord
 // Custom validation methods
     public function validateDate($attribute, $params)
     {
-        if (strtotime($this->date) < strtotime(date('Y-m-d'))) {
-            $this->addError($attribute, 'Date cannot be in the past');
+        if (strtotime($this->date) > strtotime(date('Y-m-d'))) {
+            $this->addError($attribute, 'Date cannot be in the future');
         }
     }
 
