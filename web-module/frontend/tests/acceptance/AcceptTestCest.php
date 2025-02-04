@@ -9,22 +9,8 @@ use yii\helpers\Url;
 
 class AcceptTestCest
 {
-    public function _before(AcceptanceTester $I)
-    {
-
-    }
-
-    // tests
-    /*
-    public function tryToTest(AcceptanceTester $I)
-    {
-
-    }
-    */
-
     public function saleTest(AcceptanceTester $I)
     {
-
         $I->amOnPage(Url::toRoute('/site/index'));
         $I->see('Sign in');
         $I->click('Sign in');
@@ -48,8 +34,5 @@ class AcceptTestCest
         $I->fillField('Address', '1234 Fake St');
         $I->fillField('Zip Code', '1111-111');
         $I->click('Submit');
-
     }
-
-
 }

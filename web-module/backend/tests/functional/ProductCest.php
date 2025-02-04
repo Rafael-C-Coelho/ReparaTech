@@ -8,10 +8,6 @@ use common\models\ProductCategory;
 
 class ProductCest
 {
-    public function _before(FunctionalTester $I)
-    {
-    }
-
     public function productCategoryTest(FunctionalTester $I)
     {
         $I->amOnRoute('login');
@@ -45,7 +41,6 @@ class ProductCest
         $I->fillField('#supplier-name', 'Mobile Supplier');
         $I->fillField('#supplier-contact', '998877665');
         $I->click('Save');
-
     }
 
     public function productTest(FunctionalTester $I)
@@ -83,7 +78,5 @@ class ProductCest
         $I->selectOption('Category Id','Mobileeee');
         $I->seeElement('#product-image');
         $I->click('Save');
-
     }
-
 }
