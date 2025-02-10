@@ -71,5 +71,4 @@ class LoginCest
         $I->seeElement('body > main > div > div > div');
         $I->click('Log Out');
     }
-
 }

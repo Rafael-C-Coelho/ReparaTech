@@ -7,14 +7,6 @@ use backend\tests\FunctionalTester;
 
 class RepairCest
 {
-    public function _before(FunctionalTester $I)
-    {
-    }
-
-    public function tryToTest(FunctionalTester $I)
-    {
-    }
-
     public function Repair(FunctionalTester $I)
     {
         $I->amOnRoute('login');

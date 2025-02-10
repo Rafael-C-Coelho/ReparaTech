@@ -7,11 +7,6 @@ use frontend\tests\FunctionalTester;
 
 class SaleCest
 {
-    public function _before(FunctionalTester $I)
-    {
-
-    }
-
     public function createSale(FunctionalTester $I)
     {
         $I->amOnRoute('site/login');
@@ -22,7 +17,6 @@ class SaleCest
         $I->fillField('Username', 'client');
         $I->fillField('Password', 'Test@123');
         $I->click('Login');
-        //$I->amOnPage('site/painelClient');
         $I->am('client');
         $I->see('CATEGORIES');
         $I->click('CATEGORIES');
@@ -35,8 +29,6 @@ class SaleCest
         $I->click('button.btn.btn-primary');
         $I->seeElement('button.btn.btn-primary');
         $I->click('button.btn.btn-primary');
-
-
         $I->click('i.fas.fa-shopping-cart.text-primary');
         $I->amOnPage('cart');
         $I->see('Subtotal');
@@ -53,6 +45,5 @@ class SaleCest
         $I->fillField('Zip Code', '2000-000');
         $I->click('Submit');
         $I->amOnPage('painelClient');
-
     }
 }
