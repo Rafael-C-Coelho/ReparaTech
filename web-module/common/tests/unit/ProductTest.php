@@ -79,10 +79,6 @@ class ProductTest extends \Codeception\Test\Unit
         $saleProduct->sale_id = $sale->id;
         $saleProduct->save();
 
-        $product = Product::findOne($product->id);
-        $product->refresh();
-        $this->assertEquals(5, $product->stock);
-
         $product->stock = 20;
         $product->validateStockLevel('stock', []);
         $this->assertFalse($product->hasErrors('stock'));

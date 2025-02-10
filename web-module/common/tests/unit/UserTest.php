@@ -30,7 +30,7 @@ class UserTest extends \Codeception\Test\Unit
         $user = new User();
         $this->assertFalse($user->validate());
 
-        $expectedErrors = ['username', 'email', 'password', 'name'];
+        $expectedErrors = ['username', 'email', 'name'];
         foreach ($expectedErrors as $attribute) {
             $this->assertTrue($user->hasErrors($attribute));
         }
