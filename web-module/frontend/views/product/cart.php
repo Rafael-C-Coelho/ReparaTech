@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 
-
 $this->title = 'Cart';
 ?>
 
@@ -22,32 +21,31 @@ $this->title = 'Cart';
                 <tbody class="align-middle">
                 <?php foreach ($list as $item) { ?>
                     <?php
-                        $product = $item["product"];
-                        $quantity = $item["quantity"];
+                    $product = $item["product"];
+                    $quantity = $item["quantity"];
                     ?>
                     <tr>
-                        <td class="align-middle"><?= $product->name ?></td>
+                        <td class="align-middle"><?= Html::encode($product->name) ?></td>
                         <td class="align-middle"><?= Yii::$app->formatter->asCurrency(number_format($product->price, 2), "EUR") ?></td>
                         <td class="align-middle">
                             <div data-product="<?= $product->id ?>" class="quantity-div input-group quantity mx-auto" style="width: 100px;">
                                 <div class="input-group-btn">
-                                    <button onclick="manageCart('<?= $product->id ?>', <?= $quantity - 1 ?>)" class="btn btn-sm btn-primary btn-minus">
+                                    <button onclick="manageCart('<?= $product->id ?>', <?= $quantity - 1 ?>, event)" class="btn btn-sm btn-primary btn-minus">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
                                 <input type="text" class="quantity-input form-control form-control-sm bg-secondary border-0 text-center"
                                        value="<?= $quantity ?>" max="<?= $product->stock ?>">
                                 <div class="input-group-btn">
-                                    <button onclick="manageCart('<?= $product->id ?>', <?= $quantity + 1 ?>)" class="btn btn-sm btn-primary btn-plus">
+                                    <button onclick="manageCart('<?= $product->id ?>', <?= $quantity + 1 ?>, event)" class="btn btn-sm btn-primary btn-plus">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
-
                         </td>
                         <td class="align-middle"><img src="<?= $product->image ?>" alt="" style="width: 50px;"></td>
                         <td class="align-middle">
-                            <button class="btn btn-sm btn-danger" onclick="manageCart('<?= $product->id ?>', 0)"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="manageCart('<?= $product->id ?>', 0, event)"><i class="fa fa-times"></i></button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -55,8 +53,9 @@ $this->title = 'Cart';
             </table>
         </div>
         <div class="col-lg-4">
-            <h5 class="section-title position-relative text-uppercase mb-3"><span
-                        class="bg-secondary pr-3">Summary</span></h5>
+            <h5 class="section-title position-relative text-uppercase mb-3">
+                <span class="bg-secondary pr-3">Summary</span>
+            </h5>
             <div class="bg-light p-30 mb-5">
                 <div class="border-bottom pb-2">
                     <div class="d-flex justify-content-between mb-3">
@@ -76,14 +75,14 @@ $this->title = 'Cart';
                         <h6 class="font-weight-medium"><?= Yii::$app->formatter->asCurrency(Yii::$app->params["defaultShipping"], "EUR") ?></h6>
                     </div>
                 </div>
-                <?php if (isset($list) && sizeof($list)) { ?>
-                <div class="pt-2">
-                    <div class="d-flex justify-content-between mt-2">
-                        <h5>Total</h5>
-                        <h5><?= Yii::$app->formatter->asCurrency($subtotal + Yii::$app->params["defaultShipping"], "EUR") ?></h5>
+                <?php if (!empty($list)) { ?>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Total</h5>
+                            <h5><?= Yii::$app->formatter->asCurrency($subtotal + Yii::$app->params["defaultShipping"], "EUR") ?></h5>
+                        </div>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" data-toggle="modal" data-target="#shippingModal">Proceed To Checkout</button>
                     </div>
-                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" data-toggle="modal" data-target="#shippingModal">Proceed To Checkout</button>
-                </div>
                 <?php } ?>
             </div>
         </div>
@@ -119,16 +118,15 @@ $this->title = 'Cart';
 </div>
 
 <script>
-    function manageCart(productId, quantity) {
-        event.preventDefault();
+    function manageCart(productId, quantity, event) {
+        if (event) {
+            event.preventDefault();
+        }
         if (quantity < 0) {
             return;
         }
-
-        if (quantity == 0) {
-            if (!confirm("Are you sure you want to remove this product from the cart?")) {
-                return;
-            }
+        if (quantity == 0 && !confirm("Are you sure you want to remove this product from the cart?")) {
+            return;
         }
         jQuery.ajax({
             url: '<?= \yii\helpers\Url::to(["product/manage-cart"])?>',
@@ -139,24 +137,11 @@ $this->title = 'Cart';
             },
             success: function(response) {
                 console.log("Cart updated successfully:", response);
+                window.location.reload();
             },
             error: function(xhr, status, error) {
                 console.error("Error updating cart:", error);
-                // Handle error response
             },
         });
-        window.location.reload();
     }
-
-    jQuery(document).ready(function() {
-        jQuery(document).on('click', '.quantity-div', function() {
-            // Get the productId from the data-product attribute
-            let productId = jQuery(this).data('product');
-            // Get the quantity from the inner .quantity-input field
-            let quantity = jQuery(this).find('.quantity-input').val();
-            console.log("Product ID:", productId, "Quantity:", quantity);
-            // Send the AJAX request
-            manageCart(productId, quantity);
-        });
-    });
 </script>
