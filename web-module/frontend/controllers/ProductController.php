@@ -70,6 +70,7 @@ class ProductController extends \yii\web\Controller
         $product = Product::findOne($productId);
         if (!$product) {
             \Yii::$app->session->setFlash('error', 'Product not found');
+            return $this->redirect(['product/cart']); // Exit early if product not found
         }
 
         $cart = \Yii::$app->session->get('cart', []);
@@ -77,11 +78,11 @@ class ProductController extends \yii\web\Controller
         if (sizeof($cart) > 0) {
             for ($i = 0; $i < sizeof($cart); $i++) {
                 if ($cart[$i]['product_id'] === $product->id) {
-                    if ($quantity == 0 || $quantity < 0)
+                    if ($quantity <= 0) {
                         unset($cart[$i]);
-                    else
+                    } else {
                         $cart[$i]['quantity'] = (int)$quantity;
-
+                    }
                     $found = true;
                 }
             }
